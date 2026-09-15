@@ -122,6 +122,7 @@
       text-decoration: none;
       text-align: center;
       font-weight: bold;
+      cursor: pointer;
     }
 
     .read {
@@ -138,6 +139,7 @@
       text-align: center;
       padding: 30px;
       color: #777;
+      grid-column: 1 / -1;
     }
 
     footer {
@@ -179,8 +181,11 @@
   </nav>
 </header>
 
+
 <section class="hero">
+
   <h1>Attari Books</h1>
+
   <p>Your Digital Library</p>
 
   <input
@@ -190,197 +195,23 @@
     placeholder="Search books..."
     onkeyup="searchBooks()"
   >
+
 </section>
+
 
 <section class="books" id="books">
 
   <h2>Latest Books</h2>
 
   <div class="book-grid" id="bookList">
-    <div class="message">📚 Loading books...</div>
+
+    <div class="message">
+      📚 Loading books...
+    </div>
+
   </div>
 
 </section>
 
-<footer>
-  © 2026 Attari Books — All Rights Reserved
-</footer>
 
-
-<script>
-
-  /* ==============================
-     ATTARI BOOKS SETTINGS
-     ============================== */
-
-  const GITHUB_OWNER = "malmd9194-ai";
-  const GITHUB_REPO = "Attari_Books";
-  const GITHUB_BRANCH = "main";
-
-
-  /* ==============================
-     LOAD ALL PDF BOOKS
-     ============================== */
-
-  async function loadBooks() {
-
-    const bookList = document.getElementById("bookList");
-
-    try {
-
-      const apiUrl =
-        `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
-
-      const response = await fetch(apiUrl);
-
-      if (!response.ok) {
-        throw new Error("GitHub repository could not be loaded.");
-      }
-
-      const files = await response.json();
-
-      const pdfFiles = files.filter(file =>
-        file.type === "file" &&
-        file.name.toLowerCase().endsWith(".pdf")
-      );
-
-      bookList.innerHTML = "";
-
-      if (pdfFiles.length === 0) {
-
-        bookList.innerHTML =
-          `<div class="message">
-             📚 No books uploaded yet.
-           </div>`;
-
-        return;
-      }
-
-
-      pdfFiles.forEach(file => {
-
-        const bookName = file.name
-          .replace(/\.pdf$/i, "")
-          .replace(/[_-]/g, " ");
-
-
-        const encodedFileName =
-          encodeURIComponent(file.name);
-
-
-        const readUrl =
-          `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/raw/refs/heads/${GITHUB_BRANCH}/${encodedFileName}`;
-
-
-        const book = document.createElement("div");
-
-        book.className = "book";
-
-        book.innerHTML = `
-
-          <div class="cover">
-            📖
-          </div>
-
-          <h3>${escapeHTML(bookName)}</h3>
-
-          <p class="author">
-            Attari Books
-          </p>
-
-          <div class="buttons">
-
-            <a
-              href="${readUrl}"
-              target="_blank"
-              class="btn read"
-            >
-              📖 Read
-            </a>
-
-            <a
-              href="${readUrl}"
-              download
-              class="btn download"
-            >
-              ⬇ Download
-            </a>
-
-          </div>
-        `;
-
-        bookList.appendChild(book);
-
-      });
-
-    } catch (error) {
-
-      console.error(error);
-
-      bookList.innerHTML =
-        `<div class="message">
-           ⚠️ Books load nahi ho pa rahe.
-           <br><br>
-           Thodi der baad page refresh karein.
-         </div>`;
-    }
-  }
-
-
-  /* ==============================
-     SEARCH BOOKS
-     ============================== */
-
-  function searchBooks() {
-
-    const search =
-      document
-        .getElementById("searchBox")
-        .value
-        .toLowerCase();
-
-    const books =
-      document.querySelectorAll(".book");
-
-
-    books.forEach(book => {
-
-      const title =
-        book.innerText.toLowerCase();
-
-      if (title.includes(search)) {
-        book.style.display = "";
-      } else {
-        book.style.display = "none";
-      }
-
-    });
-
-  }
-
-
-  /* ==============================
-     SECURITY
-     ============================== */
-
-  function escapeHTML(text) {
-
-    const div =
-      document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-  }
-
-
-  /* ==============================
-     START
-     ============================== */
-
-  loadBooks();
-
-</script>
-
-</body>
-</html>
+<footer
