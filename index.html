@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -100,6 +100,7 @@
 
     .book h3 {
       margin-bottom: 8px;
+      font-size: 20px;
     }
 
     .author {
@@ -115,9 +116,7 @@
     .btn {
       flex: 1;
       padding: 11px;
-      border: none;
       border-radius: 7px;
-      cursor: pointer;
       text-decoration: none;
       text-align: center;
       font-weight: bold;
@@ -139,6 +138,24 @@
       text-align: center;
       padding: 25px;
       margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      header {
+        padding: 15px 4%;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+
+      nav a {
+        margin-left: 10px;
+      }
     }
   </style>
 </head>
@@ -174,23 +191,26 @@
 
     <div class="book">
       <div class="cover">📖</div>
-      <h3>Sample Book</h3>
-      <p class="author">Author Name</p>
+
+      <h3>تحقیق و تدوین کا طریقہ کار</h3>
+      <p class="author">Attari Books</p>
 
       <div class="buttons">
-        <a href="#" class="btn read">📖 Read</a>
-        <a href="#" class="btn download">⬇ Download</a>
-      </div>
-    </div>
+        <a
+          href="تحقیق%20و%20تدوین%20کا%20طریقہ%20کار%20۔%20%281%29.pdf"
+          target="_blank"
+          class="btn read"
+        >
+          📖 Read
+        </a>
 
-    <div class="book">
-      <div class="cover">📕</div>
-      <h3>Another Book</h3>
-      <p class="author">Author Name</p>
-
-      <div class="buttons">
-        <a href="#" class="btn read">📖 Read</a>
-        <a href="#" class="btn download">⬇ Download</a>
+        <a
+          href="تحقیق%20و%20تدوین%20کا%20طریقہ%20کار%20۔%20%281%29.pdf"
+          download
+          class="btn download"
+        >
+          ⬇ Download
+        </a>
       </div>
     </div>
 
@@ -213,4 +233,14 @@ function searchBooks() {
   books.forEach(book => {
     const title = book.innerText.toLowerCase();
 
-    book.style.display
+    if (title.includes(search)) {
+      book.style.display = "";
+    } else {
+      book.style.display = "none";
+    }
+  });
+}
+</script>
+
+</body>
+</html>
