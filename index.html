@@ -53,14 +53,14 @@
       gap: 18px;
     }
 
-    nav a {
+    nav > a {
       color: white;
       text-decoration: none;
       font-size: 15px;
       font-weight: bold;
     }
 
-    nav a:hover {
+    nav > a:hover {
       text-decoration: underline;
     }
 
@@ -77,14 +77,12 @@
     .help-button {
       background: none;
       border: none;
-
       color: white;
 
       font-size: 15px;
       font-weight: bold;
 
       cursor: pointer;
-
       padding: 0;
     }
 
@@ -92,7 +90,6 @@
       display: none;
 
       position: absolute;
-
       right: 0;
       top: 30px;
 
@@ -128,8 +125,6 @@
       background: #f5f3ef;
     }
 
-    /* Desktop hover */
-
     .help-menu:hover .help-options {
       display: block;
     }
@@ -141,7 +136,6 @@
 
     .hero {
       background: #3b271b;
-
       color: white;
 
       text-align: center;
@@ -166,7 +160,6 @@
       padding: 15px;
 
       border: none;
-
       border-radius: 30px;
 
       font-size: 16px;
@@ -246,7 +239,6 @@
 
     .cover-loading {
       color: #777;
-
       text-align: center;
     }
 
@@ -271,13 +263,15 @@
 
 
     /* =========================
-       BUTTONS
+       READ / DOWNLOAD
     ========================= */
 
     .buttons {
       display: flex;
 
       gap: 10px;
+
+      margin-bottom: 12px;
     }
 
     .btn {
@@ -302,14 +296,65 @@
 
     .read {
       background: #24170f;
-
       color: white;
     }
 
     .download {
       background: #e5ded5;
+      color: #24170f;
+    }
+
+
+    /* =========================
+       SHARE / COMMENT / RATE
+    ========================= */
+
+    .extra-buttons {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 7px;
+    }
+
+    .extra-btn {
+      border: 1px solid #ddd;
+
+      background: #fafafa;
 
       color: #24170f;
+
+      border-radius: 7px;
+
+      padding: 9px 4px;
+
+      font-size: 12px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+    .extra-btn:hover {
+      background: #f0ece7;
+    }
+
+
+    /* =========================
+       RATING DISPLAY
+    ========================= */
+
+    .rating-display {
+      text-align: center;
+
+      font-size: 13px;
+
+      color: #777;
+
+      margin-top: 8px;
     }
 
 
@@ -325,6 +370,169 @@
       color: #777;
 
       grid-column: 1 / -1;
+    }
+
+
+    /* =========================
+       MODALS
+    ========================= */
+
+    .modal {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      background: rgba(0,0,0,0.65);
+
+      z-index: 10000;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: white;
+
+      width: 100%;
+
+      max-width: 450px;
+
+      border-radius: 12px;
+
+      padding: 25px;
+
+      position: relative;
+
+      max-height: 90vh;
+
+      overflow-y: auto;
+    }
+
+    .modal-box h3 {
+      margin-bottom: 15px;
+
+      color: #24170f;
+    }
+
+    .modal-close {
+      position: absolute;
+
+      top: 10px;
+
+      right: 12px;
+
+      border: none;
+
+      background: none;
+
+      font-size: 22px;
+
+      cursor: pointer;
+
+      color: #555;
+    }
+
+
+    /* =========================
+       COMMENT
+    ========================= */
+
+    .comment-input {
+      width: 100%;
+
+      min-height: 110px;
+
+      resize: vertical;
+
+      border: 1px solid #ccc;
+
+      border-radius: 8px;
+
+      padding: 12px;
+
+      font-size: 14px;
+
+      outline: none;
+
+      margin-bottom: 12px;
+    }
+
+    .submit-btn {
+      width: 100%;
+
+      background: #24170f;
+
+      color: white;
+
+      border: none;
+
+      border-radius: 8px;
+
+      padding: 12px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .comment-list {
+      margin-top: 20px;
+    }
+
+    .comment-item {
+      background: #f5f3ef;
+
+      padding: 10px;
+
+      border-radius: 8px;
+
+      margin-bottom: 8px;
+
+      font-size: 13px;
+    }
+
+
+    /* =========================
+       STAR RATING
+    ========================= */
+
+    .stars {
+      display: flex;
+
+      justify-content: center;
+
+      gap: 5px;
+
+      margin: 20px 0;
+    }
+
+    .star {
+      border: none;
+
+      background: none;
+
+      font-size: 38px;
+
+      cursor: pointer;
+
+      color: #ccc;
+    }
+
+    .star.active {
+      color: #f5b400;
+    }
+
+    .rating-text {
+      text-align: center;
+
+      color: #777;
+
+      margin-bottom: 15px;
     }
 
 
@@ -461,7 +669,7 @@
         gap: 14px;
       }
 
-      nav a,
+      nav > a,
       .help-button {
         font-size: 13px;
       }
@@ -502,8 +710,6 @@
         Books
       </a>
 
-
-      <!-- HELP -->
 
       <div class="help-menu">
 
@@ -573,7 +779,7 @@
 
 
   <!-- =========================
-       BOOK SECTION
+       BOOKS
   ========================= -->
 
   <section
@@ -604,6 +810,143 @@
 
 
   <!-- =========================
+       COMMENT MODAL
+  ========================= -->
+
+  <div
+    class="modal"
+    id="commentModal"
+    onclick="closeModalOutside(event, 'commentModal')"
+  >
+
+    <div class="modal-box">
+
+      <button
+        class="modal-close"
+        onclick="closeModal('commentModal')"
+      >
+        ✕
+      </button>
+
+
+      <h3 id="commentTitle">
+        💬 Comments
+      </h3>
+
+
+      <textarea
+        class="comment-input"
+        id="commentInput"
+        placeholder="Apna comment likhein..."
+      ></textarea>
+
+
+      <button
+        class="submit-btn"
+        onclick="submitComment()"
+      >
+        Submit Comment
+      </button>
+
+
+      <div
+        class="comment-list"
+        id="commentList"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+       RATING MODAL
+  ========================= -->
+
+  <div
+    class="modal"
+    id="ratingModal"
+    onclick="closeModalOutside(event, 'ratingModal')"
+  >
+
+    <div class="modal-box">
+
+      <button
+        class="modal-close"
+        onclick="closeModal('ratingModal')"
+      >
+        ✕
+      </button>
+
+
+      <h3 id="ratingTitle">
+        ⭐ Rate this book
+      </h3>
+
+
+      <p class="rating-text">
+        Book ko 1 se 5 stars dein
+      </p>
+
+
+      <div
+        class="stars"
+        id="stars"
+      >
+
+        <button
+          class="star"
+          onclick="selectRating(1)"
+        >
+          ★
+        </button>
+
+        <button
+          class="star"
+          onclick="selectRating(2)"
+        >
+          ★
+        </button>
+
+        <button
+          class="star"
+          onclick="selectRating(3)"
+        >
+          ★
+        </button>
+
+        <button
+          class="star"
+          onclick="selectRating(4)"
+        >
+          ★
+        </button>
+
+        <button
+          class="star"
+          onclick="selectRating(5)"
+        >
+          ★
+        </button>
+
+      </div>
+
+
+      <button
+        class="submit-btn"
+        onclick="submitRating()"
+      >
+        Submit Rating
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
        PDF READER
   ========================= -->
 
@@ -630,9 +973,7 @@
     </div>
 
 
-    <div id="pdfPages">
-
-    </div>
+    <div id="pdfPages"></div>
 
   </div>
 
@@ -680,6 +1021,16 @@
 
 
     /* =====================================
+       CURRENT BOOK
+    ===================================== */
+
+    let currentBookKey = "";
+
+    let currentRating = 0;
+
+
+
+    /* =====================================
        HELP MENU
     ===================================== */
 
@@ -708,8 +1059,6 @@
 
     }
 
-
-    /* Close Help when clicking elsewhere */
 
     document.addEventListener(
       "click",
@@ -767,8 +1116,6 @@
 
 
 
-        /* Find PDFs */
-
         const pdfFiles =
           files.filter(
             file =>
@@ -813,8 +1160,6 @@
 
 
 
-        /* Create books */
-
         pdfFiles.forEach(
           file => {
 
@@ -846,6 +1191,28 @@
 
 
 
+            const bookKey =
+              "attari_" +
+              btoa(
+                unescape(
+                  encodeURIComponent(
+                    file.name
+                  )
+                )
+              )
+
+              .replace(
+                /[^a-zA-Z0-9]/g,
+                ""
+              )
+
+              .substring(
+                0,
+                50
+              );
+
+
+
             const book =
               document.createElement(
                 "div"
@@ -854,6 +1221,11 @@
 
             book.className =
               "book";
+
+
+
+            book.dataset.title =
+              bookName.toLowerCase();
 
 
 
@@ -886,7 +1258,6 @@
 
               <div class="buttons">
 
-
                 <button
                   class="btn read"
                   onclick="openReader(
@@ -894,11 +1265,8 @@
                     '${escapeJS(bookName)}'
                   )"
                 >
-
                   📖 Read
-
                 </button>
-
 
 
                 <a
@@ -906,12 +1274,54 @@
                   class="btn download"
                   download
                 >
-
                   ⬇ Download
-
                 </a>
 
+              </div>
 
+
+              <div class="extra-buttons">
+
+                <button
+                  class="extra-btn"
+                  onclick="shareBook(
+                    '${escapeJS(pdfUrl)}',
+                    '${escapeJS(bookName)}'
+                  )"
+                >
+                  🔗 Share
+                </button>
+
+
+                <button
+                  class="extra-btn"
+                  onclick="openComments(
+                    '${escapeJS(bookKey)}',
+                    '${escapeJS(bookName)}'
+                  )"
+                >
+                  💬 Comment
+                </button>
+
+
+                <button
+                  class="extra-btn"
+                  onclick="openRating(
+                    '${escapeJS(bookKey)}',
+                    '${escapeJS(bookName)}'
+                  )"
+                >
+                  ⭐ Rate
+                </button>
+
+              </div>
+
+
+              <div
+                class="rating-display"
+                id="rating-display-${bookKey}"
+              >
+                ${getRatingText(bookKey)}
               </div>
 
             `;
@@ -924,8 +1334,6 @@
 
 
 
-            /* Load first page */
-
             const cover =
               book.querySelector(
                 ".cover"
@@ -936,7 +1344,6 @@
               pdfUrl,
               cover
             );
-
 
           }
         );
@@ -976,439 +1383,4 @@
     ===================================== */
 
     async function loadCover(
-      pdfUrl,
-      cover
-    ) {
-
-
-      try {
-
-
-        const pdf =
-          await pdfjsLib
-
-            .getDocument(
-              pdfUrl
-            )
-
-            .promise;
-
-
-
-        const page =
-          await pdf.getPage(
-            1
-          );
-
-
-
-        const viewport =
-          page.getViewport({
-            scale: 1.2
-          });
-
-
-
-        const canvas =
-          document.createElement(
-            "canvas"
-          );
-
-
-
-        const context =
-          canvas.getContext(
-            "2d"
-          );
-
-
-
-        canvas.width =
-          viewport.width;
-
-
-        canvas.height =
-          viewport.height;
-
-
-
-        cover.innerHTML =
-          "";
-
-
-        cover.appendChild(
-          canvas
-        );
-
-
-
-        await page.render({
-
-          canvasContext:
-            context,
-
-          viewport:
-            viewport
-
-        }).promise;
-
-
-      }
-
-
-      catch (error) {
-
-
-        console.error(
-          "Cover error:",
-          error
-        );
-
-
-        cover.innerHTML = `
-
-          <div class="cover-loading">
-
-            📖
-
-            <br>
-
-            Cover unavailable
-
-          </div>
-
-        `;
-
-      }
-
-    }
-
-
-
-    /* =====================================
-       OPEN PDF READER
-    ===================================== */
-
-    async function openReader(
-      pdfUrl,
-      title
-    ) {
-
-
-      const reader =
-        document.getElementById(
-          "reader"
-        );
-
-
-      const readerTitle =
-        document.getElementById(
-          "readerTitle"
-        );
-
-
-      const pdfPages =
-        document.getElementById(
-          "pdfPages"
-        );
-
-
-
-      reader.style.display =
-        "block";
-
-
-      document.body.style.overflow =
-        "hidden";
-
-
-
-      readerTitle.textContent =
-        title;
-
-
-
-      pdfPages.innerHTML = `
-
-        <div style="
-          color:white;
-          padding:30px;
-          text-align:center;
-        ">
-
-          📖 Book loading...
-
-        </div>
-
-      `;
-
-
-
-      try {
-
-
-        const pdf =
-          await pdfjsLib
-
-            .getDocument(
-              pdfUrl
-            )
-
-            .promise;
-
-
-
-        pdfPages.innerHTML =
-          "";
-
-
-
-        /* Render every page */
-
-        for (
-          let pageNumber = 1;
-
-          pageNumber <= pdf.numPages;
-
-          pageNumber++
-        ) {
-
-
-          const page =
-            await pdf.getPage(
-              pageNumber
-            );
-
-
-
-          const viewport =
-            page.getViewport({
-              scale: 1.3
-            });
-
-
-
-          const canvas =
-            document.createElement(
-              "canvas"
-            );
-
-
-
-          const context =
-            canvas.getContext(
-              "2d"
-            );
-
-
-
-          canvas.width =
-            viewport.width;
-
-
-          canvas.height =
-            viewport.height;
-
-
-
-          pdfPages.appendChild(
-            canvas
-          );
-
-
-
-          await page.render({
-
-            canvasContext:
-              context,
-
-            viewport:
-              viewport
-
-          }).promise;
-
-
-        }
-
-
-      }
-
-
-      catch (error) {
-
-
-        console.error(error);
-
-
-        pdfPages.innerHTML = `
-
-          <div style="
-            color:white;
-            text-align:center;
-            padding:40px;
-          ">
-
-            ⚠️ PDF open nahi ho pa rahi.
-
-            <br><br>
-
-            Please internet connection
-            check karein.
-
-          </div>
-
-        `;
-
-      }
-
-    }
-
-
-
-    /* =====================================
-       CLOSE READER
-    ===================================== */
-
-    function closeReader() {
-
-
-      document.getElementById(
-        "reader"
-      ).style.display =
-        "none";
-
-
-      document.body.style.overflow =
-        "";
-
-
-
-      document.getElementById(
-        "pdfPages"
-      ).innerHTML =
-        "";
-
-    }
-
-
-
-    /* =====================================
-       SEARCH BOOKS
-    ===================================== */
-
-    function searchBooks() {
-
-
-      const search =
-        document
-
-          .getElementById(
-            "searchBox"
-          )
-
-          .value
-
-          .toLowerCase();
-
-
-
-      const books =
-        document.querySelectorAll(
-          ".book"
-        );
-
-
-
-      books.forEach(
-        book => {
-
-
-          const title =
-            book.innerText
-              .toLowerCase();
-
-
-
-          if (
-            title.includes(
-              search
-            )
-          ) {
-
-            book.style.display =
-              "";
-
-          }
-
-          else {
-
-            book.style.display =
-              "none";
-
-          }
-
-        }
-      );
-
-    }
-
-
-
-    /* =====================================
-       SECURITY
-    ===================================== */
-
-    function escapeHTML(
-      text
-    ) {
-
-
-      const div =
-        document.createElement(
-          "div"
-        );
-
-
-      div.textContent =
-        text;
-
-
-      return div.innerHTML;
-
-    }
-
-
-
-    function escapeJS(
-      text
-    ) {
-
-
-      return text
-
-        .replace(
-          /\\/g,
-          "\\\\"
-        )
-
-        .replace(
-          /'/g,
-          "\\'"
-        );
-
-    }
-
-
-
-    /* =====================================
-       START WEBSITE
-    ===================================== */
-
-    loadBooks();
-
-
-  </script>
-
-
-</body>
-  </html>
+      pdfU
