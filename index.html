@@ -621,9 +621,6 @@ document.createElement("div");
 
 book.className="book";
 
-const bookKey =
-file.path;
-
 book.innerHTML=`
 
 <div class="cover">
@@ -668,7 +665,7 @@ download
 
 <div class="review-box">
 
-<div class="stars" data-book="${escapeHTML(bookKey)}">
+<div class="stars">
 
 <span class="star" onclick="selectRating(this,1)">★</span>
 <span class="star" onclick="selectRating(this,2)">★</span>
@@ -687,7 +684,7 @@ placeholder="Apna comment likhein..."
 
 <button
 class="review-submit"
-onclick="submitReview(this,'${escapeJS(bookKey)}','${escapeJS(bookName)}')"
+onclick="submitReview(this,'${escapeJS(bookName)}')"
 >
 ⭐ Submit
 </button>
@@ -704,11 +701,11 @@ onclick="shareBook('${escapeJS(bookName)}','${escapeJS(pdfUrl)}')"
 <div class="review-message"></div>
 
 <div class="review-summary">
-⭐ Loading ratings...
+⭐ Ratings loading...
 </div>
 
 <div class="comments">
-Loading comments...
+Comments loading...
 </div>
 
 </div>
@@ -723,7 +720,7 @@ book.querySelector(".cover");
 loadCover(pdfUrl,cover);
 
 loadReviews(
-bookKey,
+bookName,
 book.querySelector(".review-summary"),
 book.querySelector(".comments")
 );
@@ -783,7 +780,7 @@ rating;
    SUBMIT REVIEW
 ===================================== */
 
-async function submitReview(button,bookKey,bookName){
+async function submitReview(button,bookName){
 
 const box =
 button.closest(".review-box");
@@ -838,11 +835,6 @@ comment:comment
 }
 );
 
-/*
-   no-cors mein response read nahi ho sakta,
-   lekin request Google Sheet ko bhej di jayegi.
-*/
-
 box.querySelector(".review-input").value="";
 
 stars.dataset.rating="";
@@ -856,7 +848,7 @@ message.textContent =
 setTimeout(()=>{
 
 loadReviews(
-bookKey,
+bookName,
 box.querySelector(".review-summary"),
 box.querySelector(".comments")
 );
@@ -879,11 +871,11 @@ button.disabled=false;
 
 
 /* =====================================
-   LOAD REVIEWS
+   LOAD REVIEWS FROM GOOGLE SHEET
 ===================================== */
 
 async function loadReviews(
-bookKey,
+bookName,
 summary,
 commentsBox
 ){
@@ -891,9 +883,15 @@ commentsBox
 try{
 
 const response =
-await fetch(
-GOOGLE_SCRIPT_URL
+await fetch(GOOGLE_SCRIPT_URL);
+
+if(!response.ok){
+
+throw new Error(
+"Google Script Error: " + response.status
 );
+
+}
 
 const rows =
 await response.json();
@@ -905,18 +903,17 @@ throw new Error("Invalid data");
 }
 
 /*
-  First row headings hai.
+   First row headings hai.
+   Sheet structure:
+   Book | Rating | Comment | Date
 */
 
 const reviews =
 rows
 .slice(1)
 .filter(row =>
-String(row[0]) === String(
-bookKey.split("/").pop()
-.replace(/\.pdf$/i,"")
-.replace(/[_-]/g," ")
-)
+String(row[0]).trim() ===
+String(bookName).trim()
 );
 
 if(reviews.length===0){
@@ -931,7 +928,13 @@ return;
 
 }
 
+
+/* =====================================
+   CALCULATE AVERAGE RATING
+===================================== */
+
 let total=0;
+
 let count=0;
 
 reviews.forEach(row=>{
@@ -942,6 +945,7 @@ Number(row[1]);
 if(rating>=1 && rating<=5){
 
 total += rating;
+
 count++;
 
 }
@@ -957,7 +961,9 @@ summary.textContent =
 `⭐ ${average}/5 — ${count} rating${count===1?"":"s"}`;
 
 
-/* Comments */
+/* =====================================
+   SHOW COMMENTS
+===================================== */
 
 commentsBox.innerHTML="";
 
@@ -976,7 +982,7 @@ Number(row[1]);
 
 let stars="";
 
-if(rating){
+if(rating>=1 && rating<=5){
 
 stars =
 "★".repeat(rating) +
@@ -1003,10 +1009,13 @@ commentsBox.appendChild(comment);
 }
 catch(error){
 
-console.error("Review loading error:",error);
+console.error(
+"Review loading error:",
+error
+);
 
 summary.textContent =
-"⭐ Ratings loading...";
+"⭐ Ratings load nahi ho rahe.";
 
 commentsBox.innerHTML =
 "<div style='color:#777;font-size:13px;'>Comments abhi load nahi ho rahe.</div>";
@@ -1024,11 +1033,14 @@ async function shareBook(bookName,pdfUrl){
 
 const shareData={
 
-title:bookName + " - Attari Books",
+title:
+bookName + " - Attari Books",
 
-text:"📚 " + bookName + " — Attari Books",
+text:
+"📚 " + bookName + " — Attari Books",
 
-url:pdfUrl
+url:
+pdfUrl
 
 };
 
@@ -1036,21 +1048,29 @@ try{
 
 if(navigator.share){
 
-await navigator.share(shareData);
+await navigator.share(
+shareData
+);
 
 }
 else{
 
-await navigator.clipboard.writeText(pdfUrl);
+await navigator.clipboard.writeText(
+pdfUrl
+);
 
-alert("📤 Book link copy ho gaya!");
+alert(
+"📤 Book link copy ho gaya!"
+);
 
 }
 
 }
 catch(error){
 
-console.log("Share cancelled");
+console.log(
+"Share cancelled"
+);
 
 }
 
@@ -1061,7 +1081,10 @@ console.log("Share cancelled");
    LOAD COVER
 ===================================== */
 
-async function loadCover(pdfUrl,cover){
+async function loadCover(
+pdfUrl,
+cover
+){
 
 try{
 
@@ -1096,16 +1119,21 @@ cover.appendChild(canvas);
 
 await page.render({
 
-canvasContext:context,
+canvasContext:
+context,
 
-viewport:viewport
+viewport:
+viewport
 
 }).promise;
 
 }
 catch(error){
 
-console.error("Cover error:",error);
+console.error(
+"Cover error:",
+error
+);
 
 cover.innerHTML=`
 
@@ -1128,7 +1156,10 @@ Cover unavailable
    OPEN READER
 ===================================== */
 
-async function openReader(pdfUrl,title){
+async function openReader(
+pdfUrl,
+title
+){
 
 const reader =
 document.getElementById("reader");
@@ -1175,7 +1206,9 @@ pageNumber++
 ){
 
 const page =
-await pdf.getPage(pageNumber);
+await pdf.getPage(
+pageNumber
+);
 
 const viewport =
 page.getViewport({
@@ -1194,13 +1227,17 @@ viewport.width;
 canvas.height =
 viewport.height;
 
-pdfPages.appendChild(canvas);
+pdfPages.appendChild(
+canvas
+);
 
 await page.render({
 
-canvasContext:context,
+canvasContext:
+context,
 
-viewport:viewport
+viewport:
+viewport
 
 }).promise;
 
@@ -1240,11 +1277,15 @@ Please internet connection check karein.
 
 function closeReader(){
 
-document.getElementById("reader").style.display="none";
+document.getElementById(
+"reader"
+).style.display="none";
 
 document.body.style.overflow="";
 
-document.getElementById("pdfPages").innerHTML="";
+document.getElementById(
+"pdfPages"
+).innerHTML="";
 
 }
 
@@ -1294,6 +1335,7 @@ return div.innerHTML;
 
 }
 
+
 function escapeJS(text){
 
 return text
@@ -1310,7 +1352,7 @@ return text
 
 
 /* =====================================
-   START
+   START WEBSITE
 ===================================== */
 
 loadBooks();
