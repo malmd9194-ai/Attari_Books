@@ -1,635 +1,716 @@
-<!DOCTYPE html>  <html lang="en">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Attari Books</title>  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>  <style>  
-*{  
-  box-sizing:border-box;  
-  margin:0;  
-  padding:0;  
-}  
-  
-body{  
-  font-family:Arial,sans-serif;  
-  background:#f5f3ef;  
-  color:#222;  
-}  
-  
-header{  
-  background:#24170f;  
-  color:white;  
-  padding:18px 6%;  
-  display:flex;  
-  justify-content:space-between;  
-  align-items:center;  
-  flex-wrap:wrap;  
-  gap:12px;  
-}  
-  
-.logo{  
-  font-size:25px;  
-  font-weight:bold;  
-}  
-  
-nav{  
-  display:flex;  
-  align-items:center;  
-  flex-wrap:wrap;  
-  gap:18px;  
-}  
-  
-nav a{  
-  color:white;  
-  text-decoration:none;  
-  font-size:15px;  
-  font-weight:bold;  
-}  
-  
-.help-menu{  
-  position:relative;  
-  display:inline-block;  
-}  
-  
-.help-button{  
-  background:none;  
-  border:none;  
-  color:white;  
-  font-size:15px;  
-  font-weight:bold;  
-  cursor:pointer;  
-}  
-  
-.help-options{  
-  display:none;  
-  position:absolute;  
-  right:0;  
-  top:30px;  
-  background:white;  
-  min-width:190px;  
-  border-radius:8px;  
-  box-shadow:0 5px 15px rgba(0,0,0,.2);  
-  overflow:hidden;  
-  z-index:1000;  
-}  
-  
-.help-options a{  
-  display:block;  
-  color:#24170f;  
-  text-decoration:none;  
-  padding:13px 15px;  
-  font-size:14px;  
-}  
-  
-.help-options a:hover{  
-  background:#f5f3ef;  
-}  
-  
-.help-menu:hover .help-options{  
-  display:block;  
-}  
-  
-.hero{  
-  background:#3b271b;  
-  color:white;  
-  text-align:center;  
-  padding:75px 20px;  
-}  
-  
-.hero h1{  
-  font-size:45px;  
-  margin-bottom:15px;  
-}  
-  
-.hero p{  
-  font-size:18px;  
-  margin-bottom:25px;  
-}  
-  
-.search{  
-  width:90%;  
-  max-width:550px;  
-  padding:15px;  
-  border:none;  
-  border-radius:30px;  
-  font-size:16px;  
-  outline:none;  
-}  
-  
-.books{  
-  padding:50px 6%;  
-}  
-  
-.books h2{  
-  text-align:center;  
-  margin-bottom:30px;  
-  font-size:30px;  
-}  
-  
-.book-grid{  
-  display:grid;  
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));  
-  gap:25px;  
-}  
-  
-.book{  
-  background:white;  
-  border-radius:12px;  
-  padding:20px;  
-  box-shadow:0 5px 20px rgba(0,0,0,.08);  
-}  
-  
-.cover{  
-  height:280px;  
-  background:#ddd;  
-  border-radius:8px;  
-  margin-bottom:18px;  
-  overflow:hidden;  
-  display:flex;  
-  align-items:center;  
-  justify-content:center;  
-}  
-  
-.cover canvas{  
-  width:100%;  
-  height:100%;  
-  object-fit:contain;  
-}  
-  
-.cover-loading{  
-  color:#777;  
-  text-align:center;  
-}  
-  
-.book h3{  
-  margin-bottom:8px;  
-  word-break:break-word;  
-  font-size:19px;  
-}  
-  
-.author{  
-  color:#777;  
-  margin-bottom:15px;  
-}  
-  
-.buttons{  
-  display:flex;  
-  gap:10px;  
-}  
-  
-.btn{  
-  flex:1;  
-  padding:11px 7px;  
-  border-radius:7px;  
-  text-decoration:none;  
-  text-align:center;  
-  font-weight:bold;  
-  cursor:pointer;  
-  border:none;  
-  font-size:14px;  
-}  
-  
-.read{  
-  background:#24170f;  
-  color:white;  
-}  
-  
-.download{  
-  background:#e5ded5;  
-  color:#24170f;  
-}  
-  
-/* REVIEW AREA */  
-  
-.review-box{  
-  margin-top:18px;  
-  border-top:1px solid #eee;  
-  padding-top:15px;  
-}  
-  
-.stars{  
-  display:flex;  
-  gap:3px;  
-  margin-bottom:10px;  
-}  
-  
-.star{  
-  font-size:25px;  
-  cursor:pointer;  
-  color:#ccc;  
-  user-select:none;  
-}  
-  
-.star.selected{  
-  color:#f5a623;  
-}  
-  
-.review-input{  
-  width:100%;  
-  min-height:70px;  
-  padding:10px;  
-  border:1px solid #ddd;  
-  border-radius:7px;  
-  resize:vertical;  
-  font-family:Arial,sans-serif;  
-}  
-  
-.review-actions{  
-  display:flex;  
-  gap:8px;  
-  margin-top:8px;  
-}  
-  
-.review-submit,  
-.share-btn{  
-  border:none;  
-  border-radius:7px;  
-  padding:9px 12px;  
-  cursor:pointer;  
-  font-weight:bold;  
-}  
-  
-.review-submit{  
-  background:#24170f;  
-  color:white;  
-}  
-  
-.share-btn{  
-  background:#e5ded5;  
-  color:#24170f;  
-}  
-  
-.review-message{  
-  font-size:13px;  
-  color:#777;  
-  margin-top:8px;  
-}  
-  
-.review-summary{  
-  margin-top:12px;  
-  font-size:14px;  
-  font-weight:bold;  
-}  
-  
-.comments{  
-  margin-top:12px;  
-  max-height:220px;  
-  overflow-y:auto;  
-}  
-  
-.comment{  
-  background:#f7f5f2;  
-  border-radius:7px;  
-  padding:9px;  
-  margin-top:7px;  
-  font-size:13px;  
-}  
-  
-.comment-stars{  
-  color:#f5a623;  
-  margin-bottom:4px;  
-}  
-  
-.comment-text{  
-  word-break:break-word;  
-}  
-  
-.message{  
-  text-align:center;  
-  padding:30px;  
-  color:#777;  
-  grid-column:1/-1;  
-}  
-  
-/* READER */  
-  
-#reader{  
-  display:none;  
-  position:fixed;  
-  inset:0;  
-  background:rgba(0,0,0,.9);  
-  z-index:9999;  
-  overflow:auto;  
-}  
-  
-.reader-top{  
-  position:sticky;  
-  top:0;  
-  background:#24170f;  
-  color:white;  
-  padding:12px;  
-  display:flex;  
-  align-items:center;  
-  justify-content:space-between;  
-  z-index:10;  
-}  
-  
-.reader-title{  
-  font-weight:bold;  
-  max-width:75%;  
-  overflow:hidden;  
-  text-overflow:ellipsis;  
-  white-space:nowrap;  
-}  
-  
-.close-reader{  
-  background:white;  
-  color:#24170f;  
-  border:none;  
-  border-radius:6px;  
-  padding:8px 12px;  
-  font-weight:bold;  
-  cursor:pointer;  
-}  
-  
-#pdfPages{  
-  padding:15px;  
-  display:flex;  
-  flex-direction:column;  
-  align-items:center;  
-  gap:15px;  
-}  
-  
-#pdfPages canvas{  
-  max-width:100%;  
-  height:auto;  
-  background:white;  
-  box-shadow:0 2px 10px rgba(0,0,0,.4);  
-}  
-  
-footer{  
-  background:#24170f;  
-  color:white;  
-  text-align:center;  
-  padding:25px;  
-  margin-top:30px;  
-}  
-  
-@media(max-width:600px){  
-  
-  .hero h1{  
-    font-size:38px;  
-  }  
-  
-  header{  
-    padding:15px 4%;  
-    justify-content:center;  
-  }  
-  
-  .logo{  
-    font-size:21px;  
-  }  
-  
-  nav{  
-    justify-content:center;  
-    gap:14px;  
-  }  
-  
-  nav a,  
-  .help-button{  
-    font-size:13px;  
-  }  
-  
-  .cover{  
-    height:300px;  
-  }  
-  
-}  
-</style>  </head>  <body>  <header>  <div class="logo">  
-📚 Attari Books  
-</div>  <nav>  <a href="#">Home</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Attari Books</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f3ef;
+  color:#222;
+}
+
+header{
+  background:#24170f;
+  color:white;
+  padding:18px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:bold;
+}
+
+nav{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:18px;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+  font-size:15px;
+  font-weight:bold;
+}
+
+.help-menu{
+  position:relative;
+  display:inline-block;
+}
+
+.help-button{
+  background:none;
+  border:none;
+  color:white;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.help-options{
+  display:none;
+  position:absolute;
+  right:0;
+  top:30px;
+  background:white;
+  min-width:190px;
+  border-radius:8px;
+  box-shadow:0 5px 15px rgba(0,0,0,.2);
+  overflow:hidden;
+  z-index:1000;
+}
+
+.help-options a{
+  display:block;
+  color:#24170f;
+  text-decoration:none;
+  padding:13px 15px;
+  font-size:14px;
+}
+
+.help-options a:hover{
+  background:#f5f3ef;
+}
+
+.help-menu:hover .help-options{
+  display:block;
+}
+
+.hero{
+  background:#3b271b;
+  color:white;
+  text-align:center;
+  padding:75px 20px;
+}
+
+.hero h1{
+  font-size:45px;
+  margin-bottom:15px;
+}
+
+.hero p{
+  font-size:18px;
+  margin-bottom:25px;
+}
+
+.search{
+  width:90%;
+  max-width:550px;
+  padding:15px;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  outline:none;
+}
+
+.books{
+  padding:50px 6%;
+}
+
+.books h2{
+  text-align:center;
+  margin-bottom:30px;
+  font-size:30px;
+}
+
+.book-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+}
+
+.book{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.cover{
+  height:280px;
+  background:#ddd;
+  border-radius:8px;
+  margin-bottom:18px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.cover canvas{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.cover-loading{
+  color:#777;
+  text-align:center;
+}
+
+.book h3{
+  margin-bottom:8px;
+  word-break:break-word;
+  font-size:19px;
+}
+
+.author{
+  color:#777;
+  margin-bottom:15px;
+}
+
+.buttons{
+  display:flex;
+  gap:10px;
+}
+
+.btn{
+  flex:1;
+  padding:11px 7px;
+  border-radius:7px;
+  text-decoration:none;
+  text-align:center;
+  font-weight:bold;
+  cursor:pointer;
+  border:none;
+  font-size:14px;
+}
+
+.read{
+  background:#24170f;
+  color:white;
+}
+
+.download{
+  background:#e5ded5;
+  color:#24170f;
+}
+
+/* REVIEW AREA */
+
+.review-box{
+  margin-top:18px;
+  border-top:1px solid #eee;
+  padding-top:15px;
+}
+
+.stars{
+  display:flex;
+  gap:3px;
+  margin-bottom:10px;
+}
+
+.star{
+  font-size:25px;
+  cursor:pointer;
+  color:#ccc;
+  user-select:none;
+}
+
+.star.selected{
+  color:#f5a623;
+}
+
+.review-input{
+  width:100%;
+  min-height:70px;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:7px;
+  resize:vertical;
+  font-family:Arial,sans-serif;
+}
+
+.review-actions{
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+}
+
+.review-submit,
+.share-btn{
+  border:none;
+  border-radius:7px;
+  padding:9px 12px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.review-submit{
+  background:#24170f;
+  color:white;
+}
+
+.share-btn{
+  background:#e5ded5;
+  color:#24170f;
+}
+
+.review-message{
+  font-size:13px;
+  color:#777;
+  margin-top:8px;
+}
+
+.review-summary{
+  margin-top:12px;
+  font-size:14px;
+  font-weight:bold;
+}
+
+.comments{
+  margin-top:12px;
+  max-height:220px;
+  overflow-y:auto;
+}
+
+.comment{
+  background:#f7f5f2;
+  border-radius:7px;
+  padding:9px;
+  margin-top:7px;
+  font-size:13px;
+}
+
+.comment-stars{
+  color:#f5a623;
+  margin-bottom:4px;
+}
+
+.comment-text{
+  word-break:break-word;
+}
+
+.message{
+  text-align:center;
+  padding:30px;
+  color:#777;
+  grid-column:1/-1;
+}
+
+/* READER */
+
+#reader{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  z-index:9999;
+  overflow:auto;
+}
+
+.reader-top{
+  position:sticky;
+  top:0;
+  background:#24170f;
+  color:white;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:10;
+}
+
+.reader-title{
+  font-weight:bold;
+  max-width:75%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.close-reader{
+  background:white;
+  color:#24170f;
+  border:none;
+  border-radius:6px;
+  padding:8px 12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#pdfPages{
+  padding:15px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:15px;
+}
+
+#pdfPages canvas{
+  max-width:100%;
+  height:auto;
+  background:white;
+  box-shadow:0 2px 10px rgba(0,0,0,.4);
+}
+
+footer{
+  background:#24170f;
+  color:white;
+  text-align:center;
+  padding:25px;
+  margin-top:30px;
+}
+
+@media(max-width:600px){
+
+  .hero h1{
+    font-size:38px;
+  }
+
+  header{
+    padding:15px 4%;
+    justify-content:center;
+  }
+
+  .logo{
+    font-size:21px;
+  }
+
+  nav{
+    justify-content:center;
+    gap:14px;
+  }
+
+  nav a,
+  .help-button{
+    font-size:13px;
+  }
+
+  .cover{
+    height:300px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+📚 Attari Books
+</div>
+
+<nav>
+
+<a href="#">Home</a>
 
 <a href="#books">Books</a>
 
-<div class="help-menu">  <button class="help-button" onclick="toggleHelp(event)">  
-Help  
-</button>  <div class="help-options" id="helpOptions">  <a href="https://wa.me/919534646778" target="_blank">  
-💬 WhatsApp  
-</a>  <a href="mailto:mdmalek26234@gmail.com">  
-✉️ Gmail / Email  
-</a>  </div>  </div>  </nav>  </header>  <section class="hero">  <h1>Attari Books</h1>  <p>Your Digital Library</p>  <input
+<div class="help-menu">
+
+<button class="help-button" onclick="toggleHelp(event)">
+Help
+</button>
+
+<div class="help-options" id="helpOptions">
+
+<a href="https://wa.me/919534646778" target="_blank">
+💬 WhatsApp
+</a>
+
+<a href="mailto:mdmalek26234@gmail.com">
+✉️ Gmail / Email
+</a>
+
+</div>
+
+</div>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h1>Attari Books</h1>
+
+<p>Your Digital Library</p>
+
+<input
 class="search"
 type="text"
 id="searchBox"
 placeholder="Search books..."
 onkeyup="searchBooks()"
+>
 
-> 
+</section>
 
-</section>  <section class="books" id="books">  <h2>Latest Books</h2>  <div class="book-grid" id="bookList">  <div class="message">  
-📚 Loading books...  
-</div>  </div>  </section>  <div id="reader">  <div class="reader-top">  <div class="reader-title" id="readerTitle">  
-PDF Reader  
-</div>  <button class="close-reader" onclick="closeReader()">  
-✕ Close  
-</button>  </div>  <div id="pdfPages"></div>  </div>  <footer>  
-© 2026 Attari Books — All Rights Reserved  
-</footer>  <script>  
-  
-/* =====================================  
-   GOOGLE APPS SCRIPT URL  
-===================================== */  
-  
-const GOOGLE_SCRIPT_URL =  
-"https://script.google.com/macros/s/AKfycbwyMcUDNnTOpmwHf2xrF82P9260595M6rBXcPHvbR0Fu9ZN3BnyNGCApI51w1M5XO4F/exec";  
-  
-  
-/* =====================================  
-   GITHUB SETTINGS  
-===================================== */  
-  
-const GITHUB_OWNER = "malmd9194-ai";  
-  
-const GITHUB_REPO = "Attari_Books";  
-  
-const GITHUB_BRANCH = "main";  
-  
-  
-/* =====================================  
-   PDF.JS  
-===================================== */  
-  
-pdfjsLib.GlobalWorkerOptions.workerSrc =  
-"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";  
-  
-  
-/* =====================================  
-   HELP  
-===================================== */  
-  
-function toggleHelp(event){  
-  
-event.stopPropagation();  
-  
-const menu =  
-document.getElementById("helpOptions");  
-  
-menu.style.display =  
-menu.style.display === "block"  
-? "none"  
-: "block";  
-  
-}  
-  
-document.addEventListener("click",function(){  
-  
-document.getElementById("helpOptions").style.display="none";  
-  
-});  
-  
-  
-/* =====================================  
-   LOAD BOOKS  
-===================================== */  
-  
-async function loadBooks(){  
-  
-const bookList =  
-document.getElementById("bookList");  
-  
-try{  
-  
-const apiUrl =  
-`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;  
-  
-const response =  
-await fetch(apiUrl);  
-  
-if(!response.ok){  
-  
-throw new Error(  
-"GitHub API Error: " + response.status  
-);  
-  
-}  
-  
-const files =  
-await response.json();  
-  
-const pdfFiles =  
-files.filter(file =>  
-file.type === "file" &&  
-file.name.toLowerCase().endsWith(".pdf")  
-);  
-  
-bookList.innerHTML="";  
-  
-if(pdfFiles.length===0){  
-  
-bookList.innerHTML=`  
-  
-<div class="message">  
-  
-📚 No PDF books found.  
-  
-<br><br>  
-  
-GitHub repository me PDF upload karein.  
-  
-</div>  
-  
-`;  
-  
-return;  
-  
-}  
-  
-pdfFiles.forEach(file=>{  
-  
-const bookName =  
-file.name  
-.replace(/\.pdf$/i,"")  
-.replace(/[_-]/g," ");  
-  
-const encodedFileName =  
-encodeURIComponent(file.name);  
-  
-const pdfUrl =  
-`https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${encodedFileName}`;  
-  
-const book =  
-document.createElement("div");  
-  
-book.className="book";  
-  
-book.innerHTML=`  
-  
-<div class="cover">  
-  
-<div class="cover-loading">  
-  
-📖  
-<br>  
-Loading cover...  
-  
-</div>  
-  
-</div>  
-  
-<h3>${escapeHTML(bookName)}</h3>  
-  
-<p class="author">  
-Attari Books  
-</p>  
-  
-<div class="buttons">  
-  
-<button  
-class="btn read"  
-onclick="openReader(  
-'${escapeJS(pdfUrl)}',  
-'${escapeJS(bookName)}'  
-)"  
->  
-📖 Read  
-</button>  
-  
-<a  
-href="${pdfUrl}"  
-class="btn download"  
-download  
->  
-⬇ Download  
-</a>  
-  
-</div>  
-  
-<div class="review-box">  
-  
-<div class="stars">  
-  
-<span class="star" onclick="selectRating(this,1)">★</span>  
-<span class="star" onclick="selectRating(this,2)">★</span>  
-<span class="star" onclick="selectRating(this,3)">★</span>  
-<span class="star" onclick="selectRating(this,4)">★</span>  
-<span class="star" onclick="selectRating(this,5)">★</span>  
-  
-</div>  
-  
-<textarea  
-class="review-input"  
-placeholder="Apna comment likhein..."  
-></textarea>  <div class="review-actions">  <button
+<section class="books" id="books">
+
+<h2>Latest Books</h2>
+
+<div class="book-grid" id="bookList">
+
+<div class="message">
+📚 Loading books...
+</div>
+
+</div>
+
+</section>
+
+<div id="reader">
+
+<div class="reader-top">
+
+<div class="reader-title" id="readerTitle">
+PDF Reader
+</div>
+
+<button class="close-reader" onclick="closeReader()">
+✕ Close
+</button>
+
+</div>
+
+<div id="pdfPages"></div>
+
+</div>
+
+<footer>
+© 2026 Attari Books — All Rights Reserved
+</footer>
+
+<script>
+
+/* =====================================
+   GOOGLE APPS SCRIPT URL
+===================================== */
+
+const GOOGLE_SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbwyMcUDNnTOpmwHf2xrF82P9260595M6rBXcPHvbR0Fu9ZN3BnyNGCApI51w1M5XO4F/exec";
+
+
+/* =====================================
+   GITHUB SETTINGS
+===================================== */
+
+const GITHUB_OWNER = "malmd9194-ai";
+
+const GITHUB_REPO = "Attari_Books";
+
+const GITHUB_BRANCH = "main";
+
+
+/* =====================================
+   PDF.JS
+===================================== */
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+
+/* =====================================
+   HELP
+===================================== */
+
+function toggleHelp(event){
+
+event.stopPropagation();
+
+const menu =
+document.getElementById("helpOptions");
+
+menu.style.display =
+menu.style.display === "block"
+? "none"
+: "block";
+
+}
+
+document.addEventListener("click",function(){
+
+document.getElementById("helpOptions").style.display="none";
+
+});
+
+
+/* =====================================
+   LOAD BOOKS
+===================================== */
+
+async function loadBooks(){
+
+const bookList =
+document.getElementById("bookList");
+
+try{
+
+const apiUrl =
+`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
+
+const response =
+await fetch(apiUrl);
+
+if(!response.ok){
+
+throw new Error(
+"GitHub API Error: " + response.status
+);
+
+}
+
+const files =
+await response.json();
+
+const pdfFiles =
+files.filter(file =>
+file.type === "file" &&
+file.name.toLowerCase().endsWith(".pdf")
+);
+
+bookList.innerHTML="";
+
+if(pdfFiles.length===0){
+
+bookList.innerHTML=`
+
+<div class="message">
+
+📚 No PDF books found.
+
+<br><br>
+
+GitHub repository me PDF upload karein.
+
+</div>
+
+`;
+
+return;
+
+}
+
+pdfFiles.forEach(file=>{
+
+const bookName =
+file.name
+.replace(/\.pdf$/i,"")
+.replace(/[_-]/g," ");
+
+const encodedFileName =
+encodeURIComponent(file.name);
+
+const pdfUrl =
+`https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${encodedFileName}`;
+
+const book =
+document.createElement("div");
+
+book.className="book";
+
+book.innerHTML=`
+
+<div class="cover">
+
+<div class="cover-loading">
+
+📖
+<br>
+Loading cover...
+
+</div>
+
+</div>
+
+<h3>${escapeHTML(bookName)}</h3>
+
+<p class="author">
+Attari Books
+</p>
+
+<div class="buttons">
+
+<button
+class="btn read"
+onclick="openReader(
+'${escapeJS(pdfUrl)}',
+'${escapeJS(bookName)}'
+)"
+>
+📖 Read
+</button>
+
+<a
+href="${pdfUrl}"
+class="btn download"
+download
+>
+⬇ Download
+</a>
+
+</div>
+
+<div class="review-box">
+
+<div class="stars">
+
+<span class="star" onclick="selectRating(this,1)">★</span>
+<span class="star" onclick="selectRating(this,2)">★</span>
+<span class="star" onclick="selectRating(this,3)">★</span>
+<span class="star" onclick="selectRating(this,4)">★</span>
+<span class="star" onclick="selectRating(this,5)">★</span>
+
+</div>
+
+<textarea
+class="review-input"
+placeholder="Apna comment likhein..."
+></textarea>
+
+<div class="review-actions">
+
+<button
 class="review-submit"
 onclick="submitReview(this,'${escapeJS(bookName)}')"
-
-> 
-
+>
 ⭐ Submit
 </button>
 
 <button
 class="share-btn"
 onclick="shareBook('${escapeJS(bookName)}','${escapeJS(pdfUrl)}')"
-
-> 
-
+>
 📤 Share
 </button>
 
-</div>  <div class="review-message"></div>  <div class="review-summary">  
-⭐ Ratings loading...  
-</div>  <div class="comments">  
-Comments loading...  
-</div>  </div>  `;
+</div>
+
+<div class="review-message"></div>
+
+<div class="review-summary">
+⭐ Ratings loading...
+</div>
+
+<div class="comments">
+Comments loading...
+</div>
+
+</div>
+
+`;
 
 bookList.appendChild(book);
 
@@ -653,21 +734,26 @@ console.error(error);
 
 bookList.innerHTML=`
 
-<div class="message">  ⚠️ Books load nahi ho pa rahe.
+<div class="message">
+
+⚠️ Books load nahi ho pa rahe.
 
 <br><br>
 
 Error:
 ${escapeHTML(error.message)}
 
-</div>  `;
+</div>
+
+`;
 
 }
 
 }
+
 
 /* =====================================
-RATING
+   RATING
 ===================================== */
 
 function selectRating(star,rating){
@@ -689,8 +775,9 @@ rating;
 
 }
 
+
 /* =====================================
-SUBMIT REVIEW
+   SUBMIT REVIEW
 ===================================== */
 
 async function submitReview(button,bookName){
@@ -782,8 +869,9 @@ button.disabled=false;
 
 }
 
+
 /* =====================================
-LOAD REVIEWS FROM GOOGLE SHEET
+   LOAD REVIEWS FROM GOOGLE SHEET
 ===================================== */
 
 async function loadReviews(
@@ -815,9 +903,9 @@ throw new Error("Invalid data");
 }
 
 /*
-First row headings hai.
-Sheet structure:
-Book | Rating | Comment | Date
+   First row headings hai.
+   Sheet structure:
+   Book | Rating | Comment | Date
 */
 
 const reviews =
@@ -840,8 +928,9 @@ return;
 
 }
 
+
 /* =====================================
-CALCULATE AVERAGE RATING
+   CALCULATE AVERAGE RATING
 ===================================== */
 
 let total=0;
@@ -869,10 +958,11 @@ count
 : "0";
 
 summary.textContent =
-⭐ ${average}/5 — ${count} rating${count===1?"":"s"};
+`⭐ ${average}/5 — ${count} rating${count===1?"":"s"}`;
+
 
 /* =====================================
-SHOW COMMENTS
+   SHOW COMMENTS
 ===================================== */
 
 commentsBox.innerHTML="";
@@ -903,12 +993,14 @@ stars =
 comment.innerHTML=`
 
 ${stars
-? <div class="comment-stars">${stars}</div>
+? `<div class="comment-stars">${stars}</div>`
 : ""}
 
-<div class="comment-text">  
-${escapeHTML(String(row[2]))}  
-</div>  `;
+<div class="comment-text">
+${escapeHTML(String(row[2]))}
+</div>
+
+`;
 
 commentsBox.appendChild(comment);
 
@@ -932,8 +1024,9 @@ commentsBox.innerHTML =
 
 }
 
+
 /* =====================================
-SHARE
+   SHARE
 ===================================== */
 
 async function shareBook(bookName,pdfUrl){
@@ -983,8 +1076,9 @@ console.log(
 
 }
 
+
 /* =====================================
-LOAD COVER
+   LOAD COVER
 ===================================== */
 
 async function loadCover(
@@ -1043,18 +1137,23 @@ error
 
 cover.innerHTML=`
 
-<div class="cover-loading">  📖
+<div class="cover-loading">
+
+📖
 <br>
 Cover unavailable
 
-</div>  `;
+</div>
+
+`;
 
 }
 
 }
+
 
 /* =====================================
-OPEN READER
+   OPEN READER
 ===================================== */
 
 async function openReader(
@@ -1079,13 +1178,17 @@ readerTitle.textContent=title;
 
 pdfPages.innerHTML=`
 
-<div style="  
-color:white;  
-padding:30px;  
-text-align:center;  
-">  📖 Book loading...
+<div style="
+color:white;
+padding:30px;
+text-align:center;
+">
 
-</div>  `;
+📖 Book loading...
+
+</div>
+
+`;
 
 try{
 
@@ -1147,24 +1250,29 @@ console.error(error);
 
 pdfPages.innerHTML=`
 
-<div style="  
-color:white;  
-text-align:center;  
-padding:40px;  
-">  ⚠️ PDF open nahi ho pa rahi.
+<div style="
+color:white;
+text-align:center;
+padding:40px;
+">
+
+⚠️ PDF open nahi ho pa rahi.
 
 <br><br>
 
 Please internet connection check karein.
 
-</div>  `;
+</div>
+
+`;
 
 }
 
 }
+
 
 /* =====================================
-CLOSE READER
+   CLOSE READER
 ===================================== */
 
 function closeReader(){
@@ -1181,8 +1289,9 @@ document.getElementById(
 
 }
 
+
 /* =====================================
-SEARCH
+   SEARCH
 ===================================== */
 
 function searchBooks(){
@@ -1210,8 +1319,9 @@ title.includes(search)
 
 }
 
+
 /* =====================================
-SECURITY
+   SECURITY
 ===================================== */
 
 function escapeHTML(text){
@@ -1225,25 +1335,29 @@ return div.innerHTML;
 
 }
 
+
 function escapeJS(text){
 
 return text
 
-.replace(/\/g,"\\")
+.replace(/\\/g,"\\\\")
 
-.replace(/'/g,"\'")
+.replace(/'/g,"\\'")
 
-.replace(/\n/g,"\n")
+.replace(/\n/g,"\\n")
 
-.replace(/\r/g,"\r");
+.replace(/\r/g,"\\r");
 
 }
 
+
 /* =====================================
-START WEBSITE
+   START WEBSITE
 ===================================== */
 
 loadBooks();
 
-</script>  </body>  
+</script>
+
+</body>
 </html>
