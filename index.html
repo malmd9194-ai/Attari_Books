@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,6 +11,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -18,37 +20,43 @@
 
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #f5f3ef;
       color: #222;
     }
 
+    /* =========================
+       HEADER
+    ========================= */
+
     header {
-      background: #111827;
+      background: #24170f;
       color: white;
-      padding: 20px 30px;
+      padding: 18px 6%;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 12px;
     }
 
     .logo {
-      font-size: 28px;
+      font-size: 25px;
       font-weight: bold;
     }
 
     nav {
       display: flex;
+      align-items: center;
       flex-wrap: wrap;
       gap: 18px;
-      padding: 8px 0;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      font-size: 18px;
+      font-size: 15px;
       font-weight: bold;
     }
 
@@ -56,362 +64,537 @@
       text-decoration: underline;
     }
 
-    .hero {
+
+    /* =========================
+       HELP MENU
+    ========================= */
+
+    .help-menu {
+      position: relative;
+      display: inline-block;
+    }
+
+    .help-button {
+      background: none;
+      border: none;
+
+      color: white;
+
+      font-size: 15px;
+      font-weight: bold;
+
+      cursor: pointer;
+
+      padding: 0;
+    }
+
+    .help-options {
+      display: none;
+
+      position: absolute;
+
+      right: 0;
+      top: 30px;
+
       background: white;
+
+      min-width: 190px;
+
+      border-radius: 8px;
+
+      box-shadow:
+        0 5px 15px rgba(0,0,0,0.2);
+
+      overflow: hidden;
+
+      z-index: 1000;
+    }
+
+    .help-options a {
+      display: block;
+
+      color: #24170f;
+
+      text-decoration: none;
+
+      padding: 13px 15px;
+
+      font-size: 14px;
+
+      white-space: nowrap;
+    }
+
+    .help-options a:hover {
+      background: #f5f3ef;
+    }
+
+    /* Desktop hover */
+
+    .help-menu:hover .help-options {
+      display: block;
+    }
+
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      background: #3b271b;
+
+      color: white;
+
       text-align: center;
-      padding: 60px 20px 45px;
+
+      padding: 75px 20px;
     }
 
     .hero h1 {
-      font-size: 44px;
+      font-size: 45px;
       margin-bottom: 15px;
     }
 
     .hero p {
-      color: #777;
-      font-size: 22px;
+      font-size: 18px;
+      margin-bottom: 25px;
     }
 
-    .search-area {
-      padding: 35px 20px;
-      text-align: center;
-    }
-
-    #searchBox {
+    .search {
       width: 90%;
-      max-width: 940px;
-      padding: 18px 22px;
-      border: 1px solid #ccc;
-      border-radius: 16px;
-      font-size: 20px;
+      max-width: 550px;
+
+      padding: 15px;
+
+      border: none;
+
+      border-radius: 30px;
+
+      font-size: 16px;
+
       outline: none;
-      background: white;
     }
 
-    #searchBox:focus {
-      border-color: #777;
+
+    /* =========================
+       BOOKS
+    ========================= */
+
+    .books {
+      padding: 50px 6%;
     }
 
-    .book-section {
-      padding: 25px;
-      min-height: 300px;
+    .books h2 {
+      text-align: center;
+
+      margin-bottom: 30px;
+
+      font-size: 30px;
     }
 
     .book-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(220px, 1fr)
+        );
+
       gap: 25px;
     }
 
     .book {
       background: white;
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      overflow: hidden;
+
+      border-radius: 12px;
+
+      padding: 20px;
+
+      box-shadow:
+        0 5px 20px rgba(0,0,0,0.08);
     }
 
+
+    /* =========================
+       BOOK COVER
+    ========================= */
+
     .cover {
-      width: 100%;
-      height: 330px;
-      background: #eeeeee;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 280px;
+
+      background: #ddd;
+
+      border-radius: 8px;
+
+      margin-bottom: 18px;
+
       overflow: hidden;
-      margin-bottom: 16px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
     }
 
     .cover canvas {
       width: 100%;
       height: 100%;
+
       object-fit: contain;
-      background: white;
     }
 
     .cover-loading {
       color: #777;
+
       text-align: center;
-      font-size: 18px;
-      padding: 20px;
     }
 
+
+    /* =========================
+       BOOK TITLE
+    ========================= */
+
     .book h3 {
-      font-size: 21px;
       margin-bottom: 8px;
+
       word-break: break-word;
+
+      font-size: 19px;
     }
 
     .author {
       color: #777;
+
       margin-bottom: 15px;
     }
 
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
     .buttons {
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 10px;
+
+      gap: 10px;
     }
 
     .btn {
-      border: none;
-      border-radius: 8px;
-      padding: 10px 13px;
+      flex: 1;
+
+      padding: 11px 7px;
+
+      border-radius: 7px;
+
       text-decoration: none;
-      cursor: pointer;
-      font-size: 14px;
+
+      text-align: center;
+
       font-weight: bold;
-      display: inline-block;
+
+      cursor: pointer;
+
+      border: none;
+
+      font-size: 14px;
     }
 
     .read {
-      background: #2563eb;
+      background: #24170f;
+
       color: white;
     }
 
     .download {
-      background: #16a34a;
-      color: white;
+      background: #e5ded5;
+
+      color: #24170f;
     }
 
-    .star {
-      background: #f59e0b;
-      color: white;
-    }
 
-    .comment {
-      background: #7c3aed;
-      color: white;
-    }
-
-    .share {
-      background: #0891b2;
-      color: white;
-    }
-
-    .actions {
-      border-top: 1px solid #eee;
-      padding-top: 12px;
-      margin-top: 5px;
-    }
-
-    .comment-box {
-      display: none;
-      margin-top: 10px;
-    }
-
-    .comment-box textarea {
-      width: 100%;
-      min-height: 80px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      resize: vertical;
-      font-family: Arial, sans-serif;
-    }
-
-    .comment-box button {
-      margin-top: 7px;
-      padding: 9px 14px;
-      border: none;
-      border-radius: 7px;
-      background: #111827;
-      color: white;
-      cursor: pointer;
-    }
-
-    .saved-comment {
-      margin-top: 10px;
-      padding: 10px;
-      background: #f3f4f6;
-      border-radius: 8px;
-      font-size: 14px;
-      color: #444;
-      display: none;
-      word-break: break-word;
-    }
+    /* =========================
+       MESSAGE
+    ========================= */
 
     .message {
-      background: white;
-      border-radius: 14px;
-      padding: 50px 20px;
       text-align: center;
+
+      padding: 30px;
+
       color: #777;
-      font-size: 20px;
-      width: 100%;
+
+      grid-column: 1 / -1;
     }
 
-    .error-box {
-      color: #b91c1c;
-    }
 
-    .retry-btn {
-      margin-top: 20px;
-      padding: 12px 22px;
-      border: none;
-      border-radius: 8px;
-      background: #111827;
-      color: white;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    footer {
-      background: #111827;
-      color: white;
-      text-align: center;
-      padding: 25px 15px;
-      margin-top: 30px;
-      font-size: 16px;
-    }
-
-    /* PDF Reader */
+    /* =========================
+       PDF READER
+    ========================= */
 
     #reader {
       display: none;
+
       position: fixed;
+
       inset: 0;
-      background: #111;
-      z-index: 99999;
-      overflow-y: auto;
+
+      background: rgba(0,0,0,0.9);
+
+      z-index: 9999;
+
+      overflow: auto;
     }
 
-    .reader-header {
+    .reader-top {
       position: sticky;
+
       top: 0;
-      z-index: 10;
-      background: #1f2937;
+
+      background: #24170f;
+
       color: white;
-      padding: 15px 20px;
+
+      padding: 12px;
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
-      gap: 15px;
+
+      z-index: 10;
     }
 
-    .reader-header h2 {
-      font-size: 20px;
-      word-break: break-word;
+    .reader-title {
+      font-weight: bold;
+
+      max-width: 75%;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      white-space: nowrap;
     }
 
     .close-reader {
-      background: #dc2626;
-      color: white;
+      background: white;
+
+      color: #24170f;
+
       border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
+
+      border-radius: 6px;
+
+      padding: 8px 12px;
+
       font-weight: bold;
-      flex-shrink: 0;
+
+      cursor: pointer;
     }
 
     #pdfPages {
-      padding: 20px;
+      padding: 15px;
+
       display: flex;
+
       flex-direction: column;
+
       align-items: center;
-      gap: 20px;
+
+      gap: 15px;
     }
 
     #pdfPages canvas {
       max-width: 100%;
+
       height: auto;
+
       background: white;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.4);
+
+      box-shadow:
+        0 2px 10px rgba(0,0,0,0.4);
     }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      background: #24170f;
+
+      color: white;
+
+      text-align: center;
+
+      padding: 25px;
+
+      margin-top: 30px;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
 
     @media (max-width: 600px) {
 
+      .hero h1 {
+        font-size: 38px;
+      }
+
       header {
-        padding: 16px;
+        padding: 15px 4%;
+
+        justify-content: center;
       }
 
       .logo {
-        font-size: 23px;
+        font-size: 21px;
       }
 
       nav {
-        gap: 12px;
+        justify-content: center;
+
+        gap: 14px;
       }
 
-      nav a {
-        font-size: 15px;
-      }
-
-      .hero {
-        padding: 40px 15px;
-      }
-
-      .hero h1 {
-        font-size: 32px;
-      }
-
-      .hero p {
-        font-size: 18px;
-      }
-
-      .book-section {
-        padding: 15px;
+      nav a,
+      .help-button {
+        font-size: 13px;
       }
 
       .cover {
-        height: 360px;
+        height: 300px;
       }
 
-      .reader-header h2 {
-        font-size: 16px;
-      }
     }
+
   </style>
+
 </head>
+
 
 <body>
 
-  <!-- HEADER -->
+
+  <!-- =========================
+       HEADER
+  ========================= -->
 
   <header>
-    <div class="logo">📚 Attari Books</div>
+
+    <div class="logo">
+      📚 Attari Books
+    </div>
+
 
     <nav>
-      <a href="#">Home</a>
-      <a href="#books">Books</a>
-      <a href="mailto:mdmalek26234@gmail.com">✉️ Email</a>
-      <a href="https://wa.me/919534646778" target="_blank">💬 WhatsApp</a>
+
+      <a href="#">
+        Home
+      </a>
+
+
+      <a href="#books">
+        Books
+      </a>
+
+
+      <!-- HELP -->
+
+      <div class="help-menu">
+
+        <button
+          class="help-button"
+          onclick="toggleHelp(event)"
+        >
+          Help
+        </button>
+
+
+        <div
+          class="help-options"
+          id="helpOptions"
+        >
+
+          <a
+            href="https://wa.me/919534646778"
+            target="_blank"
+          >
+            💬 WhatsApp
+          </a>
+
+
+          <a
+            href="mailto:mdmalek26234@gmail.com"
+          >
+            ✉️ Gmail / Email
+          </a>
+
+        </div>
+
+      </div>
+
     </nav>
+
   </header>
 
 
-  <!-- HERO -->
+
+  <!-- =========================
+       HERO
+  ========================= -->
 
   <section class="hero">
-    <h1>📚 Attari Books</h1>
-    <p>Read and download your favourite books</p>
-  </section>
+
+    <h1>
+      Attari Books
+    </h1>
 
 
-  <!-- SEARCH -->
+    <p>
+      Your Digital Library
+    </p>
 
-  <section class="search-area">
+
     <input
+      class="search"
       type="text"
       id="searchBox"
-      placeholder="🔎 Search books..."
-      oninput="searchBooks()"
+      placeholder="Search books..."
+      onkeyup="searchBooks()"
     >
+
   </section>
 
 
-  <!-- BOOKS -->
 
-  <section class="book-section" id="books">
+  <!-- =========================
+       BOOK SECTION
+  ========================= -->
 
-    <div class="book-grid" id="bookList">
+  <section
+    class="books"
+    id="books"
+  >
+
+    <h2>
+      Latest Books
+    </h2>
+
+
+    <div
+      class="book-grid"
+      id="bookList"
+    >
 
       <div class="message">
+
         📚 Loading books...
+
       </div>
 
     </div>
@@ -419,15 +602,23 @@
   </section>
 
 
-  <!-- PDF READER -->
+
+  <!-- =========================
+       PDF READER
+  ========================= -->
 
   <div id="reader">
 
-    <div class="reader-header">
 
-      <h2 id="readerTitle">
-        Book
-      </h2>
+    <div class="reader-top">
+
+      <div
+        class="reader-title"
+        id="readerTitle"
+      >
+        PDF Reader
+      </div>
+
 
       <button
         class="close-reader"
@@ -438,553 +629,398 @@
 
     </div>
 
-    <div id="pdfPages"></div>
+
+    <div id="pdfPages">
+
+    </div>
 
   </div>
 
 
-  <!-- FOOTER -->
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
 
   <footer>
+
     © 2026 Attari Books — All Rights Reserved
+
   </footer>
 
 
-<script>
 
-  /* ==========================================
-     GITHUB SETTINGS
-  ========================================== */
-
-  const GITHUB_OWNER = "malmd9194-ai";
-  const GITHUB_REPO = "Attari_Books";
-  const GITHUB_BRANCH = "main";
+  <script>
 
 
-  /* ==========================================
-     PDF.JS
-  ========================================== */
+    /* =====================================
+       GITHUB SETTINGS
+    ===================================== */
 
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-
-  /* ==========================================
-     GITHUB API URL
-  ========================================== */
-
-  const API_URL =
-    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`;
+    const GITHUB_OWNER =
+      "malmd9194-ai";
 
 
-  /* ==========================================
-     LOAD BOOKS
-  ========================================== */
-
-  async function loadBooks() {
-
-    const bookList =
-      document.getElementById("bookList");
-
-    bookList.innerHTML = `
-      <div class="message">
-        📚 Loading books...
-      </div>
-    `;
-
-    try {
-
-      const controller =
-        new AbortController();
-
-      const timeout =
-        setTimeout(() => controller.abort(), 15000);
+    const GITHUB_REPO =
+      "Attari_Books";
 
 
-      const response =
-        await fetch(API_URL, {
-          method: "GET",
-          headers: {
-            "Accept": "application/vnd.github+json"
-          },
-          cache: "no-store",
-          signal: controller.signal
-        });
+    const GITHUB_BRANCH =
+      "main";
 
 
-      clearTimeout(timeout);
+
+    /* =====================================
+       PDF.JS WORKER
+    ===================================== */
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 
-      if (!response.ok) {
 
-        if (response.status === 403) {
+    /* =====================================
+       HELP MENU
+    ===================================== */
+
+    function toggleHelp(event) {
+
+      event.stopPropagation();
+
+      const menu =
+        document.getElementById(
+          "helpOptions"
+        );
+
+      if (
+        menu.style.display === "block"
+      ) {
+
+        menu.style.display =
+          "none";
+
+      } else {
+
+        menu.style.display =
+          "block";
+
+      }
+
+    }
+
+
+    /* Close Help when clicking elsewhere */
+
+    document.addEventListener(
+      "click",
+      function() {
+
+        const menu =
+          document.getElementById(
+            "helpOptions"
+          );
+
+        menu.style.display =
+          "none";
+
+      }
+    );
+
+
+
+    /* =====================================
+       LOAD BOOKS
+    ===================================== */
+
+    async function loadBooks() {
+
+
+      const bookList =
+        document.getElementById(
+          "bookList"
+        );
+
+
+      try {
+
+
+        const apiUrl =
+          `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
+
+
+        const response =
+          await fetch(apiUrl);
+
+
+        if (!response.ok) {
 
           throw new Error(
-            "GitHub API limit reached. Please try again later."
+            "GitHub API Error: " +
+            response.status
           );
 
         }
 
-        if (response.status === 404) {
 
-          throw new Error(
-            "GitHub repository/branch not found. Please check repository settings."
+        const files =
+          await response.json();
+
+
+
+        /* Find PDFs */
+
+        const pdfFiles =
+          files.filter(
+            file =>
+
+              file.type === "file" &&
+
+              file.name
+                .toLowerCase()
+                .endsWith(".pdf")
+
           );
 
-        }
-
-        throw new Error(
-          "GitHub API Error: " + response.status
-        );
-      }
 
 
-      const data =
-        await response.json();
+        bookList.innerHTML =
+          "";
 
 
-      if (!data.tree) {
 
-        throw new Error(
-          "GitHub did not return the file list."
-        );
-      }
+        if (
+          pdfFiles.length === 0
+        ) {
 
+          bookList.innerHTML = `
 
-      /* Find every PDF anywhere in repository */
+            <div class="message">
 
-      const pdfFiles =
-        data.tree.filter(item => {
+              📚 No PDF books found.
 
-          return (
-            item.type === "blob" &&
-            item.path.toLowerCase().endsWith(".pdf")
-          );
+              <br><br>
 
-        });
-
-
-      bookList.innerHTML = "";
-
-
-      if (pdfFiles.length === 0) {
-
-        bookList.innerHTML = `
-          <div class="message">
-            📚 No PDF books found.
-            <br><br>
-            Please upload PDF files to your
-            <b>Attari_Books</b> repository.
-          </div>
-        `;
-
-        return;
-      }
-
-
-      /* Sort alphabetically */
-
-      pdfFiles.sort((a, b) =>
-        a.path.localeCompare(
-          b.path,
-          undefined,
-          { sensitivity: "base" }
-        )
-      );
-
-
-      /* Create every book */
-
-      pdfFiles.forEach(file => {
-
-        const pathParts =
-          file.path.split("/");
-
-        const fileName =
-          pathParts[pathParts.length - 1];
-
-
-        const bookName =
-          fileName
-            .replace(/\.pdf$/i, "")
-            .replace(/[_-]/g, " ")
-            .trim();
-
-
-        /*
-          Raw GitHub URL
-          encode every path part separately
-        */
-
-        const encodedPath =
-          file.path
-            .split("/")
-            .map(part => encodeURIComponent(part))
-            .join("/");
-
-
-        const pdfUrl =
-          `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${encodedPath}`;
-
-
-        const book =
-          document.createElement("div");
-
-        book.className = "book";
-
-
-        book.innerHTML = `
-
-          <div class="cover">
-
-            <div class="cover-loading">
-
-              📖
-              <br>
-              Loading cover...
+              GitHub repository me
+              PDF upload karein.
 
             </div>
 
-          </div>
+          `;
+
+          return;
+
+        }
 
 
-          <h3>
-            ${escapeHTML(bookName)}
-          </h3>
+
+        /* Create books */
+
+        pdfFiles.forEach(
+          file => {
 
 
-          <p class="author">
-            Attari Books
-          </p>
+            const bookName =
+              file.name
+
+                .replace(
+                  /\.pdf$/i,
+                  ""
+                )
+
+                .replace(
+                  /[_-]/g,
+                  " "
+                );
 
 
-          <!-- READ + DOWNLOAD -->
 
-          <div class="buttons">
-
-            <button
-              class="btn read"
-              onclick="openReader(
-                '${escapeJS(pdfUrl)}',
-                '${escapeJS(bookName)}'
-              )"
-            >
-              📖 Read
-            </button>
+            const encodedFileName =
+              encodeURIComponent(
+                file.name
+              );
 
 
-            <a
-              href="${pdfUrl}"
-              class="btn download"
-              target="_blank"
-              rel="noopener"
-              download
-            >
-              ⬇ Download
-            </a>
 
-          </div>
+            const pdfUrl =
+              `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${encodedFileName}`;
 
 
-          <!-- STAR COMMENT SHARE -->
 
-          <div class="buttons actions">
-
-            <button
-              class="btn star"
-              onclick="toggleStar(this)"
-            >
-              ☆ Star
-            </button>
+            const book =
+              document.createElement(
+                "div"
+              );
 
 
-            <button
-              class="btn comment"
-              onclick="toggleComment(this)"
-            >
-              💬 Comment
-            </button>
+            book.className =
+              "book";
 
 
-            <button
-              class="btn share"
-              onclick="shareBook(
-                '${escapeJS(pdfUrl)}',
-                '${escapeJS(bookName)}'
-              )"
-            >
-              🔗 Share
-            </button>
 
-          </div>
+            book.innerHTML = `
 
+              <div class="cover">
 
-          <!-- COMMENT BOX -->
+                <div class="cover-loading">
 
-          <div class="comment-box">
+                  📖
 
-            <textarea
-              placeholder="Write your comment..."
-            ></textarea>
+                  <br>
 
-            <button
-              onclick="saveComment(this)"
-            >
-              Save Comment
-            </button>
+                  Loading cover...
 
-          </div>
+                </div>
+
+              </div>
 
 
-          <div class="saved-comment"></div>
-
-        `;
-
-
-        bookList.appendChild(book);
+              <h3>
+                ${escapeHTML(bookName)}
+              </h3>
 
 
-        /* Load first page as cover */
+              <p class="author">
+                Attari Books
+              </p>
 
-        const cover =
-          book.querySelector(".cover");
+
+              <div class="buttons">
 
 
-        loadCover(
-          pdfUrl,
-          cover
+                <button
+                  class="btn read"
+                  onclick="openReader(
+                    '${escapeJS(pdfUrl)}',
+                    '${escapeJS(bookName)}'
+                  )"
+                >
+
+                  📖 Read
+
+                </button>
+
+
+
+                <a
+                  href="${pdfUrl}"
+                  class="btn download"
+                  download
+                >
+
+                  ⬇ Download
+
+                </a>
+
+
+              </div>
+
+            `;
+
+
+
+            bookList.appendChild(
+              book
+            );
+
+
+
+            /* Load first page */
+
+            const cover =
+              book.querySelector(
+                ".cover"
+              );
+
+
+            loadCover(
+              pdfUrl,
+              cover
+            );
+
+
+          }
         );
 
-      });
-
-
-    } catch (error) {
-
-      console.error(
-        "BOOK LOADING ERROR:",
-        error
-      );
-
-
-      let message =
-        error.message;
-
-
-      if (
-        error.name === "AbortError"
-      ) {
-
-        message =
-          "GitHub request timed out. Please try again.";
 
       }
 
-
-      bookList.innerHTML = `
-
-        <div class="message error-box">
-
-          ⚠️ Books load nahi ho pa rahe.
-
-          <br><br>
-
-          <b>${escapeHTML(message)}</b>
-
-          <br><br>
-
-          <button
-            class="retry-btn"
-            onclick="loadBooks()"
-          >
-            🔄 Try Again
-          </button>
-
-        </div>
-
-      `;
-
-    }
-
-  }
+      catch (error) {
 
 
-  /* ==========================================
-     PDF COVER
-  ========================================== */
-
-  async function loadCover(
-    pdfUrl,
-    cover
-  ) {
-
-    try {
-
-      const pdf =
-        await pdfjsLib
-          .getDocument({
-            url: pdfUrl
-          })
-          .promise;
+        console.error(error);
 
 
-      const page =
-        await pdf.getPage(1);
+        bookList.innerHTML = `
 
+          <div class="message">
 
-      const containerWidth =
-        cover.clientWidth || 250;
+            ⚠️ Books load nahi ho pa rahe.
 
+            <br><br>
 
-      const baseViewport =
-        page.getViewport({
-          scale: 1
-        });
+            Error:
+            ${escapeHTML(error.message)}
 
+          </div>
 
-      const scale =
-        containerWidth /
-        baseViewport.width;
+        `;
 
-
-      const viewport =
-        page.getViewport({
-          scale: Math.min(scale, 1.5)
-        });
-
-
-      const canvas =
-        document.createElement("canvas");
-
-
-      const context =
-        canvas.getContext("2d");
-
-
-      canvas.width =
-        viewport.width;
-
-      canvas.height =
-        viewport.height;
-
-
-      cover.innerHTML = "";
-
-      cover.appendChild(canvas);
-
-
-      await page.render({
-        canvasContext: context,
-        viewport: viewport
-      }).promise;
-
-
-    } catch (error) {
-
-      console.error(
-        "Cover error:",
-        error
-      );
-
-
-      cover.innerHTML = `
-
-        <div class="cover-loading">
-
-          📖
-          <br>
-          Cover unavailable
-
-        </div>
-
-      `;
+      }
 
     }
 
-  }
 
 
-  /* ==========================================
-     PDF READER
-  ========================================== */
+    /* =====================================
+       LOAD PDF COVER
+    ===================================== */
 
-  async function openReader(
-    pdfUrl,
-    title
-  ) {
-
-    const reader =
-      document.getElementById("reader");
-
-    const readerTitle =
-      document.getElementById("readerTitle");
-
-    const pdfPages =
-      document.getElementById("pdfPages");
+    async function loadCover(
+      pdfUrl,
+      cover
+    ) {
 
 
-    reader.style.display =
-      "block";
+      try {
 
 
-    document.body.style.overflow =
-      "hidden";
+        const pdf =
+          await pdfjsLib
+
+            .getDocument(
+              pdfUrl
+            )
+
+            .promise;
 
 
-    readerTitle.textContent =
-      title;
-
-
-    pdfPages.innerHTML = `
-
-      <div style="
-        color:white;
-        padding:30px;
-        text-align:center;
-        font-size:20px;
-      ">
-
-        📖 Book loading...
-
-      </div>
-
-    `;
-
-
-    try {
-
-      const pdf =
-        await pdfjsLib
-          .getDocument({
-            url: pdfUrl
-          })
-          .promise;
-
-
-      pdfPages.innerHTML = "";
-
-
-      for (
-        let pageNumber = 1;
-        pageNumber <= pdf.numPages;
-        pageNumber++
-      ) {
 
         const page =
-          await pdf.getPage(pageNumber);
+          await pdf.getPage(
+            1
+          );
+
 
 
         const viewport =
           page.getViewport({
-            scale: 1.3
+            scale: 1.2
           });
 
 
+
         const canvas =
-          document.createElement("canvas");
+          document.createElement(
+            "canvas"
+          );
+
 
 
         const context =
-          canvas.getContext("2d");
+          canvas.getContext(
+            "2d"
+          );
+
 
 
         canvas.width =
@@ -995,239 +1031,384 @@
           viewport.height;
 
 
-        pdfPages.appendChild(
+
+        cover.innerHTML =
+          "";
+
+
+        cover.appendChild(
           canvas
         );
 
 
+
         await page.render({
-          canvasContext: context,
-          viewport: viewport
+
+          canvasContext:
+            context,
+
+          viewport:
+            viewport
+
         }).promise;
+
 
       }
 
 
-    } catch (error) {
+      catch (error) {
 
-      console.error(
-        "Reader error:",
-        error
-      );
+
+        console.error(
+          "Cover error:",
+          error
+        );
+
+
+        cover.innerHTML = `
+
+          <div class="cover-loading">
+
+            📖
+
+            <br>
+
+            Cover unavailable
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+
+    /* =====================================
+       OPEN PDF READER
+    ===================================== */
+
+    async function openReader(
+      pdfUrl,
+      title
+    ) {
+
+
+      const reader =
+        document.getElementById(
+          "reader"
+        );
+
+
+      const readerTitle =
+        document.getElementById(
+          "readerTitle"
+        );
+
+
+      const pdfPages =
+        document.getElementById(
+          "pdfPages"
+        );
+
+
+
+      reader.style.display =
+        "block";
+
+
+      document.body.style.overflow =
+        "hidden";
+
+
+
+      readerTitle.textContent =
+        title;
+
 
 
       pdfPages.innerHTML = `
 
         <div style="
           color:white;
+          padding:30px;
           text-align:center;
-          padding:40px;
-          font-size:18px;
         ">
 
-          ⚠️ PDF open nahi ho pa rahi.
-
-          <br><br>
-
-          Please internet connection
-          check karein.
+          📖 Book loading...
 
         </div>
 
       `;
 
+
+
+      try {
+
+
+        const pdf =
+          await pdfjsLib
+
+            .getDocument(
+              pdfUrl
+            )
+
+            .promise;
+
+
+
+        pdfPages.innerHTML =
+          "";
+
+
+
+        /* Render every page */
+
+        for (
+          let pageNumber = 1;
+
+          pageNumber <= pdf.numPages;
+
+          pageNumber++
+        ) {
+
+
+          const page =
+            await pdf.getPage(
+              pageNumber
+            );
+
+
+
+          const viewport =
+            page.getViewport({
+              scale: 1.3
+            });
+
+
+
+          const canvas =
+            document.createElement(
+              "canvas"
+            );
+
+
+
+          const context =
+            canvas.getContext(
+              "2d"
+            );
+
+
+
+          canvas.width =
+            viewport.width;
+
+
+          canvas.height =
+            viewport.height;
+
+
+
+          pdfPages.appendChild(
+            canvas
+          );
+
+
+
+          await page.render({
+
+            canvasContext:
+              context,
+
+            viewport:
+              viewport
+
+          }).promise;
+
+
+        }
+
+
+      }
+
+
+      catch (error) {
+
+
+        console.error(error);
+
+
+        pdfPages.innerHTML = `
+
+          <div style="
+            color:white;
+            text-align:center;
+            padding:40px;
+          ">
+
+            ⚠️ PDF open nahi ho pa rahi.
+
+            <br><br>
+
+            Please internet connection
+            check karein.
+
+          </div>
+
+        `;
+
+      }
+
     }
 
-  }
 
 
-  /* ==========================================
-     CLOSE READER
-  ========================================== */
+    /* =====================================
+       CLOSE READER
+    ===================================== */
 
-  function closeReader() {
-
-    document.getElementById(
-      "reader"
-    ).style.display = "none";
+    function closeReader() {
 
 
-    document.body.style.overflow =
-      "";
-
-
-    document.getElementById(
-      "pdfPages"
-    ).innerHTML = "";
-
-  }
-
-
-  /* ==========================================
-     SEARCH
-  ========================================== */
-
-  function searchBooks() {
-
-    const search =
-      document
-        .getElementById("searchBox")
-        .value
-        .toLowerCase()
-        .trim();
-
-
-    const books =
-      document.querySelectorAll(
-        ".book"
-      );
-
-
-    books.forEach(book => {
-
-      const title =
-        book.innerText.toLowerCase();
-
-
-      book.style.display =
-        title.includes(search)
-          ? ""
-          : "none";
-
-    });
-
-  }
-
-
-  /* ==========================================
-     STAR
-  ========================================== */
-
-  function toggleStar(button) {
-
-    if (
-      button.dataset.starred === "yes"
-    ) {
-
-      button.dataset.starred =
-        "no";
-
-      button.textContent =
-        "☆ Star";
-
-    } else {
-
-      button.dataset.starred =
-        "yes";
-
-      button.textContent =
-        "⭐ Starred";
-
-    }
-
-  }
-
-
-  /* ==========================================
-     COMMENT OPEN/CLOSE
-  ========================================== */
-
-  function toggleComment(button) {
-
-    const book =
-      button.closest(".book");
-
-
-    const box =
-      book.querySelector(
-        ".comment-box"
-      );
-
-
-    if (
-      box.style.display === "block"
-    ) {
-
-      box.style.display =
+      document.getElementById(
+        "reader"
+      ).style.display =
         "none";
 
-    } else {
 
-      box.style.display =
-        "block";
-
-    }
-
-  }
+      document.body.style.overflow =
+        "";
 
 
-  /* ==========================================
-     SAVE COMMENT
-  ========================================== */
 
-  function saveComment(button) {
-
-    const box =
-      button.closest(".comment-box");
-
-
-    const book =
-      button.closest(".book");
-
-
-    const textarea =
-      box.querySelector(
-        "textarea"
-      );
-
-
-    const saved =
-      book.querySelector(
-        ".saved-comment"
-      );
-
-
-    const text =
-      textarea.value.trim();
-
-
-    if (!text) {
-
-      alert(
-        "Please write a comment first."
-      );
-
-      return;
+      document.getElementById(
+        "pdfPages"
+      ).innerHTML =
+        "";
 
     }
 
 
-    saved.textContent =
-      "💬 " + text;
+
+    /* =====================================
+       SEARCH BOOKS
+    ===================================== */
+
+    function searchBooks() {
 
 
-    saved.style.display =
-      "block";
+      const search =
+        document
+
+          .getElementById(
+            "searchBox"
+          )
+
+          .value
+
+          .toLowerCase();
 
 
-    textarea.value = "";
 
-  }
+      const books =
+        document.querySelectorAll(
+          ".book"
+        );
 
 
-  /* ==========================================
-     SHARE
-  ========================================== */
 
-  async function shareBook(
-    pdfUrl,
-    bookName
-  ) {
+      books.forEach(
+        book => {
 
-    const shareData = {
 
-      title:
-        bookName + " - Attari Books",
+          const title =
+            book.innerText
+              .toLowerCase();
 
-      text:
-        "Read
+
+
+          if (
+            title.includes(
+              search
+            )
+          ) {
+
+            book.style.display =
+              "";
+
+          }
+
+          else {
+
+            book.style.display =
+              "none";
+
+          }
+
+        }
+      );
+
+    }
+
+
+
+    /* =====================================
+       SECURITY
+    ===================================== */
+
+    function escapeHTML(
+      text
+    ) {
+
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+
+      div.textContent =
+        text;
+
+
+      return div.innerHTML;
+
+    }
+
+
+
+    function escapeJS(
+      text
+    ) {
+
+
+      return text
+
+        .replace(
+          /\\/g,
+          "\\\\"
+        )
+
+        .replace(
+          /'/g,
+          "\\'"
+        );
+
+    }
+
+
+
+    /* =====================================
+       START WEBSITE
+    ===================================== */
+
+    loadBooks();
+
+
+  </script>
+
+
+</body>
+</html>
