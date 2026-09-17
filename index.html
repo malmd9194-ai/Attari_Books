@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Attari Books</title>
 
@@ -26,8 +24,6 @@ body{
   background:#f5f3ef;
   color:#222;
 }
-
-/* ================= HEADER ================= */
 
 header{
   background:#24170f;
@@ -98,13 +94,15 @@ nav a{
   background:#f5f3ef;
 }
 
-/* ================= HERO ================= */
+.help-menu:hover .help-options{
+  display:block;
+}
 
 .hero{
   background:#3b271b;
   color:white;
   text-align:center;
-  padding:70px 20px;
+  padding:75px 20px;
 }
 
 .hero h1{
@@ -127,10 +125,8 @@ nav a{
   outline:none;
 }
 
-/* ================= BOOKS ================= */
-
 .books{
-  padding:45px 6%;
+  padding:50px 6%;
 }
 
 .books h2{
@@ -140,76 +136,59 @@ nav a{
 }
 
 .book-grid{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  max-width:850px;
-  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
 }
-
-/* ================= BOOK ITEM ================= */
 
 .book{
   background:white;
-  border-radius:10px;
-  box-shadow:0 3px 12px rgba(0,0,0,.08);
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.cover{
+  height:280px;
+  background:#ddd;
+  border-radius:8px;
+  margin-bottom:18px;
   overflow:hidden;
-}
-
-/* ONLY BOOK NAME IS SHOWN FIRST */
-
-.book-title{
-  width:100%;
-  padding:18px 20px;
-  background:white;
-  border:none;
-  text-align:left;
-  font-size:18px;
-  font-weight:bold;
-  color:#24170f;
-  cursor:pointer;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  gap:10px;
+  justify-content:center;
 }
 
-.book-title:hover{
-  background:#f7f4f0;
+.cover canvas{
+  width:100%;
+  height:100%;
+  object-fit:contain;
 }
 
-.book-arrow{
-  font-size:18px;
-  transition:transform .2s;
+.cover-loading{
+  color:#777;
+  text-align:center;
 }
 
-.book.open .book-arrow{
-  transform:rotate(180deg);
+.book h3{
+  margin-bottom:8px;
+  word-break:break-word;
+  font-size:19px;
 }
 
-/* ================= BOOK DETAILS ================= */
-
-.book-details{
-  display:none;
-  padding:18px 20px 20px;
-  border-top:1px solid #eee;
+.author{
+  color:#777;
+  margin-bottom:15px;
 }
-
-.book.open .book-details{
-  display:block;
-}
-
-/* ================= BUTTONS ================= */
 
 .buttons{
   display:flex;
   gap:10px;
-  margin-bottom:18px;
 }
 
 .btn{
   flex:1;
-  padding:12px 8px;
+  padding:11px 7px;
   border-radius:7px;
   text-decoration:none;
   text-align:center;
@@ -229,31 +208,22 @@ nav a{
   color:#24170f;
 }
 
-.share-btn{
-  background:#e5ded5;
-  color:#24170f;
-}
-
-/* ================= REVIEW ================= */
+/* REVIEW AREA */
 
 .review-box{
+  margin-top:18px;
   border-top:1px solid #eee;
-  padding-top:16px;
-}
-
-.rating-title{
-  font-weight:bold;
-  margin-bottom:8px;
+  padding-top:15px;
 }
 
 .stars{
   display:flex;
   gap:3px;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 .star{
-  font-size:27px;
+  font-size:25px;
   cursor:pointer;
   color:#ccc;
   user-select:none;
@@ -265,32 +235,37 @@ nav a{
 
 .review-input{
   width:100%;
-  min-height:80px;
-  padding:11px;
+  min-height:70px;
+  padding:10px;
   border:1px solid #ddd;
   border-radius:7px;
   resize:vertical;
   font-family:Arial,sans-serif;
-  font-size:14px;
-  outline:none;
-}
-
-.review-input:focus{
-  border-color:#24170f;
 }
 
 .review-actions{
-  margin-top:9px;
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+}
+
+.review-submit,
+.share-btn{
+  border:none;
+  border-radius:7px;
+  padding:9px 12px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
 .review-submit{
-  border:none;
-  border-radius:7px;
-  padding:10px 18px;
-  cursor:pointer;
-  font-weight:bold;
   background:#24170f;
   color:white;
+}
+
+.share-btn{
+  background:#e5ded5;
+  color:#24170f;
 }
 
 .review-message{
@@ -300,21 +275,21 @@ nav a{
 }
 
 .review-summary{
-  margin-top:15px;
+  margin-top:12px;
   font-size:14px;
   font-weight:bold;
 }
 
 .comments{
-  margin-top:10px;
-  max-height:250px;
+  margin-top:12px;
+  max-height:220px;
   overflow-y:auto;
 }
 
 .comment{
   background:#f7f5f2;
   border-radius:7px;
-  padding:10px;
+  padding:9px;
   margin-top:7px;
   font-size:13px;
 }
@@ -328,15 +303,14 @@ nav a{
   word-break:break-word;
 }
 
-/* ================= MESSAGE ================= */
-
 .message{
   text-align:center;
   padding:30px;
   color:#777;
+  grid-column:1/-1;
 }
 
-/* ================= READER ================= */
+/* READER */
 
 #reader{
   display:none;
@@ -392,8 +366,6 @@ nav a{
   box-shadow:0 2px 10px rgba(0,0,0,.4);
 }
 
-/* ================= FOOTER ================= */
-
 footer{
   background:#24170f;
   color:white;
@@ -401,8 +373,6 @@ footer{
   padding:25px;
   margin-top:30px;
 }
-
-/* ================= MOBILE ================= */
 
 @media(max-width:600px){
 
@@ -429,26 +399,8 @@ footer{
     font-size:13px;
   }
 
-  .books{
-    padding:35px 4%;
-  }
-
-  .book-title{
-    font-size:16px;
-    padding:16px;
-  }
-
-  .book-details{
-    padding:16px;
-  }
-
-  .buttons{
-    gap:6px;
-  }
-
-  .btn{
-    font-size:13px;
-    padding:11px 5px;
+  .cover{
+    height:300px;
   }
 
 }
@@ -459,9 +411,6 @@ footer{
 
 <body>
 
-
-<!-- ================= HEADER ================= -->
-
 <header>
 
 <div class="logo">
@@ -470,37 +419,33 @@ footer{
 
 <nav>
 
-<a href="#">
-Home
-</a>
+<a href="#">Home</a>
 
-<a href="#books">
-Books
-</a>
+<a href="#books">Books</a>
 
 <div class="help-menu">
 
 <button
-  class="help-button"
-  onclick="toggleHelp(event)"
+class="help-button"
+onclick="toggleHelp(event)"
 >
 Help
 </button>
 
 <div
-  class="help-options"
-  id="helpOptions"
+class="help-options"
+id="helpOptions"
 >
 
 <a
-  href="https://wa.me/919534646778"
-  target="_blank"
+href="https://wa.me/919534646778"
+target="_blank"
 >
 💬 WhatsApp
 </a>
 
 <a
-  href="mailto:mdmalek26234@gmail.com"
+href="mailto:mdmalek26234@gmail.com"
 >
 ✉️ Gmail / Email
 </a>
@@ -514,43 +459,33 @@ Help
 </header>
 
 
-<!-- ================= HERO ================= -->
-
 <section class="hero">
 
-<h1>
-Attari Books
-</h1>
+<h1>Attari Books</h1>
 
-<p>
-Your Digital Library
-</p>
+<p>Your Digital Library</p>
 
 <input
-  class="search"
-  type="text"
-  id="searchBox"
-  placeholder="Search books..."
-  onkeyup="searchBooks()"
+class="search"
+type="text"
+id="searchBox"
+placeholder="Search books..."
+onkeyup="searchBooks()"
 >
 
 </section>
 
 
-<!-- ================= BOOKS ================= -->
-
 <section
-  class="books"
-  id="books"
+class="books"
+id="books"
 >
 
-<h2>
-Latest Books
-</h2>
+<h2>Latest Books</h2>
 
 <div
-  class="book-grid"
-  id="bookList"
+class="book-grid"
+id="bookList"
 >
 
 <div class="message">
@@ -562,22 +497,20 @@ Latest Books
 </section>
 
 
-<!-- ================= PDF READER ================= -->
-
 <div id="reader">
 
 <div class="reader-top">
 
 <div
-  class="reader-title"
-  id="readerTitle"
+class="reader-title"
+id="readerTitle"
 >
 PDF Reader
 </div>
 
 <button
-  class="close-reader"
-  onclick="closeReader()"
+class="close-reader"
+onclick="closeReader()"
 >
 ✕ Close
 </button>
@@ -589,12 +522,8 @@ PDF Reader
 </div>
 
 
-<!-- ================= FOOTER ================= -->
-
 <footer>
-
 © 2026 Attari Books — All Rights Reserved
-
 </footer>
 
 
@@ -631,35 +560,32 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 
 
 /* =====================================
-   HELP MENU
+   HELP
 ===================================== */
 
 function toggleHelp(event){
 
-  event.stopPropagation();
+event.stopPropagation();
 
-  const menu =
-  document.getElementById("helpOptions");
+const menu =
+document.getElementById("helpOptions");
 
-  menu.style.display =
-  menu.style.display === "block"
-  ? "none"
-  : "block";
+menu.style.display =
+menu.style.display === "block"
+? "none"
+: "block";
 
 }
 
 document.addEventListener(
-  "click",
-  function(){
+"click",
+function(){
 
-    const menu =
-    document.getElementById("helpOptions");
+document.getElementById(
+"helpOptions"
+).style.display="none";
 
-    if(menu){
-      menu.style.display="none";
-    }
-
-  }
+}
 );
 
 
@@ -669,326 +595,260 @@ document.addEventListener(
 
 async function loadBooks(){
 
-  const bookList =
-  document.getElementById("bookList");
+const bookList =
+document.getElementById("bookList");
 
-  try{
+try{
 
-    const apiUrl =
-    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
+const apiUrl =
+`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
 
-    const response =
-    await fetch(apiUrl);
+const response =
+await fetch(apiUrl);
 
-    if(!response.ok){
+if(!response.ok){
 
-      throw new Error(
-        "GitHub API Error: " +
-        response.status
-      );
+throw new Error(
+"GitHub API Error: " + response.status
+);
 
-    }
+}
 
-    const files =
-    await response.json();
+const files =
+await response.json();
 
-    const pdfFiles =
-    files.filter(
-      file =>
-      file.type === "file" &&
-      file.name
-      .toLowerCase()
-      .endsWith(".pdf")
-    );
+const pdfFiles =
+files.filter(file =>
+file.type === "file" &&
+file.name.toLowerCase().endsWith(".pdf")
+);
 
-    bookList.innerHTML="";
+bookList.innerHTML="";
 
+if(pdfFiles.length===0){
 
-    if(pdfFiles.length===0){
+bookList.innerHTML=`
 
-      bookList.innerHTML=`
+<div class="message">
 
-      <div class="message">
+📚 No PDF books found.
 
-        📚 No PDF books found.
+<br><br>
 
-        <br><br>
+GitHub repository me PDF upload karein.
 
-        GitHub repository me PDF upload karein.
+</div>
 
-      </div>
+`;
 
-      `;
+return;
 
-      return;
+}
 
-    }
+pdfFiles.forEach(file=>{
 
+const bookName =
+file.name
+.replace(/\.pdf$/i,"")
+.replace(/[_-]/g," ");
 
-    pdfFiles.forEach(file => {
+const encodedFileName =
+encodeURIComponent(file.name);
 
-      const bookName =
-      file.name
-      .replace(/\.pdf$/i,"")
-      .replace(/[_-]/g," ");
+const pdfUrl =
+`https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${encodedFileName}`;
 
+const book =
+document.createElement("div");
 
-      const encodedFileName =
-      encodeURIComponent(file.name);
+book.className="book";
 
+book.innerHTML=`
 
-      const pdfUrl =
-      `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${encodedFileName}`;
+<div class="cover">
 
+<div class="cover-loading">
 
-      const book =
-      document.createElement("div");
+📖
+<br>
+Loading cover...
 
-      book.className =
-      "book";
+</div>
 
+</div>
 
-      book.innerHTML=`
+<h3>${escapeHTML(bookName)}</h3>
 
-      <!-- ONLY BOOK NAME -->
+<p class="author">
+Attari Books
+</p>
 
-      <button
-        class="book-title"
-        onclick="toggleBook(this)"
-      >
+<div class="buttons">
 
-        <span>
-          📖 ${escapeHTML(bookName)}
-        </span>
+<button
+class="btn read"
+onclick="openReader(
+'${escapeJS(pdfUrl)}',
+'${escapeJS(bookName)}'
+)"
+>
+📖 Read
+</button>
 
-        <span class="book-arrow">
-          ▼
-        </span>
+<a
+href="${escapeHTML(pdfUrl)}"
+class="btn download"
+download
+>
+⬇ Download
+</a>
 
-      </button>
+</div>
 
 
-      <!-- BOOK DETAILS -->
+<div class="review-box">
 
-      <div class="book-details">
+<div class="stars">
 
+<span
+class="star"
+onclick="selectRating(this,1)"
+>★</span>
 
-        <!-- READ DOWNLOAD SHARE -->
+<span
+class="star"
+onclick="selectRating(this,2)"
+>★</span>
 
-        <div class="buttons">
+<span
+class="star"
+onclick="selectRating(this,3)"
+>★</span>
 
+<span
+class="star"
+onclick="selectRating(this,4)"
+>★</span>
 
-          <button
-            class="btn read"
-            onclick="openReader(
-              '${escapeJS(pdfUrl)}',
-              '${escapeJS(bookName)}'
-            )"
-          >
-            📖 Read
-          </button>
+<span
+class="star"
+onclick="selectRating(this,5)"
+>★</span>
 
+</div>
 
-          <a
-            href="${pdfUrl}"
-            class="btn download"
-            download
-          >
-            ⬇ Download
-          </a>
 
+<textarea
+class="review-input"
+placeholder="Apna comment likhein..."
+></textarea>
 
-          <button
-            class="btn share-btn"
-            onclick="shareBook(
-              '${escapeJS(bookName)}',
-              '${escapeJS(pdfUrl)}'
-            )"
-          >
-            🔗 Share
-          </button>
 
+<div class="review-actions">
 
-        </div>
+<button
+class="review-submit"
+onclick="submitReview(
+this,
+'${escapeJS(bookName)}'
+)"
+>
+⭐ Submit
+</button>
 
 
-        <!-- REVIEW -->
+<button
+class="share-btn"
+onclick="shareBook(
+'${escapeJS(bookName)}',
+'${escapeJS(pdfUrl)}'
+)"
+>
+🔗 Share
+</button>
 
-        <div class="review-box">
+</div>
 
 
-          <div class="rating-title">
-            ⭐ Rating
-          </div>
+<div class="review-message"></div>
 
 
-          <div class="stars">
+<div class="review-summary">
+⭐ Ratings loading...
+</div>
 
-            <span
-              class="star"
-              onclick="selectRating(this,1)"
-            >
-              ★
-            </span>
 
-            <span
-              class="star"
-              onclick="selectRating(this,2)"
-            >
-              ★
-            </span>
+<div class="comments">
+Comments loading...
+</div>
 
-            <span
-              class="star"
-              onclick="selectRating(this,3)"
-            >
-              ★
-            </span>
+</div>
 
-            <span
-              class="star"
-              onclick="selectRating(this,4)"
-            >
-              ★
-            </span>
+`;
 
-            <span
-              class="star"
-              onclick="selectRating(this,5)"
-            >
-              ★
-            </span>
+bookList.appendChild(book);
 
-          </div>
+const cover =
+book.querySelector(".cover");
 
+loadCover(
+pdfUrl,
+cover
+);
 
-          <textarea
-            class="review-input"
-            placeholder="Apna comment likhein..."
-          ></textarea>
+loadReviews(
+bookName,
+book.querySelector(".review-summary"),
+book.querySelector(".comments")
+);
 
+});
 
-          <div class="review-actions">
+}
+catch(error){
 
-            <button
-              class="review-submit"
-              onclick="submitReview(
-                this,
-                '${escapeJS(bookName)}'
-              )"
-            >
-              Submit
-            </button>
+console.error(error);
 
-          </div>
+bookList.innerHTML=`
 
+<div class="message">
 
-          <div class="review-message"></div>
+⚠️ Books load nahi ho pa rahe.
 
+<br><br>
 
-          <div class="review-summary">
-            ⭐ Ratings loading...
-          </div>
+Error:
+${escapeHTML(error.message)}
 
+</div>
 
-          <div class="comments">
-            Comments loading...
-          </div>
+`;
 
-
-        </div>
-
-      </div>
-
-      `;
-
-
-      bookList.appendChild(book);
-
-
-      /*
-         Reviews automatically load.
-      */
-
-      loadReviews(
-        bookName,
-        book.querySelector(
-          ".review-summary"
-        ),
-        book.querySelector(
-          ".comments"
-        )
-      );
-
-    });
-
-  }
-  catch(error){
-
-    console.error(error);
-
-    bookList.innerHTML=`
-
-    <div class="message">
-
-      ⚠️ Books load nahi ho pa rahe.
-
-      <br><br>
-
-      Error:
-      ${escapeHTML(error.message)}
-
-    </div>
-
-    `;
-
-  }
+}
 
 }
 
 
 /* =====================================
-   OPEN / CLOSE BOOK DETAILS
+   RATING
 ===================================== */
 
-function toggleBook(button){
+function selectRating(star,rating){
 
-  const book =
-  button.closest(".book");
+const stars =
+star.parentElement.querySelectorAll(".star");
 
-  book.classList.toggle("open");
+stars.forEach((s,index)=>{
 
-}
+s.classList.toggle(
+"selected",
+index < rating
+);
 
+});
 
-/* =====================================
-   SELECT RATING
-===================================== */
-
-function selectRating(
-  star,
-  rating
-){
-
-  const stars =
-  star.parentElement
-  .querySelectorAll(".star");
-
-
-  stars.forEach(
-    (s,index) => {
-
-      s.classList.toggle(
-        "selected",
-        index < rating
-      );
-
-    }
-  );
-
-
-  star.parentElement.dataset.rating =
-  rating;
+star.parentElement.dataset.rating =
+rating;
 
 }
 
@@ -998,141 +858,120 @@ function selectRating(
 ===================================== */
 
 async function submitReview(
-  button,
-  bookName
+button,
+bookName
 ){
 
-  const box =
-  button.closest(".review-box");
+const box =
+button.closest(".review-box");
+
+const stars =
+box.querySelector(".stars");
+
+const rating =
+stars.dataset.rating || "";
+
+const comment =
+box
+.querySelector(".review-input")
+.value
+.trim();
+
+const message =
+box.querySelector(".review-message");
 
 
-  const stars =
-  box.querySelector(".stars");
+if(!rating && !comment){
+
+message.textContent =
+"⭐ Rating ya comment likhein.";
+
+return;
+
+}
 
 
-  const rating =
-  stars.dataset.rating || "";
+button.disabled=true;
+
+message.textContent =
+"⏳ Submit ho raha hai...";
 
 
-  const comment =
-  box
-  .querySelector(".review-input")
-  .value
-  .trim();
+try{
+
+await fetch(
+GOOGLE_SCRIPT_URL,
+{
+
+method:"POST",
+
+mode:"no-cors",
+
+headers:{
+"Content-Type":
+"text/plain;charset=utf-8"
+},
+
+body:JSON.stringify({
+
+book:bookName,
+
+rating:
+rating
+? Number(rating)
+: "",
+
+comment:
+comment
+
+})
+
+}
+);
 
 
-  const message =
-  box.querySelector(
-    ".review-message"
-  );
+box
+.querySelector(".review-input")
+.value="";
+
+stars.dataset.rating="";
+
+stars
+.querySelectorAll(".star")
+.forEach(
+s=>s.classList.remove("selected")
+);
 
 
-  if(!rating && !comment){
-
-    message.textContent =
-    "⭐ Rating ya comment likhein.";
-
-    return;
-
-  }
+message.textContent =
+"✅ Review submit ho gaya!";
 
 
-  button.disabled=true;
+setTimeout(()=>{
 
+loadReviews(
+bookName,
+box.querySelector(
+".review-summary"
+),
+box.querySelector(
+".comments"
+)
+);
 
-  message.textContent =
-  "⏳ Submit ho raha hai...";
+},1500);
 
+}
+catch(error){
 
-  try{
+console.error(error);
 
-    await fetch(
-      GOOGLE_SCRIPT_URL,
-      {
-        method:"POST",
+message.textContent =
+"⚠️ Review submit nahi hua.";
 
-        mode:"no-cors",
+}
 
-        headers:{
-          "Content-Type":
-          "text/plain;charset=utf-8"
-        },
-
-        body:JSON.stringify({
-
-          book:bookName,
-
-          rating:
-          rating
-          ? Number(rating)
-          : "",
-
-          comment:comment
-
-        })
-
-      }
-    );
-
-
-    box
-    .querySelector(
-      ".review-input"
-    )
-    .value="";
-
-
-    stars.dataset.rating="";
-
-
-    stars
-    .querySelectorAll(".star")
-    .forEach(
-      s =>
-      s.classList.remove(
-        "selected"
-      )
-    );
-
-
-    message.textContent =
-    "✅ Review submit ho gaya!";
-
-
-    /*
-       Sheet ko update hone ke liye
-       thoda time dete hain.
-    */
-
-    setTimeout(
-      function(){
-
-        loadReviews(
-          bookName,
-          box.querySelector(
-            ".review-summary"
-          ),
-          box.querySelector(
-            ".comments"
-          )
-        );
-
-      },
-      2000
-    );
-
-  }
-  catch(error){
-
-    console.error(error);
-
-    message.textContent =
-    "⚠️ Review submit nahi hua.";
-
-  }
-
-
-  button.disabled=false;
+button.disabled=false;
 
 }
 
@@ -1142,303 +981,201 @@ async function submitReview(
 ===================================== */
 
 async function loadReviews(
-  bookName,
-  summary,
-  commentsBox
+bookName,
+summary,
+commentsBox
 ){
 
-  try{
+try{
 
-    /*
-       Timestamp cache ko avoid karta hai.
-    */
+const response =
+await fetch(
+GOOGLE_SCRIPT_URL +
+"?t=" +
+Date.now()
+);
 
-    const response =
-    await fetch(
-      GOOGLE_SCRIPT_URL +
-      "?t=" +
-      Date.now()
-    );
 
+if(!response.ok){
 
-    if(!response.ok){
+throw new Error(
+"Google Script Error: " +
+response.status
+);
 
-      throw new Error(
-        "Google Script Error: " +
-        response.status
-      );
+}
 
-    }
 
+const rows =
+await response.json();
 
-    const rows =
-    await response.json();
 
+if(!Array.isArray(rows)){
 
-    if(!Array.isArray(rows)){
+throw new Error(
+"Invalid data"
+);
 
-      throw new Error(
-        "Invalid data"
-      );
+}
 
-    }
 
+/*
+First row headings hai.
 
-    console.log(
-      "Google Sheet data:",
-      rows
-    );
+Sheet structure:
 
+Book | Rating | Comment | Date
+*/
 
-    /*
-       Sheet:
 
-       Book | Rating | Comment | Date
-    */
+const reviews =
+rows
+.slice(1)
+.filter(row =>
 
-    const reviews =
-    rows.filter(
-      (row,index) => {
+String(
+row[0] || ""
+)
+.trim() ===
 
-        /*
-           Heading row skip.
-        */
+String(
+bookName || ""
+)
+.trim()
 
-        if(index === 0){
-          return false;
-        }
+);
 
 
-        if(
-          !row ||
-          row.length < 3
-        ){
-          return false;
-        }
+if(reviews.length===0){
 
+summary.textContent =
+"⭐ Abhi koi rating nahi.";
 
-        return (
-          String(
-            row[0] || ""
-          ).trim()
-          ===
-          String(
-            bookName || ""
-          ).trim()
-        );
+commentsBox.innerHTML =
+"<div style='color:#777;font-size:13px;'>Abhi koi comment nahi.</div>";
 
-      }
-    );
+return;
 
+}
 
-    /*
-       No reviews.
-    */
 
-    if(
-      reviews.length===0
-    ){
+/* =====================================
+   CALCULATE AVERAGE RATING
+===================================== */
 
-      summary.textContent =
-      "⭐ Abhi koi rating nahi.";
+let total=0;
 
+let count=0;
 
-      commentsBox.innerHTML =
-      `
-      <div
-        style="
-          color:#777;
-          font-size:13px;
-        "
-      >
-        Abhi koi comment nahi.
-      </div>
-      `;
 
+reviews.forEach(row=>{
 
-      return;
+const rating =
+Number(row[1]);
 
-    }
+if(
+rating>=1 &&
+rating<=5
+){
 
+total += rating;
 
-    /* ===============================
-       AVERAGE RATING
-    =============================== */
+count++;
 
-    let total=0;
+}
 
-    let count=0;
+});
 
 
-    reviews.forEach(
-      row => {
+const average =
+count
+? (total/count).toFixed(1)
+: "0";
 
-        const rating =
-        Number(row[1]);
 
+summary.textContent =
+`⭐ ${average}/5 — ${count} rating${count===1?"":"s"}`;
 
-        if(
-          rating >= 1 &&
-          rating <= 5
-        ){
 
-          total += rating;
+/* =====================================
+   SHOW COMMENTS
+===================================== */
 
-          count++;
+commentsBox.innerHTML="";
 
-        }
 
-      }
-    );
+reviews
+.filter(row => row[2])
+.reverse()
+.forEach(row=>{
 
+const comment =
+document.createElement("div");
 
-    const average =
-    count
-    ? (total / count).toFixed(1)
-    : "0";
+comment.className="comment";
 
 
-    summary.textContent =
-    `⭐ ${average}/5 — ${count} rating${count===1?"":"s"}`;
+const rating =
+Number(row[1]);
 
 
-    /* ===============================
-       COMMENTS
-    =============================== */
+let stars="";
 
-    commentsBox.innerHTML="";
 
+if(
+rating>=1 &&
+rating<=5
+){
 
-    const commentReviews =
-    reviews.filter(
-      row =>
-      String(
-        row[2] || ""
-      ).trim() !== ""
-    );
+stars =
+"★".repeat(rating) +
+"☆".repeat(5-rating);
 
+}
 
-    if(
-      commentReviews.length===0
-    ){
 
-      commentsBox.innerHTML =
-      `
-      <div
-        style="
-          color:#777;
-          font-size:13px;
-        "
-      >
-        Abhi koi comment nahi.
-      </div>
-      `;
+comment.innerHTML = `
 
-      return;
+${
+stars
+? `<div class="comment-stars">${stars}</div>`
+: ""
+}
 
-    }
+<div class="comment-text">
 
+${escapeHTML(
+String(row[2])
+)}
 
-    /*
-       Latest comment first.
-    */
+</div>
 
-    commentReviews
-    .reverse()
-    .forEach(
-      row => {
+`;
 
-        const comment =
-        document.createElement(
-          "div"
-        );
 
+commentsBox.appendChild(
+comment
+);
 
-        comment.className =
-        "comment";
+});
 
+}
+catch(error){
 
-        const rating =
-        Number(row[1]);
+console.error(
+"Review loading error:",
+error
+);
 
 
-        let stars="";
+summary.textContent =
+"⭐ Ratings load nahi ho rahe.";
 
 
-        if(
-          rating >= 1 &&
-          rating <= 5
-        ){
+commentsBox.innerHTML =
+"<div style='color:#777;font-size:13px;'>Comments abhi load nahi ho rahe.</div>";
 
-          stars =
-          "★".repeat(rating) +
-          "☆".repeat(
-            5-rating
-          );
-
-        }
-
-
-        comment.innerHTML =
-        `
-
-        ${
-          stars
-          ?
-          `
-          <div class="comment-stars">
-            ${stars}
-          </div>
-          `
-          :
-          ""
-        }
-
-
-        <div class="comment-text">
-
-          ${escapeHTML(
-            String(row[2])
-          )}
-
-        </div>
-
-        `;
-
-
-        commentsBox.appendChild(
-          comment
-        );
-
-      }
-    );
-
-  }
-  catch(error){
-
-    console.error(
-      "Review loading error:",
-      error
-    );
-
-
-    summary.textContent =
-    "⭐ Ratings load nahi ho rahe.";
-
-
-    commentsBox.innerHTML =
-    `
-    <div
-      style="
-        color:#777;
-        font-size:13px;
-      "
-    >
-      Comments load nahi ho rahe.
-    </div>
-    `;
-
-  }
+}
 
 }
 
@@ -1448,44 +1185,388 @@ async function loadReviews(
 ===================================== */
 
 async function shareBook(
-  bookName,
-  pdfUrl
+bookName,
+pdfUrl
 ){
 
-  const shareData={
+const shareData={
 
-    title:
-    bookName +
-    " - Attari Books",
+title:
+bookName +
+" - Attari Books",
 
-    text:
-    "📚 " +
-    bookName +
-    " — Attari Books",
+text:
+"📚 " +
+bookName +
+" — Attari Books",
 
-    url:
-    pdfUrl
+url:
+pdfUrl
 
-  };
-
-
-  try{
-
-    if(
-      navigator.share
-    ){
-
-      await navigator.share(
-        shareData
-      );
-
-    }
-    else{
-
-      await navigator.clipboard
-      .writeText(
-        pdfUrl
-      );
+};
 
 
- 
+try{
+
+if(
+navigator.share
+){
+
+await navigator.share(
+shareData
+);
+
+}
+else{
+
+await navigator.clipboard.writeText(
+pdfUrl
+);
+
+alert(
+"🔗 Book link copy ho gaya!"
+);
+
+}
+
+}
+catch(error){
+
+console.log(
+"Share cancelled"
+);
+
+}
+
+}
+
+
+/* =====================================
+   LOAD COVER
+===================================== */
+
+async function loadCover(
+pdfUrl,
+cover
+){
+
+try{
+
+const pdf =
+await pdfjsLib
+.getDocument(pdfUrl)
+.promise;
+
+
+const page =
+await pdf.getPage(1);
+
+
+const viewport =
+page.getViewport({
+scale:1.2
+});
+
+
+const canvas =
+document.createElement("canvas");
+
+
+const context =
+canvas.getContext("2d");
+
+
+canvas.width =
+viewport.width;
+
+canvas.height =
+viewport.height;
+
+
+cover.innerHTML="";
+
+cover.appendChild(
+canvas
+);
+
+
+await page.render({
+
+canvasContext:
+context,
+
+viewport:
+viewport
+
+}).promise;
+
+}
+catch(error){
+
+console.error(
+"Cover error:",
+error
+);
+
+
+cover.innerHTML=`
+
+<div class="cover-loading">
+
+📖
+<br>
+
+Cover unavailable
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =====================================
+   OPEN READER
+===================================== */
+
+async function openReader(
+pdfUrl,
+title
+){
+
+const reader =
+document.getElementById(
+"reader"
+);
+
+const readerTitle =
+document.getElementById(
+"readerTitle"
+);
+
+const pdfPages =
+document.getElementById(
+"pdfPages"
+);
+
+
+reader.style.display="block";
+
+document.body.style.overflow="hidden";
+
+readerTitle.textContent=title;
+
+
+pdfPages.innerHTML=`
+
+<div style="
+color:white;
+padding:30px;
+text-align:center;
+">
+
+📖 Book loading...
+
+</div>
+
+`;
+
+
+try{
+
+const pdf =
+await pdfjsLib
+.getDocument(pdfUrl)
+.promise;
+
+
+pdfPages.innerHTML="";
+
+
+for(
+let pageNumber=1;
+pageNumber<=pdf.numPages;
+pageNumber++
+){
+
+const page =
+await pdf.getPage(
+pageNumber
+);
+
+
+const viewport =
+page.getViewport({
+scale:1.3
+});
+
+
+const canvas =
+document.createElement(
+"canvas"
+);
+
+
+const context =
+canvas.getContext(
+"2d"
+);
+
+
+canvas.width =
+viewport.width;
+
+canvas.height =
+viewport.height;
+
+
+pdfPages.appendChild(
+canvas
+);
+
+
+await page.render({
+
+canvasContext:
+context,
+
+viewport:
+viewport
+
+}).promise;
+
+}
+
+}
+catch(error){
+
+console.error(error);
+
+
+pdfPages.innerHTML=`
+
+<div style="
+color:white;
+text-align:center;
+padding:40px;
+">
+
+⚠️ PDF open nahi ho pa rahi.
+
+<br><br>
+
+Please internet connection check karein.
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =====================================
+   CLOSE READER
+===================================== */
+
+function closeReader(){
+
+document.getElementById(
+"reader"
+).style.display="none";
+
+
+document.body.style.overflow="";
+
+
+document.getElementById(
+"pdfPages"
+).innerHTML="";
+
+}
+
+
+/* =====================================
+   SEARCH
+===================================== */
+
+function searchBooks(){
+
+const search =
+document
+.getElementById(
+"searchBox"
+)
+.value
+.toLowerCase();
+
+
+const books =
+document.querySelectorAll(
+".book"
+);
+
+
+books.forEach(book=>{
+
+const title =
+book.innerText.toLowerCase();
+
+
+book.style.display =
+title.includes(search)
+? ""
+: "none";
+
+});
+
+}
+
+
+/* =====================================
+   SECURITY
+===================================== */
+
+function escapeHTML(text){
+
+const div =
+document.createElement(
+"div"
+);
+
+div.textContent=text;
+
+return div.innerHTML;
+
+}
+
+
+function escapeJS(text){
+
+return String(text)
+
+.replace(/\\/g,"\\\\")
+
+.replace(/'/g,"\\'")
+
+.replace(/\n/g,"\\n")
+
+.replace(/\r/g,"\\r");
+
+}
+
+
+/* =====================================
+   START WEBSITE
+===================================== */
+
+loadBooks();
+
+</script>
+
+</body>
+
+</html>
