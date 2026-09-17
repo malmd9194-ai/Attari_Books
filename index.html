@@ -7,14 +7,11 @@
 
   <title>Attari Books</title>
 
-
   <!-- PDF.JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
-
   <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
   <style>
 
@@ -24,13 +21,11 @@
       padding: 0;
     }
 
-
     body {
       font-family: Arial, sans-serif;
       background: #f4f6f8;
       color: #222;
     }
-
 
     /* =========================
        HEADER
@@ -40,21 +35,17 @@
       background: #111;
       color: white;
       padding: 15px 6%;
-
       display: flex;
       justify-content: space-between;
       align-items: center;
-
       flex-wrap: wrap;
       gap: 12px;
     }
-
 
     .logo {
       font-size: 24px;
       font-weight: bold;
     }
-
 
     nav {
       display: flex;
@@ -63,41 +54,32 @@
       flex-wrap: wrap;
     }
 
-
     nav a,
     nav button {
       color: white;
       text-decoration: none;
-
       border: none;
       background: transparent;
-
       padding: 9px 12px;
-
       cursor: pointer;
       font-size: 15px;
-
       border-radius: 7px;
     }
-
 
     nav a:hover,
     nav button:hover {
       background: #333;
     }
 
-
     .auth-btn {
       background: white !important;
       color: #222 !important;
     }
 
-
     .logout-btn {
       background: #d9534f !important;
       color: white !important;
     }
-
 
     /* =========================
        HERO
@@ -105,9 +87,7 @@
 
     .hero {
       min-height: 380px;
-
       padding: 80px 20px;
-
       text-align: center;
 
       background:
@@ -121,32 +101,24 @@
       color: white;
     }
 
-
     .hero h1 {
       font-size: 48px;
       margin-bottom: 20px;
     }
-
 
     .hero p {
       font-size: 20px;
       margin-bottom: 30px;
     }
 
-
     #searchBox {
       width: min(680px, 90%);
-
       padding: 17px 20px;
-
       border-radius: 35px;
       border: none;
-
       outline: none;
-
       font-size: 17px;
     }
-
 
     /* =========================
        BOOKS
@@ -156,45 +128,32 @@
       padding: 50px 6%;
     }
 
-
     .section-title {
       text-align: center;
-
       font-size: 32px;
-
       margin-bottom: 35px;
     }
 
-
     #status {
       text-align: center;
-
       color: #666;
-
       margin: 20px;
-
       font-size: 16px;
     }
 
-
     .books-grid {
       display: grid;
-
       grid-template-columns:
         repeat(
           auto-fill,
           minmax(230px, 1fr)
         );
-
       gap: 25px;
     }
 
-
     .book-card {
       background: white;
-
       border-radius: 14px;
-
       overflow: hidden;
 
       box-shadow:
@@ -203,7 +162,6 @@
       transition: .2s;
     }
 
-
     .book-card:hover {
       transform: translateY(-4px);
 
@@ -211,92 +169,67 @@
         0 7px 20px rgba(0,0,0,.15);
     }
 
-
     .cover-box {
       width: 100%;
       height: 290px;
-
       background: #e9ecef;
 
       display: flex;
-
       align-items: center;
       justify-content: center;
 
       overflow: hidden;
     }
 
-
     .cover-box canvas {
       max-width: 100%;
       max-height: 100%;
-
       object-fit: contain;
     }
-
 
     .cover-loading {
       color: #777;
       font-size: 14px;
     }
 
-
     .book-info {
       padding: 17px;
     }
 
-
     .book-title {
       font-size: 18px;
-
       font-weight: bold;
-
       margin-bottom: 15px;
-
       word-break: break-word;
-
       line-height: 1.4;
     }
 
-
     .book-buttons {
       display: flex;
-
       gap: 8px;
     }
-
 
     .book-buttons a,
     .book-buttons button {
       flex: 1;
-
       padding: 10px 7px;
-
       border: none;
-
       border-radius: 7px;
-
       cursor: pointer;
-
       text-align: center;
-
       text-decoration: none;
-
       font-size: 14px;
     }
-
 
     .read-btn {
       background: #222;
       color: white;
     }
 
-
     .download-btn {
       background: #198754;
       color: white;
     }
-
 
     /* =========================
        HELP
@@ -306,47 +239,35 @@
       position: relative;
     }
 
-
     .help-menu {
       display: none;
 
       position: absolute;
-
       right: 0;
       top: 45px;
 
       background: white;
-
       border-radius: 10px;
 
       box-shadow:
         0 5px 20px rgba(0,0,0,.2);
 
       padding: 10px;
-
       z-index: 100;
-
       min-width: 190px;
     }
 
-
     .help-menu a {
       display: block;
-
       color: #222;
-
       padding: 10px;
-
       text-decoration: none;
-
       border-radius: 6px;
     }
-
 
     .help-menu a:hover {
       background: #eee;
     }
-
 
     /* =========================
        LOGIN MODAL
@@ -356,7 +277,6 @@
       display: none;
 
       position: fixed;
-
       inset: 0;
 
       background:
@@ -370,111 +290,80 @@
       padding: 20px;
     }
 
-
     .modal-box {
       width: min(420px, 100%);
-
       background: white;
-
       border-radius: 15px;
-
       padding: 25px;
-
       position: relative;
     }
 
-
     .modal-box h2 {
       text-align: center;
-
       margin-bottom: 20px;
     }
 
-
     .close-btn {
       position: absolute;
-
       right: 15px;
       top: 10px;
 
       border: none;
-
       background: none;
 
       font-size: 27px;
-
       cursor: pointer;
     }
-
 
     .auth-tabs {
       display: flex;
-
       margin-bottom: 18px;
     }
 
-
     .auth-tabs button {
       flex: 1;
-
       padding: 11px;
-
       border: none;
-
       cursor: pointer;
-
       background: #eee;
     }
-
 
     .auth-tabs button.active {
       background: #222;
       color: white;
     }
 
-
     .auth-input {
       width: 100%;
-
       padding: 13px;
-
       margin-bottom: 12px;
 
       border: 1px solid #ccc;
-
       border-radius: 7px;
 
       font-size: 15px;
     }
 
-
     .auth-submit {
       width: 100%;
-
       padding: 13px;
 
       border: none;
-
       background: #222;
-
       color: white;
 
       border-radius: 7px;
-
       cursor: pointer;
 
       font-size: 16px;
     }
 
-
     #authMessage {
       margin-top: 13px;
-
       text-align: center;
-
       font-size: 14px;
+      word-break: break-word;
     }
-
 
     /* =========================
        REVIEWS
@@ -482,11 +371,9 @@
 
     .review-section {
       margin-top: 50px;
-
       padding: 30px;
 
       background: white;
-
       border-radius: 15px;
 
       max-width: 800px;
@@ -495,105 +382,76 @@
       margin-right: auto;
     }
 
-
     .review-section h2 {
       text-align: center;
-
       margin-bottom: 20px;
     }
-
 
     .review-select,
     .review-textarea {
       width: 100%;
-
       padding: 12px;
-
       margin-bottom: 12px;
 
       border: 1px solid #ccc;
-
       border-radius: 7px;
 
       font-size: 15px;
     }
 
-
     .review-textarea {
       min-height: 100px;
-
       resize: vertical;
     }
 
-
     .stars {
       display: flex;
-
       justify-content: center;
-
       gap: 8px;
-
       margin: 15px 0;
     }
 
-
     .star {
       font-size: 32px;
-
       border: none;
-
       background: none;
-
       cursor: pointer;
-
       color: #bbb;
     }
-
 
     .star.selected {
       color: #f5b301;
     }
 
-
     .submit-review {
       width: 100%;
-
       padding: 12px;
 
       border: none;
-
       border-radius: 7px;
 
       background: #198754;
-
       color: white;
 
       cursor: pointer;
-
       font-size: 16px;
     }
 
-
     .login-review-message {
       text-align: center;
-
       padding: 20px;
-
       background: #f1f3f5;
-
       border-radius: 8px;
     }
 
-
     /* =========================
-       CUSTOM PDF READER
+       PDF READER
        ========================= */
 
     .reader-modal {
       display: none;
 
       position: fixed;
-
       inset: 0;
 
       background: #222;
@@ -603,44 +461,33 @@
       flex-direction: column;
     }
 
-
     .reader-header {
       min-height: 60px;
 
       background: #111;
-
       color: white;
 
       display: flex;
-
       align-items: center;
-
       justify-content: space-between;
 
       padding: 10px 15px;
-
       gap: 10px;
     }
 
-
     .reader-header button {
       background: white;
-
       color: #111;
 
       border: none;
-
       border-radius: 6px;
 
       padding: 8px 12px;
-
       margin: 2px;
 
       cursor: pointer;
-
       font-size: 14px;
     }
-
 
     .reader-title {
       flex: 1;
@@ -648,14 +495,11 @@
       text-align: center;
 
       overflow: hidden;
-
       white-space: nowrap;
-
       text-overflow: ellipsis;
 
       font-size: 14px;
     }
-
 
     .reader-content {
       flex: 1;
@@ -663,37 +507,28 @@
       overflow: auto;
 
       display: flex;
-
       justify-content: center;
-
       align-items: flex-start;
 
       padding: 20px;
     }
 
-
     #readerCanvas {
       background: white;
 
       max-width: 100%;
-
       height: auto;
 
       box-shadow:
         0 2px 15px rgba(0,0,0,.4);
     }
 
-
     #readerLoading {
       color: white;
-
       font-size: 18px;
-
       position: absolute;
-
       top: 50%;
     }
-
 
     /* =========================
        FOOTER
@@ -701,16 +536,13 @@
 
     footer {
       background: #111;
-
       color: white;
 
       text-align: center;
 
       padding: 25px;
-
       margin-top: 30px;
     }
-
 
     /* =========================
        MOBILE
@@ -722,50 +554,39 @@
         font-size: 36px;
       }
 
-
       .hero p {
         font-size: 17px;
       }
-
 
       header {
         justify-content: center;
       }
 
-
       .logo {
         width: 100%;
-
         text-align: center;
       }
-
 
       nav {
         justify-content: center;
       }
 
-
       .books-section {
         padding: 35px 5%;
       }
-
 
       .cover-box {
         height: 260px;
       }
 
-
       .reader-header {
         padding: 8px;
       }
 
-
       .reader-header button {
         padding: 7px 9px;
-
         font-size: 13px;
       }
-
 
       .reader-title {
         font-size: 12px;
@@ -777,9 +598,7 @@
 
 </head>
 
-
 <body>
-
 
   <!-- =========================
        HEADER
@@ -791,25 +610,21 @@
       📚 Attari Books
     </div>
 
-
     <nav>
 
       <a href="#">
         Home
       </a>
 
-
       <a href="#books">
         Books
       </a>
-
 
       <div class="help-wrapper">
 
         <button onclick="toggleHelp()">
           Help
         </button>
-
 
         <div
           class="help-menu"
@@ -818,59 +633,43 @@
           <a
             href="https://wa.me/919534646778"
             target="_blank">
-
             💬 WhatsApp
-
           </a>
-
 
           <a
             href="mailto:mdmalek26234@gmail.com">
-
             ✉️ Gmail / Email
-
           </a>
 
         </div>
 
       </div>
 
-
       <button
         class="auth-btn"
         id="loginBtn"
         onclick="openAuth('login')">
-
         🔐 Login
-
       </button>
-
 
       <button
         class="auth-btn"
         id="signupBtn"
         onclick="openAuth('signup')">
-
         ✍️ Sign Up
-
       </button>
-
 
       <button
         class="auth-btn logout-btn"
         id="logoutBtn"
         onclick="logout()"
         style="display:none;">
-
         Logout
-
       </button>
 
     </nav>
 
   </header>
-
-
 
   <!-- =========================
        HERO
@@ -882,11 +681,9 @@
       Attari Books
     </h1>
 
-
     <p>
       Your Digital Library
     </p>
-
 
     <input
       type="text"
@@ -895,8 +692,6 @@
       oninput="searchBooks()">
 
   </section>
-
-
 
   <!-- =========================
        BOOKS
@@ -910,11 +705,9 @@
       Latest Books
     </h2>
 
-
     <div id="status">
       📚 Loading books...
     </div>
-
 
     <div
       class="books-grid"
@@ -922,8 +715,6 @@
     </div>
 
   </section>
-
-
 
   <!-- =========================
        REVIEW
@@ -935,7 +726,6 @@
       ⭐ Rate & Review a Book
     </h2>
 
-
     <div id="reviewBox">
 
       <div class="login-review-message">
@@ -943,7 +733,6 @@
         🔐 Please login to rate and review a book.
 
         <br><br>
-
 
         <button
           onclick="openAuth('login')"
@@ -965,8 +754,6 @@
 
   </section>
 
-
-
   <!-- =========================
        LOGIN / SIGNUP MODAL
        ========================= -->
@@ -977,20 +764,15 @@
 
     <div class="modal-box">
 
-
       <button
         class="close-btn"
         onclick="closeAuth()">
-
         ×
-
       </button>
-
 
       <h2 id="authTitle">
         Login
       </h2>
-
 
       <div class="auth-tabs">
 
@@ -998,22 +780,16 @@
           id="loginTab"
           class="active"
           onclick="switchAuth('login')">
-
           Login
-
         </button>
-
 
         <button
           id="signupTab"
           onclick="switchAuth('signup')">
-
           Sign Up
-
         </button>
 
       </div>
-
 
       <form onsubmit="handleAuth(event)">
 
@@ -1024,7 +800,6 @@
           placeholder="Email"
           required>
 
-
         <input
           type="password"
           id="authPassword"
@@ -1033,26 +808,20 @@
           minlength="6"
           required>
 
-
         <button
           type="submit"
           class="auth-submit"
           id="authSubmit">
-
           Login
-
         </button>
 
       </form>
-
 
       <div id="authMessage"></div>
 
     </div>
 
   </div>
-
-
 
   <!-- =========================
        CUSTOM PDF READER
@@ -1062,23 +831,17 @@
     id="readerModal"
     class="reader-modal">
 
-
     <div class="reader-header">
-
 
       <button onclick="closeReader()">
         ✕ Close
       </button>
 
-
       <div
         class="reader-title"
         id="readerTitle">
-
         Attari Books
-
       </div>
-
 
       <div>
 
@@ -1086,11 +849,9 @@
           ◀
         </button>
 
-
         <span id="readerPage">
           Page 1
         </span>
-
 
         <button onclick="nextPage()">
           ▶
@@ -1100,13 +861,11 @@
 
     </div>
 
-
     <div class="reader-content">
 
       <canvas
         id="readerCanvas">
       </canvas>
-
 
       <div id="readerLoading">
         📖 Loading...
@@ -1115,8 +874,6 @@
     </div>
 
   </div>
-
-
 
   <!-- =========================
        FOOTER
@@ -1130,10 +887,7 @@
 
   </footer>
 
-
-
 <script>
-
 
   /* =====================================================
      SUPABASE
@@ -1142,13 +896,16 @@
   const SUPABASE_URL =
     "https://kihhuilyeosvpozduwcs.supabase.co";
 
+  /*
+     IMPORTANT:
+     Yahan current Publishable key hai.
+     Secret key kabhi yahan nahi lagani.
+  */
 
   const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_-XN0lujfPGCeIzusrlUfkQ_-lFKXw";
-
+    "sb_publishable_-XN0lujfPGCeIzusrlUfkQ_-lFKXwUs";
 
   let supabaseClient = null;
-
 
 
   /* =====================================================
@@ -1159,7 +916,6 @@
     "https://script.google.com/macros/s/AKfycbwyMcUDNnTOpmwHf2xrF82P9260595M6rBXcPHvbR0Fu9ZN3BnyNGCApI51w1M5XO4F/exec";
 
 
-
   /* =====================================================
      GITHUB
      ===================================================== */
@@ -1167,14 +923,11 @@
   const GITHUB_OWNER =
     "malmd9194-ai";
 
-
   const GITHUB_REPO =
     "Attari_Books";
 
-
   const GITHUB_BRANCH =
     "main";
-
 
 
   /* =====================================================
@@ -1185,16 +938,11 @@
 
   let selectedRating = 0;
 
-
   let authMode = "login";
-
-
-  /* PDF reader variables */
 
   let readerPdf = null;
 
   let readerCurrentPage = 1;
-
 
 
   /* =====================================================
@@ -1207,7 +955,6 @@
       "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
   }
-
 
 
   /* =====================================================
@@ -1228,7 +975,6 @@
             SUPABASE_URL,
             SUPABASE_PUBLISHABLE_KEY
           );
-
 
         console.log(
           "Supabase connected."
@@ -1254,6 +1000,44 @@
   }
 
 
+  /* =====================================================
+     AUTH ERROR MESSAGE
+     ===================================================== */
+
+  function getAuthErrorMessage(error) {
+
+    const msg =
+      error?.message ||
+      String(error || "");
+
+    if (
+      /invalid api key/i.test(msg)
+    ) {
+
+      return "❌ Supabase API key invalid hai. Settings → API Keys se current Publishable key check karein.";
+
+    }
+
+    if (
+      /email not confirmed/i.test(msg)
+    ) {
+
+      return "❌ Pehle apni email inbox mein Supabase confirmation link se email verify karein.";
+
+    }
+
+    if (
+      /invalid login credentials/i.test(msg)
+    ) {
+
+      return "❌ Email ya password incorrect hai.";
+
+    }
+
+    return "❌ " + msg;
+
+  }
+
 
   /* =====================================================
      LOAD BOOKS FROM GITHUB
@@ -1264,27 +1048,21 @@
     const status =
       document.getElementById("status");
 
-
     const grid =
       document.getElementById("booksGrid");
-
 
     status.innerHTML =
       "📚 Loading books...";
 
-
     grid.innerHTML = "";
-
 
     try {
 
       const apiUrl =
         `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
 
-
       const response =
         await fetch(apiUrl);
-
 
       if (!response.ok) {
 
@@ -1295,16 +1073,13 @@
 
       }
 
-
       const files =
         await response.json();
-
 
       console.log(
         "GitHub files:",
         files
       );
-
 
       const pdfFiles =
         files.filter(file => {
@@ -1318,16 +1093,16 @@
 
         });
 
-
       if (pdfFiles.length === 0) {
 
         status.innerHTML =
           "📚 No PDF books found.";
 
+        updateReviewBox();
+
         return;
 
       }
-
 
       allBooks =
         pdfFiles.map(file => {
@@ -1347,20 +1122,14 @@
 
         });
 
-
       status.innerHTML =
         `${allBooks.length} book(s) available`;
-
 
       displayBooks(
         allBooks
       );
 
-
-      /* Update review form */
-
       updateReviewBox();
-
 
     } catch (error) {
 
@@ -1369,10 +1138,8 @@
         error
       );
 
-
       status.innerHTML =
         "❌ Books load nahi ho pa rahe.";
-
 
       grid.innerHTML = `
 
@@ -1405,7 +1172,6 @@
   }
 
 
-
   /* =====================================================
      DISPLAY BOOKS
      ===================================================== */
@@ -1417,9 +1183,7 @@
         "booksGrid"
       );
 
-
     grid.innerHTML = "";
-
 
     if (books.length === 0) {
 
@@ -1441,20 +1205,24 @@
 
     }
 
-
     books.forEach(
       (book, index) => {
-
 
         const card =
           document.createElement(
             "div"
           );
 
-
         card.className =
           "book-card";
 
+        /*
+          Search ke baad bhi correct book open ho,
+          isliye allBooks mein original index nikal rahe hain.
+        */
+
+        const originalIndex =
+          allBooks.indexOf(book);
 
         card.innerHTML = `
 
@@ -1468,7 +1236,6 @@
 
           </div>
 
-
           <div class="book-info">
 
             <div class="book-title">
@@ -1479,22 +1246,15 @@
               )}
             </div>
 
-
             <div class="book-buttons">
-
-
-              <!-- READ BUTTON -->
 
               <button
                 class="read-btn"
-                onclick="openReader(${index})">
+                onclick="openReader(${originalIndex})">
 
                 📖 Read
 
               </button>
-
-
-              <!-- DOWNLOAD BUTTON -->
 
               <a
                 class="download-btn"
@@ -1505,18 +1265,15 @@
 
               </a>
 
-
             </div>
 
           </div>
 
         `;
 
-
         grid.appendChild(
           card
         );
-
 
         renderCover(
           book.download_url,
@@ -1527,7 +1284,6 @@
     );
 
   }
-
 
 
   /* =====================================================
@@ -1544,9 +1300,7 @@
         containerId
       );
 
-
     if (!container) return;
-
 
     if (
       typeof pdfjsLib ===
@@ -1562,47 +1316,43 @@
 
     }
 
-
     try {
 
       const loadingTask =
         pdfjsLib.getDocument({
-          url: pdfUrl,
-          withCredentials: false
-        });
 
+          url:
+            pdfUrl,
+
+          withCredentials:
+            false
+
+        });
 
       const pdf =
         await loadingTask.promise;
 
-
       const page =
         await pdf.getPage(1);
-
 
       const viewport =
         page.getViewport({
           scale: 1.2
         });
 
-
       const canvas =
         document.createElement(
           "canvas"
         );
 
-
       const context =
         canvas.getContext("2d");
-
 
       canvas.width =
         viewport.width;
 
-
       canvas.height =
         viewport.height;
-
 
       await page.render({
 
@@ -1614,14 +1364,11 @@
 
       }).promise;
 
-
       container.innerHTML = "";
-
 
       container.appendChild(
         canvas
       );
-
 
     } catch (error) {
 
@@ -1629,7 +1376,6 @@
         "Cover error:",
         error
       );
-
 
       container.innerHTML =
         `<div class="cover-loading">
@@ -1639,7 +1385,6 @@
     }
 
   }
-
 
 
   /* =====================================================
@@ -1657,7 +1402,6 @@
         .toLowerCase()
         .trim();
 
-
     if (!search) {
 
       displayBooks(
@@ -1667,7 +1411,6 @@
       return;
 
     }
-
 
     const filtered =
       allBooks.filter(
@@ -1680,13 +1423,11 @@
         }
       );
 
-
     displayBooks(
       filtered
     );
 
   }
-
 
 
   /* =====================================================
@@ -1705,7 +1446,6 @@
   }
 
 
-
   /* =====================================================
      ESCAPE HTML
      ===================================================== */
@@ -1719,15 +1459,12 @@
         "div"
       );
 
-
     div.textContent =
       text;
-
 
     return div.innerHTML;
 
   }
-
 
 
   /* =====================================================
@@ -1741,7 +1478,6 @@
         "helpMenu"
       );
 
-
     menu.style.display =
       menu.style.display ===
       "block"
@@ -1751,9 +1487,8 @@
   }
 
 
-
   /* =====================================================
-     OPEN LOGIN
+     OPEN AUTH
      ===================================================== */
 
   function openAuth(
@@ -1763,14 +1498,12 @@
     authMode =
       mode;
 
-
     document
       .getElementById(
         "authModal"
       )
       .style.display =
       "flex";
-
 
     switchAuth(
       mode
@@ -1779,9 +1512,8 @@
   }
 
 
-
   /* =====================================================
-     CLOSE LOGIN
+     CLOSE AUTH
      ===================================================== */
 
   function closeAuth() {
@@ -1793,7 +1525,6 @@
       .style.display =
       "none";
 
-
     document
       .getElementById(
         "authMessage"
@@ -1802,7 +1533,6 @@
       "";
 
   }
-
 
 
   /* =====================================================
@@ -1816,30 +1546,25 @@
     authMode =
       mode;
 
-
     const title =
       document.getElementById(
         "authTitle"
       );
-
 
     const submit =
       document.getElementById(
         "authSubmit"
       );
 
-
     const loginTab =
       document.getElementById(
         "loginTab"
       );
 
-
     const signupTab =
       document.getElementById(
         "signupTab"
       );
-
 
     if (
       mode === "login"
@@ -1848,15 +1573,12 @@
       title.innerText =
         "Login";
 
-
       submit.innerText =
         "Login";
-
 
       loginTab.classList.add(
         "active"
       );
-
 
       signupTab.classList.remove(
         "active"
@@ -1867,22 +1589,18 @@
       title.innerText =
         "Create Account";
 
-
       submit.innerText =
         "Sign Up";
-
 
       signupTab.classList.add(
         "active"
       );
-
 
       loginTab.classList.remove(
         "active"
       );
 
     }
-
 
     document
       .getElementById(
@@ -1892,7 +1610,6 @@
       "";
 
   }
-
 
 
   /* =====================================================
@@ -1905,20 +1622,19 @@
 
     event.preventDefault();
 
+    const message =
+      document.getElementById(
+        "authMessage"
+      );
 
     if (!supabaseClient) {
 
-      document
-        .getElementById(
-          "authMessage"
-        )
-        .innerHTML =
+      message.innerHTML =
         "❌ Login system load nahi hua.";
 
       return;
 
     }
-
 
     const email =
       document
@@ -1928,7 +1644,6 @@
         .value
         .trim();
 
-
     const password =
       document
         .getElementById(
@@ -1936,19 +1651,10 @@
         )
         .value;
 
-
-    const message =
-      document.getElementById(
-        "authMessage"
-      );
-
-
     message.innerHTML =
       "⏳ Please wait...";
 
-
     try {
-
 
       /* SIGN UP */
 
@@ -1971,19 +1677,33 @@
 
           });
 
-
         if (error) {
 
           throw error;
 
         }
 
+        /*
+          Confirm email ON hone ki wajah se
+          user ko email verify karni hogi.
+        */
 
-        message.innerHTML =
-          "✅ Account created. Please check your email for confirmation.";
+        if (
+          data?.user &&
+          !data?.session
+        ) {
+
+          message.innerHTML =
+            "✅ Account created. Please check your email and confirm your account.";
+
+        } else {
+
+          message.innerHTML =
+            "✅ Account created successfully.";
+
+        }
 
       }
-
 
       /* LOGIN */
 
@@ -2003,17 +1723,14 @@
 
           });
 
-
         if (error) {
 
           throw error;
 
         }
 
-
         message.innerHTML =
           "✅ Login successful!";
-
 
         setTimeout(
           () => {
@@ -2026,7 +1743,6 @@
 
       }
 
-
     } catch (error) {
 
       console.error(
@@ -2034,17 +1750,14 @@
         error
       );
 
-
-      message.innerHTML =
-        "❌ " +
-        escapeHTML(
-          error.message
+      message.textContent =
+        getAuthErrorMessage(
+          error
         );
 
     }
 
   }
-
 
 
   /* =====================================================
@@ -2065,7 +1778,6 @@
 
     }
 
-
     try {
 
       const {
@@ -2074,18 +1786,15 @@
       } =
         await supabaseClient.auth.getSession();
 
-
       if (error) {
 
         console.error(
           error
         );
 
-
         updateAuthUI(
           null
         );
-
 
         updateReviewBox();
 
@@ -2093,14 +1802,11 @@
 
       }
 
-
       updateAuthUI(
         data.session
       );
 
-
       updateReviewBox();
-
 
     } catch (error) {
 
@@ -2109,18 +1815,15 @@
         error
       );
 
-
       updateAuthUI(
         null
       );
-
 
       updateReviewBox();
 
     }
 
   }
-
 
 
   /* =====================================================
@@ -2136,28 +1839,23 @@
         "loginBtn"
       );
 
-
     const signupBtn =
       document.getElementById(
         "signupBtn"
       );
-
 
     const logoutBtn =
       document.getElementById(
         "logoutBtn"
       );
 
-
     if (session) {
 
       loginBtn.style.display =
         "none";
 
-
       signupBtn.style.display =
         "none";
-
 
       logoutBtn.style.display =
         "inline-block";
@@ -2167,10 +1865,8 @@
       loginBtn.style.display =
         "inline-block";
 
-
       signupBtn.style.display =
         "inline-block";
-
 
       logoutBtn.style.display =
         "none";
@@ -2178,7 +1874,6 @@
     }
 
   }
-
 
 
   /* =====================================================
@@ -2193,24 +1888,28 @@
 
     }
 
-
     try {
 
-      await supabaseClient.auth.signOut();
+      const {
+        error
+      } =
+        await supabaseClient.auth.signOut();
 
+      if (error) {
+
+        throw error;
+
+      }
 
       alert(
         "You have been logged out."
       );
 
-
       updateAuthUI(
         null
       );
 
-
       updateReviewBox();
-
 
     } catch (error) {
 
@@ -2218,10 +1917,13 @@
         error
       );
 
+      alert(
+        "Logout nahi ho saka."
+      );
+
     }
 
   }
-
 
 
   /* =====================================================
@@ -2234,7 +1936,6 @@
       document.getElementById(
         "reviewBox"
       );
-
 
     if (!supabaseClient) {
 
@@ -2252,14 +1953,12 @@
 
     }
 
-
     try {
 
       const {
         data
       } =
         await supabaseClient.auth.getSession();
-
 
       if (
         !data.session
@@ -2272,7 +1971,6 @@
             🔐 Please login to rate and review a book.
 
             <br><br>
-
 
             <button
               onclick="openAuth('login')"
@@ -2296,9 +1994,7 @@
 
       }
 
-
       createReviewForm();
-
 
     } catch (error) {
 
@@ -2309,7 +2005,6 @@
     }
 
   }
-
 
 
   /* =====================================================
@@ -2323,10 +2018,8 @@
         "reviewBox"
       );
 
-
     let options =
       "";
-
 
     allBooks.forEach(
       book => {
@@ -2348,7 +2041,6 @@
       }
     );
 
-
     if (
       allBooks.length === 0
     ) {
@@ -2367,7 +2059,6 @@
 
     }
 
-
     box.innerHTML = `
 
       <select
@@ -2378,7 +2069,6 @@
 
       </select>
 
-
       <div class="stars">
 
         <button
@@ -2386,64 +2076,48 @@
           class="star"
           onclick="selectRating(1)"
           id="star1">
-
           ★
-
         </button>
-
 
         <button
           type="button"
           class="star"
           onclick="selectRating(2)"
           id="star2">
-
           ★
-
         </button>
-
 
         <button
           type="button"
           class="star"
           onclick="selectRating(3)"
           id="star3">
-
           ★
-
         </button>
-
 
         <button
           type="button"
           class="star"
           onclick="selectRating(4)"
           id="star4">
-
           ★
-
         </button>
-
 
         <button
           type="button"
           class="star"
           onclick="selectRating(5)"
           id="star5">
-
           ★
-
         </button>
 
       </div>
-
 
       <textarea
         id="reviewComment"
         class="review-textarea"
         placeholder="Write your review...">
       </textarea>
-
 
       <button
         class="submit-review"
@@ -2452,7 +2126,6 @@
         ⭐ Submit Review
 
       </button>
-
 
       <div
         id="reviewMessage"
@@ -2463,8 +2136,14 @@
 
     `;
 
-  }
+    /*
+      Agar user dobara review form khole,
+      rating reset rahe.
+    */
 
+    selectedRating = 0;
+
+  }
 
 
   /* =====================================================
@@ -2485,10 +2164,8 @@
 
     }
 
-
     selectedRating =
       rating;
-
 
     for (
       let i = 1;
@@ -2501,11 +2178,9 @@
           "star" + i
         );
 
-
       if (!star) {
         continue;
       }
-
 
       if (
         i <= rating
@@ -2528,7 +2203,6 @@
   }
 
 
-
   /* =====================================================
      SUBMIT REVIEW
      ===================================================== */
@@ -2545,12 +2219,10 @@
 
     }
 
-
     const {
       data
     } =
       await supabaseClient.auth.getSession();
-
 
     if (!data.session) {
 
@@ -2561,7 +2233,6 @@
       return;
 
     }
-
 
     if (
       selectedRating === 0
@@ -2575,14 +2246,12 @@
 
     }
 
-
     const book =
       document
         .getElementById(
           "reviewBook"
         )
         .value;
-
 
     const comment =
       document
@@ -2592,16 +2261,13 @@
         .value
         .trim();
 
-
     const message =
       document.getElementById(
         "reviewMessage"
       );
 
-
     message.innerHTML =
       "⏳ Submitting...";
-
 
     try {
 
@@ -2642,10 +2308,8 @@
         }
       );
 
-
       message.innerHTML =
         "✅ Review submitted successfully!";
-
 
       document
         .getElementById(
@@ -2654,10 +2318,8 @@
         .value =
         "";
 
-
       selectedRating =
         0;
-
 
       for (
         let i = 1;
@@ -2670,7 +2332,6 @@
             "star" + i
           );
 
-
         if (star) {
 
           star.classList.remove(
@@ -2681,13 +2342,11 @@
 
       }
 
-
     } catch (error) {
 
       console.error(
         error
       );
-
 
       message.innerHTML =
         "❌ Review submit nahi ho saka.";
@@ -2695,7 +2354,6 @@
     }
 
   }
-
 
 
   /* =====================================================
@@ -2710,7 +2368,6 @@
 
     }
 
-
     supabaseClient.auth.onAuthStateChange(
       (
         event,
@@ -2722,11 +2379,9 @@
           event
         );
 
-
         updateAuthUI(
           session
         );
-
 
         updateReviewBox();
 
@@ -2736,9 +2391,8 @@
   }
 
 
-
   /* =====================================================
-     OPEN CUSTOM PDF READER
+     OPEN PDF READER
      ===================================================== */
 
   async function openReader(
@@ -2750,13 +2404,11 @@
         bookIndex
       ];
 
-
     if (!book) {
 
       return;
 
     }
-
 
     if (
       typeof pdfjsLib ===
@@ -2771,50 +2423,40 @@
 
     }
 
-
     const readerModal =
       document.getElementById(
         "readerModal"
       );
-
 
     const loading =
       document.getElementById(
         "readerLoading"
       );
 
-
     const readerTitle =
       document.getElementById(
         "readerTitle"
       );
 
-
     readerModal.style.display =
       "flex";
-
 
     loading.style.display =
       "block";
 
-
     loading.innerHTML =
       "📖 Loading PDF...";
-
 
     readerTitle.innerText =
       removePdfExtension(
         book.name
       );
 
-
     readerCurrentPage =
       1;
 
-
     readerPdf =
       null;
-
 
     try {
 
@@ -2829,15 +2471,12 @@
 
         });
 
-
       readerPdf =
         await loadingTask.promise;
-
 
       await renderReaderPage(
         readerCurrentPage
       );
-
 
     } catch (error) {
 
@@ -2846,10 +2485,8 @@
         error
       );
 
-
       loading.style.display =
         "block";
-
 
       loading.innerHTML =
         "❌ PDF open nahi ho saki.";
@@ -2857,7 +2494,6 @@
     }
 
   }
-
 
 
   /* =====================================================
@@ -2874,20 +2510,16 @@
 
     }
 
-
     const loading =
       document.getElementById(
         "readerLoading"
       );
 
-
     loading.style.display =
       "block";
 
-
     loading.innerHTML =
       "📖 Loading page...";
-
 
     try {
 
@@ -2896,41 +2528,32 @@
           pageNumber
         );
 
-
       const canvas =
         document.getElementById(
           "readerCanvas"
         );
-
 
       const context =
         canvas.getContext(
           "2d"
         );
 
-
       const container =
         document.querySelector(
           ".reader-content"
         );
 
-
-      /* Responsive scale */
-
       let scale =
         1.4;
-
 
       const availableWidth =
         container.clientWidth -
         40;
 
-
       const originalViewport =
         page.getViewport({
           scale: 1
         });
-
 
       if (
         originalViewport.width *
@@ -2944,24 +2567,22 @@
 
       }
 
-
       const viewport =
         page.getViewport({
+
           scale:
             Math.max(
               scale,
               0.8
             )
-        });
 
+        });
 
       canvas.width =
         viewport.width;
 
-
       canvas.height =
         viewport.height;
-
 
       await page.render({
 
@@ -2973,16 +2594,13 @@
 
       }).promise;
 
-
       loading.style.display =
         "none";
-
 
       document.getElementById(
         "readerPage"
       ).innerText =
         `Page ${pageNumber} / ${readerPdf.numPages}`;
-
 
     } catch (error) {
 
@@ -2991,10 +2609,8 @@
         error
       );
 
-
       loading.style.display =
         "block";
-
 
       loading.innerHTML =
         "❌ Page load nahi ho saka.";
@@ -3002,7 +2618,6 @@
     }
 
   }
-
 
 
   /* =====================================================
@@ -3017,14 +2632,12 @@
 
     }
 
-
     if (
       readerCurrentPage <
       readerPdf.numPages
     ) {
 
       readerCurrentPage++;
-
 
       await renderReaderPage(
         readerCurrentPage
@@ -3033,7 +2646,6 @@
     }
 
   }
-
 
 
   /* =====================================================
@@ -3048,14 +2660,12 @@
 
     }
 
-
     if (
       readerCurrentPage >
       1
     ) {
 
       readerCurrentPage--;
-
 
       await renderReaderPage(
         readerCurrentPage
@@ -3064,7 +2674,6 @@
     }
 
   }
-
 
 
   /* =====================================================
@@ -3078,30 +2687,24 @@
         "readerModal"
       );
 
-
     readerModal.style.display =
       "none";
-
 
     readerPdf =
       null;
 
-
     readerCurrentPage =
       1;
-
 
     const canvas =
       document.getElementById(
         "readerCanvas"
       );
 
-
     const context =
       canvas.getContext(
         "2d"
       );
-
 
     context.clearRect(
       0,
@@ -3111,7 +2714,6 @@
     );
 
   }
-
 
 
   /* =====================================================
@@ -3127,7 +2729,6 @@
           "readerModal"
         );
 
-
       if (
         reader.style.display !==
         "flex"
@@ -3136,7 +2737,6 @@
         return;
 
       }
-
 
       if (
         event.key ===
@@ -3147,7 +2747,6 @@
 
       }
 
-
       if (
         event.key ===
         "ArrowLeft"
@@ -3156,7 +2755,6 @@
         previousPage();
 
       }
-
 
       if (
         event.key ===
@@ -3169,7 +2767,6 @@
 
     }
   );
-
 
 
   /* =====================================================
@@ -3185,12 +2782,10 @@
           ".help-wrapper"
         );
 
-
       const menu =
         document.getElementById(
           "helpMenu"
         );
-
 
       if (
         wrapper &&
@@ -3208,36 +2803,24 @@
   );
 
 
-
   /* =====================================================
      START WEBSITE
      ===================================================== */
 
   /*
-     IMPORTANT:
-
      Pehle books load hongi.
-     Uske baad Supabase initialize hoga.
-
-     Isliye Supabase mein problem hone
-     par bhi books rukengi nahi.
+     Phir Supabase initialize hoga.
   */
-
 
   loadBooks();
 
-
   initializeSupabase();
-
 
   setupAuthListener();
 
-
   checkAuth();
 
-
 </script>
-
 
 </body>
 </html>
