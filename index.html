@@ -35,9 +35,11 @@
       background: #111;
       color: white;
       padding: 15px 6%;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       flex-wrap: wrap;
       gap: 12px;
     }
@@ -58,11 +60,15 @@
     nav button {
       color: white;
       text-decoration: none;
+
       border: none;
       background: transparent;
+
       padding: 9px 12px;
+
       cursor: pointer;
       font-size: 15px;
+
       border-radius: 7px;
     }
 
@@ -87,7 +93,9 @@
 
     .hero {
       min-height: 380px;
+
       padding: 80px 20px;
+
       text-align: center;
 
       background:
@@ -113,10 +121,14 @@
 
     #searchBox {
       width: min(680px, 90%);
+
       padding: 17px 20px;
+
       border-radius: 35px;
       border: none;
+
       outline: none;
+
       font-size: 17px;
     }
 
@@ -130,30 +142,39 @@
 
     .section-title {
       text-align: center;
+
       font-size: 32px;
+
       margin-bottom: 35px;
     }
 
     #status {
       text-align: center;
+
       color: #666;
+
       margin: 20px;
+
       font-size: 16px;
     }
 
     .books-grid {
       display: grid;
+
       grid-template-columns:
         repeat(
           auto-fill,
           minmax(230px, 1fr)
         );
+
       gap: 25px;
     }
 
     .book-card {
       background: white;
+
       border-radius: 14px;
+
       overflow: hidden;
 
       box-shadow:
@@ -172,9 +193,11 @@
     .cover-box {
       width: 100%;
       height: 290px;
+
       background: #e9ecef;
 
       display: flex;
+
       align-items: center;
       justify-content: center;
 
@@ -184,6 +207,7 @@
     .cover-box canvas {
       max-width: 100%;
       max-height: 100%;
+
       object-fit: contain;
     }
 
@@ -198,26 +222,38 @@
 
     .book-title {
       font-size: 18px;
+
       font-weight: bold;
+
       margin-bottom: 15px;
+
       word-break: break-word;
+
       line-height: 1.4;
     }
 
     .book-buttons {
       display: flex;
+
       gap: 8px;
     }
 
     .book-buttons a,
     .book-buttons button {
       flex: 1;
+
       padding: 10px 7px;
+
       border: none;
+
       border-radius: 7px;
+
       cursor: pointer;
+
       text-align: center;
+
       text-decoration: none;
+
       font-size: 14px;
     }
 
@@ -232,6 +268,196 @@
     }
 
     /* =========================
+       RATE & REVIEW BUTTON
+       ========================= */
+
+    .rate-review-btn {
+      width: 100%;
+
+      margin-top: 9px;
+
+      padding: 11px;
+
+      border: none;
+
+      border-radius: 7px;
+
+      background: #f5b301;
+
+      color: #222;
+
+      cursor: pointer;
+
+      font-size: 14px;
+
+      font-weight: bold;
+    }
+
+    .rate-review-btn:hover {
+      background: #e0a400;
+    }
+
+    .reviewed-btn {
+      width: 100%;
+
+      margin-top: 9px;
+
+      padding: 11px;
+
+      border: none;
+
+      border-radius: 7px;
+
+      background: #6c757d;
+
+      color: white;
+
+      font-size: 14px;
+
+      cursor: default;
+    }
+
+    /* =========================
+       REVIEW MODAL
+       ========================= */
+
+    .review-modal {
+      display: none;
+
+      position: fixed;
+
+      inset: 0;
+
+      background:
+        rgba(0,0,0,.65);
+
+      z-index: 1500;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+    }
+
+    .review-modal-box {
+      width: min(450px, 100%);
+
+      background: white;
+
+      border-radius: 15px;
+
+      padding: 25px;
+
+      position: relative;
+    }
+
+    .review-modal-box h2 {
+      text-align: center;
+
+      margin-bottom: 8px;
+    }
+
+    .review-book-name {
+      text-align: center;
+
+      color: #666;
+
+      font-size: 14px;
+
+      margin-bottom: 18px;
+
+      word-break: break-word;
+    }
+
+    .review-close-btn {
+      position: absolute;
+
+      right: 15px;
+      top: 10px;
+
+      border: none;
+
+      background: none;
+
+      font-size: 27px;
+
+      cursor: pointer;
+    }
+
+    .review-stars {
+      display: flex;
+
+      justify-content: center;
+
+      gap: 8px;
+
+      margin: 15px 0;
+    }
+
+    .review-star {
+      font-size: 32px;
+
+      border: none;
+
+      background: none;
+
+      cursor: pointer;
+
+      color: #bbb;
+    }
+
+    .review-star.selected {
+      color: #f5b301;
+    }
+
+    .review-textarea {
+      width: 100%;
+
+      min-height: 110px;
+
+      padding: 12px;
+
+      border: 1px solid #ccc;
+
+      border-radius: 7px;
+
+      resize: vertical;
+
+      font-size: 15px;
+
+      margin-bottom: 12px;
+    }
+
+    .submit-review {
+      width: 100%;
+
+      padding: 12px;
+
+      border: none;
+
+      border-radius: 7px;
+
+      background: #198754;
+
+      color: white;
+
+      cursor: pointer;
+
+      font-size: 16px;
+    }
+
+    #reviewMessage {
+      text-align: center;
+
+      margin-top: 12px;
+
+      font-size: 14px;
+
+      word-break: break-word;
+    }
+
+    /* =========================
        HELP
        ========================= */
 
@@ -243,25 +469,33 @@
       display: none;
 
       position: absolute;
+
       right: 0;
       top: 45px;
 
       background: white;
+
       border-radius: 10px;
 
       box-shadow:
         0 5px 20px rgba(0,0,0,.2);
 
       padding: 10px;
+
       z-index: 100;
+
       min-width: 190px;
     }
 
     .help-menu a {
       display: block;
+
       color: #222;
+
       padding: 10px;
+
       text-decoration: none;
+
       border-radius: 6px;
     }
 
@@ -277,6 +511,7 @@
       display: none;
 
       position: fixed;
+
       inset: 0;
 
       background:
@@ -292,39 +527,52 @@
 
     .modal-box {
       width: min(420px, 100%);
+
       background: white;
+
       border-radius: 15px;
+
       padding: 25px;
+
       position: relative;
     }
 
     .modal-box h2 {
       text-align: center;
+
       margin-bottom: 20px;
     }
 
     .close-btn {
       position: absolute;
+
       right: 15px;
       top: 10px;
 
       border: none;
+
       background: none;
 
       font-size: 27px;
+
       cursor: pointer;
     }
 
     .auth-tabs {
       display: flex;
+
       margin-bottom: 18px;
     }
 
     .auth-tabs button {
       flex: 1;
+
       padding: 11px;
+
       border: none;
+
       cursor: pointer;
+
       background: #eee;
     }
 
@@ -335,10 +583,13 @@
 
     .auth-input {
       width: 100%;
+
       padding: 13px;
+
       margin-bottom: 12px;
 
       border: 1px solid #ccc;
+
       border-radius: 7px;
 
       font-size: 15px;
@@ -346,13 +597,17 @@
 
     .auth-submit {
       width: 100%;
+
       padding: 13px;
 
       border: none;
+
       background: #222;
+
       color: white;
 
       border-radius: 7px;
+
       cursor: pointer;
 
       font-size: 16px;
@@ -360,88 +615,12 @@
 
     #authMessage {
       margin-top: 13px;
+
       text-align: center;
+
       font-size: 14px;
+
       word-break: break-word;
-    }
-
-    /* =========================
-       REVIEWS
-       ========================= */
-
-    .review-section {
-      margin-top: 50px;
-      padding: 30px;
-
-      background: white;
-      border-radius: 15px;
-
-      max-width: 800px;
-
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .review-section h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .review-select,
-    .review-textarea {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 12px;
-
-      border: 1px solid #ccc;
-      border-radius: 7px;
-
-      font-size: 15px;
-    }
-
-    .review-textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .stars {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin: 15px 0;
-    }
-
-    .star {
-      font-size: 32px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      color: #bbb;
-    }
-
-    .star.selected {
-      color: #f5b301;
-    }
-
-    .submit-review {
-      width: 100%;
-      padding: 12px;
-
-      border: none;
-      border-radius: 7px;
-
-      background: #198754;
-      color: white;
-
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .login-review-message {
-      text-align: center;
-      padding: 20px;
-      background: #f1f3f5;
-      border-radius: 8px;
     }
 
     /* =========================
@@ -452,6 +631,7 @@
       display: none;
 
       position: fixed;
+
       inset: 0;
 
       background: #222;
@@ -465,27 +645,35 @@
       min-height: 60px;
 
       background: #111;
+
       color: white;
 
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
 
       padding: 10px 15px;
+
       gap: 10px;
     }
 
     .reader-header button {
       background: white;
+
       color: #111;
 
       border: none;
+
       border-radius: 6px;
 
       padding: 8px 12px;
+
       margin: 2px;
 
       cursor: pointer;
+
       font-size: 14px;
     }
 
@@ -495,7 +683,9 @@
       text-align: center;
 
       overflow: hidden;
+
       white-space: nowrap;
+
       text-overflow: ellipsis;
 
       font-size: 14px;
@@ -507,7 +697,9 @@
       overflow: auto;
 
       display: flex;
+
       justify-content: center;
+
       align-items: flex-start;
 
       padding: 20px;
@@ -517,6 +709,7 @@
       background: white;
 
       max-width: 100%;
+
       height: auto;
 
       box-shadow:
@@ -525,8 +718,11 @@
 
     #readerLoading {
       color: white;
+
       font-size: 18px;
+
       position: absolute;
+
       top: 50%;
     }
 
@@ -536,11 +732,13 @@
 
     footer {
       background: #111;
+
       color: white;
 
       text-align: center;
 
       padding: 25px;
+
       margin-top: 30px;
     }
 
@@ -564,6 +762,7 @@
 
       .logo {
         width: 100%;
+
         text-align: center;
       }
 
@@ -585,6 +784,7 @@
 
       .reader-header button {
         padding: 7px 9px;
+
         font-size: 13px;
       }
 
@@ -649,14 +849,18 @@
         class="auth-btn"
         id="loginBtn"
         onclick="openAuth('login')">
+
         🔐 Login
+
       </button>
 
       <button
         class="auth-btn"
         id="signupBtn"
         onclick="openAuth('signup')">
+
         ✍️ Sign Up
+
       </button>
 
       <button
@@ -664,12 +868,15 @@
         id="logoutBtn"
         onclick="logout()"
         style="display:none;">
+
         Logout
+
       </button>
 
     </nav>
 
   </header>
+
 
   <!-- =========================
        HERO
@@ -692,6 +899,7 @@
       oninput="searchBooks()">
 
   </section>
+
 
   <!-- =========================
        BOOKS
@@ -716,43 +924,6 @@
 
   </section>
 
-  <!-- =========================
-       REVIEW
-       ========================= -->
-
-  <section class="review-section">
-
-    <h2>
-      ⭐ Rate & Review a Book
-    </h2>
-
-    <div id="reviewBox">
-
-      <div class="login-review-message">
-
-        🔐 Please login to rate and review a book.
-
-        <br><br>
-
-        <button
-          onclick="openAuth('login')"
-          style="
-            padding:10px 18px;
-            border:none;
-            border-radius:7px;
-            background:#222;
-            color:white;
-            cursor:pointer;">
-
-          Login
-
-        </button>
-
-      </div>
-
-    </div>
-
-  </section>
 
   <!-- =========================
        LOGIN / SIGNUP MODAL
@@ -767,7 +938,9 @@
       <button
         class="close-btn"
         onclick="closeAuth()">
+
         ×
+
       </button>
 
       <h2 id="authTitle">
@@ -780,13 +953,17 @@
           id="loginTab"
           class="active"
           onclick="switchAuth('login')">
+
           Login
+
         </button>
 
         <button
           id="signupTab"
           onclick="switchAuth('signup')">
+
           Sign Up
+
         </button>
 
       </div>
@@ -812,7 +989,9 @@
           type="submit"
           class="auth-submit"
           id="authSubmit">
+
           Login
+
         </button>
 
       </form>
@@ -822,6 +1001,112 @@
     </div>
 
   </div>
+
+
+  <!-- =========================
+       REVIEW MODAL
+       ========================= -->
+
+  <div
+    class="review-modal"
+    id="reviewModal">
+
+    <div class="review-modal-box">
+
+      <button
+        class="review-close-btn"
+        onclick="closeReviewModal()">
+
+        ×
+
+      </button>
+
+      <h2>
+        ⭐ Rate & Review
+      </h2>
+
+      <div
+        class="review-book-name"
+        id="reviewBookName">
+
+        Book
+
+      </div>
+
+      <div class="review-stars">
+
+        <button
+          type="button"
+          class="review-star"
+          id="reviewStar1"
+          onclick="selectReviewRating(1)">
+
+          ★
+
+        </button>
+
+        <button
+          type="button"
+          class="review-star"
+          id="reviewStar2"
+          onclick="selectReviewRating(2)">
+
+          ★
+
+        </button>
+
+        <button
+          type="button"
+          class="review-star"
+          id="reviewStar3"
+          onclick="selectReviewRating(3)">
+
+          ★
+
+        </button>
+
+        <button
+          type="button"
+          class="review-star"
+          id="reviewStar4"
+          onclick="selectReviewRating(4)">
+
+          ★
+
+        </button>
+
+        <button
+          type="button"
+          class="review-star"
+          id="reviewStar5"
+          onclick="selectReviewRating(5)">
+
+          ★
+
+        </button>
+
+      </div>
+
+      <textarea
+        id="reviewComment"
+        class="review-textarea"
+        placeholder="Write your review...">
+      </textarea>
+
+      <button
+        class="submit-review"
+        onclick="submitReview()">
+
+        ⭐ Submit Review
+
+      </button>
+
+      <div id="reviewMessage"></div>
+
+    </div>
+
+  </div>
+
 
   <!-- =========================
        CUSTOM PDF READER
@@ -840,7 +1125,9 @@
       <div
         class="reader-title"
         id="readerTitle">
+
         Attari Books
+
       </div>
 
       <div>
@@ -875,6 +1162,7 @@
 
   </div>
 
+
   <!-- =========================
        FOOTER
        ========================= -->
@@ -887,6 +1175,7 @@
 
   </footer>
 
+
 <script>
 
   /* =====================================================
@@ -895,12 +1184,6 @@
 
   const SUPABASE_URL =
     "https://kihhuilyeosvpozduwcs.supabase.co";
-
-  /*
-     IMPORTANT:
-     Yahan current Publishable key hai.
-     Secret key kabhi yahan nahi lagani.
-  */
 
   const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_-XN0lujfPGCeIzusrlUfkQ_-lFKXwUs";
@@ -936,7 +1219,9 @@
 
   let allBooks = [];
 
-  let selectedRating = 0;
+  let selectedReviewRating = 0;
+
+  let selectedReviewBook = null;
 
   let authMode = "login";
 
@@ -946,10 +1231,31 @@
 
 
   /* =====================================================
+     REVIEW RECORDS
+     ===================================================== */
+
+  let submittedReviews = {};
+
+  /*
+     Format:
+
+     submittedReviews[email][bookName] = true
+
+     Isse current browser mein already-reviewed
+     books ko identify karne mein help milegi.
+
+     Final duplicate protection Google Apps Script
+     par bhi hogi.
+  */
+
+
+  /* =====================================================
      PDF.JS WORKER
      ===================================================== */
 
-  if (typeof pdfjsLib !== "undefined") {
+  if (
+    typeof pdfjsLib !== "undefined"
+  ) {
 
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
@@ -967,7 +1273,8 @@
 
       if (
         window.supabase &&
-        typeof window.supabase.createClient === "function"
+        typeof window.supabase.createClient ===
+        "function"
       ) {
 
         supabaseClient =
@@ -1022,7 +1329,7 @@
       /email not confirmed/i.test(msg)
     ) {
 
-      return "❌ Pehle apni email inbox mein Supabase confirmation link se email verify karein.";
+      return "❌ Pehle apni email inbox mein confirmation link se email verify karein.";
 
     }
 
@@ -1046,15 +1353,20 @@
   async function loadBooks() {
 
     const status =
-      document.getElementById("status");
+      document.getElementById(
+        "status"
+      );
 
     const grid =
-      document.getElementById("booksGrid");
+      document.getElementById(
+        "booksGrid"
+      );
 
     status.innerHTML =
       "📚 Loading books...";
 
-    grid.innerHTML = "";
+    grid.innerHTML =
+      "";
 
     try {
 
@@ -1062,9 +1374,13 @@
         `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
 
       const response =
-        await fetch(apiUrl);
+        await fetch(
+          apiUrl
+        );
 
-      if (!response.ok) {
+      if (
+        !response.ok
+      ) {
 
         throw new Error(
           "GitHub API Error: " +
@@ -1076,51 +1392,52 @@
       const files =
         await response.json();
 
-      console.log(
-        "GitHub files:",
-        files
-      );
-
       const pdfFiles =
-        files.filter(file => {
+        files.filter(
+          file => {
 
-          return (
-            file.type === "file" &&
-            file.name
-              .toLowerCase()
-              .endsWith(".pdf")
-          );
+            return (
+              file.type === "file" &&
+              file.name
+                .toLowerCase()
+                .endsWith(".pdf")
+            );
 
-        });
+          }
+        );
 
-      if (pdfFiles.length === 0) {
+      if (
+        pdfFiles.length === 0
+      ) {
 
         status.innerHTML =
           "📚 No PDF books found.";
 
-        updateReviewBox();
+        updateReviewButtons();
 
         return;
 
       }
 
       allBooks =
-        pdfFiles.map(file => {
+        pdfFiles.map(
+          file => {
 
-          return {
+            return {
 
-            name:
-              file.name,
+              name:
+                file.name,
 
-            download_url:
-              file.download_url,
+              download_url:
+                file.download_url,
 
-            html_url:
-              file.html_url
+              html_url:
+                file.html_url
 
-          };
+            };
 
-        });
+          }
+        );
 
       status.innerHTML =
         `${allBooks.length} book(s) available`;
@@ -1129,7 +1446,7 @@
         allBooks
       );
 
-      updateReviewBox();
+      updateReviewButtons();
 
     } catch (error) {
 
@@ -1176,16 +1493,21 @@
      DISPLAY BOOKS
      ===================================================== */
 
-  function displayBooks(books) {
+  function displayBooks(
+    books
+  ) {
 
     const grid =
       document.getElementById(
         "booksGrid"
       );
 
-    grid.innerHTML = "";
+    grid.innerHTML =
+      "";
 
-    if (books.length === 0) {
+    if (
+      books.length === 0
+    ) {
 
       grid.innerHTML = `
 
@@ -1206,7 +1528,10 @@
     }
 
     books.forEach(
-      (book, index) => {
+      (
+        book,
+        index
+      ) => {
 
         const card =
           document.createElement(
@@ -1217,12 +1542,19 @@
           "book-card";
 
         /*
-          Search ke baad bhi correct book open ho,
-          isliye allBooks mein original index nikal rahe hain.
+          Original index:
+          Search ke baad bhi correct book open hogi.
         */
 
         const originalIndex =
-          allBooks.indexOf(book);
+          allBooks.indexOf(
+            book
+          );
+
+        const safeBookName =
+          escapeHTML(
+            book.name
+          );
 
         card.innerHTML = `
 
@@ -1239,11 +1571,13 @@
           <div class="book-info">
 
             <div class="book-title">
+
               ${escapeHTML(
                 removePdfExtension(
                   book.name
                 )
               )}
+
             </div>
 
             <div class="book-buttons">
@@ -1267,6 +1601,15 @@
 
             </div>
 
+            <button
+              class="rate-review-btn"
+              id="review-btn-${index}"
+              onclick="openReviewForBook(${originalIndex})">
+
+              ⭐ Rate & Review
+
+            </button>
+
           </div>
 
         `;
@@ -1282,6 +1625,726 @@
 
       }
     );
+
+    updateReviewButtons();
+
+  }
+
+
+  /* =====================================================
+     UPDATE REVIEW BUTTONS
+     ===================================================== */
+
+  async function updateReviewButtons() {
+
+    if (
+      !supabaseClient
+    ) {
+
+      return;
+
+    }
+
+    try {
+
+      const {
+        data
+      } =
+        await supabaseClient.auth.getSession();
+
+      if (
+        !data.session
+      ) {
+
+        return;
+
+      }
+
+      /*
+        Google Sheet se existing review check
+        karne ke liye frontend GET request.
+      */
+
+      const email =
+        data.session.user.email;
+
+      await loadSubmittedReviews(
+        email
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Review button update error:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =====================================================
+     LOAD SUBMITTED REVIEWS
+     ===================================================== */
+
+  async function loadSubmittedReviews(
+    email
+  ) {
+
+    try {
+
+      const response =
+        await fetch(
+          GOOGLE_SCRIPT_URL
+        );
+
+      if (
+        !response.ok
+      ) {
+
+        return;
+
+      }
+
+      const data =
+        await response.json();
+
+      submittedReviews = {};
+
+      if (
+        !Array.isArray(data)
+      ) {
+
+        return;
+
+      }
+
+      data.forEach(
+        row => {
+
+          /*
+            Expected Google Sheet columns:
+
+            Book | Rating | Comment | Date | Email
+          */
+
+          const book =
+            row[0];
+
+          const rowEmail =
+            row[4];
+
+          if (
+            book &&
+            rowEmail &&
+            String(rowEmail).toLowerCase() ===
+            String(email).toLowerCase()
+          ) {
+
+            if (
+              !submittedReviews[email]
+            ) {
+
+              submittedReviews[email] =
+                {};
+
+            }
+
+            submittedReviews[email][book] =
+              true;
+
+          }
+
+        }
+      );
+
+      refreshVisibleReviewButtons();
+
+    } catch (error) {
+
+      console.error(
+        "Existing reviews load error:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =====================================================
+     REFRESH REVIEW BUTTONS
+     ===================================================== */
+
+  function refreshVisibleReviewButtons() {
+
+    const grid =
+      document.getElementById(
+        "booksGrid"
+      );
+
+    const buttons =
+      grid.querySelectorAll(
+        ".rate-review-btn, .reviewed-btn"
+      );
+
+    buttons.forEach(
+      button => {
+
+        const card =
+          button.closest(
+            ".book-card"
+          );
+
+        if (!card) {
+          return;
+        }
+
+        const titleElement =
+          card.querySelector(
+            ".book-title"
+          );
+
+        if (!titleElement) {
+          return;
+        }
+
+        const visibleTitle =
+          titleElement.innerText.trim();
+
+        const fullBook =
+          allBooks.find(
+            book =>
+              removePdfExtension(
+                book.name
+              ).trim() ===
+              visibleTitle
+          );
+
+        if (!fullBook) {
+          return;
+        }
+
+        const currentUserEmail =
+          getCurrentUserEmail();
+
+        if (!currentUserEmail) {
+          return;
+        }
+
+        if (
+          submittedReviews[currentUserEmail] &&
+          submittedReviews[currentUserEmail][
+            fullBook.name
+          ]
+        ) {
+
+          button.className =
+            "reviewed-btn";
+
+          button.innerText =
+            "✅ Already Reviewed";
+
+          button.disabled =
+            true;
+
+          button.onclick =
+            null;
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =====================================================
+     GET CURRENT USER EMAIL
+     ===================================================== */
+
+  function getCurrentUserEmail() {
+
+    if (
+      !supabaseClient
+    ) {
+
+      return null;
+
+    }
+
+    /*
+      Supabase session async hota hai,
+      isliye ye cached user access use karta hai.
+    */
+
+    try {
+
+      return (
+        supabaseClient
+          .auth
+          .getUser()
+          .then(
+            result =>
+              result?.data?.user?.email ||
+              null
+          )
+      );
+
+    } catch (error) {
+
+      return null;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     OPEN REVIEW FOR BOOK
+     ===================================================== */
+
+  async function openReviewForBook(
+    bookIndex
+  ) {
+
+    if (
+      !supabaseClient
+    ) {
+
+      openAuth(
+        "login"
+      );
+
+      return;
+
+    }
+
+    const {
+      data
+    } =
+      await supabaseClient.auth.getSession();
+
+    if (
+      !data.session
+    ) {
+
+      openAuth(
+        "login"
+      );
+
+      return;
+
+    }
+
+    const book =
+      allBooks[
+        bookIndex
+      ];
+
+    if (!book) {
+      return;
+    }
+
+    const email =
+      data.session.user.email;
+
+    /*
+      Existing review check.
+    */
+
+    await loadSubmittedReviews(
+      email
+    );
+
+    if (
+      submittedReviews[email] &&
+      submittedReviews[email][
+        book.name
+      ]
+    ) {
+
+      alert(
+        "✅ Aap is book ko pehle hi rate & review kar chuke hain."
+      );
+
+      return;
+
+    }
+
+    selectedReviewBook =
+      book;
+
+    selectedReviewRating =
+      0;
+
+    document.getElementById(
+      "reviewBookName"
+    ).innerText =
+      removePdfExtension(
+        book.name
+      );
+
+    document.getElementById(
+      "reviewComment"
+    ).value =
+      "";
+
+    resetReviewStars();
+
+    document.getElementById(
+      "reviewMessage"
+    ).innerHTML =
+      "";
+
+    document.getElementById(
+      "reviewModal"
+    ).style.display =
+      "flex";
+
+  }
+
+
+  /* =====================================================
+     CLOSE REVIEW MODAL
+     ===================================================== */
+
+  function closeReviewModal() {
+
+    document.getElementById(
+      "reviewModal"
+    ).style.display =
+      "none";
+
+    selectedReviewBook =
+      null;
+
+    selectedReviewRating =
+      0;
+
+    resetReviewStars();
+
+  }
+
+
+  /* =====================================================
+     SELECT REVIEW RATING
+     ===================================================== */
+
+  function selectReviewRating(
+    rating
+  ) {
+
+    selectedReviewRating =
+      rating;
+
+    for (
+      let i = 1;
+      i <= 5;
+      i++
+    ) {
+
+      const star =
+        document.getElementById(
+          "reviewStar" + i
+        );
+
+      if (!star) {
+        continue;
+      }
+
+      if (
+        i <= rating
+      ) {
+
+        star.classList.add(
+          "selected"
+        );
+
+      } else {
+
+        star.classList.remove(
+          "selected"
+        );
+
+      }
+
+    }
+
+  }
+
+
+  /* =====================================================
+     RESET REVIEW STARS
+     ===================================================== */
+
+  function resetReviewStars() {
+
+    for (
+      let i = 1;
+      i <= 5;
+      i++
+    ) {
+
+      const star =
+        document.getElementById(
+          "reviewStar" + i
+        );
+
+      if (star) {
+
+        star.classList.remove(
+          "selected"
+        );
+
+      }
+
+    }
+
+  }
+
+
+  /* =====================================================
+     SUBMIT REVIEW
+     ===================================================== */
+
+  async function submitReview() {
+
+    if (
+      !supabaseClient
+    ) {
+
+      openAuth(
+        "login"
+      );
+
+      return;
+
+    }
+
+    const {
+      data
+    } =
+      await supabaseClient.auth.getSession();
+
+    if (
+      !data.session
+    ) {
+
+      closeReviewModal();
+
+      openAuth(
+        "login"
+      );
+
+      return;
+
+    }
+
+    if (
+      !selectedReviewBook
+    ) {
+
+      return;
+
+    }
+
+    if (
+      selectedReviewRating === 0
+    ) {
+
+      alert(
+        "Please select a rating."
+      );
+
+      return;
+
+    }
+
+    const comment =
+      document
+        .getElementById(
+          "reviewComment"
+        )
+        .value
+        .trim();
+
+    const message =
+      document.getElementById(
+        "reviewMessage"
+      );
+
+    const email =
+      data.session.user.email;
+
+    /*
+      First check:
+      frontend existing-review check.
+    */
+
+    await loadSubmittedReviews(
+      email
+    );
+
+    if (
+      submittedReviews[email] &&
+      submittedReviews[email][
+        selectedReviewBook.name
+      ]
+    ) {
+
+      message.innerHTML =
+        "❌ Aap is book ka review pehle hi de chuke hain.";
+
+      return;
+
+    }
+
+    message.innerHTML =
+      "⏳ Submitting...";
+
+    try {
+
+      const response =
+        await fetch(
+          GOOGLE_SCRIPT_URL,
+          {
+
+            method:
+              "POST",
+
+            mode:
+              "cors",
+
+            headers: {
+
+              "Content-Type":
+                "text/plain;charset=utf-8"
+
+            },
+
+            body:
+              JSON.stringify({
+
+                book:
+                  selectedReviewBook.name,
+
+                rating:
+                  selectedReviewRating,
+
+                comment:
+                  comment,
+
+                email:
+                  email
+
+              })
+
+          }
+        );
+
+      /*
+        Google Apps Script JSON response.
+      */
+
+      let result =
+        null;
+
+      try {
+
+        result =
+          await response.json();
+
+      } catch (jsonError) {
+
+        /*
+          Agar response JSON parse na ho,
+          bhi request complete ho sakti hai.
+        */
+
+      }
+
+      if (
+        result &&
+        result.success === false
+      ) {
+
+        if (
+          result.error ===
+          "ALREADY_REVIEWED"
+        ) {
+
+          message.innerHTML =
+            "❌ Aap is book ka review pehle hi de chuke hain.";
+
+          await loadSubmittedReviews(
+            email
+          );
+
+          return;
+
+        }
+
+        throw new Error(
+          result.error ||
+          "Review submit failed."
+        );
+
+      }
+
+      /*
+        Local record.
+      */
+
+      if (
+        !submittedReviews[email]
+      ) {
+
+        submittedReviews[email] =
+          {};
+
+      }
+
+      submittedReviews[email][
+        selectedReviewBook.name
+      ] =
+        true;
+
+      message.innerHTML =
+        "✅ Review submitted successfully!";
+
+      /*
+        Button state refresh.
+      */
+
+      setTimeout(
+        () => {
+
+          closeReviewModal();
+
+          searchBooks();
+
+        },
+        900
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Review submit error:",
+        error
+      );
+
+      /*
+        CORS/no-cors related fallback:
+        Google Script request may have completed.
+      */
+
+      message.innerHTML =
+        "❌ Review submit nahi ho saka. Please dobara check karein.";
+
+    }
 
   }
 
@@ -1300,7 +2363,9 @@
         containerId
       );
 
-    if (!container) return;
+    if (!container) {
+      return;
+    }
 
     if (
       typeof pdfjsLib ===
@@ -1346,7 +2411,9 @@
         );
 
       const context =
-        canvas.getContext("2d");
+        canvas.getContext(
+          "2d"
+        );
 
       canvas.width =
         viewport.width;
@@ -1364,7 +2431,8 @@
 
       }).promise;
 
-      container.innerHTML = "";
+      container.innerHTML =
+        "";
 
       container.appendChild(
         canvas
@@ -1488,7 +2556,7 @@
 
 
   /* =====================================================
-     OPEN AUTH
+     AUTH
      ===================================================== */
 
   function openAuth(
@@ -1498,11 +2566,9 @@
     authMode =
       mode;
 
-    document
-      .getElementById(
-        "authModal"
-      )
-      .style.display =
+    document.getElementById(
+      "authModal"
+    ).style.display =
       "flex";
 
     switchAuth(
@@ -1512,32 +2578,20 @@
   }
 
 
-  /* =====================================================
-     CLOSE AUTH
-     ===================================================== */
-
   function closeAuth() {
 
-    document
-      .getElementById(
-        "authModal"
-      )
-      .style.display =
+    document.getElementById(
+      "authModal"
+    ).style.display =
       "none";
 
-    document
-      .getElementById(
-        "authMessage"
-      )
-      .innerHTML =
+    document.getElementById(
+      "authMessage"
+    ).innerHTML =
       "";
 
   }
 
-
-  /* =====================================================
-     SWITCH LOGIN / SIGNUP
-     ===================================================== */
 
   function switchAuth(
     mode
@@ -1567,7 +2621,8 @@
       );
 
     if (
-      mode === "login"
+      mode ===
+      "login"
     ) {
 
       title.innerText =
@@ -1602,11 +2657,9 @@
 
     }
 
-    document
-      .getElementById(
-        "authMessage"
-      )
-      .innerHTML =
+    document.getElementById(
+      "authMessage"
+    ).innerHTML =
       "";
 
   }
@@ -1627,7 +2680,9 @@
         "authMessage"
       );
 
-    if (!supabaseClient) {
+    if (
+      !supabaseClient
+    ) {
 
       message.innerHTML =
         "❌ Login system load nahi hua.";
@@ -1656,8 +2711,6 @@
 
     try {
 
-      /* SIGN UP */
-
       if (
         authMode ===
         "signup"
@@ -1677,16 +2730,13 @@
 
           });
 
-        if (error) {
+        if (
+          error
+        ) {
 
           throw error;
 
         }
-
-        /*
-          Confirm email ON hone ki wajah se
-          user ko email verify karni hogi.
-        */
 
         if (
           data?.user &&
@@ -1703,11 +2753,7 @@
 
         }
 
-      }
-
-      /* LOGIN */
-
-      else {
+      } else {
 
         const {
           data,
@@ -1723,7 +2769,9 @@
 
           });
 
-        if (error) {
+        if (
+          error
+        ) {
 
           throw error;
 
@@ -1733,9 +2781,11 @@
           "✅ Login successful!";
 
         setTimeout(
-          () => {
+          async () => {
 
             closeAuth();
+
+            await updateReviewButtons();
 
           },
           800
@@ -1766,13 +2816,13 @@
 
   async function checkAuth() {
 
-    if (!supabaseClient) {
+    if (
+      !supabaseClient
+    ) {
 
       updateAuthUI(
         null
       );
-
-      updateReviewBox();
 
       return;
 
@@ -1786,7 +2836,9 @@
       } =
         await supabaseClient.auth.getSession();
 
-      if (error) {
+      if (
+        error
+      ) {
 
         console.error(
           error
@@ -1796,8 +2848,6 @@
           null
         );
 
-        updateReviewBox();
-
         return;
 
       }
@@ -1806,7 +2856,15 @@
         data.session
       );
 
-      updateReviewBox();
+      if (
+        data.session
+      ) {
+
+        await loadSubmittedReviews(
+          data.session.user.email
+        );
+
+      }
 
     } catch (error) {
 
@@ -1818,8 +2876,6 @@
       updateAuthUI(
         null
       );
-
-      updateReviewBox();
 
     }
 
@@ -1849,7 +2905,9 @@
         "logoutBtn"
       );
 
-    if (session) {
+    if (
+      session
+    ) {
 
       loginBtn.style.display =
         "none";
@@ -1882,7 +2940,9 @@
 
   async function logout() {
 
-    if (!supabaseClient) {
+    if (
+      !supabaseClient
+    ) {
 
       return;
 
@@ -1895,7 +2955,9 @@
       } =
         await supabaseClient.auth.signOut();
 
-      if (error) {
+      if (
+        error
+      ) {
 
         throw error;
 
@@ -1905,11 +2967,13 @@
         "You have been logged out."
       );
 
+      submittedReviews = {};
+
       updateAuthUI(
         null
       );
 
-      updateReviewBox();
+      searchBooks();
 
     } catch (error) {
 
@@ -1927,449 +2991,21 @@
 
 
   /* =====================================================
-     REVIEW BOX
-     ===================================================== */
-
-  async function updateReviewBox() {
-
-    const box =
-      document.getElementById(
-        "reviewBox"
-      );
-
-    if (!supabaseClient) {
-
-      box.innerHTML = `
-
-        <div class="login-review-message">
-
-          🔐 Please login to rate and review a book.
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-    try {
-
-      const {
-        data
-      } =
-        await supabaseClient.auth.getSession();
-
-      if (
-        !data.session
-      ) {
-
-        box.innerHTML = `
-
-          <div class="login-review-message">
-
-            🔐 Please login to rate and review a book.
-
-            <br><br>
-
-            <button
-              onclick="openAuth('login')"
-              style="
-                padding:10px 18px;
-                border:none;
-                border-radius:7px;
-                background:#222;
-                color:white;
-                cursor:pointer;">
-
-              Login
-
-            </button>
-
-          </div>
-
-        `;
-
-        return;
-
-      }
-
-      createReviewForm();
-
-    } catch (error) {
-
-      console.error(
-        error
-      );
-
-    }
-
-  }
-
-
-  /* =====================================================
-     REVIEW FORM
-     ===================================================== */
-
-  function createReviewForm() {
-
-    const box =
-      document.getElementById(
-        "reviewBox"
-      );
-
-    let options =
-      "";
-
-    allBooks.forEach(
-      book => {
-
-        options += `
-
-          <option value="${escapeHTML(book.name)}">
-
-            ${escapeHTML(
-              removePdfExtension(
-                book.name
-              )
-            )}
-
-          </option>
-
-        `;
-
-      }
-    );
-
-    if (
-      allBooks.length === 0
-    ) {
-
-      box.innerHTML = `
-
-        <div class="login-review-message">
-
-          📚 Books load hone ke baad review diya ja sakta hai.
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-    box.innerHTML = `
-
-      <select
-        id="reviewBook"
-        class="review-select">
-
-        ${options}
-
-      </select>
-
-      <div class="stars">
-
-        <button
-          type="button"
-          class="star"
-          onclick="selectRating(1)"
-          id="star1">
-          ★
-        </button>
-
-        <button
-          type="button"
-          class="star"
-          onclick="selectRating(2)"
-          id="star2">
-          ★
-        </button>
-
-        <button
-          type="button"
-          class="star"
-          onclick="selectRating(3)"
-          id="star3">
-          ★
-        </button>
-
-        <button
-          type="button"
-          class="star"
-          onclick="selectRating(4)"
-          id="star4">
-          ★
-        </button>
-
-        <button
-          type="button"
-          class="star"
-          onclick="selectRating(5)"
-          id="star5">
-          ★
-        </button>
-
-      </div>
-
-      <textarea
-        id="reviewComment"
-        class="review-textarea"
-        placeholder="Write your review...">
-      </textarea>
-
-      <button
-        class="submit-review"
-        onclick="submitReview()">
-
-        ⭐ Submit Review
-
-      </button>
-
-      <div
-        id="reviewMessage"
-        style="
-          text-align:center;
-          margin-top:12px;">
-      </div>
-
-    `;
-
-    /*
-      Agar user dobara review form khole,
-      rating reset rahe.
-    */
-
-    selectedRating = 0;
-
-  }
-
-
-  /* =====================================================
-     SELECT STAR
-     ===================================================== */
-
-  function selectRating(
-    rating
-  ) {
-
-    if (!supabaseClient) {
-
-      openAuth(
-        "login"
-      );
-
-      return;
-
-    }
-
-    selectedRating =
-      rating;
-
-    for (
-      let i = 1;
-      i <= 5;
-      i++
-    ) {
-
-      const star =
-        document.getElementById(
-          "star" + i
-        );
-
-      if (!star) {
-        continue;
-      }
-
-      if (
-        i <= rating
-      ) {
-
-        star.classList.add(
-          "selected"
-        );
-
-      } else {
-
-        star.classList.remove(
-          "selected"
-        );
-
-      }
-
-    }
-
-  }
-
-
-  /* =====================================================
-     SUBMIT REVIEW
-     ===================================================== */
-
-  async function submitReview() {
-
-    if (!supabaseClient) {
-
-      openAuth(
-        "login"
-      );
-
-      return;
-
-    }
-
-    const {
-      data
-    } =
-      await supabaseClient.auth.getSession();
-
-    if (!data.session) {
-
-      openAuth(
-        "login"
-      );
-
-      return;
-
-    }
-
-    if (
-      selectedRating === 0
-    ) {
-
-      alert(
-        "Please select a rating."
-      );
-
-      return;
-
-    }
-
-    const book =
-      document
-        .getElementById(
-          "reviewBook"
-        )
-        .value;
-
-    const comment =
-      document
-        .getElementById(
-          "reviewComment"
-        )
-        .value
-        .trim();
-
-    const message =
-      document.getElementById(
-        "reviewMessage"
-      );
-
-    message.innerHTML =
-      "⏳ Submitting...";
-
-    try {
-
-      await fetch(
-        GOOGLE_SCRIPT_URL,
-        {
-
-          method:
-            "POST",
-
-          mode:
-            "no-cors",
-
-          headers: {
-
-            "Content-Type":
-              "text/plain;charset=utf-8"
-
-          },
-
-          body:
-            JSON.stringify({
-
-              book:
-                book,
-
-              rating:
-                selectedRating,
-
-              comment:
-                comment,
-
-              email:
-                data.session.user.email
-
-            })
-
-        }
-      );
-
-      message.innerHTML =
-        "✅ Review submitted successfully!";
-
-      document
-        .getElementById(
-          "reviewComment"
-        )
-        .value =
-        "";
-
-      selectedRating =
-        0;
-
-      for (
-        let i = 1;
-        i <= 5;
-        i++
-      ) {
-
-        const star =
-          document.getElementById(
-            "star" + i
-          );
-
-        if (star) {
-
-          star.classList.remove(
-            "selected"
-          );
-
-        }
-
-      }
-
-    } catch (error) {
-
-      console.error(
-        error
-      );
-
-      message.innerHTML =
-        "❌ Review submit nahi ho saka.";
-
-    }
-
-  }
-
-
-  /* =====================================================
      AUTH STATE LISTENER
      ===================================================== */
 
   function setupAuthListener() {
 
-    if (!supabaseClient) {
+    if (
+      !supabaseClient
+    ) {
 
       return;
 
     }
 
     supabaseClient.auth.onAuthStateChange(
-      (
+      async (
         event,
         session
       ) => {
@@ -2383,7 +3019,21 @@
           session
         );
 
-        updateReviewBox();
+        if (
+          session
+        ) {
+
+          await loadSubmittedReviews(
+            session.user.email
+          );
+
+        } else {
+
+          submittedReviews = {};
+
+        }
+
+        searchBooks();
 
       }
     );
@@ -2392,7 +3042,7 @@
 
 
   /* =====================================================
-     OPEN PDF READER
+     OPEN CUSTOM PDF READER
      ===================================================== */
 
   async function openReader(
@@ -2405,9 +3055,7 @@
       ];
 
     if (!book) {
-
       return;
-
     }
 
     if (
@@ -2505,9 +3153,7 @@
   ) {
 
     if (!readerPdf) {
-
       return;
-
     }
 
     const loading =
@@ -2627,9 +3273,7 @@
   async function nextPage() {
 
     if (!readerPdf) {
-
       return;
-
     }
 
     if (
@@ -2655,9 +3299,7 @@
   async function previousPage() {
 
     if (!readerPdf) {
-
       return;
-
     }
 
     if (
@@ -2804,13 +3446,31 @@
 
 
   /* =====================================================
-     START WEBSITE
+     CLICK OUTSIDE REVIEW MODAL
      ===================================================== */
 
-  /*
-     Pehle books load hongi.
-     Phir Supabase initialize hoga.
-  */
+  document.getElementById(
+    "reviewModal"
+  ).addEventListener(
+    "click",
+    function(event) {
+
+      if (
+        event.target ===
+        this
+      ) {
+
+        closeReviewModal();
+
+      }
+
+    }
+  );
+
+
+  /* =====================================================
+     START WEBSITE
+     ===================================================== */
 
   loadBooks();
 
