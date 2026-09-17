@@ -11,6 +11,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 *{
@@ -96,6 +99,122 @@ nav a{
 
 .help-menu:hover .help-options{
   display:block;
+}
+
+/* AUTH */
+
+.auth-area{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.auth-btn{
+  background:white;
+  color:#24170f;
+  border:none;
+  border-radius:7px;
+  padding:9px 12px;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.user-info{
+  color:white;
+  font-size:13px;
+  max-width:150px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.logout-btn{
+  background:#e5ded5;
+  color:#24170f;
+}
+
+/* AUTH MODAL */
+
+#authModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  z-index:10000;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.auth-box{
+  background:white;
+  width:100%;
+  max-width:400px;
+  border-radius:12px;
+  padding:25px;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+.auth-box h2{
+  margin-bottom:8px;
+  color:#24170f;
+}
+
+.auth-subtitle{
+  color:#777;
+  font-size:14px;
+  margin-bottom:18px;
+}
+
+.auth-input{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border:1px solid #ddd;
+  border-radius:7px;
+  font-size:14px;
+}
+
+.auth-submit{
+  width:100%;
+  padding:12px;
+  background:#24170f;
+  color:white;
+  border:none;
+  border-radius:7px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.auth-switch{
+  text-align:center;
+  margin-top:14px;
+  font-size:13px;
+  color:#777;
+}
+
+.auth-switch button{
+  border:none;
+  background:none;
+  color:#24170f;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.auth-message{
+  margin-top:10px;
+  font-size:13px;
+  text-align:center;
+}
+
+.close-auth{
+  float:right;
+  border:none;
+  background:none;
+  font-size:20px;
+  cursor:pointer;
+  color:#777;
 }
 
 .hero{
@@ -214,6 +333,27 @@ nav a{
   margin-top:18px;
   border-top:1px solid #eee;
   padding-top:15px;
+}
+
+.login-required{
+  background:#f7f5f2;
+  border-radius:7px;
+  padding:12px;
+  font-size:13px;
+  color:#777;
+  margin-bottom:10px;
+  text-align:center;
+}
+
+.login-required button{
+  margin-top:8px;
+  border:none;
+  background:#24170f;
+  color:white;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
 .stars{
@@ -403,6 +543,11 @@ footer{
     height:300px;
   }
 
+  .auth-area{
+    width:100%;
+    justify-content:center;
+  }
+
 }
 
 </style>
@@ -454,6 +599,24 @@ href="mailto:mdmalek26234@gmail.com"
 
 </div>
 
+<div class="auth-area" id="authArea">
+
+<button
+class="auth-btn"
+onclick="openAuth('login')"
+>
+🔐 Login
+</button>
+
+<button
+class="auth-btn"
+onclick="openAuth('signup')"
+>
+📝 Sign Up
+</button>
+
+</div>
+
 </nav>
 
 </header>
@@ -497,6 +660,73 @@ id="bookList"
 </section>
 
 
+<!-- AUTH MODAL -->
+
+<div id="authModal">
+
+<div class="auth-box">
+
+<button
+class="close-auth"
+onclick="closeAuth()"
+>
+✕
+</button>
+
+<h2 id="authTitle">
+🔐 Login
+</h2>
+
+<p class="auth-subtitle" id="authSubtitle">
+Login karke rating aur comment karein.
+</p>
+
+<input
+type="email"
+id="authEmail"
+class="auth-input"
+placeholder="Email"
+autocomplete="email"
+>
+
+<input
+type="password"
+id="authPassword"
+class="auth-input"
+placeholder="Password"
+autocomplete="current-password"
+>
+
+<button
+class="auth-submit"
+id="authSubmit"
+onclick="handleAuth()"
+>
+Login
+</button>
+
+<div
+class="auth-switch"
+id="authSwitch"
+>
+Account nahi hai?
+<button onclick="switchAuth('signup')">
+Sign Up
+</button>
+</div>
+
+<div
+class="auth-message"
+id="authMessage"
+></div>
+
+</div>
+
+</div>
+
+
+<!-- PDF READER -->
+
 <div id="reader">
 
 <div class="reader-top">
@@ -530,6 +760,23 @@ onclick="closeReader()"
 <script>
 
 /* =====================================
+   SUPABASE
+===================================== */
+
+const SUPABASE_URL =
+"https://kihhuilyeosvpozduwcs.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_-XN0lujfPGCeIzusrlUfkQ_-lFKXw";
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* =====================================
    GOOGLE APPS SCRIPT URL
 ===================================== */
 
@@ -560,6 +807,506 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 
 
 /* =====================================
+   AUTH STATE
+===================================== */
+
+let currentUser = null;
+
+let authMode = "login";
+
+
+/* =====================================
+   CHECK LOGIN
+===================================== */
+
+async function checkAuth(){
+
+const {
+  data,
+  error
+} = await supabaseClient.auth.getSession();
+
+if(error){
+
+console.error(
+"Session error:",
+error
+);
+
+return;
+
+}
+
+currentUser =
+data.session
+? data.session.user
+: null;
+
+updateAuthUI();
+
+}
+
+
+supabaseClient.auth.onAuthStateChange(
+function(event,session){
+
+currentUser =
+session
+? session.user
+: null;
+
+updateAuthUI();
+
+}
+);
+
+
+/* =====================================
+   UPDATE AUTH UI
+===================================== */
+
+function updateAuthUI(){
+
+const authArea =
+document.getElementById(
+"authArea"
+);
+
+if(!authArea) return;
+
+
+if(currentUser){
+
+const email =
+currentUser.email || "User";
+
+authArea.innerHTML = `
+
+<span class="user-info">
+👤 ${escapeHTML(email)}
+</span>
+
+<button
+class="auth-btn logout-btn"
+onclick="logout()"
+>
+🚪 Logout
+</button>
+
+`;
+
+}
+else{
+
+authArea.innerHTML = `
+
+<button
+class="auth-btn"
+onclick="openAuth('login')"
+>
+🔐 Login
+</button>
+
+<button
+class="auth-btn"
+onclick="openAuth('signup')"
+>
+📝 Sign Up
+</button>
+
+`;
+
+}
+
+
+/* Update review areas */
+
+document
+.querySelectorAll(".review-box")
+.forEach(box=>{
+
+updateReviewBox(box);
+
+});
+
+}
+
+
+/* =====================================
+   UPDATE REVIEW BOX
+===================================== */
+
+function updateReviewBox(box){
+
+if(!box) return;
+
+
+const loginRequired =
+box.querySelector(
+".login-required"
+);
+
+const stars =
+box.querySelector(".stars");
+
+const input =
+box.querySelector(".review-input");
+
+const submit =
+box.querySelector(".review-submit");
+
+
+if(currentUser){
+
+if(loginRequired){
+loginRequired.style.display="none";
+}
+
+if(stars){
+stars.style.display="flex";
+}
+
+if(input){
+input.style.display="block";
+}
+
+if(submit){
+submit.style.display="inline-block";
+}
+
+}
+else{
+
+if(loginRequired){
+loginRequired.style.display="block";
+}
+
+if(stars){
+stars.style.display="none";
+}
+
+if(input){
+input.style.display="none";
+}
+
+if(submit){
+submit.style.display="none";
+}
+
+}
+
+}
+
+
+/* =====================================
+   OPEN AUTH
+===================================== */
+
+function openAuth(mode){
+
+authMode =
+mode || "login";
+
+const modal =
+document.getElementById(
+"authModal"
+);
+
+modal.style.display="flex";
+
+updateAuthForm();
+
+document
+.getElementById("authEmail")
+.focus();
+
+}
+
+
+/* =====================================
+   CLOSE AUTH
+===================================== */
+
+function closeAuth(){
+
+document
+.getElementById("authModal")
+.style.display="none";
+
+document
+.getElementById("authMessage")
+.textContent="";
+
+}
+
+
+/* =====================================
+   SWITCH AUTH
+===================================== */
+
+function switchAuth(mode){
+
+authMode =
+mode;
+
+document
+.getElementById("authMessage")
+.textContent="";
+
+updateAuthForm();
+
+}
+
+
+/* =====================================
+   AUTH FORM
+===================================== */
+
+function updateAuthForm(){
+
+const title =
+document.getElementById(
+"authTitle"
+);
+
+const subtitle =
+document.getElementById(
+"authSubtitle"
+);
+
+const submit =
+document.getElementById(
+"authSubmit"
+);
+
+const switchBox =
+document.getElementById(
+"authSwitch"
+);
+
+if(authMode==="signup"){
+
+title.textContent =
+"📝 Sign Up";
+
+subtitle.textContent =
+"Account banayein aur rating/comment karein.";
+
+submit.textContent =
+"Sign Up";
+
+switchBox.innerHTML = `
+Already account hai?
+<button onclick="switchAuth('login')">
+Login
+</button>
+`;
+
+}
+else{
+
+title.textContent =
+"🔐 Login";
+
+subtitle.textContent =
+"Login karke rating aur comment karein.";
+
+submit.textContent =
+"Login";
+
+switchBox.innerHTML = `
+Account nahi hai?
+<button onclick="switchAuth('signup')">
+Sign Up
+</button>
+`;
+
+}
+
+}
+
+
+/* =====================================
+   HANDLE AUTH
+===================================== */
+
+async function handleAuth(){
+
+const email =
+document
+.getElementById("authEmail")
+.value
+.trim();
+
+const password =
+document
+.getElementById("authPassword")
+.value;
+
+const message =
+document
+.getElementById("authMessage");
+
+const button =
+document
+.getElementById("authSubmit");
+
+
+if(!email || !password){
+
+message.textContent =
+"⚠️ Email aur password dono likhein.";
+
+return;
+
+}
+
+
+if(password.length < 6){
+
+message.textContent =
+"⚠️ Password kam az kam 6 characters ka ho.";
+
+return;
+
+}
+
+
+button.disabled=true;
+
+message.textContent =
+"⏳ Please wait...";
+
+
+try{
+
+if(authMode==="signup"){
+
+const {
+  data,
+  error
+} =
+await supabaseClient.auth.signUp({
+
+email:email,
+
+password:password
+
+});
+
+
+if(error){
+throw error;
+}
+
+
+/*
+Supabase mein Confirm email ON hai.
+Isliye user ko email verify karna hoga.
+*/
+
+if(data.session){
+
+message.textContent =
+"✅ Account ban gaya aur login ho gaya.";
+
+setTimeout(
+closeAuth,
+800
+);
+
+}
+else{
+
+message.textContent =
+"✅ Sign Up ho gaya! Apni email check karke account verify karein.";
+
+}
+
+}
+else{
+
+const {
+  data,
+  error
+} =
+await supabaseClient.auth.signInWithPassword({
+
+email:email,
+
+password:password
+
+});
+
+
+if(error){
+throw error;
+}
+
+
+if(data.session){
+
+message.textContent =
+"✅ Login successful!";
+
+setTimeout(
+closeAuth,
+500
+);
+
+}
+
+}
+
+}
+catch(error){
+
+console.error(
+"Auth error:",
+error
+);
+
+message.textContent =
+"⚠️ " +
+(error.message ||
+"Login/Sign Up nahi hua.");
+
+}
+
+button.disabled=false;
+
+}
+
+
+/* =====================================
+   LOGOUT
+===================================== */
+
+async function logout(){
+
+const {
+  error
+} =
+await supabaseClient.auth.signOut();
+
+if(error){
+
+alert(
+"Logout nahi hua."
+);
+
+return;
+
+}
+
+alert(
+"✅ Logout ho gaya."
+);
+
+}
+
+
+/* =====================================
    HELP
 ===================================== */
 
@@ -576,6 +1323,7 @@ menu.style.display === "block"
 : "block";
 
 }
+
 
 document.addEventListener(
 "click",
@@ -708,6 +1456,30 @@ download
 
 <div class="review-box">
 
+
+<div
+class="login-required"
+>
+
+🔐 Rating ya comment karne ke liye pehle Login karein.
+
+<br>
+
+<button
+onclick="openAuth('login')"
+>
+🔐 Login
+</button>
+
+<button
+onclick="openAuth('signup')"
+>
+📝 Sign Up
+</button>
+
+</div>
+
+
 <div class="stars">
 
 <span
@@ -802,6 +1574,10 @@ book.querySelector(".review-summary"),
 book.querySelector(".comments")
 );
 
+updateReviewBox(
+book.querySelector(".review-box")
+);
+
 });
 
 }
@@ -835,6 +1611,15 @@ ${escapeHTML(error.message)}
 
 function selectRating(star,rating){
 
+if(!currentUser){
+
+openAuth("login");
+
+return;
+
+}
+
+
 const stars =
 star.parentElement.querySelectorAll(".star");
 
@@ -862,711 +1647,4 @@ button,
 bookName
 ){
 
-const box =
-button.closest(".review-box");
-
-const stars =
-box.querySelector(".stars");
-
-const rating =
-stars.dataset.rating || "";
-
-const comment =
-box
-.querySelector(".review-input")
-.value
-.trim();
-
-const message =
-box.querySelector(".review-message");
-
-
-if(!rating && !comment){
-
-message.textContent =
-"⭐ Rating ya comment likhein.";
-
-return;
-
-}
-
-
-button.disabled=true;
-
-message.textContent =
-"⏳ Submit ho raha hai...";
-
-
-try{
-
-await fetch(
-GOOGLE_SCRIPT_URL,
-{
-
-method:"POST",
-
-mode:"no-cors",
-
-headers:{
-"Content-Type":
-"text/plain;charset=utf-8"
-},
-
-body:JSON.stringify({
-
-book:bookName,
-
-rating:
-rating
-? Number(rating)
-: "",
-
-comment:
-comment
-
-})
-
-}
-);
-
-
-box
-.querySelector(".review-input")
-.value="";
-
-stars.dataset.rating="";
-
-stars
-.querySelectorAll(".star")
-.forEach(
-s=>s.classList.remove("selected")
-);
-
-
-message.textContent =
-"✅ Review submit ho gaya!";
-
-
-setTimeout(()=>{
-
-loadReviews(
-bookName,
-box.querySelector(
-".review-summary"
-),
-box.querySelector(
-".comments"
-)
-);
-
-},1500);
-
-}
-catch(error){
-
-console.error(error);
-
-message.textContent =
-"⚠️ Review submit nahi hua.";
-
-}
-
-button.disabled=false;
-
-}
-
-
-/* =====================================
-   LOAD REVIEWS FROM GOOGLE SHEET
-===================================== */
-
-async function loadReviews(
-bookName,
-summary,
-commentsBox
-){
-
-try{
-
-const response =
-await fetch(
-GOOGLE_SCRIPT_URL +
-"?t=" +
-Date.now()
-);
-
-
-if(!response.ok){
-
-throw new Error(
-"Google Script Error: " +
-response.status
-);
-
-}
-
-
-const rows =
-await response.json();
-
-
-if(!Array.isArray(rows)){
-
-throw new Error(
-"Invalid data"
-);
-
-}
-
-
-/*
-First row headings hai.
-
-Sheet structure:
-
-Book | Rating | Comment | Date
-*/
-
-
-const reviews =
-rows
-.slice(1)
-.filter(row =>
-
-String(
-row[0] || ""
-)
-.trim() ===
-
-String(
-bookName || ""
-)
-.trim()
-
-);
-
-
-if(reviews.length===0){
-
-summary.textContent =
-"⭐ Abhi koi rating nahi.";
-
-commentsBox.innerHTML =
-"<div style='color:#777;font-size:13px;'>Abhi koi comment nahi.</div>";
-
-return;
-
-}
-
-
-/* =====================================
-   CALCULATE AVERAGE RATING
-===================================== */
-
-let total=0;
-
-let count=0;
-
-
-reviews.forEach(row=>{
-
-const rating =
-Number(row[1]);
-
-if(
-rating>=1 &&
-rating<=5
-){
-
-total += rating;
-
-count++;
-
-}
-
-});
-
-
-const average =
-count
-? (total/count).toFixed(1)
-: "0";
-
-
-summary.textContent =
-`⭐ ${average}/5 — ${count} rating${count===1?"":"s"}`;
-
-
-/* =====================================
-   SHOW COMMENTS
-===================================== */
-
-commentsBox.innerHTML="";
-
-
-reviews
-.filter(row => row[2])
-.reverse()
-.forEach(row=>{
-
-const comment =
-document.createElement("div");
-
-comment.className="comment";
-
-
-const rating =
-Number(row[1]);
-
-
-let stars="";
-
-
-if(
-rating>=1 &&
-rating<=5
-){
-
-stars =
-"★".repeat(rating) +
-"☆".repeat(5-rating);
-
-}
-
-
-comment.innerHTML = `
-
-${
-stars
-? `<div class="comment-stars">${stars}</div>`
-: ""
-}
-
-<div class="comment-text">
-
-${escapeHTML(
-String(row[2])
-)}
-
-</div>
-
-`;
-
-
-commentsBox.appendChild(
-comment
-);
-
-});
-
-}
-catch(error){
-
-console.error(
-"Review loading error:",
-error
-);
-
-
-summary.textContent =
-"⭐ Ratings load nahi ho rahe.";
-
-
-commentsBox.innerHTML =
-"<div style='color:#777;font-size:13px;'>Comments abhi load nahi ho rahe.</div>";
-
-}
-
-}
-
-
-/* =====================================
-   SHARE
-===================================== */
-
-async function shareBook(
-bookName,
-pdfUrl
-){
-
-const shareData={
-
-title:
-bookName +
-" - Attari Books",
-
-text:
-"📚 " +
-bookName +
-" — Attari Books",
-
-url:
-pdfUrl
-
-};
-
-
-try{
-
-if(
-navigator.share
-){
-
-await navigator.share(
-shareData
-);
-
-}
-else{
-
-await navigator.clipboard.writeText(
-pdfUrl
-);
-
-alert(
-"🔗 Book link copy ho gaya!"
-);
-
-}
-
-}
-catch(error){
-
-console.log(
-"Share cancelled"
-);
-
-}
-
-}
-
-
-/* =====================================
-   LOAD COVER
-===================================== */
-
-async function loadCover(
-pdfUrl,
-cover
-){
-
-try{
-
-const pdf =
-await pdfjsLib
-.getDocument(pdfUrl)
-.promise;
-
-
-const page =
-await pdf.getPage(1);
-
-
-const viewport =
-page.getViewport({
-scale:1.2
-});
-
-
-const canvas =
-document.createElement("canvas");
-
-
-const context =
-canvas.getContext("2d");
-
-
-canvas.width =
-viewport.width;
-
-canvas.height =
-viewport.height;
-
-
-cover.innerHTML="";
-
-cover.appendChild(
-canvas
-);
-
-
-await page.render({
-
-canvasContext:
-context,
-
-viewport:
-viewport
-
-}).promise;
-
-}
-catch(error){
-
-console.error(
-"Cover error:",
-error
-);
-
-
-cover.innerHTML=`
-
-<div class="cover-loading">
-
-📖
-<br>
-
-Cover unavailable
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* =====================================
-   OPEN READER
-===================================== */
-
-async function openReader(
-pdfUrl,
-title
-){
-
-const reader =
-document.getElementById(
-"reader"
-);
-
-const readerTitle =
-document.getElementById(
-"readerTitle"
-);
-
-const pdfPages =
-document.getElementById(
-"pdfPages"
-);
-
-
-reader.style.display="block";
-
-document.body.style.overflow="hidden";
-
-readerTitle.textContent=title;
-
-
-pdfPages.innerHTML=`
-
-<div style="
-color:white;
-padding:30px;
-text-align:center;
-">
-
-📖 Book loading...
-
-</div>
-
-`;
-
-
-try{
-
-const pdf =
-await pdfjsLib
-.getDocument(pdfUrl)
-.promise;
-
-
-pdfPages.innerHTML="";
-
-
-for(
-let pageNumber=1;
-pageNumber<=pdf.numPages;
-pageNumber++
-){
-
-const page =
-await pdf.getPage(
-pageNumber
-);
-
-
-const viewport =
-page.getViewport({
-scale:1.3
-});
-
-
-const canvas =
-document.createElement(
-"canvas"
-);
-
-
-const context =
-canvas.getContext(
-"2d"
-);
-
-
-canvas.width =
-viewport.width;
-
-canvas.height =
-viewport.height;
-
-
-pdfPages.appendChild(
-canvas
-);
-
-
-await page.render({
-
-canvasContext:
-context,
-
-viewport:
-viewport
-
-}).promise;
-
-}
-
-}
-catch(error){
-
-console.error(error);
-
-
-pdfPages.innerHTML=`
-
-<div style="
-color:white;
-text-align:center;
-padding:40px;
-">
-
-⚠️ PDF open nahi ho pa rahi.
-
-<br><br>
-
-Please internet connection check karein.
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* =====================================
-   CLOSE READER
-===================================== */
-
-function closeReader(){
-
-document.getElementById(
-"reader"
-).style.display="none";
-
-
-document.body.style.overflow="";
-
-
-document.getElementById(
-"pdfPages"
-).innerHTML="";
-
-}
-
-
-/* =====================================
-   SEARCH
-===================================== */
-
-function searchBooks(){
-
-const search =
-document
-.getElementById(
-"searchBox"
-)
-.value
-.toLowerCase();
-
-
-const books =
-document.querySelectorAll(
-".book"
-);
-
-
-books.forEach(book=>{
-
-const title =
-book.innerText.toLowerCase();
-
-
-book.style.display =
-title.includes(search)
-? ""
-: "none";
-
-});
-
-}
-
-
-/* =====================================
-   SECURITY
-===================================== */
-
-function escapeHTML(text){
-
-const div =
-document.createElement(
-"div"
-);
-
-div.textContent=text;
-
-return div.innerHTML;
-
-}
-
-
-function escapeJS(text){
-
-return String(text)
-
-.replace(/\\/g,"\\\\")
-
-.replace(/'/g,"\\'")
-
-.replace(/\n/g,"\\n")
-
-.replace(/\r/g,"\\r");
-
-}
-
-
-/* =====================================
-   START WEBSITE
-===================================== */
-
-loadBooks();
-
-</script>
-
-</body>
-
-  </html>
+if(!curre
