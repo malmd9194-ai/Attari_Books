@@ -71,34 +71,29 @@
     }
 
     .hero {
-  position: relative;
-  background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.58),
-      rgba(0, 0, 0, 0.58)
-    ),
-    url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1600&q=85")
-    center center / cover no-repeat;
+      position: relative;
+      background:
+        linear-gradient(
+          rgba(0, 0, 0, 0.58),
+          rgba(0, 0, 0, 0.58)
+        ),
+        url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1600&q=85")
+        center center / cover no-repeat;
 
-  color: white;
-  text-align: center;
-  padding: 90px 20px;
-  min-height: 430px;
+      color: white;
+      text-align: center;
+      padding: 90px 20px;
+      min-height: 430px;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.hero h1 {
-  font-size: 48px;
-  margin-bottom: 15px;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-}
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
     .hero h1 {
-      font-size: 38px;
-      margin-bottom: 12px;
+      font-size: 48px;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
     }
 
     .hero p {
@@ -246,6 +241,7 @@
     }
 
     /* Modal */
+
     .modal {
       display: none;
       position: fixed;
@@ -354,6 +350,7 @@
     }
 
     /* Reviews */
+
     .review-item {
       border: 1px solid #e5e7eb;
       border-radius: 9px;
@@ -388,6 +385,7 @@
     }
 
     /* Auth */
+
     .auth-info {
       background: #eff6ff;
       padding: 10px;
@@ -398,6 +396,7 @@
     }
 
     /* Reader */
+
     #readerModal .modal-content {
       max-width: 1000px;
       padding: 10px;
@@ -421,12 +420,13 @@
       cursor: pointer;
     }
 
-    #pdfCanvas {
+    #pdfFrame {
       display: block;
-      max-width: 100%;
-      height: auto;
-      margin: auto;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      width: 100%;
+      height: 85vh;
+      border: none;
+      border-radius: 8px;
+      background: white;
     }
 
     .page-info {
@@ -434,6 +434,7 @@
     }
 
     /* Help */
+
     .help-menu {
       display: none;
       position: absolute;
@@ -471,6 +472,7 @@
     }
 
     @media (max-width: 600px) {
+
       .logo {
         font-size: 20px;
       }
@@ -491,25 +493,32 @@
       .modal-content {
         margin: 20px auto;
       }
+
     }
+
   </style>
 </head>
 
 <body>
 
 <header>
+
   <div class="navbar">
 
     <div class="logo"> Attari Books</div>
 
     <nav>
+
       <button onclick="goHome()">Home</button>
+
       <button onclick="goBooks()">Books</button>
 
       <div class="help-wrapper">
+
         <button onclick="toggleHelp()">Help</button>
 
         <div id="helpMenu" class="help-menu">
+
           <a href="https://wa.me/919534646778" target="_blank">
             💬 WhatsApp
           </a>
@@ -517,7 +526,9 @@
           <a href="mailto:mdmalek26234@gmail.com">
             ✉️ Gmail / Email
           </a>
+
         </div>
+
       </div>
 
       <button id="loginNavBtn" onclick="openAuth('login')">
@@ -528,14 +539,17 @@
         Sign Up
       </button>
 
-      <button id="logoutNavBtn"
-              onclick="logoutUser()"
-              style="display:none;">
+      <button
+        id="logoutNavBtn"
+        onclick="logoutUser()"
+        style="display:none;">
         Logout
       </button>
+
     </nav>
 
   </div>
+
 </header>
 
 
@@ -548,12 +562,14 @@
   </p>
 
   <div class="search-box">
+
     <input
       type="text"
       id="searchInput"
       placeholder="🔍 Search books..."
       oninput="searchBooks()"
     >
+
   </div>
 
 </section>
@@ -566,19 +582,24 @@
   </div>
 
   <div id="booksContainer">
+
     <div class="loading">
       📚 Loading books...
     </div>
+
   </div>
 
 </main>
 
 
 <footer>
+
   <p>© 2026 Attari Books</p>
+
   <p style="margin-top:7px;">
     Contact: 9534646778
   </p>
+
 </footer>
 
 
@@ -588,7 +609,9 @@
 
   <div class="modal-content">
 
-    <button class="close-btn" onclick="closeModal('authModal')">
+    <button
+      class="close-btn"
+      onclick="closeModal('authModal')">
       ×
     </button>
 
@@ -599,6 +622,7 @@
     </div>
 
     <div class="form-group">
+
       <label>Email</label>
 
       <input
@@ -606,9 +630,11 @@
         id="authEmail"
         placeholder="Enter your email"
       >
+
     </div>
 
     <div class="form-group">
+
       <label>Password</label>
 
       <input
@@ -616,6 +642,7 @@
         id="authPassword"
         placeholder="Enter password"
       >
+
     </div>
 
     <button
@@ -656,8 +683,9 @@
 
     <h2>⭐ Rate & Review</h2>
 
-    <p id="reviewBookTitle"
-       style="margin-bottom:15px;font-weight:bold;">
+    <p
+      id="reviewBookTitle"
+      style="margin-bottom:15px;font-weight:bold;">
     </p>
 
     <div class="form-group">
@@ -666,20 +694,40 @@
 
       <div class="stars">
 
-        <button class="star" data-rating="1"
-                onclick="selectRating(1)">★</button>
+        <button
+          class="star"
+          data-rating="1"
+          onclick="selectRating(1)">
+          ★
+        </button>
 
-        <button class="star" data-rating="2"
-                onclick="selectRating(2)">★</button>
+        <button
+          class="star"
+          data-rating="2"
+          onclick="selectRating(2)">
+          ★
+        </button>
 
-        <button class="star" data-rating="3"
-                onclick="selectRating(3)">★</button>
+        <button
+          class="star"
+          data-rating="3"
+          onclick="selectRating(3)">
+          ★
+        </button>
 
-        <button class="star" data-rating="4"
-                onclick="selectRating(4)">★</button>
+        <button
+          class="star"
+          data-rating="4"
+          onclick="selectRating(4)">
+          ★
+        </button>
 
-        <button class="star" data-rating="5"
-                onclick="selectRating(5)">★</button>
+        <button
+          class="star"
+          data-rating="5"
+          onclick="selectRating(5)">
+          ★
+        </button>
 
       </div>
 
@@ -744,42 +792,39 @@
 
 <!-- ================= PDF READER ================= -->
 
-/* PDF READER */
+<div id="readerModal" class="modal">
 
-let currentPdfUrl = null;
+  <div class="modal-content">
 
-function openReader(index) {
-  const book = allBooks[index];
+    <button
+      class="close-btn"
+      onclick="closeReader()">
+      ×
+    </button>
 
-  if (!book) return;
+    <div class="reader-toolbar">
 
-  currentPdfUrl = book.download_url;
+      <span
+        class="page-info"
+        id="readerBookTitle">
+        Book
+      </span>
 
-  const bookTitle = removePdfExtension(book.name);
+      <button onclick="openFullPdf()">
+        📖 Open Full PDF
+      </button>
 
-  document.getElementById("readerBookTitle").textContent =
-    "📖 " + bookTitle;
+    </div>
 
-  const frame = document.getElementById("pdfFrame");
+    <iframe
+      id="pdfFrame"
+      title="Attari Books PDF Reader">
+    </iframe>
 
-  frame.src = currentPdfUrl;
+  </div>
 
-  openModal("readerModal");
-}
+</div>
 
-function openFullPdf() {
-  if (!currentPdfUrl) return;
-
-  window.open(currentPdfUrl, "_blank");
-}
-
-function closeReader() {
-  document.getElementById("readerModal").style.display = "none";
-
-  document.getElementById("pdfFrame").src = "";
-
-  currentPdfUrl = null;
-}
 
 <script>
 
@@ -836,19 +881,7 @@ function closeReader() {
      PDF READER VARIABLES
   ===================================================== */
 
-  let pdfDocument = null;
-
-  let currentPageNumber = 1;
-
   let currentPdfUrl = null;
-
-
-  /* =====================================================
-     PDF.JS WORKER
-  ===================================================== */
-
-  pdfjsLib.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 
   /* =====================================================
@@ -1378,7 +1411,6 @@ function closeReader() {
 
     const whatsappUrl =
       `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-
 
     window.open(
       whatsappUrl,
@@ -2176,13 +2208,6 @@ function closeReader() {
 
     try {
 
-      /*
-        Apps Script ko no-cors se POST.
-
-        Isse browser CORS response ko read nahi kar sakta,
-        lekin Apps Script data ko Sheet me save kar sakta hai.
-      */
-
       await fetch(
         GOOGLE_SCRIPT_URL,
         {
@@ -2213,11 +2238,6 @@ function closeReader() {
       message.textContent =
         "✅ Review submit ho gaya!";
 
-
-      /*
-        Sheet update hone ke liye
-        thoda time dete hain.
-      */
 
       setTimeout(async () => {
 
@@ -2314,10 +2334,6 @@ function closeReader() {
 
     container.innerHTML = "";
 
-
-    /*
-      Latest comments first
-    */
 
     bookReviews
       .slice()
@@ -2474,7 +2490,7 @@ function closeReader() {
      PDF READER
   ===================================================== */
 
-  async function openReader(index) {
+  function openReader(index) {
 
     const book =
       allBooks[index];
@@ -2485,172 +2501,36 @@ function closeReader() {
     currentPdfUrl =
       book.download_url;
 
-    currentPageNumber =
-      1;
+
+    document.getElementById(
+      "readerBookTitle"
+    ).textContent =
+      "📚 " +
+      removePdfExtension(book.name);
+
+
+    document.getElementById(
+      "pdfFrame"
+    ).src =
+      currentPdfUrl;
 
 
     openModal(
       "readerModal"
     );
 
-
-    try {
-
-      pdfDocument =
-        await pdfjsLib.getDocument({
-          url:
-            currentPdfUrl
-        }).promise;
-
-
-      document.getElementById(
-        "totalPages"
-      ).textContent =
-        pdfDocument.numPages;
-
-
-      await renderReaderPage(
-        currentPageNumber
-      );
-
-    } catch (error) {
-
-      console.error(
-        error
-      );
-
-      alert(
-        "PDF open nahi ho saka."
-      );
-
-      closeReader();
-
-    }
-
   }
 
 
-  async function renderReaderPage(pageNumber) {
+  function openFullPdf() {
 
-    if (!pdfDocument) return;
-
-
-    if (
-      pageNumber < 1 ||
-      pageNumber > pdfDocument.numPages
-    ) {
-
-      return;
-
-    }
+    if (!currentPdfUrl) return;
 
 
-    const page =
-      await pdfDocument.getPage(
-        pageNumber
-      );
-
-
-    const canvas =
-      document.getElementById(
-        "pdfCanvas"
-      );
-
-
-    const context =
-      canvas.getContext("2d");
-
-
-    const containerWidth =
-      document.querySelector(
-        "#readerModal .modal-content"
-      ).clientWidth - 20;
-
-
-    const originalViewport =
-      page.getViewport({
-        scale: 1
-      });
-
-
-    const scale =
-      Math.min(
-        1.8,
-        containerWidth /
-        originalViewport.width
-      );
-
-
-    const viewport =
-      page.getViewport({
-        scale:
-          scale
-      });
-
-
-    canvas.width =
-      viewport.width;
-
-    canvas.height =
-      viewport.height;
-
-
-    await page.render({
-
-      canvasContext:
-        context,
-
-      viewport:
-        viewport
-
-    }).promise;
-
-
-    document.getElementById(
-      "currentPage"
-    ).textContent =
-      pageNumber;
-
-  }
-
-
-  async function nextPage() {
-
-    if (!pdfDocument) return;
-
-
-    if (
-      currentPageNumber <
-      pdfDocument.numPages
-    ) {
-
-      currentPageNumber++;
-
-      await renderReaderPage(
-        currentPageNumber
-      );
-
-    }
-
-  }
-
-
-  async function previousPage() {
-
-    if (!pdfDocument) return;
-
-
-    if (
-      currentPageNumber > 1
-    ) {
-
-      currentPageNumber--;
-
-      await renderReaderPage(
-        currentPageNumber
-      );
-
-    }
+    window.open(
+      currentPdfUrl,
+      "_blank"
+    );
 
   }
 
@@ -2663,8 +2543,10 @@ function closeReader() {
       "none";
 
 
-    pdfDocument =
-      null;
+    document.getElementById(
+      "pdfFrame"
+    ).src = "";
+
 
     currentPdfUrl =
       null;
@@ -2685,11 +2567,6 @@ function closeReader() {
       );
 
       await refreshAuthUI();
-
-      /*
-        Review button ko update karne ke liye
-        thoda delay taaki session available ho.
-      */
 
       setTimeout(() => {
 
