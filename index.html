@@ -71,11 +71,30 @@
     }
 
     .hero {
-      background: linear-gradient(135deg, #111827, #374151);
-      color: white;
-      text-align: center;
-      padding: 55px 20px;
-    }
+  position: relative;
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.58),
+      rgba(0, 0, 0, 0.58)
+    ),
+    url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1600&q=85")
+    center center / cover no-repeat;
+
+  color: white;
+  text-align: center;
+  padding: 90px 20px;
+  min-height: 430px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+}
 
     .hero h1 {
       font-size: 38px;
