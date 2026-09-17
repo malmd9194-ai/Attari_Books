@@ -247,7 +247,9 @@
       color: #dc2626;
     }
 
-    /* Modal */
+    /* =====================================================
+       MODAL
+    ===================================================== */
 
     .modal {
       display: none;
@@ -356,7 +358,9 @@
       color: #f59e0b;
     }
 
-    /* Reviews */
+    /* =====================================================
+       REVIEWS
+    ===================================================== */
 
     .review-item {
       border: 1px solid #e5e7eb;
@@ -391,7 +395,9 @@
       color: #6b7280;
     }
 
-    /* Auth */
+    /* =====================================================
+       AUTH
+    ===================================================== */
 
     .auth-info {
       background: #eff6ff;
@@ -402,7 +408,9 @@
       font-size: 14px;
     }
 
-    /* Help */
+    /* =====================================================
+       HELP
+    ===================================================== */
 
     .help-menu {
       display: none;
@@ -440,6 +448,89 @@
       padding: 25px 15px;
     }
 
+    /* =====================================================
+       FULL PDF READER
+    ===================================================== */
+
+    #readerModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 9999;
+      overflow-y: auto;
+      padding: 0;
+    }
+
+    .reader-content {
+      width: 100%;
+      max-width: 1100px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #222;
+    }
+
+    .reader-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #111827;
+      color: white;
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .reader-title {
+      font-weight: bold;
+      font-size: 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 80%;
+    }
+
+    .reader-close {
+      border: none;
+      background: white;
+      color: #111827;
+      border-radius: 7px;
+      padding: 8px 12px;
+      font-weight: bold;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .reader-close:hover {
+      opacity: 0.85;
+    }
+
+    #pdfPages {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    #pdfPages canvas {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .reader-loading {
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
     @media (max-width: 600px) {
 
       .logo {
@@ -463,6 +554,25 @@
         margin: 20px auto;
       }
 
+      .reader-header {
+        padding: 10px;
+      }
+
+      .reader-title {
+        font-size: 14px;
+        max-width: 68%;
+      }
+
+      .reader-close {
+        padding: 7px 9px;
+        font-size: 13px;
+      }
+
+      #pdfPages {
+        padding: 8px;
+        gap: 10px;
+      }
+
     }
 
   </style>
@@ -470,6 +580,10 @@
 </head>
 
 <body>
+
+  <!-- =====================================================
+       HEADER
+  ===================================================== -->
 
   <header>
 
@@ -500,6 +614,7 @@
             <a
               href="https://wa.me/919534646778"
               target="_blank"
+              rel="noopener"
             >
               💬 WhatsApp
             </a>
@@ -541,6 +656,10 @@
   </header>
 
 
+  <!-- =====================================================
+       HOME / HERO
+  ===================================================== -->
+
   <section class="hero" id="homeSection">
 
     <h1>
@@ -565,6 +684,10 @@
   </section>
 
 
+  <!-- =====================================================
+       BOOKS
+  ===================================================== -->
+
   <main id="booksSection">
 
     <div class="section-title">
@@ -582,6 +705,10 @@
   </main>
 
 
+  <!-- =====================================================
+       FOOTER
+  ===================================================== -->
+
   <footer>
 
     <p>
@@ -595,7 +722,50 @@
   </footer>
 
 
-  <!-- ================= AUTH MODAL ================= -->
+  <!-- =====================================================
+       FULL PDF READER
+  ===================================================== -->
+
+  <div id="readerModal">
+
+    <div class="reader-content">
+
+      <div class="reader-header">
+
+        <div
+          class="reader-title"
+          id="readerTitle"
+        >
+          📖 PDF Reader
+        </div>
+
+        <button
+          class="reader-close"
+          onclick="closeReader()"
+        >
+          ✕ Close
+        </button>
+
+      </div>
+
+      <div id="pdfPages">
+
+        <div class="reader-loading">
+          📖 Book loading...
+          <br><br>
+          Please wait...
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       AUTH MODAL
+  ===================================================== -->
 
   <div id="authModal" class="modal">
 
@@ -671,7 +841,9 @@
   </div>
 
 
-  <!-- ================= REVIEW MODAL ================= -->
+  <!-- =====================================================
+       REVIEW MODAL
+  ===================================================== -->
 
   <div id="reviewModal" class="modal">
 
@@ -779,7 +951,9 @@
   </div>
 
 
-  <!-- ================= COMMENTS MODAL ================= -->
+  <!-- =====================================================
+       COMMENTS MODAL
+  ===================================================== -->
 
   <div id="commentsModal" class="modal">
 
@@ -1119,7 +1293,9 @@
           "button-group";
 
 
-        /* READ */
+        /* =====================================================
+           READ
+        ===================================================== */
 
         const readBtn =
           document.createElement("button");
@@ -1130,11 +1306,18 @@
         readBtn.textContent =
           "📖 Read";
 
+        /*
+          Direct book object use kiya gaya hai.
+          Isse search ke baad bhi correct book open hogi.
+        */
+
         readBtn.onclick =
-          () => openReader(index);
+          () => openReaderBook(book);
 
 
-        /* DOWNLOAD */
+        /* =====================================================
+           DOWNLOAD
+        ===================================================== */
 
         const downloadBtn =
           document.createElement("button");
@@ -1149,7 +1332,9 @@
           () => downloadBook(index);
 
 
-        /* SHARE */
+        /* =====================================================
+           SHARE
+        ===================================================== */
 
         const shareBtn =
           document.createElement("button");
@@ -1164,7 +1349,9 @@
           () => shareBook(index);
 
 
-        /* RATE */
+        /* =====================================================
+           RATE
+        ===================================================== */
 
         const rateBtn =
           document.createElement("button");
@@ -1182,7 +1369,9 @@
           () => openReviewForBook(index);
 
 
-        /* COMMENTS */
+        /* =====================================================
+           COMMENTS
+        ===================================================== */
 
         const commentsBtn =
           document.createElement("button");
@@ -2479,33 +2668,243 @@
 
 
     /* =====================================================
-       PDF READER
+       FULL PDF READER
     ===================================================== */
 
-    function openReader(index) {
+    let readerPdfDocument = null;
+
+    let readerPdfUrl = null;
+
+
+    /*
+      Main reader function.
+    */
+
+    async function openReader(index) {
 
       const book =
         allBooks[index];
 
       if (!book) return;
 
+      openReaderBook(book);
 
-      /*
-        Google PDF Viewer ke through
-        poori PDF browser mein open hogi.
-      */
+    }
 
-      const viewerUrl =
-        "https://docs.google.com/gview?embedded=1&url=" +
-        encodeURIComponent(
-          book.download_url
+
+    /*
+      Selected book ko Full PDF Reader mein open karta hai.
+    */
+
+    async function openReaderBook(book) {
+
+      if (!book) return;
+
+
+      readerPdfUrl =
+        book.download_url;
+
+
+      const reader =
+        document.getElementById(
+          "readerModal"
         );
 
 
-      window.open(
-        viewerUrl,
-        "_blank"
-      );
+      const readerTitle =
+        document.getElementById(
+          "readerTitle"
+        );
+
+
+      const pdfPages =
+        document.getElementById(
+          "pdfPages"
+        );
+
+
+      readerTitle.textContent =
+        "📖 " +
+        removePdfExtension(
+          book.name
+        );
+
+
+      pdfPages.innerHTML = `
+        <div class="reader-loading">
+          📖 Book loading...
+          <br><br>
+          Please wait...
+        </div>
+      `;
+
+
+      reader.style.display =
+        "block";
+
+
+      document.body.style.overflow =
+        "hidden";
+
+
+      try {
+
+        readerPdfDocument =
+          await pdfjsLib
+            .getDocument({
+              url: readerPdfUrl
+            })
+            .promise;
+
+
+        pdfPages.innerHTML = "";
+
+
+        /*
+          PDF ki har page ko
+          ek-ek karke render karega.
+        */
+
+        for (
+          let pageNumber = 1;
+          pageNumber <=
+          readerPdfDocument.numPages;
+          pageNumber++
+        ) {
+
+          const page =
+            await readerPdfDocument
+              .getPage(
+                pageNumber
+              );
+
+
+          const originalViewport =
+            page.getViewport({
+              scale: 1
+            });
+
+
+          const availableWidth =
+            Math.min(
+              window.innerWidth - 30,
+              1050
+            );
+
+
+          const scale =
+            Math.min(
+              1.5,
+              availableWidth /
+              originalViewport.width
+            );
+
+
+          const viewport =
+            page.getViewport({
+              scale: scale
+            });
+
+
+          const canvas =
+            document.createElement(
+              "canvas"
+            );
+
+
+          const context =
+            canvas.getContext(
+              "2d"
+            );
+
+
+          canvas.width =
+            viewport.width;
+
+
+          canvas.height =
+            viewport.height;
+
+
+          canvas.dataset.page =
+            pageNumber;
+
+
+          pdfPages.appendChild(
+            canvas
+          );
+
+
+          await page.render({
+
+            canvasContext:
+              context,
+
+            viewport:
+              viewport
+
+          }).promise;
+
+        }
+
+
+      } catch (error) {
+
+        console.error(
+          "PDF Reader Error:",
+          error
+        );
+
+
+        pdfPages.innerHTML = `
+          <div class="reader-loading">
+
+            ⚠️ PDF open nahi ho pa rahi.
+
+            <br><br>
+
+            Please internet connection
+            check karein.
+
+          </div>
+        `;
+
+      }
+
+    }
+
+
+    /*
+      Reader close.
+    */
+
+    function closeReader() {
+
+      const reader =
+        document.getElementById(
+          "readerModal"
+        );
+
+
+      reader.style.display =
+        "none";
+
+
+      document.body.style.overflow =
+        "";
+
+
+      document.getElementById(
+        "pdfPages"
+      ).innerHTML = "";
+
+
+      readerPdfDocument =
+        null;
+
+
+      readerPdfUrl =
+        null;
 
     }
 
