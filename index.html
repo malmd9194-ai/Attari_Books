@@ -1,1650 +1,1961 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Attari Books</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-body{
-  font-family:Arial,sans-serif;
-  background:#f5f3ef;
-  color:#222;
-}
-
-header{
-  background:#24170f;
-  color:white;
-  padding:18px 6%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:12px;
-}
-
-.logo{
-  font-size:25px;
-  font-weight:bold;
-}
-
-nav{
-  display:flex;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:18px;
-}
-
-nav a{
-  color:white;
-  text-decoration:none;
-  font-size:15px;
-  font-weight:bold;
-}
-
-.help-menu{
-  position:relative;
-  display:inline-block;
-}
-
-.help-button{
-  background:none;
-  border:none;
-  color:white;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.help-options{
-  display:none;
-  position:absolute;
-  right:0;
-  top:30px;
-  background:white;
-  min-width:190px;
-  border-radius:8px;
-  box-shadow:0 5px 15px rgba(0,0,0,.2);
-  overflow:hidden;
-  z-index:1000;
-}
-
-.help-options a{
-  display:block;
-  color:#24170f;
-  text-decoration:none;
-  padding:13px 15px;
-  font-size:14px;
-}
-
-.help-options a:hover{
-  background:#f5f3ef;
-}
-
-.help-menu:hover .help-options{
-  display:block;
-}
-
-/* AUTH */
-
-.auth-area{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.auth-btn{
-  background:white;
-  color:#24170f;
-  border:none;
-  border-radius:7px;
-  padding:9px 12px;
-  font-weight:bold;
-  cursor:pointer;
-  font-size:13px;
-}
-
-.user-info{
-  color:white;
-  font-size:13px;
-  max-width:150px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.logout-btn{
-  background:#e5ded5;
-  color:#24170f;
-}
-
-/* AUTH MODAL */
-
-#authModal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.65);
-  z-index:10000;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-
-.auth-box{
-  background:white;
-  width:100%;
-  max-width:400px;
-  border-radius:12px;
-  padding:25px;
-  box-shadow:0 10px 30px rgba(0,0,0,.3);
-}
-
-.auth-box h2{
-  margin-bottom:8px;
-  color:#24170f;
-}
-
-.auth-subtitle{
-  color:#777;
-  font-size:14px;
-  margin-bottom:18px;
-}
-
-.auth-input{
-  width:100%;
-  padding:12px;
-  margin-bottom:10px;
-  border:1px solid #ddd;
-  border-radius:7px;
-  font-size:14px;
-}
-
-.auth-submit{
-  width:100%;
-  padding:12px;
-  background:#24170f;
-  color:white;
-  border:none;
-  border-radius:7px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.auth-switch{
-  text-align:center;
-  margin-top:14px;
-  font-size:13px;
-  color:#777;
-}
-
-.auth-switch button{
-  border:none;
-  background:none;
-  color:#24170f;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.auth-message{
-  margin-top:10px;
-  font-size:13px;
-  text-align:center;
-}
-
-.close-auth{
-  float:right;
-  border:none;
-  background:none;
-  font-size:20px;
-  cursor:pointer;
-  color:#777;
-}
-
-.hero{
-  background:#3b271b;
-  color:white;
-  text-align:center;
-  padding:75px 20px;
-}
-
-.hero h1{
-  font-size:45px;
-  margin-bottom:15px;
-}
-
-.hero p{
-  font-size:18px;
-  margin-bottom:25px;
-}
-
-.search{
-  width:90%;
-  max-width:550px;
-  padding:15px;
-  border:none;
-  border-radius:30px;
-  font-size:16px;
-  outline:none;
-}
-
-.books{
-  padding:50px 6%;
-}
-
-.books h2{
-  text-align:center;
-  margin-bottom:30px;
-  font-size:30px;
-}
-
-.book-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:25px;
-}
-
-.book{
-  background:white;
-  border-radius:12px;
-  padding:20px;
-  box-shadow:0 5px 20px rgba(0,0,0,.08);
-}
-
-.cover{
-  height:280px;
-  background:#ddd;
-  border-radius:8px;
-  margin-bottom:18px;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.cover canvas{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-}
-
-.cover-loading{
-  color:#777;
-  text-align:center;
-}
-
-.book h3{
-  margin-bottom:8px;
-  word-break:break-word;
-  font-size:19px;
-}
-
-.author{
-  color:#777;
-  margin-bottom:15px;
-}
-
-.buttons{
-  display:flex;
-  gap:10px;
-}
-
-.btn{
-  flex:1;
-  padding:11px 7px;
-  border-radius:7px;
-  text-decoration:none;
-  text-align:center;
-  font-weight:bold;
-  cursor:pointer;
-  border:none;
-  font-size:14px;
-}
-
-.read{
-  background:#24170f;
-  color:white;
-}
-
-.download{
-  background:#e5ded5;
-  color:#24170f;
-}
-
-/* REVIEW AREA */
-
-.review-box{
-  margin-top:18px;
-  border-top:1px solid #eee;
-  padding-top:15px;
-}
-
-.login-required{
-  background:#f7f5f2;
-  border-radius:7px;
-  padding:12px;
-  font-size:13px;
-  color:#777;
-  margin-bottom:10px;
-  text-align:center;
-}
-
-.login-required button{
-  margin-top:8px;
-  border:none;
-  background:#24170f;
-  color:white;
-  padding:8px 12px;
-  border-radius:6px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.stars{
-  display:flex;
-  gap:3px;
-  margin-bottom:10px;
-}
-
-.star{
-  font-size:25px;
-  cursor:pointer;
-  color:#ccc;
-  user-select:none;
-}
-
-.star.selected{
-  color:#f5a623;
-}
-
-.review-input{
-  width:100%;
-  min-height:70px;
-  padding:10px;
-  border:1px solid #ddd;
-  border-radius:7px;
-  resize:vertical;
-  font-family:Arial,sans-serif;
-}
-
-.review-actions{
-  display:flex;
-  gap:8px;
-  margin-top:8px;
-}
-
-.review-submit,
-.share-btn{
-  border:none;
-  border-radius:7px;
-  padding:9px 12px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.review-submit{
-  background:#24170f;
-  color:white;
-}
-
-.share-btn{
-  background:#e5ded5;
-  color:#24170f;
-}
-
-.review-message{
-  font-size:13px;
-  color:#777;
-  margin-top:8px;
-}
-
-.review-summary{
-  margin-top:12px;
-  font-size:14px;
-  font-weight:bold;
-}
-
-.comments{
-  margin-top:12px;
-  max-height:220px;
-  overflow-y:auto;
-}
-
-.comment{
-  background:#f7f5f2;
-  border-radius:7px;
-  padding:9px;
-  margin-top:7px;
-  font-size:13px;
-}
-
-.comment-stars{
-  color:#f5a623;
-  margin-bottom:4px;
-}
-
-.comment-text{
-  word-break:break-word;
-}
-
-.message{
-  text-align:center;
-  padding:30px;
-  color:#777;
-  grid-column:1/-1;
-}
-
-/* READER */
-
-#reader{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.9);
-  z-index:9999;
-  overflow:auto;
-}
-
-.reader-top{
-  position:sticky;
-  top:0;
-  background:#24170f;
-  color:white;
-  padding:12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  z-index:10;
-}
-
-.reader-title{
-  font-weight:bold;
-  max-width:75%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.close-reader{
-  background:white;
-  color:#24170f;
-  border:none;
-  border-radius:6px;
-  padding:8px 12px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-#pdfPages{
-  padding:15px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:15px;
-}
-
-#pdfPages canvas{
-  max-width:100%;
-  height:auto;
-  background:white;
-  box-shadow:0 2px 10px rgba(0,0,0,.4);
-}
-
-footer{
-  background:#24170f;
-  color:white;
-  text-align:center;
-  padding:25px;
-  margin-top:30px;
-}
-
-@media(max-width:600px){
-
-  .hero h1{
-    font-size:38px;
-  }
-
-  header{
-    padding:15px 4%;
-    justify-content:center;
-  }
-
-  .logo{
-    font-size:21px;
-  }
-
-  nav{
-    justify-content:center;
-    gap:14px;
-  }
-
-  nav a,
-  .help-button{
-    font-size:13px;
-  }
-
-  .cover{
-    height:300px;
-  }
-
-  .auth-area{
-    width:100%;
-    justify-content:center;
-  }
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Attari Books</title>
+
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    /* HEADER */
+    header {
+      background: #111;
+      color: white;
+      padding: 15px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    nav a,
+    nav button {
+      color: white;
+      text-decoration: none;
+      border: none;
+      background: transparent;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-size: 15px;
+      border-radius: 7px;
+    }
+
+    nav a:hover {
+      background: #333;
+    }
+
+    .auth-btn {
+      background: white !important;
+      color: #222 !important;
+    }
+
+    .logout-btn {
+      background: #d9534f !important;
+      color: white !important;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 380px;
+      padding: 80px 20px;
+      text-align: center;
+      background:
+        linear-gradient(rgba(20,20,20,.78), rgba(20,20,20,.78)),
+        url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1600&q=80")
+        center/cover;
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+
+    #searchBox {
+      width: min(680px, 90%);
+      padding: 17px 20px;
+      border-radius: 35px;
+      border: none;
+      outline: none;
+      font-size: 17px;
+    }
+
+    /* BOOKS */
+    .books-section {
+      padding: 50px 6%;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 35px;
+    }
+
+    #status {
+      text-align: center;
+      color: #666;
+      margin: 20px;
+      font-size: 16px;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 25px;
+    }
+
+    .book-card {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,.10);
+      transition: .2s;
+    }
+
+    .book-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 7px 20px rgba(0,0,0,.15);
+    }
+
+    .cover-box {
+      width: 100%;
+      height: 290px;
+      background: #e9ecef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .cover-box canvas {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .cover-loading {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .book-info {
+      padding: 17px;
+    }
+
+    .book-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      word-break: break-word;
+      line-height: 1.4;
+    }
+
+    .book-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .book-buttons a,
+    .book-buttons button {
+      flex: 1;
+      padding: 10px 7px;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .read-btn {
+      background: #222;
+      color: white;
+    }
+
+    .download-btn {
+      background: #198754;
+      color: white;
+    }
+
+    /* HELP */
+    .help-menu {
+      display: none;
+      position: absolute;
+      right: 20px;
+      top: 65px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.2);
+      padding: 10px;
+      z-index: 100;
+      min-width: 190px;
+    }
+
+    .help-menu a {
+      display: block;
+      color: #222;
+      padding: 10px;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    .help-menu a:hover {
+      background: #eee;
+    }
+
+    .help-wrapper {
+      position: relative;
+    }
+
+    /* AUTH MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-box {
+      width: min(420px, 100%);
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      position: relative;
+    }
+
+    .modal-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      border: none;
+      background: none;
+      font-size: 27px;
+      cursor: pointer;
+    }
+
+    .auth-tabs {
+      display: flex;
+      margin-bottom: 18px;
+    }
+
+    .auth-tabs button {
+      flex: 1;
+      padding: 11px;
+      border: none;
+      cursor: pointer;
+      background: #eee;
+    }
+
+    .auth-tabs button.active {
+      background: #222;
+      color: white;
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 15px;
+    }
+
+    .auth-submit {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      background: #222;
+      color: white;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #authMessage {
+      margin-top: 13px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    /* REVIEW */
+    .review-section {
+      margin-top: 50px;
+      padding: 30px;
+      background: white;
+      border-radius: 15px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .review-section h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .review-note {
+      text-align: center;
+      color: #777;
+      margin-bottom: 15px;
+    }
+
+    .review-select,
+    .review-textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 15px;
+    }
+
+    .review-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .stars {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 15px 0;
+    }
+
+    .star {
+      font-size: 32px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: #bbb;
+    }
+
+    .star.selected {
+      color: #f5b301;
+    }
+
+    .submit-review {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 7px;
+      background: #198754;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .login-review-message {
+      text-align: center;
+      padding: 20px;
+      background: #f1f3f5;
+      border-radius: 8px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 25px;
+      margin-top: 30px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .hero p {
+        font-size: 17px;
+      }
+
+      header {
+        justify-content: center;
+      }
+
+      .logo {
+        width: 100%;
+        text-align: center;
+      }
+
+      nav {
+        justify-content: center;
+      }
+
+      .books-section {
+        padding: 35px 5%;
+      }
+
+      .cover-box {
+        height: 260px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
+  <!-- HEADER -->
+  <header>
 
-<div class="logo">
-📚 Attari Books
-</div>
+    <div class="logo">
+      📚 Attari Books
+    </div>
 
-<nav>
+    <nav>
+      <a href="#">Home</a>
 
-<a href="#">Home</a>
+      <a href="#books">
+        Books
+      </a>
 
-<a href="#books">Books</a>
+      <div class="help-wrapper">
+        <button onclick="toggleHelp()">
+          Help
+        </button>
 
-<div class="help-menu">
+        <div class="help-menu" id="helpMenu">
+          <a href="https://wa.me/919534646778" target="_blank">
+            💬 WhatsApp
+          </a>
 
-<button
-class="help-button"
-onclick="toggleHelp(event)"
->
-Help
-</button>
+          <a href="mailto:mdmalek26234@gmail.com">
+            ✉️ Gmail / Email
+          </a>
+        </div>
+      </div>
 
-<div
-class="help-options"
-id="helpOptions"
->
+      <button
+        class="auth-btn"
+        id="loginBtn"
+        onclick="openAuth('login')">
+        🔐 Login
+      </button>
 
-<a
-href="https://wa.me/919534646778"
-target="_blank"
->
-💬 WhatsApp
-</a>
+      <button
+        class="auth-btn"
+        id="signupBtn"
+        onclick="openAuth('signup')">
+        ✍️ Sign Up
+      </button>
 
-<a
-href="mailto:mdmalek26234@gmail.com"
->
-✉️ Gmail / Email
-</a>
+      <button
+        class="auth-btn logout-btn"
+        id="logoutBtn"
+        onclick="logout()"
+        style="display:none;">
+        Logout
+      </button>
 
-</div>
-
-</div>
-
-<div class="auth-area" id="authArea">
-
-<button
-class="auth-btn"
-onclick="openAuth('login')"
->
-🔐 Login
-</button>
-
-<button
-class="auth-btn"
-onclick="openAuth('signup')"
->
-📝 Sign Up
-</button>
-
-</div>
-
-</nav>
-
-</header>
+    </nav>
+  </header>
 
 
-<section class="hero">
+  <!-- HERO -->
+  <section class="hero">
 
-<h1>Attari Books</h1>
+    <h1>
+      Attari Books
+    </h1>
 
-<p>Your Digital Library</p>
+    <p>
+      Your Digital Library
+    </p>
 
-<input
-class="search"
-type="text"
-id="searchBox"
-placeholder="Search books..."
-onkeyup="searchBooks()"
->
+    <input
+      type="text"
+      id="searchBox"
+      placeholder="Search books..."
+      oninput="searchBooks()"
+    >
 
-</section>
-
-
-<section
-class="books"
-id="books"
->
-
-<h2>Latest Books</h2>
-
-<div
-class="book-grid"
-id="bookList"
->
-
-<div class="message">
-📚 Loading books...
-</div>
-
-</div>
-
-</section>
+  </section>
 
 
-<!-- AUTH MODAL -->
+  <!-- BOOKS -->
+  <section class="books-section" id="books">
 
-<div id="authModal">
+    <h2 class="section-title">
+      Latest Books
+    </h2>
 
-<div class="auth-box">
+    <div id="status">
+      📚 Loading books...
+    </div>
 
-<button
-class="close-auth"
-onclick="closeAuth()"
->
-✕
-</button>
+    <div
+      class="books-grid"
+      id="booksGrid">
+    </div>
 
-<h2 id="authTitle">
-🔐 Login
-</h2>
-
-<p class="auth-subtitle" id="authSubtitle">
-Login karke rating aur comment karein.
-</p>
-
-<input
-type="email"
-id="authEmail"
-class="auth-input"
-placeholder="Email"
-autocomplete="email"
->
-
-<input
-type="password"
-id="authPassword"
-class="auth-input"
-placeholder="Password"
-autocomplete="current-password"
->
-
-<button
-class="auth-submit"
-id="authSubmit"
-onclick="handleAuth()"
->
-Login
-</button>
-
-<div
-class="auth-switch"
-id="authSwitch"
->
-Account nahi hai?
-<button onclick="switchAuth('signup')">
-Sign Up
-</button>
-</div>
-
-<div
-class="auth-message"
-id="authMessage"
-></div>
-
-</div>
-
-</div>
+  </section>
 
 
-<!-- PDF READER -->
+  <!-- REVIEWS -->
+  <section class="review-section">
 
-<div id="reader">
+    <h2>
+      ⭐ Rate & Review a Book
+    </h2>
 
-<div class="reader-top">
+    <div id="reviewBox">
+      <div class="login-review-message">
+        🔐 Please login to rate and review a book.
+        <br><br>
 
-<div
-class="reader-title"
-id="readerTitle"
->
-PDF Reader
-</div>
+        <button
+          onclick="openAuth('login')"
+          style="
+            padding:10px 18px;
+            border:none;
+            border-radius:7px;
+            background:#222;
+            color:white;
+            cursor:pointer;">
+          Login
+        </button>
+      </div>
+    </div>
 
-<button
-class="close-reader"
-onclick="closeReader()"
->
-✕ Close
-</button>
-
-</div>
-
-<div id="pdfPages"></div>
-
-</div>
+  </section>
 
 
-<footer>
-© 2026 Attari Books — All Rights Reserved
-</footer>
+  <!-- AUTH MODAL -->
+  <div
+    class="modal"
+    id="authModal">
+
+    <div class="modal-box">
+
+      <button
+        class="close-btn"
+        onclick="closeAuth()">
+        ×
+      </button>
+
+      <h2 id="authTitle">
+        Login
+      </h2>
+
+      <div class="auth-tabs">
+
+        <button
+          id="loginTab"
+          class="active"
+          onclick="switchAuth('login')">
+          Login
+        </button>
+
+        <button
+          id="signupTab"
+          onclick="switchAuth('signup')">
+          Sign Up
+        </button>
+
+      </div>
+
+      <form onsubmit="handleAuth(event)">
+
+        <input
+          type="email"
+          id="authEmail"
+          class="auth-input"
+          placeholder="Email"
+          required
+        >
+
+        <input
+          type="password"
+          id="authPassword"
+          class="auth-input"
+          placeholder="Password"
+          minlength="6"
+          required
+        >
+
+        <button
+          type="submit"
+          class="auth-submit"
+          id="authSubmit">
+          Login
+        </button>
+
+      </form>
+
+      <div id="authMessage"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      © 2026 Attari Books — Your Digital Library
+    </p>
+  </footer>
 
 
 <script>
 
-/* =====================================
-   SUPABASE
-===================================== */
+  /* =====================================================
+     SUPABASE SETTINGS
+     ===================================================== */
 
-const SUPABASE_URL =
-"https://kihhuilyeosvpozduwcs.supabase.co";
+  const SUPABASE_URL =
+    "https://kihhuilyeosvpozduwcs.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_-XN0lujfPGCeIzusrlUfkQ_-lFKXw";
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_-XN0lujfPGCeIzusrlUfkQ_-lFKXw";
 
-const supabaseClient =
-window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
 
+  /* =====================================================
+     GOOGLE SHEETS SETTINGS
+     ===================================================== */
 
-/* =====================================
-   GOOGLE APPS SCRIPT URL
-===================================== */
+  const GOOGLE_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbwyMcUDNnTOpmwHf2xrF82P9260595M6rBXcPHvbR0Fu9ZN3BnyNGCApI51w1M5XO4F/exec";
 
-const GOOGLE_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbwyMcUDNnTOpmwHf2xrF82P9260595M6rBXcPHvbR0Fu9ZN3BnyNGCApI51w1M5XO4F/exec";
 
+  /* =====================================================
+     GITHUB SETTINGS
+     ===================================================== */
 
-/* =====================================
-   GITHUB SETTINGS
-===================================== */
+  const GITHUB_OWNER =
+    "malmd9194-ai";
 
-const GITHUB_OWNER =
-"malmd9194-ai";
+  const GITHUB_REPO =
+    "Attari_Books";
 
-const GITHUB_REPO =
-"Attari_Books";
+  const GITHUB_BRANCH =
+    "main";
 
-const GITHUB_BRANCH =
-"main";
 
+  /* =====================================================
+     VARIABLES
+     ===================================================== */
 
-/* =====================================
-   PDF.JS
-===================================== */
+  let supabaseClient = null;
 
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  let allBooks = [];
 
+  let selectedRating = 0;
 
-/* =====================================
-   AUTH STATE
-===================================== */
+  let authMode = "login";
 
-let currentUser = null;
 
-let authMode = "login";
+  /* =====================================================
+     PDF.JS
+     ===================================================== */
 
+  if (typeof pdfjsLib !== "undefined") {
 
-/* =====================================
-   CHECK LOGIN
-===================================== */
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-async function checkAuth(){
+  }
 
-const {
-  data,
-  error
-} = await supabaseClient.auth.getSession();
 
-if(error){
+  /* =====================================================
+     SAFE SUPABASE INITIALIZATION
+     ===================================================== */
 
-console.error(
-"Session error:",
-error
-);
+  function initializeSupabase() {
 
-return;
+    try {
 
-}
+      if (
+        window.supabase &&
+        typeof window.supabase.createClient === "function"
+      ) {
 
-currentUser =
-data.session
-? data.session.user
-: null;
+        supabaseClient =
+          window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+          );
 
-updateAuthUI();
+        console.log("Supabase connected.");
 
-}
+      } else {
 
+        console.error(
+          "Supabase library load nahi hui."
+        );
 
-supabaseClient.auth.onAuthStateChange(
-function(event,session){
+      }
 
-currentUser =
-session
-? session.user
-: null;
+    } catch (error) {
 
-updateAuthUI();
+      console.error(
+        "Supabase initialization error:",
+        error
+      );
 
-}
-);
+    }
 
+  }
 
-/* =====================================
-   UPDATE AUTH UI
-===================================== */
 
-function updateAuthUI(){
+  /* =====================================================
+     LOAD BOOKS FROM GITHUB
+     ===================================================== */
 
-const authArea =
-document.getElementById(
-"authArea"
-);
+  async function loadBooks() {
 
-if(!authArea) return;
+    const status =
+      document.getElementById("status");
 
+    const grid =
+      document.getElementById("booksGrid");
 
-if(currentUser){
+    status.innerHTML =
+      "📚 Loading books...";
 
-const email =
-currentUser.email || "User";
+    grid.innerHTML = "";
 
-authArea.innerHTML = `
+    try {
 
-<span class="user-info">
-👤 ${escapeHTML(email)}
-</span>
+      const apiUrl =
+        `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
 
-<button
-class="auth-btn logout-btn"
-onclick="logout()"
->
-🚪 Logout
-</button>
+      const response =
+        await fetch(apiUrl);
 
-`;
+      if (!response.ok) {
 
-}
-else{
+        throw new Error(
+          "GitHub API Error: " +
+          response.status
+        );
 
-authArea.innerHTML = `
+      }
 
-<button
-class="auth-btn"
-onclick="openAuth('login')"
->
-🔐 Login
-</button>
+      const files =
+        await response.json();
 
-<button
-class="auth-btn"
-onclick="openAuth('signup')"
->
-📝 Sign Up
-</button>
+      console.log(
+        "GitHub files:",
+        files
+      );
 
-`;
 
-}
+      /* Only PDF files */
 
+      const pdfFiles =
+        files.filter(file => {
 
-/* Update review areas */
+          return (
+            file.type === "file" &&
+            file.name.toLowerCase().endsWith(".pdf")
+          );
 
-document
-.querySelectorAll(".review-box")
-.forEach(box=>{
+        });
 
-updateReviewBox(box);
 
-});
+      if (pdfFiles.length === 0) {
 
-}
+        status.innerHTML =
+          "📚 No PDF books found.";
 
+        return;
 
-/* =====================================
-   UPDATE REVIEW BOX
-===================================== */
+      }
 
-function updateReviewBox(box){
 
-if(!box) return;
+      allBooks =
+        pdfFiles.map(file => {
 
+          return {
 
-const loginRequired =
-box.querySelector(
-".login-required"
-);
+            name: file.name,
 
-const stars =
-box.querySelector(".stars");
+            download_url:
+              file.download_url,
 
-const input =
-box.querySelector(".review-input");
+            html_url:
+              file.html_url
 
-const submit =
-box.querySelector(".review-submit");
+          };
 
+        });
 
-if(currentUser){
 
-if(loginRequired){
-loginRequired.style.display="none";
-}
+      status.innerHTML =
+        `${allBooks.length} book(s) available`;
 
-if(stars){
-stars.style.display="flex";
-}
+      displayBooks(allBooks);
 
-if(input){
-input.style.display="block";
-}
+    } catch (error) {
 
-if(submit){
-submit.style.display="inline-block";
-}
+      console.error(
+        "Books loading error:",
+        error
+      );
 
-}
-else{
+      status.innerHTML =
+        "❌ Books load nahi ho pa rahe.";
 
-if(loginRequired){
-loginRequired.style.display="block";
-}
+      grid.innerHTML = `
+        <div style="
+          grid-column:1/-1;
+          text-align:center;
+          padding:30px;
+          color:#777;">
+          <p>GitHub se books load nahi ho pa rahi hain.</p>
+          <p style="font-size:13px;margin-top:10px;">
+            Please page refresh karke dobara try karein.
+          </p>
+        </div>
+      `;
 
-if(stars){
-stars.style.display="none";
-}
+    }
 
-if(input){
-input.style.display="none";
-}
+  }
 
-if(submit){
-submit.style.display="none";
-}
 
-}
+  /* =====================================================
+     DISPLAY BOOKS
+     ===================================================== */
 
-}
+  function displayBooks(books) {
 
+    const grid =
+      document.getElementById("booksGrid");
 
-/* =====================================
-   OPEN AUTH
-===================================== */
+    grid.innerHTML = "";
 
-function openAuth(mode){
 
-authMode =
-mode || "login";
+    if (books.length === 0) {
 
-const modal =
-document.getElementById(
-"authModal"
-);
+      grid.innerHTML = `
+        <div style="
+          grid-column:1/-1;
+          text-align:center;
+          padding:30px;">
+          📚 No books found.
+        </div>
+      `;
 
-modal.style.display="flex";
+      return;
 
-updateAuthForm();
+    }
 
-document
-.getElementById("authEmail")
-.focus();
 
-}
+    books.forEach((book, index) => {
 
+      const card =
+        document.createElement("div");
 
-/* =====================================
-   CLOSE AUTH
-===================================== */
+      card.className =
+        "book-card";
 
-function closeAuth(){
 
-document
-.getElementById("authModal")
-.style.display="none";
+      card.innerHTML = `
 
-document
-.getElementById("authMessage")
-.textContent="";
+        <div class="cover-box"
+             id="cover-${index}">
 
-}
+          <div class="cover-loading">
+            📖 Loading cover...
+          </div>
 
+        </div>
 
-/* =====================================
-   SWITCH AUTH
-===================================== */
+        <div class="book-info">
 
-function switchAuth(mode){
+          <div class="book-title">
+            ${escapeHTML(
+              removePdfExtension(book.name)
+            )}
+          </div>
 
-authMode =
-mode;
+          <div class="book-buttons">
 
-document
-.getElementById("authMessage")
-.textContent="";
+            <a
+              class="read-btn"
+              href="${book.download_url}"
+              target="_blank">
+              📖 Read
+            </a>
 
-updateAuthForm();
+            <a
+              class="download-btn"
+              href="${book.download_url}"
+              download>
+              📥 Download
+            </a>
 
-}
+          </div>
 
+        </div>
 
-/* =====================================
-   AUTH FORM
-===================================== */
+      `;
 
-function updateAuthForm(){
 
-const title =
-document.getElementById(
-"authTitle"
-);
+      grid.appendChild(card);
 
-const subtitle =
-document.getElementById(
-"authSubtitle"
-);
 
-const submit =
-document.getElementById(
-"authSubmit"
-);
+      renderCover(
+        book.download_url,
+        `cover-${index}`
+      );
 
-const switchBox =
-document.getElementById(
-"authSwitch"
-);
+    });
 
-if(authMode==="signup"){
+  }
 
-title.textContent =
-"📝 Sign Up";
 
-subtitle.textContent =
-"Account banayein aur rating/comment karein.";
+  /* =====================================================
+     RENDER PDF FIRST PAGE AS COVER
+     ===================================================== */
 
-submit.textContent =
-"Sign Up";
+  async function renderCover(
+    pdfUrl,
+    containerId
+  ) {
 
-switchBox.innerHTML = `
-Already account hai?
-<button onclick="switchAuth('login')">
-Login
-</button>
-`;
+    const container =
+      document.getElementById(containerId);
 
-}
-else{
+    if (!container) return;
 
-title.textContent =
-"🔐 Login";
 
-subtitle.textContent =
-"Login karke rating aur comment karein.";
+    if (typeof pdfjsLib === "undefined") {
 
-submit.textContent =
-"Login";
+      container.innerHTML =
+        `<div class="cover-loading">
+          📕 PDF
+        </div>`;
 
-switchBox.innerHTML = `
-Account nahi hai?
-<button onclick="switchAuth('signup')">
-Sign Up
-</button>
-`;
+      return;
 
-}
+    }
 
-}
 
+    try {
 
-/* =====================================
-   HANDLE AUTH
-===================================== */
+      const loadingTask =
+        pdfjsLib.getDocument({
+          url: pdfUrl,
+          withCredentials: false
+        });
 
-async function handleAuth(){
+      const pdf =
+        await loadingTask.promise;
 
-const email =
-document
-.getElementById("authEmail")
-.value
-.trim();
+      const page =
+        await pdf.getPage(1);
 
-const password =
-document
-.getElementById("authPassword")
-.value;
 
-const message =
-document
-.getElementById("authMessage");
+      const viewport =
+        page.getViewport({
+          scale: 1.2
+        });
 
-const button =
-document
-.getElementById("authSubmit");
 
+      const canvas =
+        document.createElement("canvas");
 
-if(!email || !password){
+      const context =
+        canvas.getContext("2d");
 
-message.textContent =
-"⚠️ Email aur password dono likhein.";
 
-return;
+      canvas.width =
+        viewport.width;
 
-}
+      canvas.height =
+        viewport.height;
 
 
-if(password.length < 6){
+      await page.render({
+        canvasContext: context,
+        viewport: viewport
+      }).promise;
 
-message.textContent =
-"⚠️ Password kam az kam 6 characters ka ho.";
 
-return;
+      container.innerHTML = "";
 
-}
+      container.appendChild(canvas);
 
+    } catch (error) {
 
-button.disabled=true;
+      console.error(
+        "Cover error:",
+        error
+      );
 
-message.textContent =
-"⏳ Please wait...";
+      container.innerHTML =
+        `<div class="cover-loading">
+          📕 PDF Book
+        </div>`;
 
+    }
 
-try{
+  }
 
-if(authMode==="signup"){
 
-const {
-  data,
-  error
-} =
-await supabaseClient.auth.signUp({
+  /* =====================================================
+     SEARCH BOOKS
+     ===================================================== */
 
-email:email,
+  function searchBooks() {
 
-password:password
+    const search =
+      document
+        .getElementById("searchBox")
+        .value
+        .toLowerCase()
+        .trim();
 
-});
 
+    if (!search) {
 
-if(error){
-throw error;
-}
+      displayBooks(allBooks);
 
+      return;
 
-/*
-Supabase mein Confirm email ON hai.
-Isliye user ko email verify karna hoga.
-*/
+    }
 
-if(data.session){
 
-message.textContent =
-"✅ Account ban gaya aur login ho gaya.";
+    const filtered =
+      allBooks.filter(book => {
 
-setTimeout(
-closeAuth,
-800
-);
+        return book.name
+          .toLowerCase()
+          .includes(search);
 
-}
-else{
+      });
 
-message.textContent =
-"✅ Sign Up ho gaya! Apni email check karke account verify karein.";
 
-}
+    displayBooks(filtered);
 
-}
-else{
+  }
 
-const {
-  data,
-  error
-} =
-await supabaseClient.auth.signInWithPassword({
 
-email:email,
+  /* =====================================================
+     REMOVE PDF EXTENSION
+     ===================================================== */
 
-password:password
+  function removePdfExtension(name) {
 
-});
+    return name.replace(
+      /\.pdf$/i,
+      ""
+    );
 
+  }
 
-if(error){
-throw error;
-}
 
+  /* =====================================================
+     ESCAPE HTML
+     ===================================================== */
 
-if(data.session){
+  function escapeHTML(text) {
 
-message.textContent =
-"✅ Login successful!";
+    const div =
+      document.createElement("div");
 
-setTimeout(
-closeAuth,
-500
-);
+    div.textContent =
+      text;
 
-}
+    return div.innerHTML;
 
-}
+  }
 
-}
-catch(error){
 
-console.error(
-"Auth error:",
-error
-);
+  /* =====================================================
+     HELP MENU
+     ===================================================== */
 
-message.textContent =
-"⚠️ " +
-(error.message ||
-"Login/Sign Up nahi hua.");
+  function toggleHelp() {
 
-}
+    const menu =
+      document.getElementById("helpMenu");
 
-button.disabled=false;
+    menu.style.display =
+      menu.style.display === "block"
+        ? "none"
+        : "block";
 
-}
+  }
 
 
-/* =====================================
-   LOGOUT
-===================================== */
+  /* =====================================================
+     OPEN AUTH MODAL
+     ===================================================== */
 
-async function logout(){
+  function openAuth(mode = "login") {
 
-const {
-  error
-} =
-await supabaseClient.auth.signOut();
+    authMode = mode;
 
-if(error){
+    document
+      .getElementById("authModal")
+      .style.display = "flex";
 
-alert(
-"Logout nahi hua."
-);
+    switchAuth(mode);
 
-return;
+  }
 
-}
 
-alert(
-"✅ Logout ho gaya."
-);
+  /* =====================================================
+     CLOSE AUTH MODAL
+     ===================================================== */
 
-}
+  function closeAuth() {
 
+    document
+      .getElementById("authModal")
+      .style.display = "none";
 
-/* =====================================
-   HELP
-===================================== */
+    document
+      .getElementById("authMessage")
+      .innerHTML = "";
 
-function toggleHelp(event){
+  }
 
-event.stopPropagation();
 
-const menu =
-document.getElementById("helpOptions");
+  /* =====================================================
+     SWITCH LOGIN / SIGNUP
+     ===================================================== */
 
-menu.style.display =
-menu.style.display === "block"
-? "none"
-: "block";
+  function switchAuth(mode) {
 
-}
+    authMode = mode;
 
 
-document.addEventListener(
-"click",
-function(){
+    const title =
+      document.getElementById("authTitle");
 
-document.getElementById(
-"helpOptions"
-).style.display="none";
+    const submit =
+      document.getElementById("authSubmit");
 
-}
-);
+    const loginTab =
+      document.getElementById("loginTab");
 
+    const signupTab =
+      document.getElementById("signupTab");
 
-/* =====================================
-   LOAD BOOKS
-===================================== */
 
-async function loadBooks(){
+    if (mode === "login") {
 
-const bookList =
-document.getElementById("bookList");
+      title.innerText =
+        "Login";
 
-try{
+      submit.innerText =
+        "Login";
 
-const apiUrl =
-`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
+      loginTab.classList.add(
+        "active"
+      );
 
-const response =
-await fetch(apiUrl);
+      signupTab.classList.remove(
+        "active"
+      );
 
-if(!response.ok){
+    } else {
 
-throw new Error(
-"GitHub API Error: " + response.status
-);
+      title.innerText =
+        "Create Account";
 
-}
+      submit.innerText =
+        "Sign Up";
 
-const files =
-await response.json();
+      signupTab.classList.add(
+        "active"
+      );
 
-const pdfFiles =
-files.filter(file =>
-file.type === "file" &&
-file.name.toLowerCase().endsWith(".pdf")
-);
+      loginTab.classList.remove(
+        "active"
+      );
 
-bookList.innerHTML="";
+    }
 
-if(pdfFiles.length===0){
 
-bookList.innerHTML=`
+    document
+      .getElementById("authMessage")
+      .innerHTML = "";
 
-<div class="message">
+  }
 
-📚 No PDF books found.
 
-<br><br>
+  /* =====================================================
+     LOGIN / SIGNUP
+     ===================================================== */
 
-GitHub repository me PDF upload karein.
+  async function handleAuth(event) {
 
-</div>
+    event.preventDefault();
 
-`;
 
-return;
+    if (!supabaseClient) {
 
-}
+      document
+        .getElementById("authMessage")
+        .innerHTML =
+        "❌ Login system load nahi hua.";
 
-pdfFiles.forEach(file=>{
+      return;
 
-const bookName =
-file.name
-.replace(/\.pdf$/i,"")
-.replace(/[_-]/g," ");
+    }
 
-const encodedFileName =
-encodeURIComponent(file.name);
 
-const pdfUrl =
-`https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${encodedFileName}`;
+    const email =
+      document
+        .getElementById("authEmail")
+        .value
+        .trim();
 
-const book =
-document.createElement("div");
+    const password =
+      document
+        .getElementById("authPassword")
+        .value;
 
-book.className="book";
 
-book.innerHTML=`
+    const message =
+      document.getElementById(
+        "authMessage"
+      );
 
-<div class="cover">
 
-<div class="cover-loading">
+    message.innerHTML =
+      "⏳ Please wait...";
 
-📖
-<br>
-Loading cover...
 
-</div>
+    try {
 
-</div>
+      if (authMode === "signup") {
 
-<h3>${escapeHTML(bookName)}</h3>
+        const { data, error } =
+          await supabaseClient.auth.signUp({
+            email: email,
+            password: password
+          });
 
-<p class="author">
-Attari Books
-</p>
 
-<div class="buttons">
+        if (error) {
 
-<button
-class="btn read"
-onclick="openReader(
-'${escapeJS(pdfUrl)}',
-'${escapeJS(bookName)}'
-)"
->
-📖 Read
-</button>
+          throw error;
 
-<a
-href="${escapeHTML(pdfUrl)}"
-class="btn download"
-download
->
-⬇ Download
-</a>
+        }
 
-</div>
 
+        message.innerHTML =
+          "✅ Account created. Please check your email for confirmation.";
 
-<div class="review-box">
+      } else {
 
+        const { data, error } =
+          await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
 
-<div
-class="login-required"
->
 
-🔐 Rating ya comment karne ke liye pehle Login karein.
+        if (error) {
 
-<br>
+          throw error;
 
-<button
-onclick="openAuth('login')"
->
-🔐 Login
-</button>
+        }
 
-<button
-onclick="openAuth('signup')"
->
-📝 Sign Up
-</button>
 
-</div>
+        message.innerHTML =
+          "✅ Login successful!";
 
+        setTimeout(() => {
 
-<div class="stars">
+          closeAuth();
 
-<span
-class="star"
-onclick="selectRating(this,1)"
->★</span>
+        }, 800);
 
-<span
-class="star"
-onclick="selectRating(this,2)"
->★</span>
+      }
 
-<span
-class="star"
-onclick="selectRating(this,3)"
->★</span>
+    } catch (error) {
 
-<span
-class="star"
-onclick="selectRating(this,4)"
->★</span>
+      console.error(
+        "Auth error:",
+        error
+      );
 
-<span
-class="star"
-onclick="selectRating(this,5)"
->★</span>
+      message.innerHTML =
+        "❌ " +
+        escapeHTML(
+          error.message
+        );
 
-</div>
+    }
 
+  }
 
-<textarea
-class="review-input"
-placeholder="Apna comment likhein..."
-></textarea>
 
+  /* =====================================================
+     CHECK AUTH
+     ===================================================== */
 
-<div class="review-actions">
+  async function checkAuth() {
 
-<button
-class="review-submit"
-onclick="submitReview(
-this,
-'${escapeJS(bookName)}'
-)"
->
-⭐ Submit
-</button>
+    if (!supabaseClient) {
 
+      updateAuthUI(null);
 
-<button
-class="share-btn"
-onclick="shareBook(
-'${escapeJS(bookName)}',
-'${escapeJS(pdfUrl)}'
-)"
->
-🔗 Share
-</button>
+      updateReviewBox();
 
-</div>
+      return;
 
+    }
 
-<div class="review-message"></div>
 
+    try {
 
-<div class="review-summary">
-⭐ Ratings loading...
-</div>
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.getSession();
 
 
-<div class="comments">
-Comments loading...
-</div>
+      if (error) {
 
-</div>
+        console.error(error);
 
-`;
+        updateAuthUI(null);
 
-bookList.appendChild(book);
+        updateReviewBox();
 
-const cover =
-book.querySelector(".cover");
+        return;
 
-loadCover(
-pdfUrl,
-cover
-);
+      }
 
-loadReviews(
-bookName,
-book.querySelector(".review-summary"),
-book.querySelector(".comments")
-);
 
-updateReviewBox(
-book.querySelector(".review-box")
-);
+      updateAuthUI(
+        data.session
+      );
 
-});
+      updateReviewBox();
 
-}
-catch(error){
+    } catch (error) {
 
-console.error(error);
+      console.error(
+        "Session error:",
+        error
+      );
 
-bookList.innerHTML=`
+      updateAuthUI(null);
 
-<div class="message">
+      updateReviewBox();
 
-⚠️ Books load nahi ho pa rahe.
+    }
 
-<br><br>
+  }
 
-Error:
-${escapeHTML(error.message)}
 
-</div>
+  /* =====================================================
+     AUTH UI
+     ===================================================== */
 
-`;
+  function updateAuthUI(session) {
 
-}
+    const loginBtn =
+      document.getElementById(
+        "loginBtn"
+      );
 
-}
+    const signupBtn =
+      document.getElementById(
+        "signupBtn"
+      );
 
+    const logoutBtn =
+      document.getElementById(
+        "logoutBtn"
+      );
 
-/* =====================================
-   RATING
-===================================== */
 
-function selectRating(star,rating){
+    if (session) {
 
-if(!currentUser){
+      loginBtn.style.display =
+        "none";
 
-openAuth("login");
+      signupBtn.style.display =
+        "none";
 
-return;
+      logoutBtn.style.display =
+        "inline-block";
 
-}
+    } else {
 
+      loginBtn.style.display =
+        "inline-block";
 
-const stars =
-star.parentElement.querySelectorAll(".star");
+      signupBtn.style.display =
+        "inline-block";
 
-stars.forEach((s,index)=>{
+      logoutBtn.style.display =
+        "none";
 
-s.classList.toggle(
-"selected",
-index < rating
-);
+    }
 
-});
+  }
 
-star.parentElement.dataset.rating =
-rating;
 
-}
+  /* =====================================================
+     LOGOUT
+     ===================================================== */
 
+  async function logout() {
 
-/* =====================================
-   SUBMIT REVIEW
-===================================== */
+    if (!supabaseClient) {
 
-async function submitReview(
-button,
-bookName
-){
+      return;
 
-if(!curre
+    }
+
+
+    try {
+
+      await supabaseClient.auth.signOut();
+
+      alert(
+        "You have been logged out."
+      );
+
+      updateAuthUI(null);
+
+      updateReviewBox();
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =====================================================
+     REVIEW BOX
+     ===================================================== */
+
+  async function updateReviewBox() {
+
+    const box =
+      document.getElementById(
+        "reviewBox"
+      );
+
+
+    if (!supabaseClient) {
+
+      box.innerHTML = `
+        <div class="login-review-message">
+          🔐 Please login to rate and review a book.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    try {
+
+      const {
+        data
+      } =
+        await supabaseClient.auth.getSession();
+
+
+      if (!data.session) {
+
+        box.innerHTML = `
+          <div class="login-review-message">
+
+            🔐 Please login to rate and review a book.
+
+            <br><br>
+
+            <button
+              onclick="openAuth('login')"
+              style="
+                padding:10px 18px;
+                border:none;
+                border-radius:7px;
+                background:#222;
+                color:white;
+                cursor:pointer;">
+              Login
+            </button>
+
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      createReviewForm();
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =====================================================
+     CREATE REVIEW FORM
+     ===================================================== */
+
+  function createReviewForm() {
+
+    const box =
+      document.getElementById(
+        "reviewBox"
+      );
+
+
+    let options = "";
+
+    allBooks.forEach(book => {
+
+      options += `
+        <option value="${escapeHTML(book.name)}">
+          ${escapeHTML(
+            removePdfExtension(book.name)
+          )}
+        </option>
+      `;
+
+    });
+
+
+    if (allBooks.length === 0) {
+
+      box.innerHTML = `
+        <div class="login-review-message">
+          📚 Books load hone ke baad review diya ja sakta hai.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    box.innerHTML = `
+
+      <select
+        id="reviewBook"
+        class="review-select">
+
+        ${options}
+
+      </select>
+
+
+      <div class="stars">
+
+        <button
+          class="star"
+          onclick="selectRating(1)"
+          id="star1">
+          ★
+        </button>
+
+        <button
+          class="star"
+          onclick="selectRating(2)"
+          id="star2">
+          ★
+        </button>
+
+        <button
+          class="star"
+          onclick="selectRating(3)"
+          id="star3">
+          ★
+        </button>
+
+        <button
+          class="star"
+          onclick="selectRating(4)"
+          id="star4">
+          ★
+        </button>
+
+        <button
+          class="star"
+          onclick="selectRating(5)"
+          id="star5">
+          ★
+        </button>
+
+      </div>
+
+
+      <textarea
+        id="reviewComment"
+        class="review-textarea"
+        placeholder="Write your review...">
+      </textarea>
+
+
+      <button
+        class="submit-review"
+        onclick="submitReview()">
+        ⭐ Submit Review
+      </button>
+
+
+      <div
+        id="reviewMessage"
+        style="
+          text-align:center;
+          margin-top:12px;">
+      </div>
+
+    `;
+
+  }
+
+
+  /* =====================================================
+     SELECT RATING
+     ===================================================== */
+
+  function selectRating(rating) {
+
+    if (!supabaseClient) {
+
+      openAuth("login");
+
+      return;
+
+    }
+
+
+    selectedRating =
+      rating;
+
+
+    for (
+      let i = 1;
+      i <= 5;
+      i++
+    ) {
+
+      const star =
+        document.getElementById(
+          "star" + i
+        );
+
+      if (!star) continue;
+
+
+      if (i <= rating) {
+
+        star.classList.add(
+          "selected"
+        );
+
+      } else {
+
+        star.classList.remove(
+          "selected"
+        );
+
+      }
+
+    }
+
+  }
+
+
+  /* =====================================================
+     SUBMIT REVIEW
+     ===================================================== */
+
+  async function submitReview() {
+
+    if (!supabaseClient) {
+
+      openAuth("login");
+
+      return;
+
+    }
+
+
+    const {
+      data
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (!data.session) {
+
+      openAuth("login");
+
+      return;
+
+    }
+
+
+    if (selectedRating === 0) {
+
+      alert(
+        "Please select a rating."
+      );
+
+      return;
+
+    }
+
+
+    const book =
+      document
+        .getElementById(
+          "reviewBook"
+        )
+        .value;
+
+
+    const comment =
+      document
+        .getElementById(
+          "reviewComment"
+        )
+        .value
+        .trim();
+
+
+    const message =
+      document.getElementById(
+        "reviewMessage"
+      );
+
+
+    message.innerHTML =
+      "⏳ Submitting...";
+
+
+    try {
+
+      await fetch(
+        GOOGLE_SCRIPT_URL,
+        {
+          method: "POST",
+
+          mode: "no-cors",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body: JSON.stringify({
+
+            book: book,
+
+            rating:
+              selectedRating,
+
+            comment:
+              comment,
+
+            email:
+              data.session.user.email
+
+          })
+
+        }
+      );
+
+
+      message.innerHTML =
+        "✅ Review submitted successfully!";
+
+
+      document
+        .getElementById(
+          "reviewComment"
+        )
+        .value = "";
+
+
+      selectedRating =
+        0;
+
+
+      for (
+        let i = 1;
+        i <= 5;
+        i++
+      ) {
+
+        const star =
+          document.getElementById(
+            "star" + i
+          );
+
+        if (star) {
+
+          star.classList.remove(
+            "selected"
+          );
+
+        }
+
+      }
+
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+      message.innerHTML =
+        "❌ Review submit nahi ho saka.";
+
+    }
+
+  }
+
+
+  /* =====================================================
+     SUPABASE AUTH STATE LISTENER
+     ===================================================== */
+
+  function setupAuthListener() {
+
+    if (!supabaseClient) {
+
+      return;
+
+    }
+
+
+    supabaseClient.auth.onAuthStateChange(
+      (event, session) => {
+
+        console.log(
+          "Auth event:",
+          event
+        );
+
+        updateAuthUI(session);
+
+        updateReviewBox();
+
+      }
+    );
+
+  }
+
+
+  /* =====================================================
+     START WEBSITE
+     ===================================================== */
+
+  /*
+     IMPORTANT:
+     Books FIRST load hongi.
+     Supabase mein koi problem ho to bhi
+     books rukengi nahi.
+  */
+
+  loadBooks();
+
+
+  /*
+     Supabase ko books ke baad initialize kar rahe hain.
+  */
+
+  initializeSupabase();
+
+  setupAuthListener();
+
+  checkAuth();
+
+
+  /* =====================================================
+     CLOSE HELP WHEN CLICKING OUTSIDE
+     ===================================================== */
+
+  document.addEventListener(
+    "click",
+    function(event) {
+
+      const wrapper =
+        document.querySelector(
+          ".help-wrapper"
+        );
+
+      const menu =
+        document.getElementById(
+          "helpMenu"
+        );
+
+
+      if (
+        wrapper &&
+        !wrapper.contains(event.target)
+      ) {
+
+        menu.style.display =
+          "none";
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
