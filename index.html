@@ -93,14 +93,9 @@
     }
 
     .hero h1 {
-      font-size: 48px;
-      margin-bottom: 15px;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-    }
-
-    .hero h1 {
       font-size: 38px;
       margin-bottom: 12px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
     }
 
     .hero p {
@@ -112,6 +107,7 @@
     .search-box {
       max-width: 600px;
       margin: auto;
+      width: 100%;
     }
 
     .search-box input {
@@ -248,7 +244,7 @@
     }
 
     /* =====================================================
-       MODAL
+       MODALS
     ===================================================== */
 
     .modal {
@@ -533,6 +529,10 @@
 
     @media (max-width: 600px) {
 
+      .navbar {
+        align-items: flex-start;
+      }
+
       .logo {
         font-size: 20px;
       }
@@ -657,7 +657,7 @@
 
 
   <!-- =====================================================
-       HOME / HERO
+       HOME
   ===================================================== -->
 
   <section class="hero" id="homeSection">
@@ -833,8 +833,7 @@
       <p
         id="authMessage"
         style="margin-top:12px;text-align:center;"
-      >
-      </p>
+      ></p>
 
     </div>
 
@@ -863,8 +862,7 @@
       <p
         id="reviewBookTitle"
         style="margin-bottom:15px;font-weight:bold;"
-      >
-      </p>
+      ></p>
 
       <div class="form-group">
 
@@ -918,7 +916,6 @@
 
       </div>
 
-
       <div class="form-group">
 
         <label>
@@ -932,7 +929,6 @@
 
       </div>
 
-
       <button
         class="primary-btn"
         onclick="submitReview()"
@@ -943,8 +939,7 @@
       <p
         id="reviewMessage"
         style="margin-top:12px;text-align:center;"
-      >
-      </p>
+      ></p>
 
     </div>
 
@@ -973,8 +968,7 @@
       <p
         id="commentsBookTitle"
         style="font-weight:bold;margin-bottom:18px;"
-      >
-      </p>
+      ></p>
 
       <div id="commentsContainer">
         Loading comments...
@@ -1251,7 +1245,7 @@
       grid.className = "books-grid";
 
 
-      books.forEach((book, index) => {
+      books.forEach((book) => {
 
         const card =
           document.createElement("div");
@@ -1306,11 +1300,6 @@
         readBtn.textContent =
           "📖 Read";
 
-        /*
-          Direct book object use kiya gaya hai.
-          Isse search ke baad bhi correct book open hogi.
-        */
-
         readBtn.onclick =
           () => openReaderBook(book);
 
@@ -1329,7 +1318,7 @@
           "📥 Download";
 
         downloadBtn.onclick =
-          () => downloadBook(index);
+          () => downloadBook(book);
 
 
         /* =====================================================
@@ -1346,7 +1335,7 @@
           "🔗 Share Book";
 
         shareBtn.onclick =
-          () => shareBook(index);
+          () => shareBook(book);
 
 
         /* =====================================================
@@ -1366,7 +1355,7 @@
           book.name;
 
         rateBtn.onclick =
-          () => openReviewForBook(index);
+          () => openReviewForBook(book);
 
 
         /* =====================================================
@@ -1383,7 +1372,7 @@
           "💬 Comments";
 
         commentsBtn.onclick =
-          () => showCommentsForBook(index);
+          () => showCommentsForBook(book);
 
 
         buttons.appendChild(readBtn);
@@ -1497,13 +1486,9 @@
        DOWNLOAD BOOK
     ===================================================== */
 
-    function downloadBook(index) {
-
-      const book =
-        allBooks[index];
+    function downloadBook(book) {
 
       if (!book) return;
-
 
       const link =
         document.createElement("a");
@@ -1533,26 +1518,161 @@
        SHARE BOOK
     ===================================================== */
 
-    const sharedBook =
-  new URLSearchParams(
-    window.location.search
-  ).get("book");
+    async function shareBook(book) {
 
-if (sharedBook) {
+      if (!book) {
 
-  const book =
-    allBooks.find(
-      b => b.name === sharedBook
-    );
+        alert("Book nahi mili.");
 
-  if (book) {
+        return;
 
-    setTimeout(() => {
-      openReaderBook(book);
-    }, 500);
+      }
 
-  }
-}
+
+      const title =
+        removePdfExtension(book.name);
+
+
+      /*
+        Direct GitHub PDF URL share nahi hoga.
+
+        Current Attari Books website ka URL
+        + selected book ka naam share hoga.
+      */
+
+      const bookUrl =
+        window.location.origin +
+        window.location.pathname +
+        "?book=" +
+        encodeURIComponent(book.name);
+
+
+      const shareText =
+        `📚 ${title}\n\nAttari Books par ye kitab padhein:\n${bookUrl}`;
+
+
+      /* =====================================================
+         MOBILE / BROWSER SHARE
+      ===================================================== */
+
+      if (
+        navigator.share &&
+        typeof navigator.share === "function"
+      ) {
+
+        try {
+
+          await navigator.share({
+
+            title:
+              "Attari Books - " + title,
+
+            text:
+              `📚 ${title}\n\nAttari Books par ye kitab padhein:`,
+
+            url:
+              bookUrl
+
+          });
+
+          return;
+
+        } catch (error) {
+
+          /*
+            User ne share cancel kiya ho
+            to WhatsApp automatically nahi kholenge.
+          */
+
+          if (
+            error &&
+            error.name === "AbortError"
+          ) {
+
+            console.log(
+              "Share cancelled by user."
+            );
+
+            return;
+
+          }
+
+          console.error(
+            "Native share error:",
+            error
+          );
+
+        }
+
+      }
+
+
+      /* =====================================================
+         WHATSAPP FALLBACK
+      ===================================================== */
+
+      const whatsappUrl =
+        "https://wa.me/?text=" +
+        encodeURIComponent(shareText);
+
+
+      window.open(
+        whatsappUrl,
+        "_blank"
+      );
+
+    }
+
+
+    /* =====================================================
+       OPEN SHARED BOOK
+    ===================================================== */
+
+    function openSharedBook() {
+
+      const sharedBookName =
+        new URLSearchParams(
+          window.location.search
+        ).get("book");
+
+
+      if (!sharedBookName) {
+
+        return;
+
+      }
+
+
+      const book =
+        allBooks.find(
+          b => b.name === sharedBookName
+        );
+
+
+      if (!book) {
+
+        console.log(
+          "Shared book not found:",
+          sharedBookName
+        );
+
+        return;
+
+      }
+
+
+      /*
+        Page load hone ke baad
+        selected book ka Reader open hoga.
+      */
+
+      setTimeout(() => {
+
+        openReaderBook(book);
+
+      }, 700);
+
+    }
 
 
     /* =====================================================
@@ -2113,10 +2233,7 @@ if (sharedBook) {
        OPEN REVIEW
     ===================================================== */
 
-    async function openReviewForBook(index) {
-
-      const book =
-        allBooks[index];
+    async function openReviewForBook(book) {
 
       if (!book) return;
 
@@ -2298,8 +2415,6 @@ if (sharedBook) {
         );
 
 
-      /* Client-side check */
-
       const alreadyReviewed =
         await hasUserReviewed(
           selectedBook.name,
@@ -2409,10 +2524,7 @@ if (sharedBook) {
        SHOW COMMENTS
     ===================================================== */
 
-    async function showCommentsForBook(index) {
-
-      const book =
-        allBooks[index];
+    async function showCommentsForBook(book) {
 
       if (!book) return;
 
@@ -2472,8 +2584,6 @@ if (sharedBook) {
 
       container.innerHTML = "";
 
-
-      /* Latest comments first */
 
       bookReviews
         .slice()
@@ -2635,10 +2745,6 @@ if (sharedBook) {
     let readerPdfUrl = null;
 
 
-    /*
-      Main reader function.
-    */
-
     async function openReader(index) {
 
       const book =
@@ -2650,10 +2756,6 @@ if (sharedBook) {
 
     }
 
-
-    /*
-      Selected book ko Full PDF Reader mein open karta hai.
-    */
 
     async function openReaderBook(book) {
 
@@ -2718,11 +2820,6 @@ if (sharedBook) {
 
         pdfPages.innerHTML = "";
 
-
-        /*
-          PDF ki har page ko
-          ek-ek karke render karega.
-        */
 
         for (
           let pageNumber = 1;
@@ -2833,9 +2930,9 @@ if (sharedBook) {
     }
 
 
-    /*
-      Reader close.
-    */
+    /* =====================================================
+       CLOSE READER
+    ===================================================== */
 
     function closeReader() {
 
@@ -2902,6 +2999,13 @@ if (sharedBook) {
       await refreshAuthUI();
 
       await loadBooks();
+
+      /*
+        Books load hone ke baad
+        shared book check hogi.
+      */
+
+      openSharedBook();
 
       await loadSubmittedReviews();
 
