@@ -1533,67 +1533,26 @@
        SHARE BOOK
     ===================================================== */
 
-    async function shareBook(index) {
+    const sharedBook =
+  new URLSearchParams(
+    window.location.search
+  ).get("book");
 
-      const book =
-        allBooks[index];
+if (sharedBook) {
 
-      if (!book) return;
+  const book =
+    allBooks.find(
+      b => b.name === sharedBook
+    );
 
+  if (book) {
 
-      const title =
-        removePdfExtension(book.name);
+    setTimeout(() => {
+      openReaderBook(book);
+    }, 500);
 
-      const url =
-        book.download_url;
-
-
-      const shareText =
-        `📚 ${title}\n\nAttari Books se book padhein:\n${url}`;
-
-
-      if (navigator.share) {
-
-        try {
-
-          await navigator.share({
-
-            title:
-              `Attari Books - ${title}`,
-
-            text:
-              `📚 ${title}`,
-
-            url:
-              url
-
-          });
-
-          return;
-
-        } catch (error) {
-
-          console.log(
-            "Share cancelled."
-          );
-
-        }
-
-      }
-
-
-      /* WhatsApp fallback */
-
-      const whatsappUrl =
-        `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-
-
-      window.open(
-        whatsappUrl,
-        "_blank"
-      );
-
-    }
+  }
+}
 
 
     /* =====================================================
