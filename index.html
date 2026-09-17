@@ -744,40 +744,42 @@
 
 <!-- ================= PDF READER ================= -->
 
-<div id="readerModal" class="modal">
+/* PDF READER */
 
-  <div class="modal-content">
+let currentPdfUrl = null;
 
-    <button
-      class="close-btn"
-      onclick="closeReader()">
-      ×
-    </button>
+function openReader(index) {
+  const book = allBooks[index];
 
-    <div class="reader-toolbar">
+  if (!book) return;
 
-      <button onclick="previousPage()">
-        ◀ Previous
-      </button>
+  currentPdfUrl = book.download_url;
 
-      <span class="page-info">
-        Page <span id="currentPage">1</span>
-        /
-        <span id="totalPages">1</span>
-      </span>
+  const bookTitle = removePdfExtension(book.name);
 
-      <button onclick="nextPage()">
-        Next ▶
-      </button>
+  document.getElementById("readerBookTitle").textContent =
+    "📖 " + bookTitle;
 
-    </div>
+  const frame = document.getElementById("pdfFrame");
 
-    <canvas id="pdfCanvas"></canvas>
+  frame.src = currentPdfUrl;
 
-  </div>
+  openModal("readerModal");
+}
 
-</div>
+function openFullPdf() {
+  if (!currentPdfUrl) return;
 
+  window.open(currentPdfUrl, "_blank");
+}
+
+function closeReader() {
+  document.getElementById("readerModal").style.display = "none";
+
+  document.getElementById("pdfFrame").src = "";
+
+  currentPdfUrl = null;
+}
 
 <script>
 
