@@ -2072,22 +2072,19 @@ commentCount;
 
 
 /* ==================================================
-   SHARE
+SHARE BOOK DETAILS PAGE
 ================================================== */
 
-async function shareBook(
-bookIndex
-){
+async function shareBook(bookIndex){
 
-const book =
-allBooks[bookIndex];
+const book = allBooks[bookIndex];
 
 if(!book)return;
 
-const title =
-removePdfExtension(
-book.name
-);
+const title = removePdfExtension(book.name);
+
+const shareUrl =
+`${window.location.origin}/book.html?book=${encodeURIComponent(book.name)}`;
 
 if(navigator.share){
 
@@ -2096,14 +2093,13 @@ try{
 await navigator.share({
 
 title:
-"Attari Books - " +
-title,
+"Attari Books - " + title,
 
 text:
 "📚 " + title,
 
 url:
-book.download_url
+shareUrl
 
 });
 
@@ -2121,10 +2117,7 @@ return;
 const whatsapp =
 "https://wa.me/?text=" +
 encodeURIComponent(
-"📚 " +
-title +
-"\n" +
-book.download_url
+"📚 " + title + "\n" + shareUrl
 );
 
 window.open(
