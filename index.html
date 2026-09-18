@@ -1,8 +1,17 @@
-<!DOCTYPE html>  <html lang="en">    <head>    
-<meta charset="UTF-8">    
-<meta name="viewport" content="width=device-width,initial-scale=1.0">    
-<title>Attari Books</title>  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>    
-*{box-sizing:border-box;margin:0;padding:0}    body{
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Attari Books</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
 font-family:Arial,sans-serif;
 background:#f4f6f8;
 color:#222;
@@ -202,7 +211,7 @@ margin-top:1px;
 }
 
 /* =========================
-BOOK DETAILS
+   BOOK DETAILS
 ========================= */
 
 .details-modal{
@@ -294,7 +303,7 @@ cursor:pointer;
 .views-action{background:#555;cursor:default}
 
 /* =========================
-MODALS
+   MODALS
 ========================= */
 
 .modal,
@@ -448,7 +457,7 @@ margin-top:7px;
 }
 
 /* =========================
-HELP
+   HELP
 ========================= */
 
 .help-wrapper{
@@ -481,7 +490,7 @@ background:#eee;
 }
 
 /* =========================
-PDF READER
+   PDF READER
 ========================= */
 
 .reader-modal{
@@ -647,238 +656,442 @@ font-size:12px;
 }
 
 }
-</style>  </head>  <body>  <header>  <div class="logo">📚 Attari Books</div>  <nav>  <a href="#">Home</a>
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">📚 Attari Books</div>
+
+<nav>
+
+<a href="#">Home</a>
 <a href="#books">Books</a>
 
-<div class="help-wrapper">  <button onclick="toggleHelp()">Help</button>  <div class="help-menu" id="helpMenu">  <a href="https://wa.me/919534646778" target="_blank">    
-💬 WhatsApp    
-</a>  <a href="mailto:mdmalek26234@gmail.com">    
-✉️ Gmail / Email    
-</a>  </div>    
-</div>  <button    
-class="auth-btn"    
-id="loginBtn"    
-onclick="openAuth('login')">  
-🔐 Login  
-</button>  <button    
-class="auth-btn"    
-id="signupBtn"    
+<div class="help-wrapper">
+
+<button onclick="toggleHelp()">Help</button>
+
+<div class="help-menu" id="helpMenu">
+
+<a href="https://wa.me/919534646778" target="_blank">
+💬 WhatsApp
+</a>
+
+<a href="mailto:mdmalek26234@gmail.com">
+✉️ Gmail / Email
+</a>
+
+</div>
+</div>
+
+<button
+class="auth-btn"
+id="loginBtn"
+onclick="openAuth('login')">
+🔐 Login
+</button>
+
+<button
+class="auth-btn"
+id="signupBtn"
 onclick="openAuth('signup')">
 ✍️ Sign Up
 </button>
 
-<button    
-class="auth-btn logout-btn"    
-id="logoutBtn"    
-onclick="logout()"    
+<button
+class="auth-btn logout-btn"
+id="logoutBtn"
+onclick="logout()"
 style="display:none">
 Logout
 </button>
 
-</nav>    
-</header>  <section class="hero">  <h1>Attari Books</h1>  <p>Your Digital Library</p>  <input    
-id="searchBox"    
-type="text"    
-placeholder="Search books..."    
-oninput="searchBooks()">  </section>  <section class="books-section" id="books">  <h2 class="section-title">    
-Latest Books    
-</h2>  <div id="status">    
-📚 Loading books...    
-</div>  <div    
-class="books-grid"    
-id="booksGrid">    
-</div>  </section>  <!-- =========================    
-     BOOK DETAILS    
-========================= -->  <div    
-class="details-modal"    
-id="detailsModal">  <div class="details-box">  <button    
-class="details-close"    
-onclick="closeBookDetails()">  
-×  
-</button>  <div    
-class="details-cover"    
-id="detailsCover">    
-📖 Loading cover...    
-</div>  <div class="details-body">  <div    
-class="details-title"    
-id="detailsTitle">    
-Book    
-</div>  <div    
-class="details-archive"    
-id="detailsArchive">    
-archived    
-</div>  <div class="details-actions">  <button    
-class="details-action read-action"    
-onclick="detailsRead()">  
-📖 Read  
-</button>  <button    
-class="details-action download-action"    
+</nav>
+</header>
+
+
+<section class="hero">
+
+<h1>Attari Books</h1>
+
+<p>Your Digital Library</p>
+
+<input
+id="searchBox"
+type="text"
+placeholder="Search books..."
+oninput="searchBooks()">
+
+</section>
+
+
+<section class="books-section" id="books">
+
+<h2 class="section-title">
+Latest Books
+</h2>
+
+<div id="status">
+📚 Loading books...
+</div>
+
+<div
+class="books-grid"
+id="booksGrid">
+</div>
+
+</section>
+
+
+<!-- =========================
+     BOOK DETAILS
+========================= -->
+
+<div
+class="details-modal"
+id="detailsModal">
+
+<div class="details-box">
+
+<button
+class="details-close"
+onclick="closeBookDetails()">
+×
+</button>
+
+<div
+class="details-cover"
+id="detailsCover">
+📖 Loading cover...
+</div>
+
+<div class="details-body">
+
+<div
+class="details-title"
+id="detailsTitle">
+Book
+</div>
+
+<div
+class="details-archive"
+id="detailsArchive">
+archived
+</div>
+
+<div class="details-actions">
+
+<button
+class="details-action read-action"
+onclick="detailsRead()">
+📖 Read
+</button>
+
+<button
+class="details-action download-action"
 onclick="detailsDownload()">
 📥 Download
 </button>
 
-<button    
-class="details-action share-action"    
+<button
+class="details-action share-action"
 onclick="detailsShare()">
 🔗 Share Book
 </button>
 
-<button    
-class="details-action rate-action"    
+<button
+class="details-action rate-action"
 onclick="detailsRate()">
 ⭐ Rate & Review
 </button>
 
-<button    
-class="details-action comments-action"    
+<button
+class="details-action comments-action"
 onclick="detailsComments()">
 💬 Comments
 </button>
 
-<button    
-class="details-action views-action"    
+<button
+class="details-action views-action"
 id="detailsViews">
 👁️ Views: 0
 </button>
 
-</div>  </div>  </div>  </div>  <!-- =========================    
-     AUTH    
-========================= -->  <div    
-class="modal"    
-id="authModal">  <div class="modal-box">  <button    
-class="close-btn"    
-onclick="closeAuth()">  
-×  
-</button>  <h2 id="authTitle">    
-Login    
-</h2>  <div class="auth-tabs">  <button    
-id="loginTab"    
-class="active"    
-onclick="switchAuth('login')">  
-Login  
-</button>  <button    
-id="signupTab"    
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     AUTH
+========================= -->
+
+<div
+class="modal"
+id="authModal">
+
+<div class="modal-box">
+
+<button
+class="close-btn"
+onclick="closeAuth()">
+×
+</button>
+
+<h2 id="authTitle">
+Login
+</h2>
+
+<div class="auth-tabs">
+
+<button
+id="loginTab"
+class="active"
+onclick="switchAuth('login')">
+Login
+</button>
+
+<button
+id="signupTab"
 onclick="switchAuth('signup')">
 Sign Up
 </button>
 
-</div>  <form onsubmit="handleAuth(event)">  <input    
-id="authEmail"    
-class="auth-input"    
-type="email"    
-placeholder="Email"    
-required>  <input    
-id="authPassword"    
-class="auth-input"    
-type="password"    
-placeholder="Password"    
-minlength="6"    
+</div>
+
+<form onsubmit="handleAuth(event)">
+
+<input
+id="authEmail"
+class="auth-input"
+type="email"
+placeholder="Email"
 required>
 
-<button    
-id="authSubmit"    
-class="auth-submit"    
+<input
+id="authPassword"
+class="auth-input"
+type="password"
+placeholder="Password"
+minlength="6"
+required>
+
+<button
+id="authSubmit"
+class="auth-submit"
 type="submit">
 Login
 </button>
 
-</form>  <div id="authMessage"></div>  </div>  </div>  <!-- =========================    
-     REVIEW    
-========================= -->  <div    
-class="review-modal"    
-id="reviewModal">  <div class="review-box">  <button    
-class="close-btn"    
-onclick="closeReviewModal()">  
-×  
-</button>  <h2 style="text-align:center">    
-⭐ Rate & Review    
-</h2>  <p    
-id="reviewBookName"    
-style="text-align:center;color:#666;margin-top:8px">    
-Book    
-</p>  <div class="review-stars">  <button    
-class="review-star"    
-id="reviewStar1"    
-onclick="selectReviewRating(1)">  
-★  
-</button>  <button    
-class="review-star"    
-id="reviewStar2"    
+</form>
+
+<div id="authMessage"></div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     REVIEW
+========================= -->
+
+<div
+class="review-modal"
+id="reviewModal">
+
+<div class="review-box">
+
+<button
+class="close-btn"
+onclick="closeReviewModal()">
+×
+</button>
+
+<h2 style="text-align:center">
+⭐ Rate & Review
+</h2>
+
+<p
+id="reviewBookName"
+style="text-align:center;color:#666;margin-top:8px">
+Book
+</p>
+
+<div class="review-stars">
+
+<button
+class="review-star"
+id="reviewStar1"
+onclick="selectReviewRating(1)">
+★
+</button>
+
+<button
+class="review-star"
+id="reviewStar2"
 onclick="selectReviewRating(2)">
 ★
 </button>
 
-<button    
-class="review-star"    
-id="reviewStar3"    
+<button
+class="review-star"
+id="reviewStar3"
 onclick="selectReviewRating(3)">
 ★
 </button>
 
-<button    
-class="review-star"    
-id="reviewStar4"    
+<button
+class="review-star"
+id="reviewStar4"
 onclick="selectReviewRating(4)">
 ★
 </button>
 
-<button    
-class="review-star"    
-id="reviewStar5"    
+<button
+class="review-star"
+id="reviewStar5"
 onclick="selectReviewRating(5)">
 ★
 </button>
 
-</div>  <textarea    
-id="reviewComment"    
-class="review-textarea"    
-placeholder="Write your review...">    
-</textarea>  <button    
-class="submit-review"    
-onclick="submitReview()">  
-⭐ Submit Review  
-</button>  <div id="reviewMessage"></div>  </div>  </div>  <!-- =========================    
-     COMMENTS    
-========================= -->  <div    
-class="comments-modal"    
-id="commentsModal">  <div class="comments-box">  <button    
-class="close-btn"    
-onclick="closeComments()">  
-×  
-</button>  <h2 style="text-align:center">    
-💬 Comments    
-</h2>  <p    
-id="commentsBookName"    
-style="text-align:center;color:#666;margin-top:8px">    
-Book    
-</p>  <div    
-class="comments-list"    
-id="commentsList">    
-⏳ Loading...    
-</div>  </div>  </div>  <!-- =========================    
-     PDF READER    
-========================= -->  <div    
-class="reader-modal"    
-id="readerModal">  <div class="reader-header">  <button onclick="closeReader()">    
-✕ Close    
-</button>  <div class="reader-middle">  <div    
-class="reader-title"    
-id="readerTitle">    
-Attari Books    
-</div>  <div    
-class="reader-viewers"    
-id="readerViewerCount">    
-👁️ 0 people viewing    
-</div>  </div>  <div class="reader-page-controls">  <button onclick="previousPage()">    
-◀    
-</button>  <span id="readerPage">    
-Page 1    
-</span>  <button onclick="nextPage()">    
-▶    
-</button>  </div>  </div>  <div class="reader-content">  <canvas id="readerCanvas"></canvas>  <div id="readerLoading">    
-📖 Loading...    
-</div>  </div>  </div>  <footer>  © 2026 Attari Books — Your Digital Library  </footer>  <script>    /* ==================================================
-CONFIG
+</div>
+
+<textarea
+id="reviewComment"
+class="review-textarea"
+placeholder="Write your review...">
+</textarea>
+
+<button
+class="submit-review"
+onclick="submitReview()">
+⭐ Submit Review
+</button>
+
+<div id="reviewMessage"></div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     COMMENTS
+========================= -->
+
+<div
+class="comments-modal"
+id="commentsModal">
+
+<div class="comments-box">
+
+<button
+class="close-btn"
+onclick="closeComments()">
+×
+</button>
+
+<h2 style="text-align:center">
+💬 Comments
+</h2>
+
+<p
+id="commentsBookName"
+style="text-align:center;color:#666;margin-top:8px">
+Book
+</p>
+
+<div
+class="comments-list"
+id="commentsList">
+⏳ Loading...
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     PDF READER
+========================= -->
+
+<div
+class="reader-modal"
+id="readerModal">
+
+<div class="reader-header">
+
+<button onclick="closeReader()">
+✕ Close
+</button>
+
+<div class="reader-middle">
+
+<div
+class="reader-title"
+id="readerTitle">
+Attari Books
+</div>
+
+<div
+class="reader-viewers"
+id="readerViewerCount">
+👁️ 0 people viewing
+</div>
+
+</div>
+
+<div class="reader-page-controls">
+
+<button onclick="previousPage()">
+◀
+</button>
+
+<span id="readerPage">
+Page 1
+</span>
+
+<button onclick="nextPage()">
+▶
+</button>
+
+</div>
+
+</div>
+
+<div class="reader-content">
+
+<canvas id="readerCanvas"></canvas>
+
+<div id="readerLoading">
+📖 Loading...
+</div>
+
+</div>
+
+</div>
+
+
+<footer>
+
+© 2026 Attari Books — Your Digital Library
+
+</footer>
+
+
+<script>
+
+/* ==================================================
+   CONFIG
 ================================================== */
 
 const SUPABASE_URL =
@@ -899,8 +1112,9 @@ const GITHUB_REPO =
 const GITHUB_BRANCH =
 "main";
 
+
 /* ==================================================
-VARIABLES
+   VARIABLES
 ================================================== */
 
 let supabaseClient = null;
@@ -929,8 +1143,9 @@ let archiveDates = {};
 
 let submittedReviews = {};
 
+
 /* ==================================================
-PDF JS
+   PDF JS
 ================================================== */
 
 if(typeof pdfjsLib !== "undefined"){
@@ -940,8 +1155,9 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 
 }
 
+
 /* ==================================================
-SUPABASE
+   SUPABASE
 ================================================== */
 
 function initializeSupabase(){
@@ -969,18 +1185,20 @@ console.error(error);
 
 }
 
+
 /* ==================================================
-HELPERS
+   HELPERS
 ================================================== */
 
 function removePdfExtension(name){
 
 return name.replace(
-/.pdf$/i,
+/\.pdf$/i,
 ""
 );
 
 }
+
 
 function escapeHTML(text){
 
@@ -994,8 +1212,9 @@ return div.innerHTML;
 
 }
 
+
 /* ==================================================
-LOAD BOOKS
+   LOAD BOOKS
 ================================================== */
 
 async function loadBooks(){
@@ -1009,7 +1228,7 @@ status.textContent =
 try{
 
 const url =
-https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH};
+`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
 
 const response =
 await fetch(url);
@@ -1038,7 +1257,7 @@ html_url:file.html_url
 }));
 
 status.textContent =
-${allBooks.length} book(s) available;
+`${allBooks.length} book(s) available`;
 
 displayBooks(allBooks);
 
@@ -1053,8 +1272,9 @@ status.textContent =
 
 }
 
+
 /* ==================================================
-DISPLAY HOME CARDS
+   DISPLAY HOME CARDS
 ================================================== */
 
 function displayBooks(books){
@@ -1069,8 +1289,9 @@ if(!books.length){
 grid.innerHTML =
 `<div style="grid-column:1/-1;text-align:center">
 📚 No books found.
+</div>`;
 
-</div>`;    return;
+return;
 
 }
 
@@ -1090,38 +1311,65 @@ originalIndex;
 
 card.innerHTML = `
 
-<div    
-class="cover-box"    
-id="cover-${index}">    <div class="cover-loading">    
-📖 Loading cover...    
-</div>    <button    
-class="info-badge"    
-type="button"    
+<div
+class="cover-box"
+id="cover-${index}">
+
+<div class="cover-loading">
+📖 Loading cover...
+</div>
+
+<button
+class="info-badge"
+type="button"
 aria-label="Info">
 ⓘ
 </button>
 
-</div>    <div class="book-info">    <div    
-class="book-title"    
-title="Open book">    
-${escapeHTML(removePdfExtension(book.name))}    
-</div>    <div    
-class="archive-date"    
-id="archive-${index}">    
-archived    
-</div>    <div class="book-stats">    <span class="book-stat">    
-📖    
-</span>    <span class="book-stat">    
-👁️    
-<small class="book-view-count">0</small>    
-</span>    <span class="book-stat">    
-⭐    
-<small class="book-rating-count">0</small>    
-</span>    <span class="book-stat">    
-💬    
-<small class="book-comment-count">0</small>    
-</span>    </div>    </div>    
-`;    grid.appendChild(card);
+</div>
+
+<div class="book-info">
+
+<div
+class="book-title"
+title="Open book">
+${escapeHTML(removePdfExtension(book.name))}
+</div>
+
+<div
+class="archive-date"
+id="archive-${index}">
+archived
+</div>
+
+<div class="book-stats">
+
+<span class="book-stat">
+📖
+</span>
+
+<span class="book-stat">
+👁️
+<small class="book-view-count">0</small>
+</span>
+
+<span class="book-stat">
+⭐
+<small class="book-rating-count">0</small>
+</span>
+
+<span class="book-stat">
+💬
+<small class="book-comment-count">0</small>
+</span>
+
+</div>
+
+</div>
+`;
+
+grid.appendChild(card);
+
 
 /* ONLY BOOK NAME OPENS DETAILS */
 
@@ -1132,6 +1380,7 @@ card
 ()=>openBookDetails(originalIndex)
 );
 
+
 /* INFO BUTTON DOES NOTHING */
 
 card
@@ -1141,14 +1390,15 @@ card
 event=>event.stopPropagation()
 );
 
+
 renderCover(
 book.download_url,
-cover-${index}
+`cover-${index}`
 );
 
 loadArchiveDate(
 book,
-archive-${index}
+`archive-${index}`
 );
 
 });
@@ -1159,8 +1409,9 @@ loadAllBookViewCounts();
 
 }
 
+
 /* ==================================================
-PDF COVER
+   PDF COVER
 ================================================== */
 
 async function renderCover(
@@ -1219,13 +1470,15 @@ console.error(error);
 container.innerHTML =
 `<div class="cover-loading">
 📕 PDF Book
-
-</div>`;    }
+</div>`;
 
 }
 
+}
+
+
 /* ==================================================
-ARCHIVED DATE
+   ARCHIVED DATE
 ================================================== */
 
 async function loadArchiveDate(
@@ -1252,7 +1505,7 @@ return;
 }
 
 const url =
-https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/commits?path=${encodeURIComponent(book.name)}&sha=${GITHUB_BRANCH}&per_page=1;
+`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/commits?path=${encodeURIComponent(book.name)}&sha=${GITHUB_BRANCH}&per_page=1`;
 
 const response =
 await fetch(url);
@@ -1303,8 +1556,9 @@ el.textContent =
 
 }
 
+
 /* ==================================================
-BOOK DETAILS
+   BOOK DETAILS
 ================================================== */
 
 async function openBookDetails(
@@ -1364,8 +1618,9 @@ book.name
 
 }
 
+
 /* ==================================================
-CLOSE DETAILS
+   CLOSE DETAILS
 ================================================== */
 
 function closeBookDetails(){
@@ -1380,8 +1635,9 @@ null;
 
 }
 
+
 /* ==================================================
-DETAILS BUTTONS
+   DETAILS BUTTONS
 ================================================== */
 
 function detailsRead(){
@@ -1398,6 +1654,7 @@ closeBookDetails();
 openReader(index);
 
 }
+
 
 function detailsDownload(){
 
@@ -1420,6 +1677,7 @@ a.remove();
 
 }
 
+
 function detailsShare(){
 
 if(!selectedDetailsBook)return;
@@ -1431,6 +1689,7 @@ selectedDetailsBook
 );
 
 }
+
 
 function detailsRate(){
 
@@ -1444,6 +1703,7 @@ selectedDetailsBook
 
 }
 
+
 function detailsComments(){
 
 if(!selectedDetailsBook)return;
@@ -1456,8 +1716,9 @@ selectedDetailsBook
 
 }
 
+
 /* ==================================================
-SEARCH
+   SEARCH
 ================================================== */
 
 function searchBooks(){
@@ -1487,8 +1748,9 @@ book.name
 
 }
 
+
 /* ==================================================
-VIEWS
+   VIEWS
 ================================================== */
 
 async function loadAllBookViewCounts(){
@@ -1550,6 +1812,7 @@ error
 
 }
 
+
 async function updateBookViewCount(
 bookName
 ){
@@ -1589,6 +1852,7 @@ return 0;
 }
 
 }
+
 
 async function incrementBookView(
 bookName
@@ -1666,6 +1930,7 @@ return 0;
 
 }
 
+
 function updateVisibleViewCount(
 bookName,
 count
@@ -1678,7 +1943,7 @@ book => book.name === bookName
 
 const card =
 document.querySelector(
-.book-card[data-book-index="${index}"]
+`.book-card[data-book-index="${index}"]`
 );
 
 if(card){
@@ -1702,14 +1967,15 @@ document.getElementById(
 if(details){
 
 details.textContent =
-👁️ Views: ${count};
+`👁️ Views: ${count}`;
 
 }
 
 }
+
 
 /* ==================================================
-REVIEWS COUNTS
+   REVIEWS COUNTS
 ================================================== */
 
 async function loadReviews(){
@@ -1748,6 +2014,7 @@ return [];
 
 }
 
+
 function updateCardReviewCounts(){
 
 document
@@ -1765,7 +2032,7 @@ const rows =
 allReviews.filter(
 row =>
 String(row[0] || "").trim()
-
+===
 String(book.name).trim()
 );
 
@@ -1803,8 +2070,9 @@ commentCount;
 
 }
 
+
 /* ==================================================
-SHARE
+   SHARE
 ================================================== */
 
 async function shareBook(
@@ -1866,8 +2134,9 @@ whatsapp,
 
 }
 
+
 /* ==================================================
-COMMENTS
+   COMMENTS
 ================================================== */
 
 async function showCommentsForBook(
@@ -1906,7 +2175,7 @@ const rows =
 reviews.filter(
 row =>
 String(row[0] || "").trim()
-
+===
 String(book.name).trim()
 );
 
@@ -1915,8 +2184,9 @@ if(!rows.length){
 list.innerHTML =
 `<div style="text-align:center;padding:20px;color:#777">
 💬 No comments yet.
+</div>`;
 
-</div>`;    return;
+return;
 
 }
 
@@ -1956,25 +2226,33 @@ row[3]
 }
 
 return `
+<div class="comment-item">
 
-<div class="comment-item">    <div class="comment-rating">    
-${"★".repeat(rating)}    
-${"☆".repeat(5-rating)}    
-</div>    <div class="comment-text">    
-${comment || "No comment"}    
-</div>    ${
+<div class="comment-rating">
+${"★".repeat(rating)}
+${"☆".repeat(5-rating)}
+</div>
+
+<div class="comment-text">
+${comment || "No comment"}
+</div>
+
+${
 date
 ?
-<div class="comment-date">${escapeHTML(date)}</div>
+`<div class="comment-date">${escapeHTML(date)}</div>`
 :
 ""
 }
 
-</div>    
-`;    })
+</div>
+`;
+
+})
 .join("");
 
 }
+
 
 function closeComments(){
 
@@ -1985,8 +2263,9 @@ document.getElementById(
 
 }
 
+
 /* ==================================================
-REVIEW
+   REVIEW
 ================================================== */
 
 async function openReviewForBook(
@@ -2030,13 +2309,13 @@ const already =
 allReviews.some(
 row =>
 String(row[0] || "").trim()
-
+===
 String(book.name).trim()
 &&
 String(row[4] || "")
 .toLowerCase()
 .trim()
-
+===
 email
 );
 
@@ -2082,6 +2361,7 @@ document.getElementById(
 
 }
 
+
 function closeReviewModal(){
 
 document.getElementById(
@@ -2098,6 +2378,7 @@ selectedReviewRating =
 resetReviewStars();
 
 }
+
 
 function selectReviewRating(
 rating
@@ -2125,6 +2406,7 @@ i<=rating
 
 }
 
+
 function resetReviewStars(){
 
 for(
@@ -2145,8 +2427,9 @@ document
 
 }
 
+
 /* ==================================================
-SUBMIT REVIEW
+   SUBMIT REVIEW
 ================================================== */
 
 async function submitReview(){
@@ -2255,8 +2538,9 @@ message.textContent =
 
 }
 
+
 /* ==================================================
-AUTH
+   AUTH
 ================================================== */
 
 function openAuth(
@@ -2275,6 +2559,7 @@ switchAuth(mode);
 
 }
 
+
 function closeAuth(){
 
 document.getElementById(
@@ -2283,6 +2568,7 @@ document.getElementById(
 "none";
 
 }
+
 
 function switchAuth(
 mode
@@ -2323,6 +2609,7 @@ document.getElementById(
 );
 
 }
+
 
 async function handleAuth(
 event
@@ -2417,6 +2704,7 @@ message.textContent =
 
 }
 
+
 async function logout(){
 
 if(!supabaseClient)return;
@@ -2430,6 +2718,7 @@ alert(
 );
 
 }
+
 
 function updateAuthUI(
 session
@@ -2458,6 +2747,7 @@ session
 
 }
 
+
 async function checkAuth(){
 
 if(!supabaseClient){
@@ -2479,8 +2769,9 @@ data.session
 
 }
 
+
 /* ==================================================
-HELP
+   HELP
 ================================================== */
 
 function toggleHelp(){
@@ -2497,8 +2788,9 @@ menu.style.display === "block"
 
 }
 
+
 /* ==================================================
-PDF READER
+   PDF READER
 ================================================== */
 
 function getReaderViewerId(){
@@ -2537,6 +2829,7 @@ return "viewer-" + Date.now();
 
 }
 
+
 function makeChannelName(
 bookName
 ){
@@ -2551,13 +2844,9 @@ i++
 
 hash =
 ((hash << 5)
-
-hash
-
-
-bookName.charCodeAt(i))
+- hash
++ bookName.charCodeAt(i))
 |0;
-
 
 }
 
@@ -2565,6 +2854,7 @@ return "attari-book-" +
 Math.abs(hash);
 
 }
+
 
 function setReaderViewerCount(
 count
@@ -2582,9 +2872,10 @@ count === 1
 ?
 "👁️ 1 person viewing"
 :
-👁️ ${count} people viewing;
+`👁️ ${count} people viewing`;
 
 }
+
 
 async function startReaderPresence(
 book
@@ -2654,6 +2945,7 @@ new Date().toISOString()
 
 }
 
+
 async function stopReaderPresence(){
 
 if(
@@ -2685,8 +2977,9 @@ setReaderViewerCount(0);
 
 }
 
+
 /* ==================================================
-OPEN PDF READER
+   OPEN PDF READER
 ================================================== */
 
 async function openReader(
@@ -2753,8 +3046,9 @@ document.getElementById(
 
 }
 
+
 /* ==================================================
-RENDER READER PAGE
+   RENDER READER PAGE
 ================================================== */
 
 async function renderReaderPage(
@@ -2847,7 +3141,7 @@ loading.style.display =
 document.getElementById(
 "readerPage"
 ).textContent =
-Page ${pageNumber} / ${readerPdf.numPages};
+`Page ${pageNumber} / ${readerPdf.numPages}`;
 
 }catch(error){
 
@@ -2859,6 +3153,7 @@ loading.textContent =
 }
 
 }
+
 
 async function nextPage(){
 
@@ -2878,6 +3173,7 @@ readerCurrentPage
 
 }
 
+
 async function previousPage(){
 
 if(
@@ -2894,6 +3190,7 @@ readerCurrentPage
 }
 
 }
+
 
 function closeReader(){
 
@@ -2931,8 +3228,9 @@ canvas.height
 
 }
 
+
 /* ==================================================
-CLICK OUTSIDE MODALS
+   CLICK OUTSIDE MODALS
 ================================================== */
 
 document
@@ -2947,6 +3245,7 @@ closeBookDetails();
 }
 );
 
+
 document
 .getElementById("reviewModal")
 .addEventListener(
@@ -2959,6 +3258,7 @@ closeReviewModal();
 }
 );
 
+
 document
 .getElementById("commentsModal")
 .addEventListener(
@@ -2970,6 +3270,7 @@ closeComments();
 
 }
 );
+
 
 document.addEventListener(
 "click",
@@ -2998,8 +3299,9 @@ menu.style.display =
 }
 );
 
+
 /* ==================================================
-KEYBOARD
+   KEYBOARD
 ================================================== */
 
 document.addEventListener(
@@ -3028,8 +3330,9 @@ closeReader();
 }
 );
 
+
 /* ==================================================
-START
+   START
 ================================================== */
 
 initializeSupabase();
@@ -3052,6 +3355,7 @@ updateAuthUI(session);
 
 }
 
-</script>  </body>
+</script>
 
+</body>
 </html>
