@@ -882,33 +882,53 @@ Book
 class="comments-list"  
 id="commentsList">  
 ⏳ Loading...  
-</div>  </div>  </div>  <!-- =========================  
-     PDF READER  
-========================= -->  <div  
-class="reader-modal"  
-id="readerModal">  <div class="reader-header">  <button onclick="closeReader()">  
-✕ Close  
-</button>  <div class="reader-middle">  <div  
-class="reader-title"  
-id="readerTitle">  
-Attari Books  
-</div>  <div  
-class="reader-viewers"  
-id="readerViewerCount">  
-👁️ 0 people viewing  
-</div>  </div>  <div class="reader-page-controls">  <button onclick="previousPage()">  
-◀  
-</button>  <span id="readerPage">  
-Page 1  
-</span>  <button onclick="nextPage()">  
-▶  
-</button>  </div>  </div>  <div class="reader-content">  <canvas id="readerCanvas"></canvas>
+</div>  </div>  </div>  <!-- =========================
+     FULL SCREEN PDF READER
+========================= -->
 
-<div id="readerLoading">  
-📖 Loading...  
-</div>  </div>  </div>  <footer>  © 2026 Attari Books — Your Digital Library
+<div
+class="reader-modal"
+id="readerModal">
 
-</footer>  <script>  
+    <div class="reader-header">
+
+        <button onclick="closeReader()">
+            ✕ Close
+        </button>
+
+        <div class="reader-middle">
+
+            <div
+            class="reader-title"
+            id="readerTitle">
+                Attari Books
+            </div>
+
+            <div
+            class="reader-viewers"
+            id="readerViewerCount">
+                👁️ 0 people viewing
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+    class="reader-content"
+    id="readerContent">
+
+        <div id="readerLoading">
+            📖 Loading PDF...
+        </div>
+
+        <div
+        id="readerPages">
+        </div>
+
+    </div>
+
+</div>  
   
 /* ==================================================  
    CONFIG  
