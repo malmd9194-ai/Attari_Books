@@ -2126,7 +2126,17 @@ whatsapp,
 );
 
 }
+function detailsShare(){
 
+  if(!selectedDetailsBook)return;
+
+  shareBook(
+    allBooks.indexOf(
+      selectedDetailsBook
+    )
+  );
+
+   }
 
 /* ==================================================
    COMMENTS
