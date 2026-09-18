@@ -732,11 +732,37 @@
 
       <div class="reader-header">
 
-        <div
-          class="reader-title"
-          id="readerTitle"
-        >
-          📖 PDF Reader
+        <div style="min-width:0;flex:1;">
+
+          <div
+            class="reader-title"
+            id="readerTitle"
+          >
+            📖 PDF Reader
+          </div>
+
+          <div
+            id="readerViewerCount"
+            style="
+              margin-top:4px;
+              font-size:13px;
+              color:#d1d5db;
+            "
+          >
+            👁️ 0 people viewing
+          </div>
+
+          <div
+            id="readerTotalViews"
+            style="
+              margin-top:3px;
+              font-size:12px;
+              color:#9ca3af;
+            "
+          >
+            📊 Total views: 0
+          </div>
+
         </div>
 
         <button
@@ -1242,7 +1268,8 @@
       const grid =
         document.createElement("div");
 
-      grid.className = "books-grid";
+      grid.className =
+        "books-grid";
 
 
       books.forEach((book) => {
@@ -1250,7 +1277,8 @@
         const card =
           document.createElement("div");
 
-        card.className = "book-card";
+        card.className =
+          "book-card";
 
 
         const cover =
@@ -2745,25 +2773,583 @@
     let readerPdfUrl = null;
 
 
+    /* =====================================================
+       LIVE VIEWERS
+    ===================================================== */
+
+    let readerPresenceChannel = null;
+
+    let readerPresenceBook = null;
+
+    let viewerId = null;
+
+
+    /* =====================================================
+       UNIQUE VIEWER ID
+    ===================================================== */
+
+    function getViewerId() {
+
+      try {
+
+        viewerId =
+          localStorage.getItem(
+            "attari_books_viewer_id"
+          );
+
+
+        if (!viewerId) {
+
+          viewerId =
+            crypto.randomUUID();
+
+          localStorage.setItem(
+            "attari_books_viewer_id",
+            viewerId
+          );
+
+        }
+
+      } catch (error) {
+
+        viewerId =
+          "viewer-" +
+          Date.now() +
+          "-" +
+          Math.random()
+            .toString(36)
+            .substring(2);
+
+      }
+
+
+      return viewerId;
+
+    }
+
+
+    /* =====================================================
+       CREATE SAFE BOOK CHANNEL NAME
+    ===================================================== */
+
+    function createBookChannelName(bookName) {
+
+      let hash = 0;
+
+
+      for (
+        let i = 0;
+        i < bookName.length;
+        i++
+      ) {
+
+        hash =
+          (
+            (hash << 5) -
+            hash +
+            bookName.charCodeAt(i)
+          ) |
+          0;
+
+      }
+
+
+      return (
+        "attari-book-viewers-" +
+        Math.abs(hash)
+      );
+
+    }
+
+
+    /* =====================================================
+       UPDATE LIVE VIEWER COUNT
+    ===================================================== */
+
+    function updateReaderViewerCount(count) {
+
+      const element =
+        document.getElementById(
+          "readerViewerCount"
+        );
+
+
+      if (!element) return;
+
+
+      count =
+        Number(count || 0);
+
+
+      if (count === 1) {
+
+        element.textContent =
+          "👁️ 1 person viewing";
+
+      } else {
+
+        element.textContent =
+          `👁️ ${count} people viewing`;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       UPDATE TOTAL VIEWS
+    ===================================================== */
+
+    function updateReaderTotalViews(count) {
+
+      const element =
+        document.getElementById(
+          "readerTotalViews"
+        );
+
+
+      if (!element) return;
+
+
+      element.textContent =
+        `📊 Total views: ${Number(count || 0)}`;
+
+    }
+
+
+    /* =====================================================
+       LOAD TOTAL VIEWS
+    ===================================================== */
+
+    async function loadBookTotalViews(bookName) {
+
+      if (!bookName) return;
+
+
+      try {
+
+        const { data, error } =
+          await supabaseClient
+            .from("book_views")
+            .select("view_count")
+            .eq(
+              "book_name",
+              bookName
+            )
+            .maybeSingle();
+
+
+        if (error) {
+
+          console.error(
+            "Load total views error:",
+            error
+          );
+
+          return;
+
+        }
+
+
+        updateReaderTotalViews(
+          data
+            ? Number(
+                data.view_count || 0
+              )
+            : 0
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Total views load error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       ADD ONE TOTAL VIEW
+    ===================================================== */
+
+    async function addBookView(bookName) {
+
+      if (!bookName) return;
+
+
+      try {
+
+        const { data, error } =
+          await supabaseClient
+            .from("book_views")
+            .select("view_count")
+            .eq(
+              "book_name",
+              bookName
+            )
+            .maybeSingle();
+
+
+        if (error) {
+
+          console.error(
+            "View check error:",
+            error
+          );
+
+          return;
+
+        }
+
+
+        let newCount =
+          1;
+
+
+        if (data) {
+
+          newCount =
+            Number(
+              data.view_count || 0
+            ) + 1;
+
+
+          const { error: updateError } =
+            await supabaseClient
+              .from("book_views")
+              .update({
+                view_count:
+                  newCount
+              })
+              .eq(
+                "book_name",
+                bookName
+              );
+
+
+          if (updateError) {
+
+            console.error(
+              "View update error:",
+              updateError
+            );
+
+            return;
+
+          }
+
+        } else {
+
+          const { error: insertError } =
+            await supabaseClient
+              .from("book_views")
+              .insert({
+
+                book_name:
+                  bookName,
+
+                view_count:
+                  1
+
+              });
+
+
+          if (insertError) {
+
+            console.error(
+              "View insert error:",
+              insertError
+            );
+
+            return;
+
+          }
+
+        }
+
+
+        updateReaderTotalViews(
+          newCount
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Total view error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       START LIVE VIEWER PRESENCE
+    ===================================================== */
+
+    async function startBookViewerPresence(book) {
+
+      if (!book) return;
+
+
+      await stopBookViewerPresence();
+
+
+      const id =
+        getViewerId();
+
+
+      const channelName =
+        createBookChannelName(
+          book.name
+        );
+
+
+      readerPresenceBook =
+        book.name;
+
+
+      readerPresenceChannel =
+        supabaseClient.channel(
+          channelName,
+          {
+            config: {
+              presence: {
+                key: id
+              }
+            }
+          }
+        );
+
+
+      readerPresenceChannel.on(
+        "presence",
+        {
+          event: "sync"
+        },
+        () => {
+
+          if (
+            !readerPresenceChannel
+          ) {
+
+            return;
+
+          }
+
+
+          const state =
+            readerPresenceChannel
+              .presenceState();
+
+
+          const count =
+            Object.keys(
+              state
+            ).length;
+
+
+          updateReaderViewerCount(
+            count
+          );
+
+        }
+      );
+
+
+      readerPresenceChannel.subscribe(
+        async (status) => {
+
+          console.log(
+            "Viewer presence:",
+            status
+          );
+
+
+          if (
+            status === "SUBSCRIBED"
+          ) {
+
+            const { error } =
+              await readerPresenceChannel.track({
+
+                viewer_id:
+                  id,
+
+                book:
+                  book.name,
+
+                online_at:
+                  new Date()
+                    .toISOString()
+
+              });
+
+
+            if (error) {
+
+              console.error(
+                "Presence track error:",
+                error
+              );
+
+            }
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       STOP LIVE VIEWER PRESENCE
+    ===================================================== */
+
+    async function stopBookViewerPresence() {
+
+      if (
+        !readerPresenceChannel
+      ) {
+
+        readerPresenceBook =
+          null;
+
+        updateReaderViewerCount(
+          0
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        await readerPresenceChannel
+          .untrack();
+
+      } catch (error) {
+
+        console.error(
+          "Untrack error:",
+          error
+        );
+
+      }
+
+
+      try {
+
+        await supabaseClient
+          .removeChannel(
+            readerPresenceChannel
+          );
+
+      } catch (error) {
+
+        console.error(
+          "Remove channel error:",
+          error
+        );
+
+      }
+
+
+      readerPresenceChannel =
+        null;
+
+      readerPresenceBook =
+        null;
+
+
+      updateReaderViewerCount(
+        0
+      );
+
+    }
+
+
+    /* =====================================================
+       OPEN READER
+    ===================================================== */
+
     async function openReader(index) {
 
       const book =
         allBooks[index];
 
+
       if (!book) return;
+
 
       openReaderBook(book);
 
     }
 
 
+    /* =====================================================
+       OPEN READER BOOK
+    ===================================================== */
+
     async function openReaderBook(book) {
 
       if (!book) return;
 
 
+      /*
+        Agar same book already open nahi hai,
+        tabhi total view +1 karein.
+      */
+
+      const isNewBook =
+        readerPresenceBook !==
+        book.name;
+
+
       readerPdfUrl =
         book.download_url;
+
+
+      /*
+        Live viewer tracking.
+      */
+
+      await startBookViewerPresence(
+        book
+      );
+
+
+      /*
+        Total view +1.
+        Same book ko reader ke andar
+        dobara load karne par duplicate
+        count nahi hoga.
+      */
+
+      if (isNewBook) {
+
+        addBookView(
+          book.name
+        );
+
+      }
+
+
+      /*
+        Current total views load.
+      */
+
+      loadBookTotalViews(
+        book.name
+      );
 
 
       const reader =
@@ -2789,6 +3375,16 @@
         removePdfExtension(
           book.name
         );
+
+
+      updateReaderViewerCount(
+        1
+      );
+
+
+      updateReaderTotalViews(
+        0
+      );
 
 
       pdfPages.innerHTML = `
@@ -2942,6 +3538,13 @@
         );
 
 
+      /*
+        Live viewer tracking stop.
+      */
+
+      stopBookViewerPresence();
+
+
       reader.style.display =
         "none";
 
@@ -2962,7 +3565,43 @@
       readerPdfUrl =
         null;
 
+
+      updateReaderTotalViews(
+        0
+      );
+
     }
+
+
+    /* =====================================================
+       PAGE CLOSE / HIDE
+    ===================================================== */
+
+    window.addEventListener(
+      "pagehide",
+      function() {
+
+        if (
+          readerPresenceChannel
+        ) {
+
+          try {
+
+            readerPresenceChannel
+              .untrack();
+
+          } catch (error) {
+
+            console.error(
+              error
+            );
+
+          }
+
+        }
+
+      }
+    );
 
 
     /* =====================================================
