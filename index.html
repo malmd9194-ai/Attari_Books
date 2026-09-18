@@ -698,7 +698,7 @@ onclick="openAuth('login')">
 class="auth-btn"
 id="signupBtn"
 onclick="openAuth('signup')">
-🔏 Sign Up
+✍️ Sign Up
 </button>
 
 <button
@@ -2071,60 +2071,69 @@ commentCount;
 }
 
 
-/* =========================
-   SHARE BOOK
-   ========================= */
+/* ==================================================
+   SHARE
+================================================== */
 
-async function shareBook(bookIndex) {
+async function shareBook(
+bookIndex
+){
 
-    const book = allBooks[bookIndex];
+const book =
+allBooks[bookIndex];
 
-    if (!book) {
-        return;
-    }
+if(!book)return;
 
-    const title = removePdfExtension(book.name);
+const title =
+removePdfExtension(
+book.name
+);
 
-    // Direct PDF link share nahi hoga
-    const shareUrl =
-        `${window.location.origin}/book.html?book=${encodeURIComponent(book.name)}`;
+if(navigator.share){
 
-    if (navigator.share) {
+try{
 
-        try {
+await navigator.share({
 
-            await navigator.share({
-                title: "Attari Books - " + title,
-                text: "📚 " + title,
-                url: shareUrl
-            });
+title:
+"Attari Books - " +
+title,
 
-            return;
+text:
+"📚 " + title,
 
-        } catch (error) {
+url:
+book.download_url
 
-            if (error?.name === "AbortError") {
-                return;
-            }
+});
 
-        }
+return;
 
-    }
+}catch(error){
 
-    const whatsappUrl =
-        "https://wa.me/?text=" +
-        encodeURIComponent(
-            "📚 " +
-            title +
-            "\n" +
-            shareUrl
-        );
+if(error.name === "AbortError")
+return;
 
-    window.open(
-        whatsappUrl,
-        "_blank"
-    );
 }
+
+}
+
+const whatsapp =
+"https://wa.me/?text=" +
+encodeURIComponent(
+"📚 " +
+title +
+"\n" +
+book.download_url
+);
+
+window.open(
+whatsapp,
+"_blank"
+);
+
+}
+
 
 /* ==================================================
    COMMENTS
