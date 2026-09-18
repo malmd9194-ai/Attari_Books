@@ -221,8 +221,22 @@
       color: white;
     }
 
+    /* =====================================================
+       TOTAL VIEWS BUTTON
+    ===================================================== */
+
+    .views-btn {
+      background: #4b5563;
+      color: white;
+      cursor: default;
+    }
+
     .book-btn:hover {
       opacity: 0.85;
+    }
+
+    .views-btn:hover {
+      opacity: 1;
     }
 
     .reviewed-btn {
@@ -741,6 +755,7 @@
             📖 PDF Reader
           </div>
 
+          <!-- SIRF LIVE VIEW READER KE ANDAR -->
           <div
             id="readerViewerCount"
             style="
@@ -750,17 +765,6 @@
             "
           >
             👁️ 0 people viewing
-          </div>
-
-          <div
-            id="readerTotalViews"
-            style="
-              margin-top:3px;
-              font-size:12px;
-              color:#9ca3af;
-            "
-          >
-            📊 Total views: 0
           </div>
 
         </div>
@@ -1272,6 +1276,10 @@
         "books-grid";
 
 
+      const viewButtons =
+        new Map();
+
+
       books.forEach((book) => {
 
         const card =
@@ -1403,11 +1411,34 @@
           () => showCommentsForBook(book);
 
 
+        /* =====================================================
+           TOTAL VIEWS
+        ===================================================== */
+
+        const viewsBtn =
+          document.createElement("button");
+
+        viewsBtn.className =
+          "book-btn views-btn";
+
+        viewsBtn.textContent =
+          "📊 Total Views: 0";
+
+        viewsBtn.disabled =
+          true;
+
+        viewButtons.set(
+          book.name,
+          viewsBtn
+        );
+
+
         buttons.appendChild(readBtn);
         buttons.appendChild(downloadBtn);
         buttons.appendChild(shareBtn);
         buttons.appendChild(rateBtn);
         buttons.appendChild(commentsBtn);
+        buttons.appendChild(viewsBtn);
 
 
         info.appendChild(title);
@@ -1436,6 +1467,177 @@
 
 
       refreshVisibleReviewButtons();
+
+
+      /*
+        Har book ke total views
+        card par load karein.
+      */
+
+      loadBookViewsForCards(
+        books,
+        viewButtons
+      );
+
+    }
+
+
+    /* =====================================================
+       LOAD TOTAL VIEWS FOR BOOK CARDS
+    ===================================================== */
+
+    async function loadBookViewsForCards(
+      books,
+      viewButtons
+    ) {
+
+      if (
+        !books ||
+        books.length === 0
+      ) {
+
+        return;
+
+      }
+
+
+      try {
+
+        const bookNames =
+          books.map(
+            book => book.name
+          );
+
+
+        const { data, error } =
+          await supabaseClient
+            .from("book_views")
+            .select(
+              "book_name, view_count"
+            )
+            .in(
+              "book_name",
+              bookNames
+            );
+
+
+        if (error) {
+
+          console.error(
+            "Card total views error:",
+            error
+          );
+
+          return;
+
+        }
+
+
+        const counts = {};
+
+
+        (data || []).forEach(row => {
+
+          counts[
+            String(
+              row.book_name
+            )
+          ] =
+            Number(
+              row.view_count || 0
+            );
+
+        });
+
+
+        books.forEach(book => {
+
+          const button =
+            viewButtons.get(
+              book.name
+            );
+
+
+          if (!button) return;
+
+
+          const count =
+            Number(
+              counts[book.name] || 0
+            );
+
+
+          button.textContent =
+            `📊 Total Views: ${count}`;
+
+        });
+
+
+      } catch (error) {
+
+        console.error(
+          "Card views load error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       UPDATE CARD TOTAL VIEW COUNT
+    ===================================================== */
+
+    function updateBookCardViewCount(
+      bookName,
+      count
+    ) {
+
+      const buttons =
+        document.querySelectorAll(
+          ".views-btn"
+        );
+
+
+      buttons.forEach(button => {
+
+        const card =
+          button.closest(
+            ".book-card"
+          );
+
+
+        if (!card) return;
+
+
+        const titleElement =
+          card.querySelector(
+            ".book-title"
+          );
+
+
+        if (!titleElement) return;
+
+
+        const cardBookName =
+          titleElement.textContent
+            .trim();
+
+
+        if (
+          cardBookName ===
+          removePdfExtension(
+            bookName
+          )
+        ) {
+
+          button.textContent =
+            `📊 Total Views: ${Number(count || 0)}`;
+
+        }
+
+      });
 
     }
 
@@ -1607,11 +1809,6 @@
 
         } catch (error) {
 
-          /*
-            User ne share cancel kiya ho
-            to WhatsApp automatically nahi kholenge.
-          */
-
           if (
             error &&
             error.name === "AbortError"
@@ -1688,11 +1885,6 @@
 
       }
 
-
-      /*
-        Page load hone ke baad
-        selected book ka Reader open hoga.
-      */
 
       setTimeout(() => {
 
@@ -2800,8 +2992,27 @@
 
         if (!viewerId) {
 
-          viewerId =
-            crypto.randomUUID();
+          if (
+            window.crypto &&
+            typeof window.crypto.randomUUID ===
+              "function"
+          ) {
+
+            viewerId =
+              window.crypto.randomUUID();
+
+          } else {
+
+            viewerId =
+              "viewer-" +
+              Date.now() +
+              "-" +
+              Math.random()
+                .toString(36)
+                .substring(2);
+
+          }
+
 
           localStorage.setItem(
             "attari_books_viewer_id",
@@ -2897,28 +3108,8 @@
 
 
     /* =====================================================
-       UPDATE TOTAL VIEWS
-    ===================================================== */
-
-    function updateReaderTotalViews(count) {
-
-      const element =
-        document.getElementById(
-          "readerTotalViews"
-        );
-
-
-      if (!element) return;
-
-
-      element.textContent =
-        `📊 Total views: ${Number(count || 0)}`;
-
-    }
-
-
-    /* =====================================================
        LOAD TOTAL VIEWS
+       READER MEIN NAHI DIKHAYEGA
     ===================================================== */
 
     async function loadBookTotalViews(bookName) {
@@ -2951,12 +3142,21 @@
         }
 
 
-        updateReaderTotalViews(
+        const count =
           data
             ? Number(
                 data.view_count || 0
               )
-            : 0
+            : 0;
+
+
+        /*
+          Total views sirf book card par update hoga.
+        */
+
+        updateBookCardViewCount(
+          bookName,
+          count
         );
 
 
@@ -3072,7 +3272,13 @@
         }
 
 
-        updateReaderTotalViews(
+        /*
+          Total views reader mein nahi,
+          book card par update hoga.
+        */
+
+        updateBookCardViewCount(
+          bookName,
           newCount
         );
 
@@ -3305,12 +3511,19 @@
 
 
       /*
-        Agar same book already open nahi hai,
-        tabhi total view +1 karein.
+        Pehle check karein ki kaunsi book
+        already reader mein thi.
+
+        Ye total views ko correctly +1
+        karne ke liye zaroori hai.
       */
 
+      const previousReaderBook =
+        readerPresenceBook;
+
+
       const isNewBook =
-        readerPresenceBook !==
+        previousReaderBook !==
         book.name;
 
 
@@ -3344,7 +3557,8 @@
 
 
       /*
-        Current total views load.
+        Current total views
+        book card par load karein.
       */
 
       loadBookTotalViews(
@@ -3377,13 +3591,12 @@
         );
 
 
+      /*
+        Reader ke andar sirf Live View.
+      */
+
       updateReaderViewerCount(
         1
-      );
-
-
-      updateReaderTotalViews(
-        0
       );
 
 
@@ -3564,11 +3777,6 @@
 
       readerPdfUrl =
         null;
-
-
-      updateReaderTotalViews(
-        0
-      );
 
     }
 
