@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Attari Books</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -10,651 +10,107 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f6f8;color:#222}
+header{background:#111;color:#fff;padding:15px 6%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.logo{font-size:24px;font-weight:bold}
+nav{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+nav a,nav button{color:#fff;text-decoration:none;border:0;background:transparent;padding:9px 12px;cursor:pointer;font-size:15px;border-radius:7px}
+nav a:hover,nav button:hover{background:#333}
+.auth-btn{background:#fff!important;color:#222!important}
+.logout-btn{background:#d9534f!important;color:#fff!important}
 
-body{
-font-family:Arial,sans-serif;
-background:#f4f6f8;
-color:#222;
-}
+.hero{min-height:380px;padding:80px 20px;text-align:center;background:linear-gradient(rgba(20,20,20,.78),rgba(20,20,20,.78)),url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1600&q=80") center/cover;color:#fff}
+.hero h1{font-size:48px;margin-bottom:20px}
+.hero p{font-size:20px;margin-bottom:30px}
+#searchBox{width:min(680px,90%);padding:17px 20px;border-radius:35px;border:0;outline:0;font-size:17px}
 
-header{
-background:#111;
-color:#fff;
-padding:14px 5%;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.logo{
-font-size:24px;
-font-weight:bold;
-}
-
-nav{
-display:flex;
-gap:6px;
-align-items:center;
-flex-wrap:wrap;
-}
-
-nav a,nav button{
-border:0;
-background:transparent;
-color:#fff;
-padding:9px 11px;
-border-radius:7px;
-cursor:pointer;
-text-decoration:none;
-font-size:15px;
-}
-
-nav a:hover,nav button:hover{
-background:#333;
-}
-
-.auth-btn{
-background:#fff!important;
-color:#222!important;
-}
-
-.logout-btn{
-background:#d9534f!important;
-color:#fff!important;
-}
-
-.hero{
-min-height:370px;
-padding:75px 20px;
-text-align:center;
-color:#fff;
-background:
-linear-gradient(rgba(10,10,10,.75),rgba(10,10,10,.75)),
-url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1600&q=80")
-center/cover;
-}
-
-.hero h1{
-font-size:48px;
-margin-bottom:15px;
-}
-
-.hero p{
-font-size:20px;
-margin-bottom:28px;
-}
-
-#searchBox{
-width:min(680px,92%);
-padding:16px 20px;
-border:0;
-border-radius:35px;
-outline:0;
-font-size:17px;
-}
-
-.books-section{
-padding:45px 5%;
-}
-
-.section-title{
-text-align:center;
-font-size:31px;
-margin-bottom:28px;
-}
-
-#status{
-text-align:center;
-color:#666;
-margin:15px;
-}
-
-.books-grid{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:22px;
-max-width:1100px;
-margin:auto;
-}
-
-.book-card{
-background:#fff;
-border-radius:8px;
-overflow:hidden;
-box-shadow:0 2px 8px rgba(0,0,0,.28);
-}
-
-.cover-box{
-height:300px;
-background:#eee;
-display:flex;
-align-items:center;
-justify-content:center;
-position:relative;
-overflow:hidden;
-}
-
-.cover-box canvas{
-max-width:100%;
-max-height:100%;
-object-fit:contain;
-}
-
-.cover-loading{
-color:#777;
-font-size:14px;
-}
-
-.info-badge{
-position:absolute;
-right:8px;
-top:8px;
-width:40px;
-height:40px;
-border-radius:50%;
-border:3px solid #fff;
-background:rgba(0,0,0,.48);
-color:#fff;
-font-size:24px;
-font-weight:bold;
-display:flex;
-align-items:center;
-justify-content:center;
-box-shadow:0 2px 6px rgba(0,0,0,.45);
-cursor:default;
-}
-
-.book-info{
-padding:12px;
-}
+.books-section{padding:50px 6%}
+.section-title{text-align:center;font-size:32px;margin-bottom:35px}
+#status{text-align:center;color:#666;margin:20px;font-size:16px}
+.books-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:25px}
+.book-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.1);transition:.2s}
+.book-card:hover{transform:translateY(-4px);box-shadow:0 7px 20px rgba(0,0,0,.15)}
+.cover-box{width:100%;height:290px;background:#e9ecef;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.cover-box canvas{max-width:100%;max-height:100%;object-fit:contain}
+.cover-loading{color:#777;font-size:14px}
+.book-info{padding:17px}
 
 .book-title{
-font-size:20px;
-line-height:1.45;
-margin-bottom:5px;
-word-break:break-word;
-cursor:pointer;
-}
-
-.book-title:hover{
-text-decoration:underline;
-}
-
-.archive-date{
-font-size:16px;
-color:#555;
-margin-bottom:10px;
-}
-
-.book-stats{
-display:flex;
-justify-content:space-between;
-align-items:center;
-border-top:1px solid #eee;
-padding-top:8px;
-}
-
-.book-stat{
-font-size:24px;
-min-width:45px;
-text-align:center;
-user-select:none;
-pointer-events:none;
-}
-
-.book-stat small{
 display:block;
-font-size:16px;
-margin-top:1px;
-}
-
-/* =========================
-   BOOK DETAILS
-========================= */
-
-.details-modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.72);
-z-index:1800;
-align-items:center;
-justify-content:center;
-padding:15px;
-overflow:auto;
-}
-
-.details-box{
-width:min(520px,100%);
-max-height:94vh;
-overflow:auto;
-background:#fff;
-border-radius:15px;
-position:relative;
-}
-
-.details-close{
-position:absolute;
-right:10px;
-top:10px;
-z-index:5;
-width:40px;
-height:40px;
-border:0;
-border-radius:50%;
-background:rgba(0,0,0,.65);
-color:#fff;
-font-size:25px;
-cursor:pointer;
-}
-
-.details-cover{
-background:#eee;
-padding:15px;
-text-align:center;
-}
-
-.details-cover canvas{
-max-width:100%;
-max-height:430px;
-object-fit:contain;
-}
-
-.details-body{
-padding:20px;
-}
-
-.details-title{
-font-size:25px;
-font-weight:bold;
-line-height:1.45;
-word-break:break-word;
-margin-bottom:8px;
-}
-
-.details-archive{
-color:#666;
-margin-bottom:20px;
-}
-
-.details-actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:13px;
-}
-
-.details-action{
-min-height:72px;
-border:0;
-border-radius:11px;
-color:#fff;
-font-size:17px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.read-action{background:#2864df}
-.download-action{background:#16a34a}
-.share-action{background:#7c3aed}
-.rate-action{background:#f59e0b}
-.comments-action{background:#1197b4}
-.views-action{background:#555;cursor:default}
-
-/* =========================
-   MODALS
-========================= */
-
-.modal,
-.review-modal,
-.comments-modal{
-display:none;
-position:fixed;
-inset:0;
-z-index:1600;
-background:rgba(0,0,0,.65);
-align-items:center;
-justify-content:center;
-padding:18px;
-}
-
-.modal-box,
-.review-box,
-.comments-box{
-width:min(460px,100%);
-background:#fff;
-border-radius:15px;
-padding:24px;
-position:relative;
-}
-
-.close-btn{
-position:absolute;
-right:12px;
-top:8px;
-border:0;
-background:none;
-font-size:28px;
-cursor:pointer;
-}
-
-.auth-tabs{
-display:flex;
-margin:20px 0;
-}
-
-.auth-tabs button{
-flex:1;
-padding:11px;
-border:0;
-cursor:pointer;
-background:#eee;
-}
-
-.auth-tabs button.active{
-background:#222;
-color:#fff;
-}
-
-.auth-input{
-width:100%;
-padding:13px;
-margin-bottom:12px;
-border:1px solid #ccc;
-border-radius:7px;
-font-size:15px;
-}
-
-.auth-submit{
-width:100%;
-padding:13px;
-border:0;
-border-radius:7px;
-background:#222;
-color:#fff;
-font-size:16px;
-cursor:pointer;
-}
-
-#authMessage,
-#reviewMessage{
-text-align:center;
-margin-top:12px;
-}
-
-.review-stars{
-display:flex;
-justify-content:center;
-gap:7px;
-margin:18px 0;
-}
-
-.review-star{
-border:0;
-background:none;
-font-size:35px;
-color:#bbb;
-cursor:pointer;
-}
-
-.review-star.selected{
-color:#f5b301;
-}
-
-.review-textarea{
-width:100%;
-height:110px;
-padding:12px;
-border:1px solid #ccc;
-border-radius:7px;
-resize:vertical;
-font-size:15px;
-}
-
-.submit-review{
-width:100%;
-margin-top:12px;
-padding:13px;
-border:0;
-border-radius:7px;
-background:#198754;
-color:#fff;
-font-size:16px;
-cursor:pointer;
-}
-
-.comments-list{
-max-height:60vh;
-overflow:auto;
-margin-top:15px;
-}
-
-.comment-item{
-background:#fafafa;
-border:1px solid #ddd;
-border-radius:9px;
-padding:12px;
-margin-bottom:10px;
-}
-
-.comment-rating{
-color:#f5b301;
-font-size:19px;
-}
-
-.comment-text{
-margin-top:7px;
-white-space:pre-wrap;
-word-break:break-word;
-line-height:1.5;
-}
-
-.comment-date{
-font-size:12px;
-color:#777;
-margin-top:7px;
-}
-
-/* =========================
-   HELP
-========================= */
-
-.help-wrapper{
-position:relative;
-}
-
-.help-menu{
-display:none;
-position:absolute;
-right:0;
-top:44px;
-background:#fff;
-min-width:190px;
-padding:8px;
-border-radius:9px;
-box-shadow:0 5px 20px rgba(0,0,0,.25);
-z-index:100;
-}
-
-.help-menu a{
-display:block;
-color:#222;
-padding:10px;
+color:inherit;
 text-decoration:none;
-border-radius:6px;
-}
-
-.help-menu a:hover{
-background:#eee;
-}
-
-/* =========================
-   PDF READER
-========================= */
-
-.reader-modal{
-display:none;
-position:fixed;
-inset:0;
-z-index:2500;
-background:#222;
-flex-direction:column;
-}
-
-.reader-header{
-background:#111;
-color:#fff;
-padding:9px;
-display:flex;
-align-items:center;
-gap:8px;
-}
-
-.reader-header button{
-border:0;
-background:#fff;
-color:#111;
-border-radius:6px;
-padding:8px 10px;
-cursor:pointer;
-}
-
-.reader-middle{
-flex:1;
-min-width:0;
-text-align:center;
-}
-
-.reader-title{
-font-size:14px;
-font-weight:bold;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-}
-
-.reader-viewers{
-font-size:12px;
-color:#ccc;
-margin-top:3px;
-}
-
-.reader-page-controls{
-display:flex;
-align-items:center;
-gap:5px;
-}
-
-.reader-content{
-flex:1;
-overflow:auto;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-padding:20px;
-}
-
-#readerCanvas{
-background:#fff;
-max-width:100%;
-height:auto;
-box-shadow:0 2px 15px rgba(0,0,0,.5);
-}
-
-#readerLoading{
-position:absolute;
-top:50%;
-color:#fff;
 font-size:18px;
+font-weight:bold;
+margin-bottom:15px;
+word-break:break-word;
+line-height:1.4
 }
+.book-title:hover{text-decoration:underline}
 
-footer{
-background:#111;
-color:#fff;
-text-align:center;
-padding:25px;
-margin-top:30px;
-}
+.book-buttons{display:flex;gap:8px}
+.book-buttons a,.book-buttons button{flex:1;padding:10px 7px;border:0;border-radius:7px;cursor:pointer;text-align:center;text-decoration:none;font-size:14px}
+.read-btn{background:#222;color:#fff}
+.download-btn{background:#198754;color:#fff}
+.share-btn{background:#0d6efd;color:#fff}
+.comments-btn{background:#6f42c1;color:#fff}
+
+.rate-review-btn,.reviewed-btn{width:100%;margin-top:9px;padding:11px;border:0;border-radius:7px;cursor:pointer;font-size:14px;font-weight:bold}
+.rate-review-btn{background:#f5b301;color:#222}
+.rate-review-btn:hover{background:#e0a400}
+.reviewed-btn{background:#6c757d;color:#fff;cursor:default}
+
+.modal,.review-modal,.comments-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1500;align-items:center;justify-content:center;padding:20px}
+.modal-box,.review-modal-box,.comments-modal-box{width:min(450px,100%);background:#fff;border-radius:15px;padding:25px;position:relative}
+.modal-box h2,.review-modal-box h2,.comments-modal-box h2{text-align:center;margin-bottom:12px}
+.close-btn,.review-close-btn,.comments-close-btn{position:absolute;right:15px;top:10px;border:0;background:none;font-size:27px;cursor:pointer}
+.review-book-name,.comments-book-name{text-align:center;color:#666;font-size:14px;margin-bottom:18px;word-break:break-word}
+
+.review-stars{display:flex;justify-content:center;gap:8px;margin:15px 0}
+.review-star{font-size:32px;border:0;background:none;cursor:pointer;color:#bbb}
+.review-star.selected{color:#f5b301}
+.review-textarea{width:100%;min-height:110px;padding:12px;border:1px solid #ccc;border-radius:7px;resize:vertical;font-size:15px;margin-bottom:12px}
+.submit-review{width:100%;padding:12px;border:0;border-radius:7px;background:#198754;color:#fff;cursor:pointer;font-size:16px}
+#reviewMessage{text-align:center;margin-top:12px;font-size:14px;word-break:break-word}
+
+.comments-list{max-height:55vh;overflow:auto;margin-top:10px}
+.comment-item{border:1px solid #ddd;border-radius:10px;padding:12px;margin-bottom:10px;background:#fafafa}
+.comment-rating{color:#f5b301;font-size:18px}
+.comment-text{margin-top:7px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.comment-date{font-size:12px;color:#777;margin-top:7px}
+
+.help-wrapper{position:relative}
+.help-menu{display:none;position:absolute;right:0;top:45px;background:#fff;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,.2);padding:10px;z-index:100;min-width:190px}
+.help-menu a{display:block;color:#222;padding:10px;text-decoration:none;border-radius:6px}
+.help-menu a:hover{background:#eee}
+
+.auth-tabs{display:flex;margin-bottom:18px}
+.auth-tabs button{flex:1;padding:11px;border:0;cursor:pointer;background:#eee}
+.auth-tabs button.active{background:#222;color:#fff}
+.auth-input{width:100%;padding:13px;margin-bottom:12px;border:1px solid #ccc;border-radius:7px;font-size:15px}
+.auth-submit{width:100%;padding:13px;border:0;background:#222;color:#fff;border-radius:7px;cursor:pointer;font-size:16px}
+#authMessage{margin-top:13px;text-align:center;font-size:14px;word-break:break-word}
+
+.reader-modal{display:none;position:fixed;inset:0;background:#222;z-index:2000;flex-direction:column}
+.reader-header{min-height:60px;background:#111;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 15px;gap:10px}
+.reader-header button{background:#fff;color:#111;border:0;border-radius:6px;padding:8px 12px;margin:2px;cursor:pointer;font-size:14px}
+.reader-title{flex:1;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:14px}
+.reader-content{flex:1;overflow:auto;display:flex;justify-content:center;align-items:flex-start;padding:20px}
+#readerCanvas{background:#fff;max-width:100%;height:auto;box-shadow:0 2px 15px rgba(0,0,0,.4)}
+#readerLoading{color:#fff;font-size:18px;position:absolute;top:50%}
+
+footer{background:#111;color:#fff;text-align:center;padding:25px;margin-top:30px}
 
 @media(max-width:600px){
-
-header{
-justify-content:center;
-}
-
-.logo{
-width:100%;
-text-align:center;
-}
-
-nav{
-justify-content:center;
-}
-
-.hero h1{
-font-size:36px;
-}
-
-.hero p{
-font-size:17px;
-}
-
-.books-section{
-padding:30px 4%;
-}
-
-.books-grid{
-gap:10px;
-}
-
-.cover-box{
-height:245px;
-}
-
-.book-info{
-padding:9px;
-}
-
-.book-title{
-font-size:16px;
-}
-
-.archive-date{
-font-size:13px;
-}
-
-.book-stat{
-font-size:21px;
-min-width:30px;
-}
-
-.book-stat small{
-font-size:13px;
-}
-
-.details-actions{
-gap:9px;
-}
-
-.details-action{
-font-size:14px;
-min-height:65px;
-}
-
-.reader-header{
-padding:7px 5px;
-}
-
-.reader-header button{
-padding:7px;
-font-size:12px;
-}
-
-.reader-title{
-font-size:12px;
-}
-
+.hero h1{font-size:36px}
+.hero p{font-size:17px}
+header{justify-content:center}
+.logo{width:100%;text-align:center}
+nav{justify-content:center}
+.books-section{padding:35px 5%}
+.cover-box{height:260px}
+.reader-header{padding:8px}
+.reader-header button{padding:7px 9px;font-size:13px}
+.reader-title{font-size:12px}
 }
 </style>
 </head>
@@ -662,1351 +118,214 @@ font-size:12px;
 <body>
 
 <header>
-
 <div class="logo">📚 Attari Books</div>
-
 <nav>
-
 <a href="#">Home</a>
 <a href="#books">Books</a>
 
 <div class="help-wrapper">
-
 <button onclick="toggleHelp()">Help</button>
-
 <div class="help-menu" id="helpMenu">
-
-<a href="https://wa.me/919534646778" target="_blank">
-💬 WhatsApp
-</a>
-
-<a href="mailto:mdmalek26234@gmail.com">
-✉️ Gmail / Email
-</a>
-
+<a href="https://wa.me/919534646778" target="_blank">💬 WhatsApp</a>
+<a href="mailto:mdmalek26234@gmail.com">✉️ Gmail / Email</a>
 </div>
 </div>
 
-<button
-class="auth-btn"
-id="loginBtn"
-onclick="openAuth('login')">
-🔐 Login
-</button>
-
-<button
-class="auth-btn"
-id="signupBtn"
-onclick="openAuth('signup')">
-✍️ Sign Up
-</button>
-
-<button
-class="auth-btn logout-btn"
-id="logoutBtn"
-onclick="logout()"
-style="display:none">
-Logout
-</button>
-
+<button class="auth-btn" id="loginBtn" onclick="openAuth('login')">🔐 Login</button>
+<button class="auth-btn" id="signupBtn" onclick="openAuth('signup')">✍️ Sign Up</button>
+<button class="auth-btn logout-btn" id="logoutBtn" onclick="logout()" style="display:none">Logout</button>
 </nav>
 </header>
 
-
 <section class="hero">
-
 <h1>Attari Books</h1>
-
 <p>Your Digital Library</p>
-
-<input
-id="searchBox"
-type="text"
-placeholder="Search books..."
-oninput="searchBooks()">
-
+<input type="text" id="searchBox" placeholder="Search books..." oninput="searchBooks()">
 </section>
-
 
 <section class="books-section" id="books">
-
-<h2 class="section-title">
-Latest Books
-</h2>
-
-<div id="status">
-📚 Loading books...
-</div>
-
-<div
-class="books-grid"
-id="booksGrid">
-</div>
-
+<h2 class="section-title">Latest Books</h2>
+<div id="status">📚 Loading books...</div>
+<div class="books-grid" id="booksGrid"></div>
 </section>
 
-
-<!-- =========================
-     BOOK DETAILS
-========================= -->
-
-<div
-class="details-modal"
-id="detailsModal">
-
-<div class="details-box">
-
-<button
-class="details-close"
-onclick="closeBookDetails()">
-×
-</button>
-
-<div
-class="details-cover"
-id="detailsCover">
-📖 Loading cover...
-</div>
-
-<div class="details-body">
-
-<div
-class="details-title"
-id="detailsTitle">
-Book
-</div>
-
-<div
-class="details-archive"
-id="detailsArchive">
-archived
-</div>
-
-<div class="details-actions">
-
-<button
-class="details-action read-action"
-onclick="detailsRead()">
-📖 Read
-</button>
-
-<button
-class="details-action download-action"
-onclick="detailsDownload()">
-📥 Download
-</button>
-
-<button
-class="details-action share-action"
-onclick="detailsShare()">
-🔗 Share Book
-</button>
-
-<button
-class="details-action rate-action"
-onclick="detailsRate()">
-⭐ Rate & Review
-</button>
-
-<button
-class="details-action comments-action"
-onclick="detailsComments()">
-💬 Comments
-</button>
-
-<button
-class="details-action views-action"
-id="detailsViews">
-👁️ Views: 0
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     AUTH
-========================= -->
-
-<div
-class="modal"
-id="authModal">
-
+<div class="modal" id="authModal">
 <div class="modal-box">
-
-<button
-class="close-btn"
-onclick="closeAuth()">
-×
-</button>
-
-<h2 id="authTitle">
-Login
-</h2>
+<button class="close-btn" onclick="closeAuth()">×</button>
+<h2 id="authTitle">Login</h2>
 
 <div class="auth-tabs">
-
-<button
-id="loginTab"
-class="active"
-onclick="switchAuth('login')">
-Login
-</button>
-
-<button
-id="signupTab"
-onclick="switchAuth('signup')">
-Sign Up
-</button>
-
+<button id="loginTab" class="active" onclick="switchAuth('login')">Login</button>
+<button id="signupTab" onclick="switchAuth('signup')">Sign Up</button>
 </div>
 
 <form onsubmit="handleAuth(event)">
-
-<input
-id="authEmail"
-class="auth-input"
-type="email"
-placeholder="Email"
-required>
-
-<input
-id="authPassword"
-class="auth-input"
-type="password"
-placeholder="Password"
-minlength="6"
-required>
-
-<button
-id="authSubmit"
-class="auth-submit"
-type="submit">
-Login
-</button>
-
+<input type="email" id="authEmail" class="auth-input" placeholder="Email" required>
+<input type="password" id="authPassword" class="auth-input" placeholder="Password" minlength="6" required>
+<button type="submit" class="auth-submit" id="authSubmit">Login</button>
 </form>
 
 <div id="authMessage"></div>
-
+</div>
 </div>
 
-</div>
+<div class="review-modal" id="reviewModal">
+<div class="review-modal-box">
+<button class="review-close-btn" onclick="closeReviewModal()">×</button>
+<h2>⭐ Rate & Review</h2>
 
-
-<!-- =========================
-     REVIEW
-========================= -->
-
-<div
-class="review-modal"
-id="reviewModal">
-
-<div class="review-box">
-
-<button
-class="close-btn"
-onclick="closeReviewModal()">
-×
-</button>
-
-<h2 style="text-align:center">
-⭐ Rate & Review
-</h2>
-
-<p
-id="reviewBookName"
-style="text-align:center;color:#666;margin-top:8px">
-Book
-</p>
+<div class="review-book-name" id="reviewBookName">Book</div>
 
 <div class="review-stars">
-
-<button
-class="review-star"
-id="reviewStar1"
-onclick="selectReviewRating(1)">
-★
-</button>
-
-<button
-class="review-star"
-id="reviewStar2"
-onclick="selectReviewRating(2)">
-★
-</button>
-
-<button
-class="review-star"
-id="reviewStar3"
-onclick="selectReviewRating(3)">
-★
-</button>
-
-<button
-class="review-star"
-id="reviewStar4"
-onclick="selectReviewRating(4)">
-★
-</button>
-
-<button
-class="review-star"
-id="reviewStar5"
-onclick="selectReviewRating(5)">
-★
-</button>
-
+<button type="button" class="review-star" id="reviewStar1" onclick="selectReviewRating(1)">★</button>
+<button type="button" class="review-star" id="reviewStar2" onclick="selectReviewRating(2)">★</button>
+<button type="button" class="review-star" id="reviewStar3" onclick="selectReviewRating(3)">★</button>
+<button type="button" class="review-star" id="reviewStar4" onclick="selectReviewRating(4)">★</button>
+<button type="button" class="review-star" id="reviewStar5" onclick="selectReviewRating(5)">★</button>
 </div>
 
-<textarea
-id="reviewComment"
-class="review-textarea"
-placeholder="Write your review...">
-</textarea>
+<textarea id="reviewComment" class="review-textarea" placeholder="Write your review..."></textarea>
 
-<button
-class="submit-review"
-onclick="submitReview()">
-⭐ Submit Review
-</button>
-
+<button class="submit-review" onclick="submitReview()">⭐ Submit Review</button>
 <div id="reviewMessage"></div>
-
+</div>
 </div>
 
+<div class="comments-modal" id="commentsModal">
+<div class="comments-modal-box">
+<button class="comments-close-btn" onclick="closeComments()">×</button>
+<h2>💬 Comments & Ratings</h2>
+<div class="comments-book-name" id="commentsBookName">Book</div>
+<div id="commentsList" class="comments-list">⏳ Loading comments...</div>
+</div>
 </div>
 
-
-<!-- =========================
-     COMMENTS
-========================= -->
-
-<div
-class="comments-modal"
-id="commentsModal">
-
-<div class="comments-box">
-
-<button
-class="close-btn"
-onclick="closeComments()">
-×
-</button>
-
-<h2 style="text-align:center">
-💬 Comments
-</h2>
-
-<p
-id="commentsBookName"
-style="text-align:center;color:#666;margin-top:8px">
-Book
-</p>
-
-<div
-class="comments-list"
-id="commentsList">
-⏳ Loading...
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     PDF READER
-========================= -->
-
-<div
-class="reader-modal"
-id="readerModal">
-
+<div id="readerModal" class="reader-modal">
 <div class="reader-header">
 
-<button onclick="closeReader()">
-✕ Close
-</button>
+<button onclick="closeReader()">✕ Close</button>
 
-<div class="reader-middle">
-
-<div
-class="reader-title"
-id="readerTitle">
-Attari Books
+<div style="min-width:0;flex:1;">
+<div class="reader-title" id="readerTitle">Attari Books</div>
+<div id="readerViewerCount" style="font-size:13px;color:#d1d5db;margin-top:3px;">👁️ 1 person viewing</div>
 </div>
 
-<div
-class="reader-viewers"
-id="readerViewerCount">
-👁️ 0 people viewing
-</div>
-
-</div>
-
-<div class="reader-page-controls">
-
-<button onclick="previousPage()">
-◀
-</button>
-
-<span id="readerPage">
-Page 1
-</span>
-
-<button onclick="nextPage()">
-▶
-</button>
-
+<div>
+<button onclick="previousPage()">◀</button>
+<span id="readerPage">Page 1</span>
+<button onclick="nextPage()">▶</button>
 </div>
 
 </div>
 
 <div class="reader-content">
-
 <canvas id="readerCanvas"></canvas>
-
-<div id="readerLoading">
-📖 Loading...
+<div id="readerLoading">📖 Loading...</div>
 </div>
-
 </div>
-
-</div>
-
 
 <footer>
-
-© 2026 Attari Books — Your Digital Library
-
+<p>© 2026 Attari Books — Your Digital Library</p>
 </footer>
-
 
 <script>
 
-/* ==================================================
-   CONFIG
-================================================== */
+const SUPABASE_URL="https://kihhuilyeosvpozduwcs.supabase.co";
 
-const SUPABASE_URL =
-"https://kihhuilyeosvpozduwcs.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
+const SUPABASE_PUBLISHABLE_KEY=
 "sb_publishable_-XN0lujfPGCeIzusrlUfkQ_-lFKXwUs";
 
-const GOOGLE_SCRIPT_URL =
+const GOOGLE_SCRIPT_URL=
 "https://script.google.com/macros/s/AKfycbwyMcUDNnTOpmwHf2xrF82P9260595M6rBXcPHvbR0Fu9ZN3BnyNGCApI51w1M5XO4F/exec";
 
-const GITHUB_OWNER =
-"malmd9194-ai";
+const GITHUB_OWNER="malmd9194-ai";
+const GITHUB_REPO="Attari_Books";
+const GITHUB_BRANCH="main";
 
-const GITHUB_REPO =
-"Attari_Books";
+let supabaseClient=null;
+let allBooks=[];
+let allReviews=[];
+let submittedReviews={};
 
-const GITHUB_BRANCH =
-"main";
+let selectedReviewRating=0;
+let selectedReviewBook=null;
+let authMode="login";
 
+let readerPdf=null;
+let readerPresenceChannel=null;
+let readerViewerId=null;
+let readerCurrentPage=1;
 
-/* ==================================================
-   VARIABLES
-================================================== */
-
-let supabaseClient = null;
-
-let allBooks = [];
-
-let allReviews = [];
-
-let selectedDetailsBook = null;
-
-let selectedReviewBook = null;
-
-let selectedReviewRating = 0;
-
-let authMode = "login";
-
-let readerPdf = null;
-
-let readerCurrentPage = 1;
-
-let readerPresenceChannel = null;
-
-let readerViewerId = null;
-
-let archiveDates = {};
-
-let submittedReviews = {};
-
-
-/* ==================================================
-   PDF JS
-================================================== */
-
-if(typeof pdfjsLib !== "undefined"){
-
-pdfjsLib.GlobalWorkerOptions.workerSrc =
+if(typeof pdfjsLib!=="undefined"){
+pdfjsLib.GlobalWorkerOptions.workerSrc=
 "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
 }
 
-
-/* ==================================================
-   SUPABASE
-================================================== */
-
 function initializeSupabase(){
-
 try{
-
-if(
-window.supabase &&
-typeof window.supabase.createClient === "function"
-){
-
-supabaseClient =
-window.supabase.createClient(
+if(window.supabase&&typeof window.supabase.createClient==="function"){
+supabaseClient=window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_PUBLISHABLE_KEY
 );
-
+console.log("Supabase connected.");
 }
-
 }catch(error){
-
-console.error(error);
-
+console.error("Supabase initialization error:",error);
 }
-
 }
-
-
-/* ==================================================
-   HELPERS
-================================================== */
 
 function removePdfExtension(name){
-
-return name.replace(
-/\.pdf$/i,
-""
-);
-
+return name.replace(/\.pdf$/i,"");
 }
-
 
 function escapeHTML(text){
-
-const div =
-document.createElement("div");
-
-div.textContent =
-String(text || "");
-
+const div=document.createElement("div");
+div.textContent=text;
 return div.innerHTML;
-
 }
 
+function getAuthErrorMessage(error){
+const msg=error?.message||String(error||"");
 
-/* ==================================================
-   LOAD BOOKS
-================================================== */
-
-async function loadBooks(){
-
-const status =
-document.getElementById("status");
-
-status.textContent =
-"📚 Loading books...";
-
-try{
-
-const url =
-`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
-
-const response =
-await fetch(url);
-
-if(!response.ok){
-
-throw new Error(
-"GitHub error " + response.status
-);
-
+if(/invalid api key/i.test(msg)){
+return "❌ Supabase API key invalid hai. Settings → API Keys se current Publishable key check karein.";
 }
 
-const files =
-await response.json();
-
-allBooks =
-files
-.filter(file =>
-file.type === "file" &&
-file.name.toLowerCase().endsWith(".pdf")
-)
-.map(file => ({
-name:file.name,
-download_url:file.download_url,
-html_url:file.html_url
-}));
-
-status.textContent =
-`${allBooks.length} book(s) available`;
-
-displayBooks(allBooks);
-
-}catch(error){
-
-console.error(error);
-
-status.textContent =
-"❌ Books load nahi ho pa rahi.";
-
+if(/email not confirmed/i.test(msg)){
+return "❌ Pehle apni email inbox mein confirmation link se email verify karein.";
 }
 
+if(/invalid login credentials/i.test(msg)){
+return "❌ Email ya password incorrect hai.";
 }
 
-
-/* ==================================================
-   DISPLAY HOME CARDS
-================================================== */
-
-function displayBooks(books){
-
-const grid =
-document.getElementById("booksGrid");
-
-grid.innerHTML = "";
-
-if(!books.length){
-
-grid.innerHTML =
-`<div style="grid-column:1/-1;text-align:center">
-📚 No books found.
-</div>`;
-
-return;
-
+return "❌ "+msg;
 }
-
-books.forEach((book,index)=>{
-
-const originalIndex =
-allBooks.indexOf(book);
-
-const card =
-document.createElement("div");
-
-card.className =
-"book-card";
-
-card.dataset.bookIndex =
-originalIndex;
-
-card.innerHTML = `
-
-<div
-class="cover-box"
-id="cover-${index}">
-
-<div class="cover-loading">
-📖 Loading cover...
-</div>
-
-<button
-class="info-badge"
-type="button"
-aria-label="Info">
-ⓘ
-</button>
-
-</div>
-
-<div class="book-info">
-
-<div
-class="book-title"
-title="Open book">
-${escapeHTML(removePdfExtension(book.name))}
-</div>
-
-<div
-class="archive-date"
-id="archive-${index}">
-archived
-</div>
-
-<div class="book-stats">
-
-<span class="book-stat">
-📖
-</span>
-
-<span class="book-stat">
-👁️
-<small class="book-view-count">0</small>
-</span>
-
-<span class="book-stat">
-⭐
-<small class="book-rating-count">0</small>
-</span>
-
-<span class="book-stat">
-💬
-<small class="book-comment-count">0</small>
-</span>
-
-</div>
-
-</div>
-`;
-
-grid.appendChild(card);
-
-
-/* ONLY BOOK NAME OPENS DETAILS */
-
-card
-.querySelector(".book-title")
-.addEventListener(
-"click",
-()=>openBookDetails(originalIndex)
-);
-
-
-/* INFO BUTTON DOES NOTHING */
-
-card
-.querySelector(".info-badge")
-.addEventListener(
-"click",
-event=>event.stopPropagation()
-);
-
-
-renderCover(
-book.download_url,
-`cover-${index}`
-);
-
-loadArchiveDate(
-book,
-`archive-${index}`
-);
-
-});
-
-updateCardReviewCounts();
-
-loadAllBookViewCounts();
-
-}
-
-
-/* ==================================================
-   PDF COVER
-================================================== */
-
-async function renderCover(
-pdfUrl,
-containerId
-){
-
-const container =
-document.getElementById(containerId);
-
-if(!container)return;
-
-try{
-
-const pdf =
-await pdfjsLib
-.getDocument({
-url:pdfUrl,
-withCredentials:false
-})
-.promise;
-
-const page =
-await pdf.getPage(1);
-
-const viewport =
-page.getViewport({
-scale:1.2
-});
-
-const canvas =
-document.createElement("canvas");
-
-const context =
-canvas.getContext("2d");
-
-canvas.width =
-viewport.width;
-
-canvas.height =
-viewport.height;
-
-await page.render({
-canvasContext:context,
-viewport:viewport
-}).promise;
-
-container.innerHTML = "";
-
-container.appendChild(canvas);
-
-}catch(error){
-
-console.error(error);
-
-container.innerHTML =
-`<div class="cover-loading">
-📕 PDF Book
-</div>`;
-
-}
-
-}
-
-
-/* ==================================================
-   ARCHIVED DATE
-================================================== */
-
-async function loadArchiveDate(
-book,
-elementId
-){
-
-const el =
-elementId
-? document.getElementById(elementId)
-: null;
-
-try{
-
-if(archiveDates[book.name]){
-
-if(el)
-el.textContent =
-"archived " +
-archiveDates[book.name];
-
-return;
-
-}
-
-const url =
-`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/commits?path=${encodeURIComponent(book.name)}&sha=${GITHUB_BRANCH}&per_page=1`;
-
-const response =
-await fetch(url);
-
-if(!response.ok)
-throw new Error("Date error");
-
-const commits =
-await response.json();
-
-const iso =
-commits?.[0]?.commit?.author?.date ||
-commits?.[0]?.commit?.committer?.date;
-
-if(!iso){
-
-if(el)
-el.textContent="archived";
-
-return;
-
-}
-
-const date =
-new Date(iso).toLocaleDateString(
-"en-US",
-{
-month:"short",
-day:"2-digit",
-year:"numeric"
-}
-);
-
-archiveDates[book.name] =
-date;
-
-if(el)
-el.textContent =
-"archived " + date;
-
-}catch(error){
-
-if(el)
-el.textContent =
-"archived";
-
-}
-
-}
-
-
-/* ==================================================
-   BOOK DETAILS
-================================================== */
-
-async function openBookDetails(
-bookIndex
-){
-
-const book =
-allBooks[bookIndex];
-
-if(!book)return;
-
-selectedDetailsBook =
-book;
-
-document.getElementById(
-"detailsTitle"
-).textContent =
-removePdfExtension(book.name);
-
-document.getElementById(
-"detailsArchive"
-).textContent =
-archiveDates[book.name]
-? "archived " + archiveDates[book.name]
-: "archived";
-
-document.getElementById(
-"detailsViews"
-).textContent =
-"👁️ Views: 0";
-
-document.getElementById(
-"detailsModal"
-).style.display =
-"flex";
-
-const cover =
-document.getElementById(
-"detailsCover"
-);
-
-cover.innerHTML =
-"📖 Loading cover...";
-
-await renderCover(
-book.download_url,
-"detailsCover"
-);
-
-await updateBookViewCount(
-book.name
-);
-
-await incrementBookView(
-book.name
-);
-
-}
-
-
-/* ==================================================
-   CLOSE DETAILS
-================================================== */
-
-function closeBookDetails(){
-
-document.getElementById(
-"detailsModal"
-).style.display =
-"none";
-
-selectedDetailsBook =
-null;
-
-}
-
-
-/* ==================================================
-   DETAILS BUTTONS
-================================================== */
-
-function detailsRead(){
-
-if(!selectedDetailsBook)return;
-
-const index =
-allBooks.indexOf(
-selectedDetailsBook
-);
-
-closeBookDetails();
-
-openReader(index);
-
-}
-
-
-function detailsDownload(){
-
-if(!selectedDetailsBook)return;
-
-const a =
-document.createElement("a");
-
-a.href =
-selectedDetailsBook.download_url;
-
-a.download =
-selectedDetailsBook.name;
-
-document.body.appendChild(a);
-
-a.click();
-
-a.remove();
-
-}
-
-
-function detailsShare(){
-
-if(!selectedDetailsBook)return;
-
-shareBook(
-allBooks.indexOf(
-selectedDetailsBook
-)
-);
-
-}
-
-
-function detailsRate(){
-
-if(!selectedDetailsBook)return;
-
-openReviewForBook(
-allBooks.indexOf(
-selectedDetailsBook
-)
-);
-
-}
-
-
-function detailsComments(){
-
-if(!selectedDetailsBook)return;
-
-showCommentsForBook(
-allBooks.indexOf(
-selectedDetailsBook
-)
-);
-
-}
-
-
-/* ==================================================
-   SEARCH
-================================================== */
-
-function searchBooks(){
-
-const value =
-document.getElementById(
-"searchBox"
-).value
-.toLowerCase()
-.trim();
-
-if(!value){
-
-displayBooks(allBooks);
-
-return;
-
-}
-
-displayBooks(
-allBooks.filter(book =>
-book.name
-.toLowerCase()
-.includes(value)
-)
-);
-
-}
-
-
-/* ==================================================
-   VIEWS
-================================================== */
-
-async function loadAllBookViewCounts(){
-
-if(!supabaseClient)return;
-
-try{
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from("book_views")
-.select("book_name,view_count");
-
-if(error)throw error;
-
-const counts = {};
-
-(data || []).forEach(row=>{
-
-counts[row.book_name] =
-Number(row.view_count || 0);
-
-});
-
-document
-.querySelectorAll(".book-card")
-.forEach(card=>{
-
-const book =
-allBooks[
-Number(card.dataset.bookIndex)
-];
-
-const el =
-card.querySelector(
-".book-view-count"
-);
-
-if(book && el){
-
-el.textContent =
-counts[book.name] || 0;
-
-}
-
-});
-
-}catch(error){
-
-console.error(
-"View load error",
-error
-);
-
-}
-
-}
-
-
-async function updateBookViewCount(
-bookName
-){
-
-if(!supabaseClient)return 0;
-
-try{
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from("book_views")
-.select("view_count")
-.eq("book_name",bookName)
-.maybeSingle();
-
-if(error)throw error;
-
-const count =
-Number(data?.view_count || 0);
-
-updateVisibleViewCount(
-bookName,
-count
-);
-
-return count;
-
-}catch(error){
-
-console.error(error);
-
-return 0;
-
-}
-
-}
-
-
-async function incrementBookView(
-bookName
-){
-
-if(!supabaseClient)return 0;
-
-try{
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from("book_views")
-.select("view_count")
-.eq("book_name",bookName)
-.maybeSingle();
-
-if(error)throw error;
-
-let newCount = 1;
-
-if(data){
-
-newCount =
-Number(data.view_count || 0) + 1;
-
-const result =
-await supabaseClient
-.from("book_views")
-.update({
-view_count:newCount
-})
-.eq(
-"book_name",
-bookName
-);
-
-if(result.error)
-throw result.error;
-
-}else{
-
-const result =
-await supabaseClient
-.from("book_views")
-.insert({
-book_name:bookName,
-view_count:1
-});
-
-if(result.error)
-throw result.error;
-
-}
-
-updateVisibleViewCount(
-bookName,
-newCount
-);
-
-return newCount;
-
-}catch(error){
-
-console.error(
-"Increment view error",
-error
-);
-
-return 0;
-
-}
-
-}
-
-
-function updateVisibleViewCount(
-bookName,
-count
-){
-
-const index =
-allBooks.findIndex(
-book => book.name === bookName
-);
-
-const card =
-document.querySelector(
-`.book-card[data-book-index="${index}"]`
-);
-
-if(card){
-
-const el =
-card.querySelector(
-".book-view-count"
-);
-
-if(el)
-el.textContent =
-count;
-
-}
-
-const details =
-document.getElementById(
-"detailsViews"
-);
-
-if(details){
-
-details.textContent =
-`👁️ Views: ${count}`;
-
-}
-
-}
-
-
-/* ==================================================
-   REVIEWS COUNTS
-================================================== */
 
 async function loadReviews(){
 
 try{
 
-const response =
-await fetch(
+const response=await fetch(
 GOOGLE_SCRIPT_URL,
-{
-cache:"no-store"
-}
+{cache:"no-store"}
 );
 
-const data =
-await response.json();
+if(!response.ok){
+throw new Error("Reviews load error: "+response.status);
+}
 
-allReviews =
-Array.isArray(data)
-? data
-: [];
+const data=await response.json();
 
-updateCardReviewCounts();
+allReviews=Array.isArray(data)?data:[];
 
 return allReviews;
 
 }catch(error){
 
-console.error(error);
-
-allReviews = [];
+console.error("Reviews load error:",error);
+allReviews=[];
 
 return [];
 
@@ -2014,218 +333,346 @@ return [];
 
 }
 
+async function loadSubmittedReviews(email){
 
-function updateCardReviewCounts(){
+await loadReviews();
 
-document
-.querySelectorAll(".book-card")
-.forEach(card=>{
+submittedReviews={};
 
-const book =
-allBooks[
-Number(card.dataset.bookIndex)
-];
+const key=String(email||"").toLowerCase().trim();
+
+allReviews.forEach(row=>{
+
+const book=String(row[0]||"").trim();
+const rowEmail=String(row[4]||"").toLowerCase().trim();
+
+if(book&&rowEmail&&rowEmail===key){
+
+if(!submittedReviews[key]){
+submittedReviews[key]={};
+}
+
+submittedReviews[key][book]=true;
+
+}
+
+});
+
+await refreshVisibleReviewButtons();
+
+}
+
+async function refreshVisibleReviewButtons(){
+
+if(!supabaseClient)return;
+
+const {data}=await supabaseClient.auth.getSession();
+
+const email=data?.session?.user?.email?.toLowerCase().trim();
+
+const buttons=document.querySelectorAll(
+".rate-review-btn,.reviewed-btn"
+);
+
+buttons.forEach(button=>{
+
+const card=button.closest(".book-card");
+
+if(!card)return;
+
+const bookIndex=Number(card.dataset.bookIndex);
+const book=allBooks[bookIndex];
 
 if(!book)return;
 
-const rows =
-allReviews.filter(
-row =>
-String(row[0] || "").trim()
-===
-String(book.name).trim()
-);
+if(
+email&&
+submittedReviews[email]&&
+submittedReviews[email][book.name]
+){
 
-const ratingCount =
-rows.filter(
-row =>
-Number(row[1]) >= 1
-).length;
+button.className="reviewed-btn";
+button.innerText="✅ Already Reviewed";
+button.disabled=true;
+button.onclick=null;
 
-const commentCount =
-rows.filter(
-row =>
-String(row[2] || "").trim()
-).length;
+}else{
 
-const rating =
-card.querySelector(
-".book-rating-count"
-);
+button.className="rate-review-btn";
+button.innerText="⭐ Rate & Review";
+button.disabled=false;
+button.onclick=()=>openReviewForBook(bookIndex);
 
-const comments =
-card.querySelector(
-".book-comment-count"
-);
-
-if(rating)
-rating.textContent =
-ratingCount;
-
-if(comments)
-comments.textContent =
-commentCount;
+}
 
 });
 
 }
 
+async function loadBooks(){
 
-/* ==================================================
-   SHARE
-================================================== */
+const status=document.getElementById("status");
+const grid=document.getElementById("booksGrid");
 
-async function shareBook(
-bookIndex
-){
+status.innerHTML="📚 Loading books...";
+grid.innerHTML="";
 
-const book =
-allBooks[bookIndex];
+try{
+
+const apiUrl=
+`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
+
+const response=await fetch(apiUrl);
+
+if(!response.ok){
+throw new Error("GitHub API Error: "+response.status);
+}
+
+const files=await response.json();
+
+const pdfFiles=files.filter(file=>
+file.type==="file"&&
+file.name.toLowerCase().endsWith(".pdf")
+);
+
+allBooks=pdfFiles.map(file=>({
+name:file.name,
+download_url:file.download_url,
+html_url:file.html_url
+}));
+
+if(!allBooks.length){
+
+status.innerHTML="📚 No PDF books found.";
+displayBooks([]);
+return;
+
+}
+
+status.innerHTML=
+`${allBooks.length} book(s) available`;
+
+displayBooks(allBooks);
+
+}catch(error){
+
+console.error("Books loading error:",error);
+
+status.innerHTML="❌ Books load nahi ho pa rahe.";
+
+grid.innerHTML=`
+<div style="grid-column:1/-1;text-align:center;padding:30px;color:#777;">
+<p>GitHub se books load nahi ho pa rahi hain.</p>
+<p style="font-size:13px;margin-top:10px;">
+Please page refresh karke dobara try karein.
+</p>
+</div>
+`;
+
+}
+
+}
+
+function displayBooks(books){
+
+const grid=document.getElementById("booksGrid");
+
+grid.innerHTML="";
+
+if(!books.length){
+
+grid.innerHTML=`
+<div style="grid-column:1/-1;text-align:center;padding:30px;">
+📚 No books found.
+</div>
+`;
+
+return;
+
+}
+
+books.forEach((book,index)=>{
+
+const originalIndex=allBooks.indexOf(book);
+
+const card=document.createElement("div");
+
+card.className="book-card";
+card.dataset.bookIndex=originalIndex;
+
+card.innerHTML=`
+
+<div class="cover-box" id="cover-${index}">
+<div class="cover-loading">
+📖 Loading cover...
+</div>
+</div>
+
+<div class="book-info">
+
+<a
+class="book-title"
+href="book.html?book=${encodeURIComponent(book.name)}">
+${escapeHTML(removePdfExtension(book.name))}
+</a>
+
+<div class="book-buttons">
+
+<button
+class="read-btn"
+onclick="openReader(${originalIndex})">
+📖 Read
+</button>
+
+<a
+class="download-btn"
+href="${book.download_url}"
+download>
+📥 Download
+</a>
+
+</div>
+
+<div
+class="book-buttons"
+style="margin-top:8px">
+
+<button
+class="share-btn"
+onclick="shareBook(${originalIndex})">
+🔗 Share
+</button>
+
+<button
+class="comments-btn"
+onclick="showCommentsForBook(${originalIndex})">
+💬 Comments
+</button>
+
+</div>
+
+<button
+class="rate-review-btn"
+onclick="openReviewForBook(${originalIndex})">
+⭐ Rate & Review
+</button>
+
+</div>
+`;
+
+grid.appendChild(card);
+
+renderCover(
+book.download_url,
+`cover-${index}`
+);
+
+});
+
+refreshVisibleReviewButtons();
+
+}
+
+async function shareBook(bookIndex){
+
+const book=allBooks[bookIndex];
 
 if(!book)return;
 
-const title =
-removePdfExtension(
-book.name
-);
+const title=removePdfExtension(book.name);
+const url=book.download_url;
 
 if(navigator.share){
 
 try{
 
 await navigator.share({
-
-title:
-"Attari Books - " +
-title,
-
-text:
-"📚 " + title,
-
-url:
-book.download_url
-
+title:"Attari Books - "+title,
+text:"📚 "+title,
+url:url
 });
 
 return;
 
 }catch(error){
 
-if(error.name === "AbortError")
+if(error?.name==="AbortError"){
 return;
-
 }
 
 }
 
-const whatsapp =
-"https://wa.me/?text=" +
+}
+
+const whatsappUrl=
+"https://wa.me/?text="+
 encodeURIComponent(
-"📚 " +
-title +
-"\n" +
-book.download_url
+"📚 "+title+"\n"+url
 );
 
-window.open(
-whatsapp,
-"_blank"
-);
+window.open(whatsappUrl,"_blank");
 
 }
 
+async function showCommentsForBook(bookIndex){
 
-/* ==================================================
-   COMMENTS
-================================================== */
-
-async function showCommentsForBook(
-bookIndex
-){
-
-const book =
-allBooks[bookIndex];
+const book=allBooks[bookIndex];
 
 if(!book)return;
 
-document.getElementById(
-"commentsBookName"
-).textContent =
-removePdfExtension(
-book.name
-);
+document.getElementById("commentsBookName").innerText=
+removePdfExtension(book.name);
 
-document.getElementById(
-"commentsModal"
-).style.display =
-"flex";
-
-const list =
-document.getElementById(
-"commentsList"
-);
-
-list.innerHTML =
+document.getElementById("commentsList").innerHTML=
 "⏳ Loading comments...";
 
-const reviews =
-await loadReviews();
+document.getElementById("commentsModal").style.display="flex";
 
-const rows =
-reviews.filter(
-row =>
-String(row[0] || "").trim()
-===
+const reviews=await loadReviews();
+
+const rows=reviews.filter(row=>
+String(row[0]||"").trim()===
 String(book.name).trim()
 );
 
+const list=document.getElementById("commentsList");
+
 if(!rows.length){
 
-list.innerHTML =
-`<div style="text-align:center;padding:20px;color:#777">
-💬 No comments yet.
-</div>`;
+list.innerHTML=`
+<div style="text-align:center;color:#777;padding:20px;">
+💬 Is book par abhi koi comment/review nahi hai.
+</div>
+`;
 
 return;
 
 }
 
-list.innerHTML =
-rows
-.slice()
-.reverse()
-.map(row=>{
+list.innerHTML=
+rows.slice().reverse().map(row=>{
 
-const rating =
-Math.max(
+const rating=Math.max(
 0,
-Math.min(
-5,
-Number(row[1]) || 0
-)
+Math.min(5,Number(row[1])||0)
 );
 
-const comment =
-escapeHTML(
-row[2] || ""
+const comment=escapeHTML(
+String(row[2]||"").trim()
 );
 
-let date = "";
+let date="";
 
 if(row[3]){
 
 try{
-
-date =
-new Date(
-row[3]
-).toLocaleDateString();
-
+date=new Date(row[3]).toLocaleDateString();
 }catch(e){}
 
 }
 
 return `
+
 <div class="comment-item">
 
 <div class="comment-rating">
@@ -2233,44 +680,37 @@ ${"★".repeat(rating)}
 ${"☆".repeat(5-rating)}
 </div>
 
+${comment
+?`
 <div class="comment-text">
-${comment || "No comment"}
+${comment}
+</div>
+`
+:""}
+
+${date
+?`
+<div class="comment-date">
+${escapeHTML(date)}
+</div>
+`
+:""}
+
 </div>
 
-${
-date
-?
-`<div class="comment-date">${escapeHTML(date)}</div>`
-:
-""
-}
-
-</div>
 `;
 
-})
-.join("");
+}).join("");
 
-}
-
-
-function closeComments(){
+}function closeComments(){
 
 document.getElementById(
 "commentsModal"
-).style.display =
-"none";
+).style.display="none";
 
 }
 
-
-/* ==================================================
-   REVIEW
-================================================== */
-
-async function openReviewForBook(
-bookIndex
-){
+async function openReviewForBook(bookIndex){
 
 if(!supabaseClient){
 
@@ -2280,10 +720,7 @@ return;
 
 }
 
-const {
-data
-} =
-await supabaseClient.auth.getSession();
+const {data}=await supabaseClient.auth.getSession();
 
 if(!data?.session){
 
@@ -2293,99 +730,69 @@ return;
 
 }
 
-const book =
-allBooks[bookIndex];
+const book=allBooks[bookIndex];
 
 if(!book)return;
 
-const email =
-data.session.user.email
+const email=data.session.user.email
 .toLowerCase()
 .trim();
 
-await loadReviews();
+await loadSubmittedReviews(email);
 
-const already =
-allReviews.some(
-row =>
-String(row[0] || "").trim()
-===
-String(book.name).trim()
-&&
-String(row[4] || "")
-.toLowerCase()
-.trim()
-===
-email
-);
-
-if(already){
+if(
+submittedReviews[email]&&
+submittedReviews[email][book.name]
+){
 
 alert(
-"✅ Aap is book ko pehle hi review kar chuke hain."
+"✅ Aap is book ko pehle hi rate & review kar chuke hain."
 );
 
 return;
 
 }
 
-selectedReviewBook =
-book;
-
-selectedReviewRating =
-0;
+selectedReviewBook=book;
+selectedReviewRating=0;
 
 document.getElementById(
 "reviewBookName"
-).textContent =
-removePdfExtension(
-book.name
-);
+).innerText=
+removePdfExtension(book.name);
 
 document.getElementById(
 "reviewComment"
-).value =
-"";
+).value="";
 
 document.getElementById(
 "reviewMessage"
-).textContent =
-"";
+).innerHTML="";
 
 resetReviewStars();
 
 document.getElementById(
 "reviewModal"
-).style.display =
-"flex";
+).style.display="flex";
 
 }
-
 
 function closeReviewModal(){
 
 document.getElementById(
 "reviewModal"
-).style.display =
-"none";
+).style.display="none";
 
-selectedReviewBook =
-null;
-
-selectedReviewRating =
-0;
+selectedReviewBook=null;
+selectedReviewRating=0;
 
 resetReviewStars();
 
 }
 
+function selectReviewRating(rating){
 
-function selectReviewRating(
-rating
-){
-
-selectedReviewRating =
-rating;
+selectedReviewRating=rating;
 
 for(
 let i=1;
@@ -2393,11 +800,13 @@ i<=5;
 i++
 ){
 
-document
-.getElementById(
+const star=document.getElementById(
 "reviewStar"+i
-)
-.classList.toggle(
+);
+
+if(star){
+
+star.classList.toggle(
 "selected",
 i<=rating
 );
@@ -2406,6 +815,7 @@ i<=rating
 
 }
 
+}
 
 function resetReviewStars(){
 
@@ -2415,11 +825,13 @@ i<=5;
 i++
 ){
 
-document
-.getElementById(
+const star=document.getElementById(
 "reviewStar"+i
-)
-.classList.remove(
+);
+
+if(star){
+
+star.classList.remove(
 "selected"
 );
 
@@ -2427,10 +839,7 @@ document
 
 }
 
-
-/* ==================================================
-   SUBMIT REVIEW
-================================================== */
+}
 
 async function submitReview(){
 
@@ -2442,15 +851,11 @@ return;
 
 }
 
-const {
-data
-} =
-await supabaseClient.auth.getSession();
+const {data}=await supabaseClient.auth.getSession();
 
 if(!data?.session){
 
 closeReviewModal();
-
 openAuth("login");
 
 return;
@@ -2461,31 +866,41 @@ if(!selectedReviewBook)return;
 
 if(!selectedReviewRating){
 
-alert(
-"Please select a rating."
-);
+alert("Please select a rating.");
 
 return;
 
 }
 
-const comment =
-document.getElementById(
+const comment=document.getElementById(
 "reviewComment"
 ).value.trim();
 
-const message =
-document.getElementById(
+const message=document.getElementById(
 "reviewMessage"
 );
 
-const email =
-data.session.user.email
+const email=data.session.user.email
 .toLowerCase()
 .trim();
 
-message.textContent =
-"⏳ Submitting...";
+await loadSubmittedReviews(email);
+
+if(
+submittedReviews[email]&&
+submittedReviews[email][
+selectedReviewBook.name
+]
+){
+
+message.innerHTML=
+"❌ Aap is book ka review pehle hi de chuke hain.";
+
+return;
+
+}
+
+message.innerHTML="⏳ Submitting...";
 
 try{
 
@@ -2500,99 +915,206 @@ headers:{
 },
 body:JSON.stringify({
 
-book:
-selectedReviewBook.name,
+book:selectedReviewBook.name,
 
-rating:
-selectedReviewRating,
+rating:selectedReviewRating,
 
-comment:
-comment,
+comment:comment,
 
-email:
-email
+email:email
 
 })
 }
 );
 
-message.textContent =
+if(!submittedReviews[email]){
+submittedReviews[email]={};
+}
+
+submittedReviews[email][
+selectedReviewBook.name
+]=true;
+
+message.innerHTML=
 "✅ Review submitted successfully!";
 
 setTimeout(
-async ()=>{
+async()=>{
 closeReviewModal();
 await loadReviews();
+await refreshVisibleReviewButtons();
 },
 900
 );
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Review submit error:",
+error
+);
 
-message.textContent =
-"❌ Review submit nahi ho saka.";
+message.innerHTML=
+"❌ Review submit nahi ho saka. Please dobara try karein.";
 
 }
 
 }
 
+async function renderCover(pdfUrl,containerId){
 
-/* ==================================================
-   AUTH
-================================================== */
+const container=document.getElementById(
+containerId
+);
 
-function openAuth(
-mode="login"
-){
+if(!container)return;
 
-authMode =
-mode;
+if(typeof pdfjsLib==="undefined"){
+
+container.innerHTML=
+`
+<div class="cover-loading">
+📕 PDF
+</div>
+`;
+
+return;
+
+}
+
+try{
+
+const pdf=await pdfjsLib
+.getDocument({
+url:pdfUrl,
+withCredentials:false
+})
+.promise;
+
+const page=await pdf.getPage(1);
+
+const viewport=page.getViewport({
+scale:1.2
+});
+
+const canvas=document.createElement(
+"canvas"
+);
+
+const context=canvas.getContext("2d");
+
+canvas.width=viewport.width;
+canvas.height=viewport.height;
+
+await page.render({
+canvasContext:context,
+viewport:viewport
+}).promise;
+
+container.innerHTML="";
+container.appendChild(canvas);
+
+}catch(error){
+
+console.error(
+"Cover error:",
+error
+);
+
+container.innerHTML=
+`
+<div class="cover-loading">
+📕 PDF Book
+</div>
+`;
+
+}
+
+}
+
+function searchBooks(){
+
+const search=document
+.getElementById("searchBox")
+.value
+.toLowerCase()
+.trim();
+
+if(!search){
+
+displayBooks(allBooks);
+
+return;
+
+}
+
+const filtered=allBooks.filter(
+book=>
+book.name
+.toLowerCase()
+.includes(search)
+);
+
+displayBooks(filtered);
+
+}
+
+function toggleHelp(){
+
+const menu=document.getElementById(
+"helpMenu"
+);
+
+menu.style.display=
+menu.style.display==="block"
+?"none"
+:"block";
+
+}
+
+function openAuth(mode="login"){
+
+authMode=mode;
 
 document.getElementById(
 "authModal"
-).style.display =
-"flex";
+).style.display="flex";
 
 switchAuth(mode);
 
 }
 
-
 function closeAuth(){
 
 document.getElementById(
 "authModal"
-).style.display =
-"none";
+).style.display="none";
+
+document.getElementById(
+"authMessage"
+).innerHTML="";
 
 }
 
+function switchAuth(mode){
 
-function switchAuth(
-mode
-){
+authMode=mode;
 
-authMode =
-mode;
-
-const login =
-mode === "login";
+const login=mode==="login";
 
 document.getElementById(
 "authTitle"
-).textContent =
+).innerText=
 login
-? "Login"
-: "Create Account";
+?"Login"
+:"Create Account";
 
 document.getElementById(
 "authSubmit"
-).textContent =
+).innerText=
 login
-? "Login"
-: "Sign Up";
+?"Login"
+:"Sign Up";
 
 document.getElementById(
 "loginTab"
@@ -2608,145 +1130,126 @@ document.getElementById(
 !login
 );
 
+document.getElementById(
+"authMessage"
+).innerHTML="";
+
 }
 
-
-async function handleAuth(
-event
-){
+async function handleAuth(event){
 
 event.preventDefault();
 
+const message=document.getElementById(
+"authMessage"
+);
+
 if(!supabaseClient){
 
-document.getElementById(
-"authMessage"
-).textContent =
+message.innerHTML=
 "❌ Login system load nahi hua.";
 
 return;
 
 }
 
-const email =
-document.getElementById(
+const email=document.getElementById(
 "authEmail"
 ).value.trim();
 
-const password =
-document.getElementById(
+const password=document.getElementById(
 "authPassword"
 ).value;
 
-const message =
-document.getElementById(
-"authMessage"
-);
-
-message.textContent =
+message.innerHTML=
 "⏳ Please wait...";
 
 try{
 
-if(authMode === "signup"){
+if(authMode==="signup"){
 
-const {
-data,
-error
-} =
+const {data,error}=
 await supabaseClient.auth.signUp({
-email,
-password
+
+email:email,
+password:password
+
 });
 
-if(error)
-throw error;
+if(error)throw error;
 
-message.textContent =
-data?.session
-?
-"✅ Account created."
-:
-"✅ Account created. Email verify karein.";
+if(data?.user&&!data?.session){
+
+message.innerHTML=
+"✅ Account created. Please check your email and confirm your account.";
 
 }else{
 
-const {
-error
-} =
+message.innerHTML=
+"✅ Account created successfully.";
+
+}
+
+}else{
+
+const {data,error}=
 await supabaseClient.auth.signInWithPassword({
-email,
-password
+
+email:email,
+password:password
+
 });
 
-if(error)
-throw error;
+if(error)throw error;
 
-message.textContent =
+message.innerHTML=
 "✅ Login successful!";
 
 setTimeout(
 closeAuth,
-700
+800
 );
 
 }
 
 }catch(error){
 
-console.error(error);
-
-message.textContent =
-"❌ " +
-(error.message || "Authentication error");
-
-}
-
-}
-
-
-async function logout(){
-
-if(!supabaseClient)return;
-
-await supabaseClient.auth.signOut();
-
-updateAuthUI(null);
-
-alert(
-"You have been logged out."
+console.error(
+"Auth error:",
+error
 );
 
+message.textContent=
+getAuthErrorMessage(error);
+
 }
 
+}
 
-function updateAuthUI(
-session
-){
+function updateAuthUI(session){
 
 document.getElementById(
 "loginBtn"
-).style.display =
+).style.display=
 session
-? "none"
-: "inline-block";
+?"none"
+:"inline-block";
 
 document.getElementById(
 "signupBtn"
-).style.display =
+).style.display=
 session
-? "none"
-: "inline-block";
+?"none"
+:"inline-block";
 
 document.getElementById(
 "logoutBtn"
-).style.display =
+).style.display=
 session
-? "inline-block"
-: "none";
+?"inline-block"
+:"none";
 
 }
-
 
 async function checkAuth(){
 
@@ -2758,145 +1261,190 @@ return;
 
 }
 
-const {
-data
-} =
+try{
+
+const {data}=
 await supabaseClient.auth.getSession();
 
-updateAuthUI(
-data.session
+updateAuthUI(data.session);
+
+if(data.session){
+
+await loadSubmittedReviews(
+data.session.user.email
 );
 
 }
 
+}catch(error){
 
-/* ==================================================
-   HELP
-================================================== */
-
-function toggleHelp(){
-
-const menu =
-document.getElementById(
-"helpMenu"
+console.error(
+"Session error:",
+error
 );
 
-menu.style.display =
-menu.style.display === "block"
-? "none"
-: "block";
+updateAuthUI(null);
 
 }
 
+}
 
-/* ==================================================
-   PDF READER
-================================================== */
+async function logout(){
+
+if(!supabaseClient)return;
+
+try{
+
+const {error}=
+await supabaseClient.auth.signOut();
+
+if(error)throw error;
+
+submittedReviews={};
+
+updateAuthUI(null);
+
+searchBooks();
+
+alert(
+"You have been logged out."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Logout nahi ho saka."
+);
+
+}
+
+}
+
+function setupAuthListener(){
+
+if(!supabaseClient)return;
+
+supabaseClient.auth.onAuthStateChange(
+async(event,session)=>{
+
+console.log(
+"Auth event:",
+event
+);
+
+updateAuthUI(session);
+
+if(session){
+
+await loadSubmittedReviews(
+session.user.email
+);
+
+}else{
+
+submittedReviews={};
+
+}
+
+searchBooks();
+
+}
+);
+
+}
 
 function getReaderViewerId(){
 
 try{
 
-let id =
+readerViewerId=
 localStorage.getItem(
-"attari_viewer_id"
+"attari_books_viewer_id"
 );
 
-if(!id){
+if(!readerViewerId){
 
-id =
-"viewer-" +
-Date.now() +
-"-" +
-Math.random()
-.toString(36)
-.slice(2);
+readerViewerId=
+(crypto&&crypto.randomUUID)
+?crypto.randomUUID()
+:"viewer-"+Date.now()+"-"+Math.random().toString(36).slice(2);
 
 localStorage.setItem(
-"attari_viewer_id",
-id
+"attari_books_viewer_id",
+readerViewerId
 );
 
 }
-
-return id;
 
 }catch(error){
 
-return "viewer-" + Date.now();
+readerViewerId=
+"viewer-"+Date.now()+"-"+Math.random().toString(36).slice(2);
 
 }
 
+return readerViewerId;
+
 }
 
+function makeViewerChannelName(bookName){
 
-function makeChannelName(
-bookName
-){
+let hash=0;
 
-let hash = 0;
+for(let i=0;i<bookName.length;i++){
 
-for(
-let i=0;
-i<bookName.length;
-i++
-){
-
-hash =
-((hash << 5)
-- hash
-+ bookName.charCodeAt(i))
+hash=
+((hash<<5)-hash+bookName.charCodeAt(i))
 |0;
 
 }
 
-return "attari-book-" +
-Math.abs(hash);
+return "attari-book-viewers-"+Math.abs(hash);
 
 }
 
+function setReaderViewerCount(count){
 
-function setReaderViewerCount(
-count
-){
-
-const el =
-document.getElementById(
+const el=document.getElementById(
 "readerViewerCount"
 );
 
 if(!el)return;
 
-el.textContent =
-count === 1
-?
-"👁️ 1 person viewing"
-:
+if(count===1){
+
+el.textContent=
+"👁️ 1 person viewing";
+
+}else{
+
+el.textContent=
 `👁️ ${count} people viewing`;
 
 }
 
+}
 
-async function startReaderPresence(
-book
-){
+async function startReaderPresence(book){
 
-if(!supabaseClient)return;
+if(!book||!supabaseClient)return;
 
 await stopReaderPresence();
 
-readerViewerId =
-getReaderViewerId();
+const viewerId=getReaderViewerId();
 
-readerPresenceChannel =
+const channelName=
+makeViewerChannelName(book.name);
+
+readerPresenceChannel=
 supabaseClient.channel(
-makeChannelName(
-book.name
-),
+channelName,
 {
 config:{
 presence:{
-key:readerViewerId
+key:viewerId
 }
 }
 }
@@ -2904,14 +1452,13 @@ key:readerViewerId
 
 readerPresenceChannel.on(
 "presence",
-{
-event:"sync"
-},
+{event:"sync"},
 ()=>{
 
-const state =
-readerPresenceChannel
-.presenceState();
+if(!readerPresenceChannel)return;
+
+const state=
+readerPresenceChannel.presenceState();
 
 setReaderViewerCount(
 Object.keys(state).length
@@ -2921,109 +1468,122 @@ Object.keys(state).length
 );
 
 readerPresenceChannel.subscribe(
-async status=>{
+async(status)=>{
 
-if(status === "SUBSCRIBED"){
+if(status==="SUBSCRIBED"){
 
+const {error}=
 await readerPresenceChannel.track({
 
-viewer_id:
-readerViewerId,
-
-book:
-book.name,
-
-online_at:
-new Date().toISOString()
+viewer_id:viewerId,
+book:book.name,
+online_at:new Date().toISOString()
 
 });
+
+if(error){
+
+console.error(
+"Viewer tracking error:",
+error
+);
+
+setReaderViewerCount(1);
+
+}
 
 }
 
 }
 );
 
+}async function stopReaderPresence(){
+
+if(!readerPresenceChannel){
+
+setReaderViewerCount(0);
+
+return;
+
 }
-
-
-async function stopReaderPresence(){
-
-if(
-readerPresenceChannel &&
-supabaseClient
-){
 
 try{
 
 await readerPresenceChannel.untrack();
 
-}catch(e){}
+}catch(error){
 
-try{
-
-await supabaseClient
-.removeChannel(
-readerPresenceChannel
+console.error(
+"Viewer untrack error:",
+error
 );
-
-}catch(e){}
 
 }
 
-readerPresenceChannel =
-null;
+try{
+
+await supabaseClient.removeChannel(
+readerPresenceChannel
+);
+
+}catch(error){
+
+console.error(
+"Viewer channel remove error:",
+error
+);
+
+}
+
+readerPresenceChannel=null;
 
 setReaderViewerCount(0);
 
 }
 
+async function openReader(bookIndex){
 
-/* ==================================================
-   OPEN PDF READER
-================================================== */
-
-async function openReader(
-bookIndex
-){
-
-const book =
-allBooks[bookIndex];
+const book=allBooks[bookIndex];
 
 if(!book)return;
 
+startReaderPresence(book);
+
+if(typeof pdfjsLib==="undefined"){
+
+alert(
+"PDF Reader load nahi hua. Page refresh karein."
+);
+
+return;
+
+}
+
 document.getElementById(
 "readerModal"
-).style.display =
-"flex";
+).style.display="flex";
+
+document.getElementById(
+"readerLoading"
+).style.display="block";
+
+document.getElementById(
+"readerLoading"
+).innerHTML=
+"📖 Loading PDF...";
 
 document.getElementById(
 "readerTitle"
-).textContent =
-removePdfExtension(
-book.name
-);
+).innerText=
+removePdfExtension(book.name);
 
-document.getElementById(
-"readerLoading"
-).style.display =
-"block";
+readerCurrentPage=1;
 
-document.getElementById(
-"readerLoading"
-).textContent =
-"📖 Loading PDF...";
-
-readerCurrentPage =
-1;
-
-readerPdf =
-null;
-
-startReaderPresence(book);
+readerPdf=null;
 
 try{
 
-readerPdf =
+readerPdf=
 await pdfjsLib
 .getDocument({
 url:book.download_url,
@@ -3035,131 +1595,118 @@ await renderReaderPage(1);
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Reader error:",
+error
+);
 
 document.getElementById(
 "readerLoading"
-).textContent =
+).innerHTML=
 "❌ PDF open nahi ho saki.";
 
 }
 
 }
 
-
-/* ==================================================
-   RENDER READER PAGE
-================================================== */
-
-async function renderReaderPage(
-pageNumber
-){
+async function renderReaderPage(pageNumber){
 
 if(!readerPdf)return;
 
-const loading =
-document.getElementById(
+const loading=document.getElementById(
 "readerLoading"
 );
 
-loading.style.display =
-"block";
+loading.style.display="block";
 
-loading.textContent =
+loading.innerHTML=
 "📖 Loading page...";
 
 try{
 
-const page =
+const page=
 await readerPdf.getPage(
 pageNumber
 );
 
-const canvas =
+const canvas=
 document.getElementById(
 "readerCanvas"
 );
 
-const context =
+const context=
 canvas.getContext("2d");
 
-const container =
+const container=
 document.querySelector(
 ".reader-content"
 );
 
-const base =
+const originalViewport=
 page.getViewport({
 scale:1
 });
 
-const availableWidth =
-container.clientWidth - 40;
+const availableWidth=
+container.clientWidth-40;
 
-let scale = 1.4;
+let scale=1.4;
 
 if(
-base.width * scale >
+originalViewport.width*scale>
 availableWidth
 ){
 
-scale =
-availableWidth /
-base.width;
+scale=
+availableWidth/
+originalViewport.width;
 
 }
 
-scale =
-Math.max(
-scale,
-0.8
-);
-
-const viewport =
+const viewport=
 page.getViewport({
-scale
+scale:Math.max(scale,0.8)
 });
 
-canvas.width =
-viewport.width;
-
-canvas.height =
-viewport.height;
+canvas.width=viewport.width;
+canvas.height=viewport.height;
 
 await page.render({
 
-canvasContext:
-context,
-
-viewport
+canvasContext:context,
+viewport:viewport
 
 }).promise;
 
-loading.style.display =
-"none";
+loading.style.display="none";
 
 document.getElementById(
 "readerPage"
-).textContent =
+).innerText=
 `Page ${pageNumber} / ${readerPdf.numPages}`;
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Page render error:",
+error
+);
 
-loading.textContent =
+loading.style.display="block";
+
+loading.innerHTML=
 "❌ Page load nahi ho saka.";
 
 }
 
 }
 
-
 async function nextPage(){
 
+if(!readerPdf)return;
+
 if(
-readerPdf &&
-readerCurrentPage <
+readerCurrentPage<
 readerPdf.numPages
 ){
 
@@ -3173,13 +1720,11 @@ readerCurrentPage
 
 }
 
-
 async function previousPage(){
 
-if(
-readerPdf &&
-readerCurrentPage > 1
-){
+if(!readerPdf)return;
+
+if(readerCurrentPage>1){
 
 readerCurrentPage--;
 
@@ -3191,30 +1736,23 @@ readerCurrentPage
 
 }
 
-
 function closeReader(){
 
 stopReaderPresence();
 
 document.getElementById(
 "readerModal"
-).style.display =
-"none";
+).style.display="none";
 
-readerPdf =
-null;
+readerPdf=null;
+readerCurrentPage=1;
 
-readerCurrentPage =
-1;
-
-const canvas =
+const canvas=
 document.getElementById(
 "readerCanvas"
 );
 
-if(canvas){
-
-const context =
+const context=
 canvas.getContext("2d");
 
 context.clearRect(
@@ -3226,134 +1764,104 @@ canvas.height
 
 }
 
-}
-
-
-/* ==================================================
-   CLICK OUTSIDE MODALS
-================================================== */
-
-document
-.getElementById("detailsModal")
-.addEventListener(
-"click",
-function(event){
-
-if(event.target === this)
-closeBookDetails();
-
-}
-);
-
-
-document
-.getElementById("reviewModal")
-.addEventListener(
-"click",
-function(event){
-
-if(event.target === this)
-closeReviewModal();
-
-}
-);
-
-
-document
-.getElementById("commentsModal")
-.addEventListener(
-"click",
-function(event){
-
-if(event.target === this)
-closeComments();
-
-}
-);
-
-
-document.addEventListener(
-"click",
-function(event){
-
-const wrapper =
-document.querySelector(
-".help-wrapper"
-);
-
-const menu =
-document.getElementById(
-"helpMenu"
-);
-
-if(
-wrapper &&
-!wrapper.contains(event.target)
-){
-
-menu.style.display =
-"none";
-
-}
-
-}
-);
-
-
-/* ==================================================
-   KEYBOARD
-================================================== */
-
 document.addEventListener(
 "keydown",
-event=>{
+function(event){
 
-const reader =
+const reader=
 document.getElementById(
 "readerModal"
 );
 
 if(
-reader.style.display !== "flex"
-)
+reader.style.display!=="flex"
+){
+
 return;
 
-if(event.key === "ArrowRight")
+}
+
+if(event.key==="ArrowRight"){
+
 nextPage();
 
-if(event.key === "ArrowLeft")
+}
+
+if(event.key==="ArrowLeft"){
+
 previousPage();
 
-if(event.key === "Escape")
+}
+
+if(event.key==="Escape"){
+
 closeReader();
 
 }
+
+}
 );
 
+document.addEventListener(
+"click",
+function(event){
 
-/* ==================================================
-   START
-================================================== */
+const wrapper=
+document.querySelector(
+".help-wrapper"
+);
+
+const menu=
+document.getElementById(
+"helpMenu"
+);
+
+if(
+wrapper&&
+!wrapper.contains(event.target)
+){
+
+menu.style.display="none";
+
+}
+
+}
+);
+
+document.getElementById(
+"reviewModal"
+).addEventListener(
+"click",
+function(event){
+
+if(event.target===this){
+
+closeReviewModal();
+
+}
+
+}
+);
+
+document.getElementById(
+"commentsModal"
+).addEventListener(
+"click",
+function(event){
+
+if(event.target===this){
+
+closeComments();
+
+}
+
+}
+);
 
 initializeSupabase();
-
 loadBooks();
-
-loadReviews();
-
 checkAuth();
-
-if(supabaseClient){
-
-supabaseClient.auth.onAuthStateChange(
-(event,session)=>{
-
-updateAuthUI(session);
-
-}
-);
-
-}
+setupAuthListener();
 
 </script>
 
