@@ -53,12 +53,12 @@ nav a:hover,nav button:hover{
 background:#333;  
 }  
 
-.auth-nav-btn{
+.google-auth-nav-btn{
 background:#fff!important;
 color:#222!important;
 display:inline-flex;
 align-items:center;
-gap:6px;
+gap:8px;
 font-weight:bold;
 }
 
@@ -67,7 +67,7 @@ display:inline-flex;
 align-items:center;
 gap:8px;
 background:#222;
-padding:4px 12px 4px 6px;
+padding:4px 10px 4px 6px;
 border-radius:20px;
 border:1px solid #444;
 font-size:14px;
@@ -360,53 +360,41 @@ font-size:28px;
 cursor:pointer;  
 }  
 
-.auth-desc{
-color:#666;
-font-size:14px;
-margin:10px 0 20px 0;
-line-height:1.5;
-}
-
-.auth-input{  
-width:100%;  
-padding:14px;  
-margin-bottom:14px;  
-border:1px solid #ccc;  
-border-radius:8px;  
-font-size:16px;  
-outline:none;
-}  
-
-.auth-input:focus{
-border-color:#111;
-}
-
-.auth-submit-btn{
+.google-auth-btn{
 width:100%;
-padding:14px;
-border:0;
-border-radius:8px;
-background:#111;
-color:#fff;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
 display:flex;
 align-items:center;
 justify-content:center;
-gap:8px;
+gap:12px;
+background:#fff;
+border:1px solid #ddd;
+padding:14px;
+border-radius:8px;
+font-size:16px;
+font-weight:bold;
+color:#333;
+cursor:pointer;
+box-shadow:0 2px 6px rgba(0,0,0,.08);
+margin-top:20px;
 }
 
-.auth-submit-btn:hover{
-background:#333;
+.google-auth-btn:hover{
+background:#f8f8f8;
+border-color:#ccc;
+}
+
+.auth-desc{
+text-align:center;
+color:#666;
+font-size:14px;
+margin-top:10px;
+line-height:1.4;
 }
   
 #authMessage,  
 #reviewMessage{  
 text-align:center;  
 margin-top:14px;  
-font-size:15px;
-line-height:1.4;
 }  
   
 .review-stars{  
@@ -703,14 +691,15 @@ font-size:13px;
 </div>  
 </div>  
 
-<!-- Logged In User Profile Pill -->
+<!-- User Profile Pill (Visible when logged in) -->
 <div id="userProfile" class="profile-pill" style="display:none;">
 <img id="userAvatar" src="" alt="Profile">
 <span id="userName">User</span>
 </div>
 
-<button class="auth-nav-btn" id="loginBtn" onclick="openAuth()">
-🔐 Login / Sign Up
+<button class="google-auth-nav-btn" id="loginBtn" onclick="openAuth('login')">
+<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+Sign In
 </button>
 
 <button class="auth-btn logout-btn" id="logoutBtn" onclick="logout()" style="display:none">Logout</button>
@@ -754,20 +743,18 @@ font-size:13px;
 </div>  
 
 <!-- =========================  
-     AUTH (MAGIC LINK / PASSWORDLESS)  
+     AUTH (GOOGLE 1-CLICK MODAL)  
 ========================= -->  
 <div class="modal" id="authModal">  
 <div class="modal-box" style="text-align:center;">  
 <button class="close-btn" onclick="closeAuth()">×</button>
-<h2>Login / Sign Up</h2>  
-<p class="auth-desc">Apna Gmail daaliye, hum aapko direct 1-click login link bhejenge. Koi password ya OTP yaad rakhne ki zaroorat nahi!</p>
+<h2>Welcome to Attari Books</h2>  
+<p class="auth-desc">Apne Gmail account se direct login ya register karein. Koi password ki zarurat nahi hai.</p>
 
-<form onsubmit="handleMagicLinkAuth(event)">
-<input id="authEmail" class="auth-input" type="email" placeholder="example@gmail.com" required>
-<button id="magicSubmitBtn" class="auth-submit-btn" type="submit">
-✉️ Send Login Link
+<button class="google-auth-btn" onclick="signInWithGoogle()">
+<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+Continue with Google
 </button>
-</form>
 
 <div id="authMessage"></div>  
 </div>  
@@ -1353,7 +1340,7 @@ message.textContent = "❌ Review submit nahi ho saka.";
 }  
 
 /* ==================================================  
-   AUTH (1-CLICK MAGIC LINK - PASSWORDLESS)  
+   AUTH (DIRECT GOOGLE SIGN IN)  
 ================================================== */  
 function openAuth(){  
 document.getElementById("authModal").style.display = "flex";  
@@ -1364,45 +1351,27 @@ function closeAuth(){
 document.getElementById("authModal").style.display = "none";  
 }  
 
-async function handleMagicLinkAuth(event){  
-event.preventDefault();  
+async function signInWithGoogle(){  
 if(!supabaseClient){  
-document.getElementById("authMessage").innerHTML = "<span style='color:#e53e3e'>❌ System load nahi hua.</span>";  
+document.getElementById("authMessage").textContent = "❌ System load nahi hua.";  
 return;  
 }  
 
-const email = document.getElementById("authEmail").value.trim();  
 const message = document.getElementById("authMessage");  
-const submitBtn = document.getElementById("magicSubmitBtn");  
-
-submitBtn.disabled = true;  
-submitBtn.textContent = "⏳ Sending...";  
-message.textContent = "";  
+message.textContent = "⏳ Connecting to Google...";  
 
 try{  
-const { data, error } = await supabaseClient.auth.signInWithOtp({  
-email: email,  
+const { data, error } = await supabaseClient.auth.signInWithOAuth({  
+provider: 'google',  
 options: {  
-emailRedirectTo: window.location.origin + window.location.pathname  
+redirectTo: window.location.origin + window.location.pathname  
 }  
 });  
 
 if(error) throw error;  
-
-message.innerHTML = `  
-<div style="background:#e6fffa;color:#234e52;padding:12px;border-radius:8px;margin-top:10px;border:1px solid #b2f5ea">  
-✅ <b>Link sent!</b><br>  
-Humne aapke <b>${escapeHTML(email)}</b> par login link bhej diya hai.<br>  
-Gmail khol kar link par click karein aur aap turant login ho jayenge!  
-</div>  
-`;  
-document.getElementById("authEmail").value = "";  
 }catch(error){  
 console.error(error);  
-message.innerHTML = `<span style="color:#e53e3e">❌ ${escapeHTML(error.message || "Link bhejne mein dikkat aayi.")}</span>`;  
-}finally{  
-submitBtn.disabled = false;  
-submitBtn.textContent = "✉️ Send Login Link";  
+message.textContent = "❌ " + (error.message || "Google login failed.");  
 }  
 }  
 
@@ -1410,7 +1379,7 @@ async function logout(){
 if(!supabaseClient)return;  
 await supabaseClient.auth.signOut();  
 updateAuthUI(null);  
-alert("Aap successfully logout ho chuke hain.");  
+alert("Aap logout ho chuke hain.");  
 }  
 
 function updateAuthUI(session){  
