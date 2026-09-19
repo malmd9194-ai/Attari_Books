@@ -503,10 +503,14 @@ flex-direction:column;
 .reader-header{  
 background:#111;  
 color:#fff;  
-padding:9px;  
+padding:10px 16px;  
 display:flex;  
 align-items:center;  
-gap:8px;  
+justify-content:space-between;  
+gap:12px;  
+position:sticky;  
+top:0;  
+z-index:10;  
 }  
   
 .reader-header button{  
@@ -514,8 +518,9 @@ border:0;
 background:#fff;  
 color:#111;  
 border-radius:6px;  
-padding:8px 10px;  
+padding:8px 14px;  
 cursor:pointer;  
+font-weight:bold;  
 }  
   
 .reader-middle{  
@@ -525,7 +530,7 @@ text-align:center;
 }  
   
 .reader-title{  
-font-size:14px;  
+font-size:15px;  
 font-weight:bold;  
 white-space:nowrap;  
 overflow:hidden;  
@@ -538,33 +543,31 @@ color:#ccc;
 margin-top:3px;  
 }  
   
-.reader-page-controls{  
-display:flex;  
-align-items:center;  
-gap:5px;  
-}  
-  
 .reader-content{  
 flex:1;  
-overflow:auto;  
+overflow-y:auto;  
+overflow-x:hidden;  
 display:flex;  
-justify-content:center;  
-align-items:flex-start;  
-padding:20px;  
+flex-direction:column;  
+align-items:center;  
+padding:20px 10px;  
+gap:18px;  
+-webkit-overflow-scrolling:touch;  
 }  
   
-#readerCanvas{  
+.reader-page-canvas{  
 background:#fff;  
 max-width:100%;  
 height:auto;  
-box-shadow:0 2px 15px rgba(0,0,0,.5);  
+box-shadow:0 4px 18px rgba(0,0,0,.6);  
+border-radius:4px;  
 }  
   
 #readerLoading{  
-position:absolute;  
-top:50%;  
 color:#fff;  
 font-size:18px;  
+text-align:center;  
+padding:20px;  
 }  
   
 footer{  
@@ -641,16 +644,16 @@ min-height:65px;
 }  
   
 .reader-header{  
-padding:7px 5px;  
+padding:8px 10px;  
 }  
   
 .reader-header button{  
-padding:7px;  
+padding:7px 10px;  
 font-size:12px;  
 }  
   
 .reader-title{  
-font-size:12px;  
+font-size:13px;  
 }  
   
 }  
@@ -768,7 +771,7 @@ font-size:12px;
 </div>  
 
 <!-- =========================  
-     PDF READER  
+     PDF READER (ALL PAGES CONTINUOUS SCROLL)  
 ========================= -->  
 <div class="reader-modal" id="readerModal">  
 <div class="reader-header">  
@@ -777,15 +780,10 @@ font-size:12px;
 <div class="reader-title" id="readerTitle">Attari Books</div>  
 <div class="reader-viewers" id="readerViewerCount">👁️ 0 people viewing</div>  
 </div>  
-<div class="reader-page-controls">  
-<button onclick="previousPage()">◀</button>  
-<span id="readerPage">Page 1</span>  
-<button onclick="nextPage()">▶</button>  
+<div id="readerPage" style="font-size:13px;color:#ccc;">Loading...</div>  
 </div>  
-</div>  
-<div class="reader-content">  
-<canvas id="readerCanvas"></canvas>
-<div id="readerLoading">📖 Loading...</div>  
+<div class="reader-content" id="readerContent">  
+<div id="readerLoading">📖 Loading complete book...</div>  
 </div>  
 </div>  
 
@@ -815,11 +813,10 @@ let selectedReviewBook = null;
 let selectedReviewRating = 0;  
 let authMode = "login";  
 let readerPdf = null;  
-let readerCurrentPage = 1;  
 let readerPresenceChannel = null;  
 let readerViewerId = null;  
 let archiveDates = {};  
-let submittedReviews = {};  
+let isRenderingPdf = false;  
 
 /* ==================================================  
    PDF JS  
@@ -877,8 +874,7 @@ html_url:file.html_url
 status.textContent = `${allBooks.length} book(s) available`;  
 displayBooks(allBooks);  
 
-// Check if a book was shared via URL parameter to auto-open reader
-checkSharedUrlBook();
+checkSharedUrlBook();  
 
 }catch(error){  
 console.error(error);  
@@ -886,17 +882,16 @@ status.textContent = "❌ Books load nahi ho pa rahi.";
 }  
 }  
 
-/* Check for ?book= parameter to read directly */
-function checkSharedUrlBook(){
-  const params = new URLSearchParams(window.location.search);
-  const bookParam = params.get("book");
-  if(bookParam && allBooks.length){
-    const index = allBooks.findIndex(b => b.name === bookParam);
-    if(index !== -1){
-      openReader(index);
-    }
-  }
-}
+function checkSharedUrlBook(){  
+const params = new URLSearchParams(window.location.search);  
+const bookParam = params.get("book");  
+if(bookParam && allBooks.length){  
+const index = allBooks.findIndex(b => b.name === bookParam);  
+if(index !== -1){  
+openReader(index);  
+}  
+}  
+}  
 
 /* ==================================================  
    DISPLAY HOME CARDS  
@@ -1171,8 +1166,7 @@ const book = allBooks[bookIndex];
 if(!book)return;  
 
 const title = removePdfExtension(book.name);  
-// Website page link ke sath book parameter joda gaya hai
-const readUrl = window.location.origin + window.location.pathname + "?book=" + encodeURIComponent(book.name);
+const readUrl = window.location.origin + window.location.pathname + "?book=" + encodeURIComponent(book.name);  
 
 if(navigator.share){  
 try{  
@@ -1404,7 +1398,7 @@ menu.style.display = menu.style.display === "block" ? "none" : "block";
 }  
 
 /* ==================================================  
-   PDF READER  
+   PDF READER PRESENCE  
 ================================================== */  
 function getReaderViewerId(){  
 try{  
@@ -1467,91 +1461,66 @@ setReaderViewerCount(0);
 }  
 
 /* ==================================================  
-   OPEN PDF READER  
+   OPEN PDF READER (ALL PAGES CONTINUOUS)  
 ================================================== */  
 async function openReader(bookIndex){  
 const book = allBooks[bookIndex];  
 if(!book)return;  
 
+isRenderingPdf = true;  
 document.getElementById("readerModal").style.display = "flex";  
 document.getElementById("readerTitle").textContent = removePdfExtension(book.name);  
-document.getElementById("readerLoading").style.display = "block";  
-document.getElementById("readerLoading").textContent = "📖 Loading PDF...";  
-readerCurrentPage = 1;  
-readerPdf = null;  
+const content = document.getElementById("readerContent");  
+content.innerHTML = `<div id="readerLoading">📖 Loading complete book...</div>`;  
+document.getElementById("readerPage").textContent = "Loading...";  
 
 startReaderPresence(book);  
 
 try{  
 readerPdf = await pdfjsLib.getDocument({url:book.download_url, withCredentials:false}).promise;  
-await renderReaderPage(1);  
-}catch(error){  
-console.error(error);  
-document.getElementById("readerLoading").textContent = "❌ PDF open nahi ho saki.";  
-}  
-}  
+document.getElementById("readerPage").textContent = `Total Pages: ${readerPdf.numPages}`;  
+content.innerHTML = "";  
 
-/* ==================================================  
-   RENDER READER PAGE  
-================================================== */  
-async function renderReaderPage(pageNumber){  
-if(!readerPdf)return;  
-const loading = document.getElementById("readerLoading");  
-loading.style.display = "block";  
-loading.textContent = "📖 Loading page...";  
+const availableWidth = content.clientWidth - 40;  
 
-try{  
-const page = await readerPdf.getPage(pageNumber);  
-const canvas = document.getElementById("readerCanvas");  
-const context = canvas.getContext("2d");  
-const container = document.querySelector(".reader-content");  
+// Loop karke saare pages ek saath render karna
+for(let pageNum = 1; pageNum <= readerPdf.numPages; pageNum++){  
+if(!isRenderingPdf) break; // Agar user ne reader close kar diya toh stop  
+
+const page = await readerPdf.getPage(pageNum);  
 const base = page.getViewport({scale:1});  
-const availableWidth = container.clientWidth - 40;  
-let scale = 1.4;  
+let scale = 1.35;  
 if(base.width * scale > availableWidth){  
 scale = availableWidth / base.width;  
 }  
-scale = Math.max(scale, 0.8);  
+scale = Math.max(scale, 0.75);  
 
 const viewport = page.getViewport({scale});  
+const canvas = document.createElement("canvas");  
+canvas.className = "reader-page-canvas";  
 canvas.width = viewport.width;  
 canvas.height = viewport.height;  
 
+const context = canvas.getContext("2d");  
+content.appendChild(canvas);  
+
 await page.render({canvasContext:context, viewport}).promise;  
-loading.style.display = "none";  
-document.getElementById("readerPage").textContent = `Page ${pageNumber} / ${readerPdf.numPages}`;  
+}  
+
 }catch(error){  
 console.error(error);  
-loading.textContent = "❌ Page load nahi ho saka.";  
-}  
-}  
-
-async function nextPage(){  
-if(readerPdf && readerCurrentPage < readerPdf.numPages){  
-readerCurrentPage++;  
-await renderReaderPage(readerCurrentPage);  
-}  
-}  
-
-async function previousPage(){  
-if(readerPdf && readerCurrentPage > 1){  
-readerCurrentPage--;  
-await renderReaderPage(readerCurrentPage);  
+content.innerHTML = `<div id="readerLoading" style="color:#ff6b6b">❌ PDF open nahi ho saki.</div>`;  
 }  
 }  
 
 function closeReader(){  
+isRenderingPdf = false;  
 stopReaderPresence();  
 document.getElementById("readerModal").style.display = "none";  
 readerPdf = null;  
-readerCurrentPage = 1;  
-const canvas = document.getElementById("readerCanvas");  
-if(canvas){  
-const context = canvas.getContext("2d");  
-context.clearRect(0, 0, canvas.width, canvas.height);  
-}  
-// URL saaf karein taaki reload karne par dobara reader na khule
-window.history.replaceState({}, document.title, window.location.pathname);
+const content = document.getElementById("readerContent");  
+if(content) content.innerHTML = "";  
+window.history.replaceState({}, document.title, window.location.pathname);  
 }  
 
 /* ==================================================  
@@ -1583,8 +1552,6 @@ menu.style.display = "none";
 document.addEventListener("keydown", event=>{  
 const reader = document.getElementById("readerModal");  
 if(reader.style.display !== "flex") return;  
-if(event.key === "ArrowRight") nextPage();  
-if(event.key === "ArrowLeft") previousPage();  
 if(event.key === "Escape") closeReader();  
 });  
 
