@@ -299,12 +299,14 @@ display:flex;
 align-items:center;
 justify-content:center;
 gap:8px;
+padding:10px;
+text-align:center;
 }  
   
 .read-action{background:#2864df}  
 .download-action{background:#16a34a}  
 .share-action{background:#7c3aed}  
-.rate-action{background:#f59e0b}  
+.rate-action{background:#f59e0b; font-size:15px;}  
 .views-action{background:#555;cursor:default}  
 
 /* COMMENTS SECTION ON PAGE */
@@ -588,7 +590,7 @@ nav{justify-content:center;}
 .cover-box{height:240px;}  
 .book-info{padding:9px;}  
 .details-actions{gap:8px;}  
-.details-action{font-size:14px;min-height:58px;}  
+.details-action{font-size:13px;min-height:58px;}  
 }  
 </style>  
 </head>  
@@ -651,13 +653,14 @@ Sign In
         <button class="details-action read-action" onclick="detailsRead()">📖 Read</button>
         <button class="details-action download-action" onclick="detailsDownload()">📥 Download</button>
         <button class="details-action share-action" onclick="detailsShare()">🔗 Share Book</button>
-        <button class="details-action rate-action" onclick="detailsRate()">⭐ Rate & Review</button>
+        <!-- RATE & COMMENT STATS BUTTON -->
+        <button class="details-action rate-action" id="pageRateBtn" onclick="detailsRate()">⭐ Rate (0) | 💬 Comment</button>
         <button class="details-action views-action" id="pageViews" style="grid-column:1/-1;">👁️ Views: 0</button>
       </div>
 
       <!-- INLINE COMMENTS SECTION -->
       <div class="page-comments-container">
-        <div class="page-comments-title">💬 Comments & Reviews</div>
+        <div class="page-comments-title" id="pageCommentsHeader">💬 Comments & Reviews</div>
         <div class="comments-list" id="pageCommentsList">⏳ Loading comments...</div>
       </div>
     </div>
@@ -683,7 +686,7 @@ Continue with Google
 <div class="review-modal" id="reviewModal">  
 <div class="review-box">  
 <button class="close-btn" onclick="closeReviewModal()">×</button>
-<h2 style="text-align:center">⭐ Rate & Review</h2>  
+<h2 style="text-align:center">⭐ Rate & Comment</h2>  
 <p id="reviewBookName" style="text-align:center;color:#666;margin-top:8px">Book</p>  
 <div class="review-stars">  
 <button class="review-star" id="reviewStar1" onclick="selectReviewRating(1)">★</button>
@@ -692,7 +695,7 @@ Continue with Google
 <button class="review-star" id="reviewStar4" onclick="selectReviewRating(4)">★</button>
 <button class="review-star" id="reviewStar5" onclick="selectReviewRating(5)">★</button>
 </div>  
-<textarea id="reviewComment" class="review-textarea" placeholder="Write your review..."></textarea>  
+<textarea id="reviewComment" class="review-textarea" placeholder="Write your comment..."></textarea>  
 <button class="submit-review" onclick="submitReview()">⭐ Submit Review</button>
 <div id="reviewMessage"></div>  
 </div>  
@@ -901,14 +904,13 @@ async function openBookDetails(bookIndex, updateHistory = true){
   if(!book) return;  
   selectedDetailsBook = book;  
 
-  // Switch Views
-  document.getElementById("homePageContainer").style.display = "none";
-  document.getElementById("bookDetailsPage").style.display = "block";
-  window.scrollTo({top: 0, behavior: "smooth"});
+  document.getElementById("homePageContainer").style.display = "none";  
+  document.getElementById("bookDetailsPage").style.display = "block";  
+  window.scrollTo({top: 0, behavior: "smooth"});  
 
-  if(updateHistory){
-    window.history.pushState({view: book.name}, "", "?view=" + encodeURIComponent(book.name));
-  }
+  if(updateHistory){  
+    window.history.pushState({view: book.name}, "", "?view=" + encodeURIComponent(book.name));  
+  }  
 
   document.getElementById("pageTitle").textContent = removePdfExtension(book.name);  
   document.getElementById("pageArchive").textContent = archiveDates[book.name] ? "archived " + archiveDates[book.name] : "archived";  
@@ -918,7 +920,7 @@ async function openBookDetails(bookIndex, updateHistory = true){
   cover.innerHTML = "📖 Loading cover...";  
   await renderCover(book.download_url, "pageCover");  
   
-  loadCommentsForPage(book.name);
+  await loadCommentsForPage(book.name);  
   await updateBookViewCount(book.name);  
   await incrementBookView(book.name);  
 }  
@@ -927,17 +929,17 @@ function goBackToHome(){
   document.getElementById("bookDetailsPage").style.display = "none";  
   document.getElementById("homePageContainer").style.display = "block";  
   selectedDetailsBook = null;  
-  window.history.pushState({}, "", window.location.pathname);
+  window.history.pushState({}, "", window.location.pathname);  
 }  
 
-window.addEventListener("popstate", () => {
-  const params = new URLSearchParams(window.location.search);
-  if(!params.get("view")){
-    document.getElementById("bookDetailsPage").style.display = "none";
-    document.getElementById("homePageContainer").style.display = "block";
-    selectedDetailsBook = null;
-  }
-});
+window.addEventListener("popstate", () => {  
+  const params = new URLSearchParams(window.location.search);  
+  if(!params.get("view")){  
+    document.getElementById("bookDetailsPage").style.display = "none";  
+    document.getElementById("homePageContainer").style.display = "block";  
+    selectedDetailsBook = null;  
+  }  
+});  
 
 /* ACTIONS ON PAGE */  
 function detailsRead(){  
@@ -967,10 +969,10 @@ function detailsShare(){
       text: "📖 Open book: " + title,  
       url: readUrl  
     }).catch(()=>{});  
-  } else {
+  } else {  
     const whatsapp = "https://wa.me/?text=" + encodeURIComponent("📖 Check out this book on Attari Books:\n" + title + "\n" + readUrl);  
     window.open(whatsapp, "_blank");  
-  }
+  }  
 }  
 
 function detailsRate(){  
@@ -1083,13 +1085,38 @@ function updateCardReviewCounts(){
 
 async function loadCommentsForPage(bookName){  
   const list = document.getElementById("pageCommentsList");  
+  const rateBtn = document.getElementById("pageRateBtn");
+  const header = document.getElementById("pageCommentsHeader");
+
   list.innerHTML = "⏳ Loading comments...";  
   const reviews = await loadReviews();  
   const rows = reviews.filter(row => String(row[0] || "").trim() === String(bookName).trim());  
+
+  // Calculate Average Rating and Counts
+  const ratedRows = rows.filter(r => Number(r[1]) > 0);
+  const totalRaters = ratedRows.length;
+  let avgRating = 0;
+  if(totalRaters > 0){
+    const sum = ratedRows.reduce((acc, cur) => acc + Number(cur[1]), 0);
+    avgRating = (sum / totalRaters).toFixed(1);
+  }
+
+  const commentsCount = rows.filter(r => String(r[2] || "").trim() !== "").length;
+
+  // Update Button Text with Stats
+  if(rateBtn){
+    rateBtn.innerHTML = `⭐ ${avgRating > 0 ? avgRating : "Rate"} (${totalRaters}) | 💬 Comment (${commentsCount})`;
+  }
+
+  if(header){
+    header.innerHTML = `💬 Comments (${commentsCount}) & ⭐ Ratings (${totalRaters} votes, Avg: ${avgRating}/5)`;
+  }
+
   if(!rows.length){  
     list.innerHTML = `<div style="padding:15px;color:#777">💬 No comments yet. Pehle user baniye review dene wale!</div>`;  
     return;  
   }  
+
   list.innerHTML = rows.slice().reverse().map(row=>{  
     const rating = Math.max(0, Math.min(5, Number(row[1]) || 0));  
     const comment = escapeHTML(row[2] || "");  
@@ -1099,8 +1126,8 @@ async function loadCommentsForPage(bookName){
     }  
     return `  
       <div class="comment-item">  
-        <div class="comment-rating">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div>  
-        <div class="comment-text">${comment || "No comment"}</div>  
+        <div class="comment-rating">${"★".repeat(rating)}${"☆".repeat(5-rating)} (${rating}/5)</div>  
+        <div class="comment-text">${comment || "No text review"}</div>  
         ${date ? `<div class="comment-date">${escapeHTML(date)}</div>` : ""}  
       </div>  
     `;  
@@ -1181,9 +1208,9 @@ async function submitReview(){
     setTimeout(async ()=>{  
       closeReviewModal();  
       await loadReviews();  
-      if(selectedDetailsBook){
-        loadCommentsForPage(selectedDetailsBook.name);
-      }
+      if(selectedDetailsBook){  
+        loadCommentsForPage(selectedDetailsBook.name);  
+      }  
     }, 900);  
   }catch(error){  
     console.error(error);  
@@ -1247,9 +1274,9 @@ function updateAuthUI(session){
     userAvatar.src = avatar;  
     closeAuth();  
 
-    if(window.location.hash && window.location.hash.includes("access_token")){
-      window.history.replaceState(null, null, window.location.pathname);
-    }
+    if(window.location.hash && window.location.hash.includes("access_token")){  
+      window.history.replaceState(null, null, window.location.pathname);  
+    }  
   }else{  
     loginBtn.style.display = "inline-flex";  
     logoutBtn.style.display = "none";  
