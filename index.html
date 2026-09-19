@@ -152,7 +152,7 @@ transition:transform .2s;
 
 .book-card:hover{
 transform:translateY(-3px);
-}
+}  
   
 .cover-box{  
 height:290px;  
@@ -676,7 +676,6 @@ nav{justify-content:center;}
 </div>  
 </div>  
 
-<!-- User Profile Pill -->
 <div id="userProfile" class="profile-pill" style="display:none;">
 <img id="userAvatar" src="" alt="Profile">
 <span id="userName">User</span>
@@ -720,12 +719,11 @@ Sign In
         <button class="details-action read-action" onclick="detailsRead()">📖 Read</button>
         <button class="details-action download-action" onclick="detailsDownload()">📥 Download</button>
         <button class="details-action share-action" onclick="detailsShare()">🔗 Share Book</button>
-        <!-- SIMPLE STAR & COMMENT BUTTON (NO COUNT) -->
         <button class="details-action rate-action" id="pageRateBtn" onclick="detailsRate()">⭐ Star & 💬 Comment</button>
         <button class="details-action views-action" id="pageViews" style="grid-column:1/-1;">👁️ Views: 0</button>
       </div>
 
-      <!-- 1. STAR RATINGS OVERVIEW (ABOVE COMMENTS) -->
+      <!-- STAR RATINGS OVERVIEW -->
       <div class="page-reviews-overview" id="pageRatingsOverview">
         <div class="rating-score-box">
           <div class="rating-big-num" id="overviewAvgNum">0.0</div>
@@ -736,7 +734,7 @@ Sign In
         </div>
       </div>
 
-      <!-- 2. INLINE COMMENTS LIST (BELOW RATINGS) -->
+      <!-- INLINE COMMENTS LIST -->
       <div class="page-comments-container">
         <div class="page-comments-title" id="pageCommentsHeader">💬 Comments (0)</div>
         <div class="comments-list" id="pageCommentsList">⏳ Loading comments...</div>
@@ -975,9 +973,7 @@ async function loadArchiveDate(book, elementId){
   }  
 }  
 
-/* ==================================================  
-   OPEN DEDICATED BOOK VIEW PAGE  
-================================================== */  
+/* DEDICATED BOOK VIEW PAGE */  
 async function openBookDetails(bookIndex, updateHistory = true){  
   const book = allBooks[bookIndex];  
   if(!book) return;  
@@ -1020,7 +1016,6 @@ window.addEventListener("popstate", () => {
   }  
 });  
 
-/* ACTIONS ON PAGE */  
 function detailsRead(){  
   if(!selectedDetailsBook) return;  
   const index = allBooks.indexOf(selectedDetailsBook);  
@@ -1173,7 +1168,6 @@ async function loadCommentsForPage(bookName){
   const reviews = await loadReviews();  
   const rows = reviews.filter(row => String(row[0] || "").trim() === String(bookName).trim());  
 
-  // Ratings calculation
   const ratedRows = rows.filter(r => Number(r[1]) > 0);
   const totalRaters = ratedRows.length;
   let avgRating = 0;
@@ -1182,13 +1176,11 @@ async function loadCommentsForPage(bookName){
     avgRating = (sum / totalRaters).toFixed(1);
   }
 
-  // Update Overview Stars UI (UPAR)
   const fullStars = Math.round(avgRating);
   overviewAvgNum.textContent = avgRating > 0 ? avgRating : "0.0";
   overviewStars.textContent = "★".repeat(fullStars) + "☆".repeat(5 - fullStars);
   overviewVoteCount.textContent = `${totalRaters} ratings received`;
 
-  // Comments Count
   const commentsCount = rows.filter(r => String(r[2] || "").trim() !== "").length;
   commentsHeader.textContent = `💬 Comments (${commentsCount})`;
 
@@ -1199,7 +1191,6 @@ async function loadCommentsForPage(bookName){
 
   const myEmail = currentUser?.email ? currentUser.email.toLowerCase().trim() : "";
 
-  // Render Comments List (NEECHE)
   list.innerHTML = rows.slice().reverse().map(row=>{  
     const rating = Math.max(0, Math.min(5, Number(row[1]) || 0));  
     const comment = escapeHTML(row[2] || "");  
@@ -1208,17 +1199,14 @@ async function loadCommentsForPage(bookName){
       try{ date = new Date(row[3]).toLocaleDateString(); }catch(e){}  
     }  
     const rowEmail = String(row[4] || "").toLowerCase().trim();
-    // Name extraction: row[5] contains name or fallback to email
     const reviewerName = escapeHTML(row[5] || (rowEmail ? rowEmail.split("@")[0] : "Reader"));
-
-    // Check if this comment belongs to logged in user
     const isMyComment = myEmail && (rowEmail === myEmail);
 
     return `  
       <div class="comment-item">  
         <div class="comment-header">
           <div class="comment-user-name">👤 ${reviewerName}</div>
-          ${isMyComment ? `<button class="edit-comment-btn" onclick="editMyReview('${rating}', \`${escapeHTML(row[2] || "")}\`)">✏️ Edit</button>` : ""}
+          ${isMyComment ? `<button class="edit-comment-btn" onclick="openReviewForBook(${allBooks.indexOf(selectedDetailsBook)})">✏️ Edit</button>` : ""}
         </div>
         <div class="comment-rating">${"★".repeat(rating)}${"☆".repeat(5-rating)} (${rating}/5)</div>  
         <div class="comment-text">${comment || "No text review"}</div>  
@@ -1228,7 +1216,7 @@ async function loadCommentsForPage(bookName){
   }).join("");  
 }  
 
-/* REVIEW & EDIT MODAL */  
+/* REVIEW MODAL */  
 async function openReviewForBook(bookIndex){  
   if(!supabaseClient){ openAuth(); return; }  
   const { data } = await supabaseClient.auth.getSession();  
@@ -1243,13 +1231,11 @@ async function openReviewForBook(bookIndex){
   const existingRow = allReviews.find(row => String(row[0] || "").trim() === String(book.name).trim() && String(row[4] || "").toLowerCase().trim() === email);  
 
   if(existingRow){  
-    // Edit mode
     document.getElementById("reviewModalTitle").textContent = "✏️ Edit Your Review";
     document.getElementById("submitReviewBtn").textContent = "Update Review";
     selectReviewRating(Number(existingRow[1]) || 5);
     document.getElementById("reviewComment").value = existingRow[2] || "";
   } else {
-    // New mode
     document.getElementById("reviewModalTitle").textContent = "⭐ Star & Comment";
     document.getElementById("submitReviewBtn").textContent = "Submit Review";
     selectedReviewRating = 0;  
@@ -1261,11 +1247,6 @@ async function openReviewForBook(bookIndex){
   document.getElementById("reviewMessage").textContent = "";  
   document.getElementById("reviewModal").style.display = "flex";  
 }  
-
-function editMyReview(rating, commentText){
-  if(!selectedDetailsBook) return;
-  openReviewForBook(allBooks.indexOf(selectedDetailsBook));
-}
 
 function closeReviewModal(){  
   document.getElementById("reviewModal").style.display = "none";  
@@ -1331,7 +1312,7 @@ async function submitReview(){
   }  
 }  
 
-/* GOOGLE AUTH */  
+/* AUTH */  
 function openAuth(){  
   document.getElementById("authModal").style.display = "flex";  
   document.getElementById("authMessage").textContent = "";  
