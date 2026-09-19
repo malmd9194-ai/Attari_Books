@@ -284,7 +284,7 @@ margin-bottom:22px;
 display:grid;  
 grid-template-columns:1fr 1fr;  
 gap:12px;  
-margin-bottom:30px;
+margin-bottom:25px;
 }  
   
 .details-action{  
@@ -309,10 +309,45 @@ text-align:center;
 .rate-action{background:#f59e0b; font-size:15px;}  
 .views-action{background:#555;cursor:default}  
 
-/* COMMENTS SECTION ON PAGE */
+/* RATINGS & COMMENTS SECTION */
+.page-reviews-overview{
+background:#fff8e6;
+border:1px solid #f6e0b5;
+border-radius:10px;
+padding:16px 20px;
+margin-bottom:25px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.rating-score-box{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.rating-big-num{
+font-size:32px;
+font-weight:bold;
+color:#d97706;
+}
+
+.rating-stars-display{
+color:#f59e0b;
+font-size:20px;
+}
+
+.rating-count-text{
+font-size:14px;
+color:#666;
+}
+
 .page-comments-container{
 border-top:2px solid #eee;
-padding-top:25px;
+padding-top:22px;
 }
 
 .page-comments-title{
@@ -325,7 +360,7 @@ gap:8px;
 }
 
 .comments-list{  
-max-height:500px;  
+max-height:550px;  
 overflow:auto;  
 }  
   
@@ -335,11 +370,45 @@ border:1px solid #e2e8f0;
 border-radius:9px;  
 padding:14px;  
 margin-bottom:12px;  
+position:relative;
 }  
+
+.comment-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:6px;
+flex-wrap:wrap;
+gap:6px;
+}
+
+.comment-user-name{
+font-weight:bold;
+color:#111;
+font-size:15px;
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.edit-comment-btn{
+background:#f3f4f6;
+border:1px solid #d1d5db;
+color:#374151;
+padding:3px 10px;
+border-radius:6px;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.edit-comment-btn:hover{
+background:#e5e7eb;
+}
   
 .comment-rating{  
 color:#f5b301;  
-font-size:18px;  
+font-size:16px;  
 }  
   
 .comment-text{  
@@ -353,12 +422,10 @@ color:#333;
 .comment-date{  
 font-size:12px;  
 color:#888;  
-margin-top:6px;  
+margin-top:8px;  
 }  
 
-/* =========================  
-   MODALS  
-========================= */  
+/* MODALS */  
 .modal,  
 .review-modal{  
 display:none;  
@@ -590,7 +657,7 @@ nav{justify-content:center;}
 .cover-box{height:240px;}  
 .book-info{padding:9px;}  
 .details-actions{gap:8px;}  
-.details-action{font-size:13px;min-height:58px;}  
+.details-action{font-size:14px;min-height:58px;}  
 }  
 </style>  
 </head>  
@@ -653,14 +720,25 @@ Sign In
         <button class="details-action read-action" onclick="detailsRead()">📖 Read</button>
         <button class="details-action download-action" onclick="detailsDownload()">📥 Download</button>
         <button class="details-action share-action" onclick="detailsShare()">🔗 Share Book</button>
-        <!-- RATE & COMMENT STATS BUTTON -->
-        <button class="details-action rate-action" id="pageRateBtn" onclick="detailsRate()">⭐ Rate (0) | 💬 Comment</button>
+        <!-- SIMPLE STAR & COMMENT BUTTON (NO COUNT) -->
+        <button class="details-action rate-action" id="pageRateBtn" onclick="detailsRate()">⭐ Star & 💬 Comment</button>
         <button class="details-action views-action" id="pageViews" style="grid-column:1/-1;">👁️ Views: 0</button>
       </div>
 
-      <!-- INLINE COMMENTS SECTION -->
+      <!-- 1. STAR RATINGS OVERVIEW (ABOVE COMMENTS) -->
+      <div class="page-reviews-overview" id="pageRatingsOverview">
+        <div class="rating-score-box">
+          <div class="rating-big-num" id="overviewAvgNum">0.0</div>
+          <div>
+            <div class="rating-stars-display" id="overviewStars">☆☆☆☆☆</div>
+            <div class="rating-count-text" id="overviewVoteCount">0 ratings received</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. INLINE COMMENTS LIST (BELOW RATINGS) -->
       <div class="page-comments-container">
-        <div class="page-comments-title" id="pageCommentsHeader">💬 Comments & Reviews</div>
+        <div class="page-comments-title" id="pageCommentsHeader">💬 Comments (0)</div>
         <div class="comments-list" id="pageCommentsList">⏳ Loading comments...</div>
       </div>
     </div>
@@ -682,11 +760,11 @@ Continue with Google
 </div>  
 </div>  
 
-<!-- REVIEW SUBMISSION MODAL -->
+<!-- REVIEW SUBMISSION & EDIT MODAL -->
 <div class="review-modal" id="reviewModal">  
 <div class="review-box">  
 <button class="close-btn" onclick="closeReviewModal()">×</button>
-<h2 style="text-align:center">⭐ Rate & Comment</h2>  
+<h2 style="text-align:center" id="reviewModalTitle">⭐ Star & Comment</h2>  
 <p id="reviewBookName" style="text-align:center;color:#666;margin-top:8px">Book</p>  
 <div class="review-stars">  
 <button class="review-star" id="reviewStar1" onclick="selectReviewRating(1)">★</button>
@@ -696,7 +774,7 @@ Continue with Google
 <button class="review-star" id="reviewStar5" onclick="selectReviewRating(5)">★</button>
 </div>  
 <textarea id="reviewComment" class="review-textarea" placeholder="Write your comment..."></textarea>  
-<button class="submit-review" onclick="submitReview()">⭐ Submit Review</button>
+<button class="submit-review" id="submitReviewBtn" onclick="submitReview()">⭐ Submit</button>
 <div id="reviewMessage"></div>  
 </div>  
 </div>  
@@ -731,6 +809,7 @@ const GITHUB_BRANCH = "main";
 
 /* VARIABLES */  
 let supabaseClient = null;  
+let currentUser = null;
 let allBooks = [];  
 let allReviews = [];  
 let selectedDetailsBook = null;  
@@ -1085,14 +1164,16 @@ function updateCardReviewCounts(){
 
 async function loadCommentsForPage(bookName){  
   const list = document.getElementById("pageCommentsList");  
-  const rateBtn = document.getElementById("pageRateBtn");
-  const header = document.getElementById("pageCommentsHeader");
+  const commentsHeader = document.getElementById("pageCommentsHeader");
+  const overviewAvgNum = document.getElementById("overviewAvgNum");
+  const overviewStars = document.getElementById("overviewStars");
+  const overviewVoteCount = document.getElementById("overviewVoteCount");
 
   list.innerHTML = "⏳ Loading comments...";  
   const reviews = await loadReviews();  
   const rows = reviews.filter(row => String(row[0] || "").trim() === String(bookName).trim());  
 
-  // Calculate Average Rating and Counts
+  // Ratings calculation
   const ratedRows = rows.filter(r => Number(r[1]) > 0);
   const totalRaters = ratedRows.length;
   let avgRating = 0;
@@ -1101,22 +1182,24 @@ async function loadCommentsForPage(bookName){
     avgRating = (sum / totalRaters).toFixed(1);
   }
 
+  // Update Overview Stars UI (UPAR)
+  const fullStars = Math.round(avgRating);
+  overviewAvgNum.textContent = avgRating > 0 ? avgRating : "0.0";
+  overviewStars.textContent = "★".repeat(fullStars) + "☆".repeat(5 - fullStars);
+  overviewVoteCount.textContent = `${totalRaters} ratings received`;
+
+  // Comments Count
   const commentsCount = rows.filter(r => String(r[2] || "").trim() !== "").length;
-
-  // Update Button Text with Stats
-  if(rateBtn){
-    rateBtn.innerHTML = `⭐ ${avgRating > 0 ? avgRating : "Rate"} (${totalRaters}) | 💬 Comment (${commentsCount})`;
-  }
-
-  if(header){
-    header.innerHTML = `💬 Comments (${commentsCount}) & ⭐ Ratings (${totalRaters} votes, Avg: ${avgRating}/5)`;
-  }
+  commentsHeader.textContent = `💬 Comments (${commentsCount})`;
 
   if(!rows.length){  
     list.innerHTML = `<div style="padding:15px;color:#777">💬 No comments yet. Pehle user baniye review dene wale!</div>`;  
     return;  
   }  
 
+  const myEmail = currentUser?.email ? currentUser.email.toLowerCase().trim() : "";
+
+  // Render Comments List (NEECHE)
   list.innerHTML = rows.slice().reverse().map(row=>{  
     const rating = Math.max(0, Math.min(5, Number(row[1]) || 0));  
     const comment = escapeHTML(row[2] || "");  
@@ -1124,8 +1207,19 @@ async function loadCommentsForPage(bookName){
     if(row[3]){  
       try{ date = new Date(row[3]).toLocaleDateString(); }catch(e){}  
     }  
+    const rowEmail = String(row[4] || "").toLowerCase().trim();
+    // Name extraction: row[5] contains name or fallback to email
+    const reviewerName = escapeHTML(row[5] || (rowEmail ? rowEmail.split("@")[0] : "Reader"));
+
+    // Check if this comment belongs to logged in user
+    const isMyComment = myEmail && (rowEmail === myEmail);
+
     return `  
       <div class="comment-item">  
+        <div class="comment-header">
+          <div class="comment-user-name">👤 ${reviewerName}</div>
+          ${isMyComment ? `<button class="edit-comment-btn" onclick="editMyReview('${rating}', \`${escapeHTML(row[2] || "")}\`)">✏️ Edit</button>` : ""}
+        </div>
         <div class="comment-rating">${"★".repeat(rating)}${"☆".repeat(5-rating)} (${rating}/5)</div>  
         <div class="comment-text">${comment || "No text review"}</div>  
         ${date ? `<div class="comment-date">${escapeHTML(date)}</div>` : ""}  
@@ -1134,7 +1228,7 @@ async function loadCommentsForPage(bookName){
   }).join("");  
 }  
 
-/* REVIEW MODAL */  
+/* REVIEW & EDIT MODAL */  
 async function openReviewForBook(bookIndex){  
   if(!supabaseClient){ openAuth(); return; }  
   const { data } = await supabaseClient.auth.getSession();  
@@ -1142,21 +1236,36 @@ async function openReviewForBook(bookIndex){
   
   const book = allBooks[bookIndex];  
   if(!book) return;  
+  selectedReviewBook = book;  
+
   const email = data.session.user.email.toLowerCase().trim();  
   await loadReviews();  
-  const already = allReviews.some(row => String(row[0] || "").trim() === String(book.name).trim() && String(row[4] || "").toLowerCase().trim() === email);  
-  if(already){  
-    alert("✅ Aap is book ko pehle hi review kar chuke hain.");  
-    return;  
-  }  
-  selectedReviewBook = book;  
-  selectedReviewRating = 0;  
+  const existingRow = allReviews.find(row => String(row[0] || "").trim() === String(book.name).trim() && String(row[4] || "").toLowerCase().trim() === email);  
+
+  if(existingRow){  
+    // Edit mode
+    document.getElementById("reviewModalTitle").textContent = "✏️ Edit Your Review";
+    document.getElementById("submitReviewBtn").textContent = "Update Review";
+    selectReviewRating(Number(existingRow[1]) || 5);
+    document.getElementById("reviewComment").value = existingRow[2] || "";
+  } else {
+    // New mode
+    document.getElementById("reviewModalTitle").textContent = "⭐ Star & Comment";
+    document.getElementById("submitReviewBtn").textContent = "Submit Review";
+    selectedReviewRating = 0;  
+    resetReviewStars();  
+    document.getElementById("reviewComment").value = "";  
+  }
+
   document.getElementById("reviewBookName").textContent = removePdfExtension(book.name);  
-  document.getElementById("reviewComment").value = "";  
   document.getElementById("reviewMessage").textContent = "";  
-  resetReviewStars();  
   document.getElementById("reviewModal").style.display = "flex";  
 }  
+
+function editMyReview(rating, commentText){
+  if(!selectedDetailsBook) return;
+  openReviewForBook(allBooks.indexOf(selectedDetailsBook));
+}
 
 function closeReviewModal(){  
   document.getElementById("reviewModal").style.display = "none";  
@@ -1189,7 +1298,10 @@ async function submitReview(){
   }  
   const comment = document.getElementById("reviewComment").value.trim();  
   const message = document.getElementById("reviewMessage");  
-  const email = data.session.user.email.toLowerCase().trim();  
+  const user = data.session.user;
+  const email = user.email.toLowerCase().trim();  
+  const displayName = user.user_metadata?.full_name || user.user_metadata?.name || email.split("@")[0];
+
   message.textContent = "⏳ Submitting...";  
 
   try{  
@@ -1201,10 +1313,11 @@ async function submitReview(){
         book: selectedReviewBook.name,  
         rating: selectedReviewRating,  
         comment: comment,  
-        email: email  
+        email: email,
+        name: displayName
       })  
     });  
-    message.textContent = "✅ Review submitted successfully!";  
+    message.textContent = "✅ Saved successfully!";  
     setTimeout(async ()=>{  
       closeReviewModal();  
       await loadReviews();  
@@ -1214,7 +1327,7 @@ async function submitReview(){
     }, 900);  
   }catch(error){  
     console.error(error);  
-    message.textContent = "❌ Review submit nahi ho saka.";  
+    message.textContent = "❌ Submit nahi ho saka.";  
   }  
 }  
 
@@ -1252,7 +1365,11 @@ async function signInWithGoogle(){
 async function logout(){  
   if(!supabaseClient) return;  
   await supabaseClient.auth.signOut();  
+  currentUser = null;
   updateAuthUI(null);  
+  if(selectedDetailsBook){
+    loadCommentsForPage(selectedDetailsBook.name);
+  }
 }  
 
 function updateAuthUI(session){  
@@ -1263,6 +1380,7 @@ function updateAuthUI(session){
   const userAvatar = document.getElementById("userAvatar");  
 
   if(session && session.user){  
+    currentUser = session.user;  
     const user = session.user;  
     const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split("@")[0];  
     const avatar = user.user_metadata?.avatar_url || user.user_metadata?.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=2864df&color=fff`;  
@@ -1278,6 +1396,7 @@ function updateAuthUI(session){
       window.history.replaceState(null, null, window.location.pathname);  
     }  
   }else{  
+    currentUser = null;
     loginBtn.style.display = "inline-flex";  
     logoutBtn.style.display = "none";  
     userProfile.style.display = "none";  
@@ -1445,6 +1564,9 @@ checkAuth();
 if(supabaseClient){  
   supabaseClient.auth.onAuthStateChange((event, session)=>{  
     updateAuthUI(session);  
+    if(selectedDetailsBook){
+      loadCommentsForPage(selectedDetailsBook.name);
+    }
   });  
 }  
 </script>  
