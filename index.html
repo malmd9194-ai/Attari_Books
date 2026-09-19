@@ -52,11 +52,34 @@ font-size:15px;
 nav a:hover,nav button:hover{  
 background:#333;  
 }  
-  
-.auth-btn{  
-background:#fff!important;  
-color:#222!important;  
-}  
+
+.google-auth-nav-btn{
+background:#fff!important;
+color:#222!important;
+display:inline-flex;
+align-items:center;
+gap:8px;
+font-weight:bold;
+}
+
+.profile-pill{
+display:inline-flex;
+align-items:center;
+gap:8px;
+background:#222;
+padding:4px 10px 4px 6px;
+border-radius:20px;
+border:1px solid #444;
+font-size:14px;
+color:#fff;
+}
+
+.profile-pill img{
+width:28px;
+height:28px;
+border-radius:50%;
+object-fit:cover;
+}
   
 .logout-btn{  
 background:#d9534f!important;  
@@ -336,49 +359,42 @@ background:none;
 font-size:28px;  
 cursor:pointer;  
 }  
-  
-.auth-tabs{  
-display:flex;  
-margin:20px 0;  
-}  
-  
-.auth-tabs button{  
-flex:1;  
-padding:11px;  
-border:0;  
-cursor:pointer;  
-background:#eee;  
-}  
-  
-.auth-tabs button.active{  
-background:#222;  
-color:#fff;  
-}  
-  
-.auth-input{  
-width:100%;  
-padding:13px;  
-margin-bottom:12px;  
-border:1px solid #ccc;  
-border-radius:7px;  
-font-size:15px;  
-}  
-  
-.auth-submit{  
-width:100%;  
-padding:13px;  
-border:0;  
-border-radius:7px;  
-background:#222;  
-color:#fff;  
-font-size:16px;  
-cursor:pointer;  
-}  
+
+.google-auth-btn{
+width:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:12px;
+background:#fff;
+border:1px solid #ddd;
+padding:14px;
+border-radius:8px;
+font-size:16px;
+font-weight:bold;
+color:#333;
+cursor:pointer;
+box-shadow:0 2px 6px rgba(0,0,0,.08);
+margin-top:20px;
+}
+
+.google-auth-btn:hover{
+background:#f8f8f8;
+border-color:#ccc;
+}
+
+.auth-desc{
+text-align:center;
+color:#666;
+font-size:14px;
+margin-top:10px;
+line-height:1.4;
+}
   
 #authMessage,  
 #reviewMessage{  
 text-align:center;  
-margin-top:12px;  
+margin-top:14px;  
 }  
   
 .review-stars{  
@@ -675,8 +691,17 @@ font-size:13px;
 </div>  
 </div>  
 
-<button class="auth-btn" id="loginBtn" onclick="openAuth('login')">🔐 Login</button>
-<button class="auth-btn" id="signupBtn" onclick="openAuth('signup')">✍️ Sign Up</button>
+<!-- User Profile Pill (Visible when logged in) -->
+<div id="userProfile" class="profile-pill" style="display:none;">
+<img id="userAvatar" src="" alt="Profile">
+<span id="userName">User</span>
+</div>
+
+<button class="google-auth-nav-btn" id="loginBtn" onclick="openAuth('login')">
+<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+Sign In
+</button>
+
 <button class="auth-btn logout-btn" id="logoutBtn" onclick="logout()" style="display:none">Logout</button>
 
 </nav>  
@@ -718,21 +743,19 @@ font-size:13px;
 </div>  
 
 <!-- =========================  
-     AUTH  
+     AUTH (GOOGLE 1-CLICK MODAL)  
 ========================= -->  
 <div class="modal" id="authModal">  
-<div class="modal-box">  
+<div class="modal-box" style="text-align:center;">  
 <button class="close-btn" onclick="closeAuth()">×</button>
-<h2 id="authTitle">Login</h2>  
-<div class="auth-tabs">  
-<button id="loginTab" class="active" onclick="switchAuth('login')">Login</button>
-<button id="signupTab" onclick="switchAuth('signup')">Sign Up</button>
-</div>  
-<form onsubmit="handleAuth(event)">  
-<input id="authEmail" class="auth-input" type="email" placeholder="Email" required>
-<input id="authPassword" class="auth-input" type="password" placeholder="Password" minlength="6" required>
-<button id="authSubmit" class="auth-submit" type="submit">Login</button>
-</form>  
+<h2>Welcome to Attari Books</h2>  
+<p class="auth-desc">Apne Gmail account se direct login ya register karein. Koi password ki zarurat nahi hai.</p>
+
+<button class="google-auth-btn" onclick="signInWithGoogle()">
+<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+Continue with Google
+</button>
+
 <div id="authMessage"></div>  
 </div>  
 </div>  
@@ -771,7 +794,7 @@ font-size:13px;
 </div>  
 
 <!-- =========================  
-     PDF READER (ALL PAGES CONTINUOUS SCROLL)  
+     PDF READER  
 ========================= -->  
 <div class="reader-modal" id="readerModal">  
 <div class="reader-header">  
@@ -811,7 +834,6 @@ let allReviews = [];
 let selectedDetailsBook = null;  
 let selectedReviewBook = null;  
 let selectedReviewRating = 0;  
-let authMode = "login";  
 let readerPdf = null;  
 let readerPresenceChannel = null;  
 let readerViewerId = null;  
@@ -1227,12 +1249,12 @@ document.getElementById("commentsModal").style.display = "none";
 ================================================== */  
 async function openReviewForBook(bookIndex){  
 if(!supabaseClient){  
-openAuth("login");  
+openAuth();  
 return;  
 }  
 const { data } = await supabaseClient.auth.getSession();  
 if(!data?.session){  
-openAuth("login");  
+openAuth();  
 return;  
 }  
 const book = allBooks[bookIndex];  
@@ -1275,13 +1297,13 @@ document.getElementById("reviewStar"+i).classList.remove("selected");
 
 async function submitReview(){  
 if(!supabaseClient){  
-openAuth("login");  
+openAuth();  
 return;  
 }  
 const { data } = await supabaseClient.auth.getSession();  
 if(!data?.session){  
 closeReviewModal();  
-openAuth("login");  
+openAuth();  
 return;  
 }  
 if(!selectedReviewBook)return;  
@@ -1318,52 +1340,38 @@ message.textContent = "❌ Review submit nahi ho saka.";
 }  
 
 /* ==================================================  
-   AUTH  
+   AUTH (DIRECT GOOGLE SIGN IN)  
 ================================================== */  
-function openAuth(mode="login"){  
-authMode = mode;  
+function openAuth(){  
 document.getElementById("authModal").style.display = "flex";  
-switchAuth(mode);  
+document.getElementById("authMessage").textContent = "";  
 }  
 
 function closeAuth(){  
 document.getElementById("authModal").style.display = "none";  
 }  
 
-function switchAuth(mode){  
-authMode = mode;  
-const login = mode === "login";  
-document.getElementById("authTitle").textContent = login ? "Login" : "Create Account";  
-document.getElementById("authSubmit").textContent = login ? "Login" : "Sign Up";  
-document.getElementById("loginTab").classList.toggle("active", login);  
-document.getElementById("signupTab").classList.toggle("active", !login);  
-}  
-
-async function handleAuth(event){  
-event.preventDefault();  
+async function signInWithGoogle(){  
 if(!supabaseClient){  
-document.getElementById("authMessage").textContent = "❌ Login system load nahi hua.";  
+document.getElementById("authMessage").textContent = "❌ System load nahi hua.";  
 return;  
 }  
-const email = document.getElementById("authEmail").value.trim();  
-const password = document.getElementById("authPassword").value;  
+
 const message = document.getElementById("authMessage");  
-message.textContent = "⏳ Please wait...";  
+message.textContent = "⏳ Connecting to Google...";  
 
 try{  
-if(authMode === "signup"){  
-const { data, error } = await supabaseClient.auth.signUp({email, password});  
-if(error) throw error;  
-message.textContent = data?.session ? "✅ Account created." : "✅ Account created. Email verify karein.";  
-}else{  
-const { error } = await supabaseClient.auth.signInWithPassword({email, password});  
-if(error) throw error;  
-message.textContent = "✅ Login successful!";  
-setTimeout(closeAuth, 700);  
+const { data, error } = await supabaseClient.auth.signInWithOAuth({  
+provider: 'google',  
+options: {  
+redirectTo: window.location.origin + window.location.pathname  
 }  
+});  
+
+if(error) throw error;  
 }catch(error){  
 console.error(error);  
-message.textContent = "❌ " + (error.message || "Authentication error");  
+message.textContent = "❌ " + (error.message || "Google login failed.");  
 }  
 }  
 
@@ -1371,13 +1379,31 @@ async function logout(){
 if(!supabaseClient)return;  
 await supabaseClient.auth.signOut();  
 updateAuthUI(null);  
-alert("You have been logged out.");  
+alert("Aap logout ho chuke hain.");  
 }  
 
 function updateAuthUI(session){  
-document.getElementById("loginBtn").style.display = session ? "none" : "inline-block";  
-document.getElementById("signupBtn").style.display = session ? "none" : "inline-block";  
-document.getElementById("logoutBtn").style.display = session ? "inline-block" : "none";  
+const loginBtn = document.getElementById("loginBtn");  
+const logoutBtn = document.getElementById("logoutBtn");  
+const userProfile = document.getElementById("userProfile");  
+const userName = document.getElementById("userName");  
+const userAvatar = document.getElementById("userAvatar");  
+
+if(session && session.user){  
+const user = session.user;  
+const name = user.user_metadata?.full_name || user.email.split("@")[0];  
+const avatar = user.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=2864df&color=fff`;  
+
+loginBtn.style.display = "none";  
+logoutBtn.style.display = "inline-block";  
+userProfile.style.display = "inline-flex";  
+userName.textContent = name;  
+userAvatar.src = avatar;  
+}else{  
+loginBtn.style.display = "inline-flex";  
+logoutBtn.style.display = "none";  
+userProfile.style.display = "none";  
+}  
 }  
 
 async function checkAuth(){  
@@ -1483,9 +1509,8 @@ content.innerHTML = "";
 
 const availableWidth = content.clientWidth - 40;  
 
-// Loop karke saare pages ek saath render karna
 for(let pageNum = 1; pageNum <= readerPdf.numPages; pageNum++){  
-if(!isRenderingPdf) break; // Agar user ne reader close kar diya toh stop  
+if(!isRenderingPdf) break;  
 
 const page = await readerPdf.getPage(pageNum);  
 const base = page.getViewport({scale:1});  
@@ -1536,6 +1561,10 @@ if(event.target === this) closeReviewModal();
 
 document.getElementById("commentsModal").addEventListener("click", function(event){  
 if(event.target === this) closeComments();  
+});  
+
+document.getElementById("authModal").addEventListener("click", function(event){  
+if(event.target === this) closeAuth();  
 });  
 
 document.addEventListener("click", function(event){  
