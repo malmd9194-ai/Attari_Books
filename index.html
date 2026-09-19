@@ -29,6 +29,7 @@ flex-wrap:wrap;
 .logo{  
 font-size:24px;  
 font-weight:bold;  
+cursor:pointer;
 }  
   
 nav{  
@@ -87,8 +88,8 @@ color:#fff!important;
 }  
   
 .hero{  
-min-height:370px;  
-padding:75px 20px;  
+min-height:320px;  
+padding:60px 20px;  
 text-align:center;  
 color:#fff;  
 background:  
@@ -98,32 +99,32 @@ center/cover;
 }  
   
 .hero h1{  
-font-size:48px;  
-margin-bottom:15px;  
+font-size:42px;  
+margin-bottom:12px;  
 }  
   
 .hero p{  
-font-size:20px;  
-margin-bottom:28px;  
+font-size:18px;  
+margin-bottom:24px;  
 }  
   
 #searchBox{  
 width:min(680px,92%);  
-padding:16px 20px;  
+padding:15px 20px;  
 border:0;  
 border-radius:35px;  
 outline:0;  
-font-size:17px;  
+font-size:16px;  
 }  
   
 .books-section{  
-padding:45px 5%;  
+padding:40px 5%;  
 }  
   
 .section-title{  
 text-align:center;  
-font-size:31px;  
-margin-bottom:28px;  
+font-size:30px;  
+margin-bottom:25px;  
 }  
   
 #status{  
@@ -135,7 +136,7 @@ margin:15px;
 .books-grid{  
 display:grid;  
 grid-template-columns:repeat(2,minmax(0,1fr));  
-gap:22px;  
+gap:20px;  
 max-width:1100px;  
 margin:auto;  
 }  
@@ -144,11 +145,17 @@ margin:auto;
 background:#fff;  
 border-radius:8px;  
 overflow:hidden;  
-box-shadow:0 2px 8px rgba(0,0,0,.28);  
+box-shadow:0 2px 8px rgba(0,0,0,.22);  
+cursor:pointer;
+transition:transform .2s;
 }  
+
+.book-card:hover{
+transform:translateY(-3px);
+}
   
 .cover-box{  
-height:300px;  
+height:290px;  
 background:#eee;  
 display:flex;  
 align-items:center;  
@@ -168,44 +175,21 @@ color:#777;
 font-size:14px;  
 }  
   
-.info-badge{  
-position:absolute;  
-right:8px;  
-top:8px;  
-width:40px;  
-height:40px;  
-border-radius:50%;  
-border:3px solid #fff;  
-background:rgba(0,0,0,.48);  
-color:#fff;  
-font-size:24px;  
-font-weight:bold;  
-display:flex;  
-align-items:center;  
-justify-content:center;  
-box-shadow:0 2px 6px rgba(0,0,0,.45);  
-cursor:default;  
-}  
-  
 .book-info{  
 padding:12px;  
 }  
   
 .book-title{  
-font-size:20px;  
-line-height:1.45;  
+font-size:18px;  
+line-height:1.4;  
 margin-bottom:5px;  
 word-break:break-word;  
-cursor:pointer;  
-}  
-  
-.book-title:hover{  
-text-decoration:underline;  
+font-weight:bold;
 }  
   
 .archive-date{  
-font-size:16px;  
-color:#555;  
+font-size:14px;  
+color:#666;  
 margin-bottom:10px;  
 }  
   
@@ -218,8 +202,8 @@ padding-top:8px;
 }  
   
 .book-stat{  
-font-size:24px;  
-min-width:45px;  
+font-size:22px;  
+min-width:40px;  
 text-align:center;  
 user-select:none;  
 pointer-events:none;  
@@ -227,109 +211,154 @@ pointer-events:none;
   
 .book-stat small{  
 display:block;  
-font-size:16px;  
+font-size:14px;  
 margin-top:1px;  
 }  
   
 /* =========================  
-   BOOK DETAILS  
+   DEDICATED BOOK PAGE VIEW  
 ========================= */  
-  
-.details-modal{  
-display:none;  
-position:fixed;  
-inset:0;  
-background:rgba(0,0,0,.72);  
-z-index:1800;  
-align-items:center;  
-justify-content:center;  
-padding:15px;  
-overflow:auto;  
-}  
-  
-.details-box{  
-width:min(520px,100%);  
-max-height:94vh;  
-overflow:auto;  
-background:#fff;  
-border-radius:15px;  
-position:relative;  
-}  
-  
-.details-close{  
-position:absolute;  
-right:10px;  
-top:10px;  
-z-index:5;  
-width:40px;  
-height:40px;  
-border:0;  
-border-radius:50%;  
-background:rgba(0,0,0,.65);  
-color:#fff;  
-font-size:25px;  
-cursor:pointer;  
-}  
-  
-.details-cover{  
-background:#eee;  
-padding:15px;  
-text-align:center;  
-}  
-  
-.details-cover canvas{  
-max-width:100%;  
-max-height:430px;  
-object-fit:contain;  
-}  
-  
-.details-body{  
-padding:20px;  
-}  
-  
-.details-title{  
-font-size:25px;  
-font-weight:bold;  
-line-height:1.45;  
-word-break:break-word;  
-margin-bottom:8px;  
-}  
-  
-.details-archive{  
-color:#666;  
-margin-bottom:20px;  
-}  
-  
+#bookDetailsPage{
+display:none;
+max-width:760px;
+margin:30px auto;
+padding:0 15px 50px;
+}
+
+.back-btn{
+background:#fff;
+border:1px solid #ddd;
+padding:10px 18px;
+border-radius:25px;
+font-weight:bold;
+cursor:pointer;
+display:inline-flex;
+align-items:center;
+gap:8px;
+margin-bottom:20px;
+box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+
+.book-page-card{
+background:#fff;
+border-radius:14px;
+overflow:hidden;
+box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
+
+.book-page-cover{
+background:#f9f9f9;
+padding:25px 15px;
+display:flex;
+justify-content:center;
+align-items:center;
+border-bottom:1px solid #eee;
+}
+
+.book-page-cover canvas{
+max-width:100%;
+max-height:480px;
+box-shadow:0 4px 12px rgba(0,0,0,.15);
+border-radius:6px;
+}
+
+.book-page-body{
+padding:24px;
+}
+
+.book-page-title{
+font-size:26px;
+font-weight:bold;
+line-height:1.4;
+word-break:break-word;
+margin-bottom:6px;
+}
+
+.book-page-archive{
+color:#666;
+font-size:15px;
+margin-bottom:22px;
+}
+
 .details-actions{  
 display:grid;  
 grid-template-columns:1fr 1fr;  
-gap:13px;  
+gap:12px;  
+margin-bottom:30px;
 }  
   
 .details-action{  
-min-height:72px;  
+min-height:65px;  
 border:0;  
-border-radius:11px;  
+border-radius:10px;  
 color:#fff;  
-font-size:17px;  
+font-size:16px;  
 font-weight:bold;  
 cursor:pointer;  
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
 }  
   
 .read-action{background:#2864df}  
 .download-action{background:#16a34a}  
 .share-action{background:#7c3aed}  
 .rate-action{background:#f59e0b}  
-.comments-action{background:#1197b4}  
 .views-action{background:#555;cursor:default}  
+
+/* COMMENTS SECTION ON PAGE */
+.page-comments-container{
+border-top:2px solid #eee;
+padding-top:25px;
+}
+
+.page-comments-title{
+font-size:20px;
+font-weight:bold;
+margin-bottom:15px;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.comments-list{  
+max-height:500px;  
+overflow:auto;  
+}  
   
+.comment-item{  
+background:#fafafa;  
+border:1px solid #e2e8f0;  
+border-radius:9px;  
+padding:14px;  
+margin-bottom:12px;  
+}  
+  
+.comment-rating{  
+color:#f5b301;  
+font-size:18px;  
+}  
+  
+.comment-text{  
+margin-top:6px;  
+white-space:pre-wrap;  
+word-break:break-word;  
+line-height:1.5;  
+color:#333;
+}  
+  
+.comment-date{  
+font-size:12px;  
+color:#888;  
+margin-top:6px;  
+}  
+
 /* =========================  
    MODALS  
 ========================= */  
-  
 .modal,  
-.review-modal,  
-.comments-modal{  
+.review-modal{  
 display:none;  
 position:fixed;  
 inset:0;  
@@ -341,8 +370,7 @@ padding:18px;
 }  
   
 .modal-box,  
-.review-box,  
-.comments-box{  
+.review-box{  
 width:min(460px,100%);  
 background:#fff;  
 border-radius:15px;  
@@ -352,8 +380,8 @@ position:relative;
   
 .close-btn{  
 position:absolute;  
-right:12px;  
-top:8px;  
+right:14px;  
+top:10px;  
 border:0;  
 background:none;  
 font-size:28px;  
@@ -378,18 +406,13 @@ box-shadow:0 2px 6px rgba(0,0,0,.08);
 margin-top:20px;
 }
 
-.google-auth-btn:hover{
-background:#f8f8f8;
-border-color:#ccc;
-}
-
 .auth-desc{
 text-align:center;
 color:#666;
 font-size:14px;
 margin-top:10px;
 line-height:1.4;
-}
+}  
   
 #authMessage,  
 #reviewMessage{  
@@ -437,43 +460,8 @@ color:#fff;
 font-size:16px;  
 cursor:pointer;  
 }  
-  
-.comments-list{  
-max-height:60vh;  
-overflow:auto;  
-margin-top:15px;  
-}  
-  
-.comment-item{  
-background:#fafafa;  
-border:1px solid #ddd;  
-border-radius:9px;  
-padding:12px;  
-margin-bottom:10px;  
-}  
-  
-.comment-rating{  
-color:#f5b301;  
-font-size:19px;  
-}  
-  
-.comment-text{  
-margin-top:7px;  
-white-space:pre-wrap;  
-word-break:break-word;  
-line-height:1.5;  
-}  
-  
-.comment-date{  
-font-size:12px;  
-color:#777;  
-margin-top:7px;  
-}  
-  
-/* =========================  
-   HELP  
-========================= */  
-  
+
+/* HELP */  
 .help-wrapper{  
 position:relative;  
 }  
@@ -502,11 +490,8 @@ border-radius:6px;
 .help-menu a:hover{  
 background:#eee;  
 }  
-  
-/* =========================  
-   PDF READER  
-========================= */  
-  
+
+/* PDF READER */  
 .reader-modal{  
 display:none;  
 position:fixed;  
@@ -595,118 +580,50 @@ margin-top:30px;
 }  
   
 @media(max-width:600px){  
-  
-header{  
-justify-content:center;  
-}  
-  
-.logo{  
-width:100%;  
-text-align:center;  
-}  
-  
-nav{  
-justify-content:center;  
-}  
-  
-.hero h1{  
-font-size:36px;  
-}  
-  
-.hero p{  
-font-size:17px;  
-}  
-  
-.books-section{  
-padding:30px 4%;  
-}  
-  
-.books-grid{  
-gap:10px;  
-}  
-  
-.cover-box{  
-height:245px;  
-}  
-  
-.book-info{  
-padding:9px;  
-}  
-  
-.book-title{  
-font-size:16px;  
-}  
-  
-.archive-date{  
-font-size:13px;  
-}  
-  
-.book-stat{  
-font-size:21px;  
-min-width:30px;  
-}  
-  
-.book-stat small{  
-font-size:13px;  
-}  
-  
-.details-actions{  
-gap:9px;  
-}  
-  
-.details-action{  
-font-size:14px;  
-min-height:65px;  
-}  
-  
-.reader-header{  
-padding:8px 10px;  
-}  
-  
-.reader-header button{  
-padding:7px 10px;  
-font-size:12px;  
-}  
-  
-.reader-title{  
-font-size:13px;  
-}  
-  
+header{justify-content:center;}  
+.logo{width:100%;text-align:center;}  
+nav{justify-content:center;}  
+.hero h1{font-size:34px;}  
+.books-grid{gap:10px;}  
+.cover-box{height:240px;}  
+.book-info{padding:9px;}  
+.details-actions{gap:8px;}  
+.details-action{font-size:14px;min-height:58px;}  
 }  
 </style>  
 </head>  
 <body>  
+
 <header>  
-<div class="logo">📚 Attari Books</div>  
+<div class="logo" onclick="goBackToHome()">📚 Attari Books</div>  
 <nav>  
-<a href="#">Home</a>
-<a href="#books">Books</a>
+<a href="javascript:void(0)" onclick="goBackToHome()">Home</a>
 
 <div class="help-wrapper">  
 <button onclick="toggleHelp()">Help</button>
-
 <div class="help-menu" id="helpMenu">  
 <a href="https://wa.me/919534646778" target="_blank">💬 WhatsApp</a>  
 <a href="mailto:mdmalek26234@gmail.com">✉️ Gmail / Email</a>  
 </div>  
 </div>  
 
-<!-- User Profile Pill (Visible when logged in) -->
+<!-- User Profile Pill -->
 <div id="userProfile" class="profile-pill" style="display:none;">
 <img id="userAvatar" src="" alt="Profile">
 <span id="userName">User</span>
 </div>
 
-<button class="google-auth-nav-btn" id="loginBtn" onclick="openAuth('login')">
+<button class="google-auth-nav-btn" id="loginBtn" onclick="openAuth()">
 <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
 Sign In
 </button>
 
 <button class="auth-btn logout-btn" id="logoutBtn" onclick="logout()" style="display:none">Logout</button>
-
 </nav>  
 </header>  
 
+<!-- MAIN HOME CONTAINER -->
+<div id="homePageContainer">
 <section class="hero">  
 <h1>Attari Books</h1>  
 <p>Your Digital Library</p>  
@@ -718,51 +635,51 @@ Sign In
 <div id="status">📚 Loading books...</div>  
 <div class="books-grid" id="booksGrid"></div>  
 </section>  
+</div>
 
-<!-- =========================  
-     BOOK DETAILS  
-========================= -->  
-<div class="details-modal" id="detailsModal">  
-<div class="details-box">  
-<button class="details-close" onclick="closeBookDetails()">×</button>
+<!-- DEDICATED FULL-PAGE BOOK VIEW -->
+<div id="bookDetailsPage">
+  <button class="back-btn" onclick="goBackToHome()">← Back to All Books</button>
 
-<div class="details-cover" id="detailsCover">📖 Loading cover...</div>  
-<div class="details-body">  
-<div class="details-title" id="detailsTitle">Book</div>  
-<div class="details-archive" id="detailsArchive">archived</div>  
-<div class="details-actions">  
-<button class="details-action read-action" onclick="detailsRead()">📖 Read</button>
-<button class="details-action download-action" onclick="detailsDownload()">📥 Download</button>
-<button class="details-action share-action" onclick="detailsShare()">🔗 Share Book</button>
-<button class="details-action rate-action" onclick="detailsRate()">⭐ Rate & Review</button>
-<button class="details-action comments-action" onclick="detailsComments()">💬 Comments</button>
-<button class="details-action views-action" id="detailsViews">👁️ Views: 0</button>
-</div>  
-</div>  
-</div>  
-</div>  
+  <div class="book-page-card">
+    <div class="book-page-cover" id="pageCover">📖 Loading cover...</div>
+    <div class="book-page-body">
+      <div class="book-page-title" id="pageTitle">Book Title</div>
+      <div class="book-page-archive" id="pageArchive">archived</div>
 
-<!-- =========================  
-     AUTH (GOOGLE 1-CLICK MODAL)  
-========================= -->  
+      <div class="details-actions">
+        <button class="details-action read-action" onclick="detailsRead()">📖 Read</button>
+        <button class="details-action download-action" onclick="detailsDownload()">📥 Download</button>
+        <button class="details-action share-action" onclick="detailsShare()">🔗 Share Book</button>
+        <button class="details-action rate-action" onclick="detailsRate()">⭐ Rate & Review</button>
+        <button class="details-action views-action" id="pageViews" style="grid-column:1/-1;">👁️ Views: 0</button>
+      </div>
+
+      <!-- INLINE COMMENTS SECTION -->
+      <div class="page-comments-container">
+        <div class="page-comments-title">💬 Comments & Reviews</div>
+        <div class="comments-list" id="pageCommentsList">⏳ Loading comments...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GOOGLE AUTH MODAL -->
 <div class="modal" id="authModal">  
 <div class="modal-box" style="text-align:center;">  
 <button class="close-btn" onclick="closeAuth()">×</button>
 <h2>Welcome to Attari Books</h2>  
-<p class="auth-desc">Apne Gmail account se direct login ya register karein. Koi password ki zarurat nahi hai.</p>
+<p class="auth-desc">Apne Google account se direct sign in karein.</p>
 
 <button class="google-auth-btn" onclick="signInWithGoogle()">
 <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
 Continue with Google
 </button>
-
 <div id="authMessage"></div>  
 </div>  
 </div>  
 
-<!-- =========================  
-     REVIEW  
-========================= -->  
+<!-- REVIEW SUBMISSION MODAL -->
 <div class="review-modal" id="reviewModal">  
 <div class="review-box">  
 <button class="close-btn" onclick="closeReviewModal()">×</button>
@@ -781,21 +698,7 @@ Continue with Google
 </div>  
 </div>  
 
-<!-- =========================  
-     COMMENTS  
-========================= -->  
-<div class="comments-modal" id="commentsModal">  
-<div class="comments-box">  
-<button class="close-btn" onclick="closeComments()">×</button>
-<h2 style="text-align:center">💬 Comments</h2>  
-<p id="commentsBookName" style="text-align:center;color:#666;margin-top:8px">Book</p>  
-<div class="comments-list" id="commentsList">⏳ Loading...</div>  
-</div>  
-</div>  
-
-<!-- =========================  
-     PDF READER  
-========================= -->  
+<!-- PDF READER MODAL -->
 <div class="reader-modal" id="readerModal">  
 <div class="reader-header">  
 <button onclick="closeReader()">✕ Close</button>  
@@ -815,9 +718,7 @@ Continue with Google
 </footer>  
 
 <script>  
-/* ==================================================  
-   CONFIG  
-================================================== */  
+/* CONFIG */  
 const SUPABASE_URL = "https://kihhuilyeosvpozduwcs.supabase.co";  
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_-XN0lujfPGCeIzusrlUfkQ_-lFKXwUs";  
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyMcUDNnTOpmwHf2xrF82P9260595M6rBXcPHvbR0Fu9ZN3BnyNGCApI51w1M5XO4F/exec";  
@@ -825,9 +726,7 @@ const GITHUB_OWNER = "malmd9194-ai";
 const GITHUB_REPO = "Attari_Books";  
 const GITHUB_BRANCH = "main";  
 
-/* ==================================================  
-   VARIABLES  
-================================================== */  
+/* VARIABLES */  
 let supabaseClient = null;  
 let allBooks = [];  
 let allReviews = [];  
@@ -840,761 +739,686 @@ let readerViewerId = null;
 let archiveDates = {};  
 let isRenderingPdf = false;  
 
-/* ==================================================  
-   PDF JS  
-================================================== */  
 if(typeof pdfjsLib !== "undefined"){  
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";  
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";  
 }  
 
-/* ==================================================  
-   SUPABASE  
-================================================== */  
 function initializeSupabase(){  
-try{  
-if(window.supabase && typeof window.supabase.createClient === "function"){  
-supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);  
-}  
-}catch(error){  
-console.error(error);  
-}  
+  try{  
+    if(window.supabase && typeof window.supabase.createClient === "function"){  
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      });  
+    }  
+  }catch(error){  
+    console.error("Supabase init error:", error);  
+  }  
 }  
 
-/* ==================================================  
-   HELPERS  
-================================================== */  
 function removePdfExtension(name){  
-return name.replace(/\.pdf$/i, "");  
+  return name.replace(/\.pdf$/i, "");  
 }  
 
 function escapeHTML(text){  
-const div = document.createElement("div");  
-div.textContent = String(text || "");  
-return div.innerHTML;  
+  const div = document.createElement("div");  
+  div.textContent = String(text || "");  
+  return div.innerHTML;  
 }  
 
-/* ==================================================  
-   LOAD BOOKS  
-================================================== */  
 async function loadBooks(){  
-const status = document.getElementById("status");  
-status.textContent = "📚 Loading books...";  
-try{  
-const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;  
-const response = await fetch(url);  
-if(!response.ok) throw new Error("GitHub error " + response.status);  
-const files = await response.json();  
+  const status = document.getElementById("status");  
+  status.textContent = "📚 Loading books...";  
+  try{  
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;  
+    const response = await fetch(url);  
+    if(!response.ok) throw new Error("GitHub error " + response.status);  
+    const files = await response.json();  
 
-allBooks = files  
-.filter(file => file.type === "file" && file.name.toLowerCase().endsWith(".pdf"))  
-.map(file => ({  
-name:file.name,  
-download_url:file.download_url,  
-html_url:file.html_url  
-}));  
+    allBooks = files  
+      .filter(file => file.type === "file" && file.name.toLowerCase().endsWith(".pdf"))  
+      .map(file => ({  
+        name: file.name,  
+        download_url: file.download_url,  
+        html_url: file.html_url  
+      }));  
 
-status.textContent = `${allBooks.length} book(s) available`;  
-displayBooks(allBooks);  
-
-checkSharedUrlBook();  
-
-}catch(error){  
-console.error(error);  
-status.textContent = "❌ Books load nahi ho pa rahi.";  
-}  
+    status.textContent = `${allBooks.length} book(s) available`;  
+    displayBooks(allBooks);  
+    checkUrlParams();  
+  }catch(error){  
+    console.error(error);  
+    status.textContent = "❌ Books load nahi ho pa rahi.";  
+  }  
 }  
 
-function checkSharedUrlBook(){  
-const params = new URLSearchParams(window.location.search);  
-const bookParam = params.get("book");  
-if(bookParam && allBooks.length){  
-const index = allBooks.findIndex(b => b.name === bookParam);  
-if(index !== -1){  
-openReader(index);  
-}  
-}  
+function checkUrlParams(){  
+  const params = new URLSearchParams(window.location.search);  
+  const bookParam = params.get("book");  
+  const detailsParam = params.get("view");
+
+  if(detailsParam && allBooks.length){
+    const index = allBooks.findIndex(b => b.name === detailsParam);
+    if(index !== -1) openBookDetails(index, false);
+  } else if(bookParam && allBooks.length){  
+    const index = allBooks.findIndex(b => b.name === bookParam);  
+    if(index !== -1) openReader(index);  
+  }  
 }  
 
-/* ==================================================  
-   DISPLAY HOME CARDS  
-================================================== */  
 function displayBooks(books){  
-const grid = document.getElementById("booksGrid");  
-grid.innerHTML = "";  
-if(!books.length){  
-grid.innerHTML = `<div style="grid-column:1/-1;text-align:center">📚 No books found.</div>`;  
-return;  
+  const grid = document.getElementById("booksGrid");  
+  grid.innerHTML = "";  
+  if(!books.length){  
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center">📚 No books found.</div>`;  
+    return;  
+  }  
+
+  books.forEach((book,index)=>{  
+    const originalIndex = allBooks.indexOf(book);  
+    const card = document.createElement("div");  
+    card.className = "book-card";  
+    card.dataset.bookIndex = originalIndex;  
+    card.innerHTML = `  
+      <div class="cover-box" id="cover-${index}">  
+        <div class="cover-loading">📖 Loading cover...</div>  
+      </div>  
+      <div class="book-info">  
+        <div class="book-title">${escapeHTML(removePdfExtension(book.name))}</div>  
+        <div class="archive-date" id="archive-${index}">archived</div>  
+        <div class="book-stats">  
+          <span class="book-stat">📖</span>  
+          <span class="book-stat">👁️<small class="book-view-count">0</small></span>  
+          <span class="book-stat">⭐<small class="book-rating-count">0</small></span>  
+          <span class="book-stat">💬<small class="book-comment-count">0</small></span>  
+        </div>  
+      </div>  
+    `;  
+    grid.appendChild(card);  
+
+    card.addEventListener("click", ()=>openBookDetails(originalIndex, true));  
+
+    renderCover(book.download_url, `cover-${index}`);  
+    loadArchiveDate(book, `archive-${index}`);  
+  });  
+
+  updateCardReviewCounts();  
+  loadAllBookViewCounts();  
 }  
 
-books.forEach((book,index)=>{  
-const originalIndex = allBooks.indexOf(book);  
-const card = document.createElement("div");  
-card.className = "book-card";  
-card.dataset.bookIndex = originalIndex;  
-card.innerHTML = `  
-<div class="cover-box" id="cover-${index}">  
-<div class="cover-loading">📖 Loading cover...</div>  
-<button class="info-badge" type="button" aria-label="Info">ⓘ</button>  
-</div>  
-<div class="book-info">  
-<div class="book-title" title="Open book">  
-${escapeHTML(removePdfExtension(book.name))}  
-</div>  
-<div class="archive-date" id="archive-${index}">archived</div>  
-<div class="book-stats">  
-<span class="book-stat">📖</span>  
-<span class="book-stat">👁️<small class="book-view-count">0</small></span>  
-<span class="book-stat">⭐<small class="book-rating-count">0</small></span>  
-<span class="book-stat">💬<small class="book-comment-count">0</small></span>  
-</div>  
-</div>  
-`;  
-grid.appendChild(card);  
-
-card.querySelector(".book-title").addEventListener("click", ()=>openBookDetails(originalIndex));  
-card.querySelector(".info-badge").addEventListener("click", event=>event.stopPropagation());  
-
-renderCover(book.download_url, `cover-${index}`);  
-loadArchiveDate(book, `archive-${index}`);  
-});  
-
-updateCardReviewCounts();  
-loadAllBookViewCounts();  
-}  
-
-/* ==================================================  
-   PDF COVER  
-================================================== */  
 async function renderCover(pdfUrl, containerId){  
-const container = document.getElementById(containerId);  
-if(!container)return;  
-try{  
-const pdf = await pdfjsLib.getDocument({url:pdfUrl, withCredentials:false}).promise;  
-const page = await pdf.getPage(1);  
-const viewport = page.getViewport({scale:1.2});  
-const canvas = document.createElement("canvas");  
-const context = canvas.getContext("2d");  
-canvas.width = viewport.width;  
-canvas.height = viewport.height;  
-await page.render({canvasContext:context, viewport:viewport}).promise;  
-container.innerHTML = "";  
-container.appendChild(canvas);  
-}catch(error){  
-console.error(error);  
-container.innerHTML = `<div class="cover-loading">📕 PDF Book</div>`;  
-}  
+  const container = document.getElementById(containerId);  
+  if(!container) return;  
+  try{  
+    const pdf = await pdfjsLib.getDocument({url:pdfUrl, withCredentials:false}).promise;  
+    const page = await pdf.getPage(1);  
+    const viewport = page.getViewport({scale:1.2});  
+    const canvas = document.createElement("canvas");  
+    const context = canvas.getContext("2d");  
+    canvas.width = viewport.width;  
+    canvas.height = viewport.height;  
+    await page.render({canvasContext:context, viewport:viewport}).promise;  
+    container.innerHTML = "";  
+    container.appendChild(canvas);  
+  }catch(error){  
+    console.error(error);  
+    container.innerHTML = `<div class="cover-loading">📕 PDF Book</div>`;  
+  }  
 }  
 
-/* ==================================================  
-   ARCHIVED DATE  
-================================================== */  
 async function loadArchiveDate(book, elementId){  
-const el = elementId ? document.getElementById(elementId) : null;  
-try{  
-if(archiveDates[book.name]){  
-if(el) el.textContent = "archived " + archiveDates[book.name];  
-return;  
-}  
-const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/commits?path=${encodeURIComponent(book.name)}&sha=${GITHUB_BRANCH}&per_page=1`;  
-const response = await fetch(url);  
-if(!response.ok) throw new Error("Date error");  
-const commits = await response.json();  
-const iso = commits?.[0]?.commit?.author?.date || commits?.[0]?.commit?.committer?.date;  
-if(!iso){  
-if(el) el.textContent="archived";  
-return;  
-}  
-const date = new Date(iso).toLocaleDateString("en-US", {month:"short", day:"2-digit", year:"numeric"});  
-archiveDates[book.name] = date;  
-if(el) el.textContent = "archived " + date;  
-}catch(error){  
-if(el) el.textContent = "archived";  
-}  
-}  
-
-/* ==================================================  
-   BOOK DETAILS  
-================================================== */  
-async function openBookDetails(bookIndex){  
-const book = allBooks[bookIndex];  
-if(!book)return;  
-selectedDetailsBook = book;  
-document.getElementById("detailsTitle").textContent = removePdfExtension(book.name);  
-document.getElementById("detailsArchive").textContent = archiveDates[book.name] ? "archived " + archiveDates[book.name] : "archived";  
-document.getElementById("detailsViews").textContent = "👁️ Views: 0";  
-document.getElementById("detailsModal").style.display = "flex";  
-const cover = document.getElementById("detailsCover");  
-cover.innerHTML = "📖 Loading cover...";  
-await renderCover(book.download_url, "detailsCover");  
-await updateBookViewCount(book.name);  
-await incrementBookView(book.name);  
-}  
-
-function closeBookDetails(){  
-document.getElementById("detailsModal").style.display = "none";  
-selectedDetailsBook = null;  
+  const el = elementId ? document.getElementById(elementId) : null;  
+  try{  
+    if(archiveDates[book.name]){  
+      if(el) el.textContent = "archived " + archiveDates[book.name];  
+      return;  
+    }  
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/commits?path=${encodeURIComponent(book.name)}&sha=${GITHUB_BRANCH}&per_page=1`;  
+    const response = await fetch(url);  
+    if(!response.ok) throw new Error("Date error");  
+    const commits = await response.json();  
+    const iso = commits?.[0]?.commit?.author?.date || commits?.[0]?.commit?.committer?.date;  
+    if(!iso){  
+      if(el) el.textContent="archived";  
+      return;  
+    }  
+    const date = new Date(iso).toLocaleDateString("en-US", {month:"short", day:"2-digit", year:"numeric"});  
+    archiveDates[book.name] = date;  
+    if(el) el.textContent = "archived " + date;  
+  }catch(error){  
+    if(el) el.textContent = "archived";  
+  }  
 }  
 
 /* ==================================================  
-   DETAILS BUTTONS  
+   OPEN DEDICATED BOOK VIEW PAGE  
 ================================================== */  
+async function openBookDetails(bookIndex, updateHistory = true){  
+  const book = allBooks[bookIndex];  
+  if(!book) return;  
+  selectedDetailsBook = book;  
+
+  // Switch Views
+  document.getElementById("homePageContainer").style.display = "none";
+  document.getElementById("bookDetailsPage").style.display = "block";
+  window.scrollTo({top: 0, behavior: "smooth"});
+
+  if(updateHistory){
+    window.history.pushState({view: book.name}, "", "?view=" + encodeURIComponent(book.name));
+  }
+
+  document.getElementById("pageTitle").textContent = removePdfExtension(book.name);  
+  document.getElementById("pageArchive").textContent = archiveDates[book.name] ? "archived " + archiveDates[book.name] : "archived";  
+  document.getElementById("pageViews").textContent = "👁️ Views: 0";  
+
+  const cover = document.getElementById("pageCover");  
+  cover.innerHTML = "📖 Loading cover...";  
+  await renderCover(book.download_url, "pageCover");  
+  
+  loadCommentsForPage(book.name);
+  await updateBookViewCount(book.name);  
+  await incrementBookView(book.name);  
+}  
+
+function goBackToHome(){  
+  document.getElementById("bookDetailsPage").style.display = "none";  
+  document.getElementById("homePageContainer").style.display = "block";  
+  selectedDetailsBook = null;  
+  window.history.pushState({}, "", window.location.pathname);
+}  
+
+window.addEventListener("popstate", () => {
+  const params = new URLSearchParams(window.location.search);
+  if(!params.get("view")){
+    document.getElementById("bookDetailsPage").style.display = "none";
+    document.getElementById("homePageContainer").style.display = "block";
+    selectedDetailsBook = null;
+  }
+});
+
+/* ACTIONS ON PAGE */  
 function detailsRead(){  
-if(!selectedDetailsBook)return;  
-const index = allBooks.indexOf(selectedDetailsBook);  
-closeBookDetails();  
-openReader(index);  
+  if(!selectedDetailsBook) return;  
+  const index = allBooks.indexOf(selectedDetailsBook);  
+  openReader(index);  
 }  
 
 function detailsDownload(){  
-if(!selectedDetailsBook)return;  
-const a = document.createElement("a");  
-a.href = selectedDetailsBook.download_url;  
-a.download = selectedDetailsBook.name;  
-document.body.appendChild(a);  
-a.click();  
-a.remove();  
+  if(!selectedDetailsBook) return;  
+  const a = document.createElement("a");  
+  a.href = selectedDetailsBook.download_url;  
+  a.download = selectedDetailsBook.name;  
+  document.body.appendChild(a);  
+  a.click();  
+  a.remove();  
 }  
 
 function detailsShare(){  
-if(!selectedDetailsBook)return;  
-shareBook(allBooks.indexOf(selectedDetailsBook));  
+  if(!selectedDetailsBook) return;  
+  const title = removePdfExtension(selectedDetailsBook.name);  
+  const readUrl = window.location.origin + window.location.pathname + "?view=" + encodeURIComponent(selectedDetailsBook.name);  
+
+  if(navigator.share){  
+    navigator.share({  
+      title: "Attari Books - " + title,  
+      text: "📖 Open book: " + title,  
+      url: readUrl  
+    }).catch(()=>{});  
+  } else {
+    const whatsapp = "https://wa.me/?text=" + encodeURIComponent("📖 Check out this book on Attari Books:\n" + title + "\n" + readUrl);  
+    window.open(whatsapp, "_blank");  
+  }
 }  
 
 function detailsRate(){  
-if(!selectedDetailsBook)return;  
-openReviewForBook(allBooks.indexOf(selectedDetailsBook));  
+  if(!selectedDetailsBook) return;  
+  openReviewForBook(allBooks.indexOf(selectedDetailsBook));  
 }  
 
-function detailsComments(){  
-if(!selectedDetailsBook)return;  
-showCommentsForBook(allBooks.indexOf(selectedDetailsBook));  
-}  
-
-/* ==================================================  
-   SEARCH  
-================================================== */  
 function searchBooks(){  
-const value = document.getElementById("searchBox").value.toLowerCase().trim();  
-if(!value){  
-displayBooks(allBooks);  
-return;  
-}  
-displayBooks(allBooks.filter(book => book.name.toLowerCase().includes(value)));  
+  const value = document.getElementById("searchBox").value.toLowerCase().trim();  
+  if(!value){  
+    displayBooks(allBooks);  
+    return;  
+  }  
+  displayBooks(allBooks.filter(book => book.name.toLowerCase().includes(value)));  
 }  
 
-/* ==================================================  
-   VIEWS  
-================================================== */  
+/* SUPABASE VIEWS */  
 async function loadAllBookViewCounts(){  
-if(!supabaseClient)return;  
-try{  
-const { data, error } = await supabaseClient.from("book_views").select("book_name,view_count");  
-if(error)throw error;  
-const counts = {};  
-(data || []).forEach(row=>{ counts[row.book_name] = Number(row.view_count || 0); });  
-document.querySelectorAll(".book-card").forEach(card=>{  
-const book = allBooks[Number(card.dataset.bookIndex)];  
-const el = card.querySelector(".book-view-count");  
-if(book && el) el.textContent = counts[book.name] || 0;  
-});  
-}catch(error){  
-console.error("View load error", error);  
-}  
+  if(!supabaseClient) return;  
+  try{  
+    const { data, error } = await supabaseClient.from("book_views").select("book_name,view_count");  
+    if(error) throw error;  
+    const counts = {};  
+    (data || []).forEach(row=>{ counts[row.book_name] = Number(row.view_count || 0); });  
+    document.querySelectorAll(".book-card").forEach(card=>{  
+      const book = allBooks[Number(card.dataset.bookIndex)];  
+      const el = card.querySelector(".book-view-count");  
+      if(book && el) el.textContent = counts[book.name] || 0;  
+    });  
+  }catch(error){  
+    console.error("View load error", error);  
+  }  
 }  
 
 async function updateBookViewCount(bookName){  
-if(!supabaseClient)return 0;  
-try{  
-const { data, error } = await supabaseClient.from("book_views").select("view_count").eq("book_name",bookName).maybeSingle();  
-if(error)throw error;  
-const count = Number(data?.view_count || 0);  
-updateVisibleViewCount(bookName, count);  
-return count;  
-}catch(error){  
-console.error(error);  
-return 0;  
-}  
+  if(!supabaseClient) return 0;  
+  try{  
+    const { data, error } = await supabaseClient.from("book_views").select("view_count").eq("book_name",bookName).maybeSingle();  
+    if(error) throw error;  
+    const count = Number(data?.view_count || 0);  
+    updateVisibleViewCount(bookName, count);  
+    return count;  
+  }catch(error){  
+    console.error(error);  
+    return 0;  
+  }  
 }  
 
 async function incrementBookView(bookName){  
-if(!supabaseClient)return 0;  
-try{  
-const { data, error } = await supabaseClient.from("book_views").select("view_count").eq("book_name",bookName).maybeSingle();  
-if(error)throw error;  
-let newCount = 1;  
-if(data){  
-newCount = Number(data.view_count || 0) + 1;  
-const result = await supabaseClient.from("book_views").update({view_count:newCount}).eq("book_name", bookName);  
-if(result.error) throw result.error;  
-}else{  
-const result = await supabaseClient.from("book_views").insert({book_name:bookName, view_count:1});  
-if(result.error) throw result.error;  
-}  
-updateVisibleViewCount(bookName, newCount);  
-return newCount;  
-}catch(error){  
-console.error("Increment view error", error);  
-return 0;  
-}  
+  if(!supabaseClient) return 0;  
+  try{  
+    const { data, error } = await supabaseClient.from("book_views").select("view_count").eq("book_name",bookName).maybeSingle();  
+    if(error) throw error;  
+    let newCount = 1;  
+    if(data){  
+      newCount = Number(data.view_count || 0) + 1;  
+      const result = await supabaseClient.from("book_views").update({view_count:newCount}).eq("book_name", bookName);  
+      if(result.error) throw result.error;  
+    }else{  
+      const result = await supabaseClient.from("book_views").insert({book_name:bookName, view_count:1});  
+      if(result.error) throw result.error;  
+    }  
+    updateVisibleViewCount(bookName, newCount);  
+    return newCount;  
+  }catch(error){  
+    console.error("Increment view error", error);  
+    return 0;  
+  }  
 }  
 
 function updateVisibleViewCount(bookName, count){  
-const index = allBooks.findIndex(book => book.name === bookName);  
-const card = document.querySelector(`.book-card[data-book-index="${index}"]`);  
-if(card){  
-const el = card.querySelector(".book-view-count");  
-if(el) el.textContent = count;  
-}  
-const details = document.getElementById("detailsViews");  
-if(details) details.textContent = `👁️ Views: ${count}`;  
+  const index = allBooks.findIndex(book => book.name === bookName);  
+  const card = document.querySelector(`.book-card[data-book-index="${index}"]`);  
+  if(card){  
+    const el = card.querySelector(".book-view-count");  
+    if(el) el.textContent = count;  
+  }  
+  const pageViews = document.getElementById("pageViews");  
+  if(pageViews) pageViews.textContent = `👁️ Views: ${count}`;  
 }  
 
-/* ==================================================  
-   REVIEWS COUNTS  
-================================================== */  
+/* REVIEWS & COMMENTS */  
 async function loadReviews(){  
-try{  
-const response = await fetch(GOOGLE_SCRIPT_URL, {cache:"no-store"});  
-const data = await response.json();  
-allReviews = Array.isArray(data) ? data : [];  
-updateCardReviewCounts();  
-return allReviews;  
-}catch(error){  
-console.error(error);  
-allReviews = [];  
-return [];  
-}  
+  try{  
+    const response = await fetch(GOOGLE_SCRIPT_URL, {cache:"no-store"});  
+    const data = await response.json();  
+    allReviews = Array.isArray(data) ? data : [];  
+    updateCardReviewCounts();  
+    return allReviews;  
+  }catch(error){  
+    console.error(error);  
+    allReviews = [];  
+    return [];  
+  }  
 }  
 
 function updateCardReviewCounts(){  
-document.querySelectorAll(".book-card").forEach(card=>{  
-const book = allBooks[Number(card.dataset.bookIndex)];  
-if(!book)return;  
-const rows = allReviews.filter(row => String(row[0] || "").trim() === String(book.name).trim());  
-const ratingCount = rows.filter(row => Number(row[1]) >= 1).length;  
-const commentCount = rows.filter(row => String(row[2] || "").trim()).length;  
-const rating = card.querySelector(".book-rating-count");  
-const comments = card.querySelector(".book-comment-count");  
-if(rating) rating.textContent = ratingCount;  
-if(comments) comments.textContent = commentCount;  
-});  
+  document.querySelectorAll(".book-card").forEach(card=>{  
+    const book = allBooks[Number(card.dataset.bookIndex)];  
+    if(!book) return;  
+    const rows = allReviews.filter(row => String(row[0] || "").trim() === String(book.name).trim());  
+    const ratingCount = rows.filter(row => Number(row[1]) >= 1).length;  
+    const commentCount = rows.filter(row => String(row[2] || "").trim()).length;  
+    const rating = card.querySelector(".book-rating-count");  
+    const comments = card.querySelector(".book-comment-count");  
+    if(rating) rating.textContent = ratingCount;  
+    if(comments) comments.textContent = commentCount;  
+  });  
 }  
 
-/* ==================================================  
-   SHARE (ONLINE READ LINK)  
-================================================== */  
-async function shareBook(bookIndex){  
-const book = allBooks[bookIndex];  
-if(!book)return;  
-
-const title = removePdfExtension(book.name);  
-const readUrl = window.location.origin + window.location.pathname + "?book=" + encodeURIComponent(book.name);  
-
-if(navigator.share){  
-try{  
-await navigator.share({  
-title: "Attari Books - " + title,  
-text: "📖 Read online: " + title,  
-url: readUrl  
-});  
-return;  
-}catch(error){  
-if(error.name === "AbortError") return;  
-}  
-}  
-
-const whatsapp = "https://wa.me/?text=" + encodeURIComponent("📖 Read online on Attari Books:\n" + title + "\n" + readUrl);  
-window.open(whatsapp, "_blank");  
-}  
-
-/* ==================================================  
-   COMMENTS  
-================================================== */  
-async function showCommentsForBook(bookIndex){  
-const book = allBooks[bookIndex];  
-if(!book)return;  
-document.getElementById("commentsBookName").textContent = removePdfExtension(book.name);  
-document.getElementById("commentsModal").style.display = "flex";  
-const list = document.getElementById("commentsList");  
-list.innerHTML = "⏳ Loading comments...";  
-const reviews = await loadReviews();  
-const rows = reviews.filter(row => String(row[0] || "").trim() === String(book.name).trim());  
-if(!rows.length){  
-list.innerHTML = `<div style="text-align:center;padding:20px;color:#777">💬 No comments yet.</div>`;  
-return;  
-}  
-list.innerHTML = rows.slice().reverse().map(row=>{  
-const rating = Math.max(0, Math.min(5, Number(row[1]) || 0));  
-const comment = escapeHTML(row[2] || "");  
-let date = "";  
-if(row[3]){  
-try{ date = new Date(row[3]).toLocaleDateString(); }catch(e){}  
-}  
-return `  
-<div class="comment-item">  
-<div class="comment-rating">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div>  
-<div class="comment-text">${comment || "No comment"}</div>  
-${date ? `<div class="comment-date">${escapeHTML(date)}</div>` : ""}  
-</div>  
-`;  
-}).join("");  
+async function loadCommentsForPage(bookName){  
+  const list = document.getElementById("pageCommentsList");  
+  list.innerHTML = "⏳ Loading comments...";  
+  const reviews = await loadReviews();  
+  const rows = reviews.filter(row => String(row[0] || "").trim() === String(bookName).trim());  
+  if(!rows.length){  
+    list.innerHTML = `<div style="padding:15px;color:#777">💬 No comments yet. Pehle user baniye review dene wale!</div>`;  
+    return;  
+  }  
+  list.innerHTML = rows.slice().reverse().map(row=>{  
+    const rating = Math.max(0, Math.min(5, Number(row[1]) || 0));  
+    const comment = escapeHTML(row[2] || "");  
+    let date = "";  
+    if(row[3]){  
+      try{ date = new Date(row[3]).toLocaleDateString(); }catch(e){}  
+    }  
+    return `  
+      <div class="comment-item">  
+        <div class="comment-rating">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div>  
+        <div class="comment-text">${comment || "No comment"}</div>  
+        ${date ? `<div class="comment-date">${escapeHTML(date)}</div>` : ""}  
+      </div>  
+    `;  
+  }).join("");  
 }  
 
-function closeComments(){  
-document.getElementById("commentsModal").style.display = "none";  
-}  
-
-/* ==================================================  
-   REVIEW  
-================================================== */  
+/* REVIEW MODAL */  
 async function openReviewForBook(bookIndex){  
-if(!supabaseClient){  
-openAuth();  
-return;  
-}  
-const { data } = await supabaseClient.auth.getSession();  
-if(!data?.session){  
-openAuth();  
-return;  
-}  
-const book = allBooks[bookIndex];  
-if(!book)return;  
-const email = data.session.user.email.toLowerCase().trim();  
-await loadReviews();  
-const already = allReviews.some(row => String(row[0] || "").trim() === String(book.name).trim() && String(row[4] || "").toLowerCase().trim() === email);  
-if(already){  
-alert("✅ Aap is book ko pehle hi review kar chuke hain.");  
-return;  
-}  
-selectedReviewBook = book;  
-selectedReviewRating = 0;  
-document.getElementById("reviewBookName").textContent = removePdfExtension(book.name);  
-document.getElementById("reviewComment").value = "";  
-document.getElementById("reviewMessage").textContent = "";  
-resetReviewStars();  
-document.getElementById("reviewModal").style.display = "flex";  
+  if(!supabaseClient){ openAuth(); return; }  
+  const { data } = await supabaseClient.auth.getSession();  
+  if(!data?.session){ openAuth(); return; }  
+  
+  const book = allBooks[bookIndex];  
+  if(!book) return;  
+  const email = data.session.user.email.toLowerCase().trim();  
+  await loadReviews();  
+  const already = allReviews.some(row => String(row[0] || "").trim() === String(book.name).trim() && String(row[4] || "").toLowerCase().trim() === email);  
+  if(already){  
+    alert("✅ Aap is book ko pehle hi review kar chuke hain.");  
+    return;  
+  }  
+  selectedReviewBook = book;  
+  selectedReviewRating = 0;  
+  document.getElementById("reviewBookName").textContent = removePdfExtension(book.name);  
+  document.getElementById("reviewComment").value = "";  
+  document.getElementById("reviewMessage").textContent = "";  
+  resetReviewStars();  
+  document.getElementById("reviewModal").style.display = "flex";  
 }  
 
 function closeReviewModal(){  
-document.getElementById("reviewModal").style.display = "none";  
-selectedReviewBook = null;  
-selectedReviewRating = 0;  
-resetReviewStars();  
+  document.getElementById("reviewModal").style.display = "none";  
+  selectedReviewBook = null;  
+  selectedReviewRating = 0;  
+  resetReviewStars();  
 }  
 
 function selectReviewRating(rating){  
-selectedReviewRating = rating;  
-for(let i=1; i<=5; i++){  
-document.getElementById("reviewStar"+i).classList.toggle("selected", i<=rating);  
-}  
+  selectedReviewRating = rating;  
+  for(let i=1; i<=5; i++){  
+    document.getElementById("reviewStar"+i).classList.toggle("selected", i<=rating);  
+  }  
 }  
 
 function resetReviewStars(){  
-for(let i=1; i<=5; i++){  
-document.getElementById("reviewStar"+i).classList.remove("selected");  
-}  
+  for(let i=1; i<=5; i++){  
+    document.getElementById("reviewStar"+i).classList.remove("selected");  
+  }  
 }  
 
 async function submitReview(){  
-if(!supabaseClient){  
-openAuth();  
-return;  
-}  
-const { data } = await supabaseClient.auth.getSession();  
-if(!data?.session){  
-closeReviewModal();  
-openAuth();  
-return;  
-}  
-if(!selectedReviewBook)return;  
-if(!selectedReviewRating){  
-alert("Please select a rating.");  
-return;  
-}  
-const comment = document.getElementById("reviewComment").value.trim();  
-const message = document.getElementById("reviewMessage");  
-const email = data.session.user.email.toLowerCase().trim();  
-message.textContent = "⏳ Submitting...";  
+  if(!supabaseClient){ openAuth(); return; }  
+  const { data } = await supabaseClient.auth.getSession();  
+  if(!data?.session){ closeReviewModal(); openAuth(); return; }  
+  if(!selectedReviewBook) return;  
+  if(!selectedReviewRating){  
+    alert("Please select a rating.");  
+    return;  
+  }  
+  const comment = document.getElementById("reviewComment").value.trim();  
+  const message = document.getElementById("reviewMessage");  
+  const email = data.session.user.email.toLowerCase().trim();  
+  message.textContent = "⏳ Submitting...";  
 
-try{  
-await fetch(GOOGLE_SCRIPT_URL, {  
-method:"POST",  
-mode:"no-cors",  
-headers:{"Content-Type":"text/plain;charset=utf-8"},  
-body:JSON.stringify({  
-book: selectedReviewBook.name,  
-rating: selectedReviewRating,  
-comment: comment,  
-email: email  
-})  
-});  
-message.textContent = "✅ Review submitted successfully!";  
-setTimeout(async ()=>{  
-closeReviewModal();  
-await loadReviews();  
-}, 900);  
-}catch(error){  
-console.error(error);  
-message.textContent = "❌ Review submit nahi ho saka.";  
-}  
+  try{  
+    await fetch(GOOGLE_SCRIPT_URL, {  
+      method:"POST",  
+      mode:"no-cors",  
+      headers:{"Content-Type":"text/plain;charset=utf-8"},  
+      body:JSON.stringify({  
+        book: selectedReviewBook.name,  
+        rating: selectedReviewRating,  
+        comment: comment,  
+        email: email  
+      })  
+    });  
+    message.textContent = "✅ Review submitted successfully!";  
+    setTimeout(async ()=>{  
+      closeReviewModal();  
+      await loadReviews();  
+      if(selectedDetailsBook){
+        loadCommentsForPage(selectedDetailsBook.name);
+      }
+    }, 900);  
+  }catch(error){  
+    console.error(error);  
+    message.textContent = "❌ Review submit nahi ho saka.";  
+  }  
 }  
 
-/* ==================================================  
-   AUTH (DIRECT GOOGLE SIGN IN)  
-================================================== */  
+/* GOOGLE AUTH */  
 function openAuth(){  
-document.getElementById("authModal").style.display = "flex";  
-document.getElementById("authMessage").textContent = "";  
+  document.getElementById("authModal").style.display = "flex";  
+  document.getElementById("authMessage").textContent = "";  
 }  
 
 function closeAuth(){  
-document.getElementById("authModal").style.display = "none";  
+  document.getElementById("authModal").style.display = "none";  
 }  
 
 async function signInWithGoogle(){  
-if(!supabaseClient){  
-document.getElementById("authMessage").textContent = "❌ System load nahi hua.";  
-return;  
-}  
-
-const message = document.getElementById("authMessage");  
-message.textContent = "⏳ Connecting to Google...";  
-
-try{  
-const { data, error } = await supabaseClient.auth.signInWithOAuth({  
-provider: 'google',  
-options: {  
-redirectTo: window.location.origin + window.location.pathname  
-}  
-});  
-
-if(error) throw error;  
-}catch(error){  
-console.error(error);  
-message.textContent = "❌ " + (error.message || "Google login failed.");  
-}  
+  if(!supabaseClient){  
+    document.getElementById("authMessage").textContent = "❌ System load nahi hua.";  
+    return;  
+  }  
+  const message = document.getElementById("authMessage");  
+  message.textContent = "⏳ Connecting to Google...";  
+  try{  
+    const { error } = await supabaseClient.auth.signInWithOAuth({  
+      provider: 'google',  
+      options: {  
+        redirectTo: window.location.origin + window.location.pathname  
+      }  
+    });  
+    if(error) throw error;  
+  }catch(error){  
+    console.error(error);  
+    message.textContent = "❌ " + (error.message || "Google login failed.");  
+  }  
 }  
 
 async function logout(){  
-if(!supabaseClient)return;  
-await supabaseClient.auth.signOut();  
-updateAuthUI(null);  
-alert("Aap logout ho chuke hain.");  
+  if(!supabaseClient) return;  
+  await supabaseClient.auth.signOut();  
+  updateAuthUI(null);  
 }  
 
 function updateAuthUI(session){  
-const loginBtn = document.getElementById("loginBtn");  
-const logoutBtn = document.getElementById("logoutBtn");  
-const userProfile = document.getElementById("userProfile");  
-const userName = document.getElementById("userName");  
-const userAvatar = document.getElementById("userAvatar");  
+  const loginBtn = document.getElementById("loginBtn");  
+  const logoutBtn = document.getElementById("logoutBtn");  
+  const userProfile = document.getElementById("userProfile");  
+  const userName = document.getElementById("userName");  
+  const userAvatar = document.getElementById("userAvatar");  
 
-if(session && session.user){  
-const user = session.user;  
-const name = user.user_metadata?.full_name || user.email.split("@")[0];  
-const avatar = user.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=2864df&color=fff`;  
+  if(session && session.user){  
+    const user = session.user;  
+    const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split("@")[0];  
+    const avatar = user.user_metadata?.avatar_url || user.user_metadata?.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=2864df&color=fff`;  
 
-loginBtn.style.display = "none";  
-logoutBtn.style.display = "inline-block";  
-userProfile.style.display = "inline-flex";  
-userName.textContent = name;  
-userAvatar.src = avatar;  
-}else{  
-loginBtn.style.display = "inline-flex";  
-logoutBtn.style.display = "none";  
-userProfile.style.display = "none";  
-}  
+    loginBtn.style.display = "none";  
+    logoutBtn.style.display = "inline-block";  
+    userProfile.style.display = "inline-flex";  
+    userName.textContent = name;  
+    userAvatar.src = avatar;  
+    closeAuth();  
+
+    if(window.location.hash && window.location.hash.includes("access_token")){
+      window.history.replaceState(null, null, window.location.pathname);
+    }
+  }else{  
+    loginBtn.style.display = "inline-flex";  
+    logoutBtn.style.display = "none";  
+    userProfile.style.display = "none";  
+  }  
 }  
 
 async function checkAuth(){  
-if(!supabaseClient){  
-updateAuthUI(null);  
-return;  
-}  
-const { data } = await supabaseClient.auth.getSession();  
-updateAuthUI(data.session);  
+  if(!supabaseClient){ updateAuthUI(null); return; }  
+  const { data } = await supabaseClient.auth.getSession();  
+  updateAuthUI(data?.session || null);  
 }  
 
-/* ==================================================  
-   HELP  
-================================================== */  
 function toggleHelp(){  
-const menu = document.getElementById("helpMenu");  
-menu.style.display = menu.style.display === "block" ? "none" : "block";  
+  const menu = document.getElementById("helpMenu");  
+  menu.style.display = menu.style.display === "block" ? "none" : "block";  
 }  
 
-/* ==================================================  
-   PDF READER PRESENCE  
-================================================== */  
+/* PRESENCE & LIVE VIEWERS */  
 function getReaderViewerId(){  
-try{  
-let id = localStorage.getItem("attari_viewer_id");  
-if(!id){  
-id = "viewer-" + Date.now() + "-" + Math.random().toString(36).slice(2);  
-localStorage.setItem("attari_viewer_id", id);  
-}  
-return id;  
-}catch(error){  
-return "viewer-" + Date.now();  
-}  
+  try{  
+    let id = localStorage.getItem("attari_viewer_id");  
+    if(!id){  
+      id = "viewer-" + Date.now() + "-" + Math.random().toString(36).slice(2);  
+      localStorage.setItem("attari_viewer_id", id);  
+    }  
+    return id;  
+  }catch(error){  
+    return "viewer-" + Date.now();  
+  }  
 }  
 
 function makeChannelName(bookName){  
-let hash = 0;  
-for(let i=0; i<bookName.length; i++){  
-hash = ((hash << 5) - hash + bookName.charCodeAt(i)) | 0;  
-}  
-return "attari-book-" + Math.abs(hash);  
+  let hash = 0;  
+  for(let i=0; i<bookName.length; i++){  
+    hash = ((hash << 5) - hash + bookName.charCodeAt(i)) | 0;  
+  }  
+  return "attari-book-" + Math.abs(hash);  
 }  
 
 function setReaderViewerCount(count){  
-const el = document.getElementById("readerViewerCount");  
-if(!el)return;  
-el.textContent = count === 1 ? "👁️ 1 person viewing" : `👁️ ${count} people viewing`;  
+  const el = document.getElementById("readerViewerCount");  
+  if(!el) return;  
+  el.textContent = count === 1 ? "👁️ 1 person viewing" : `👁️ ${count} people viewing`;  
 }  
 
 async function startReaderPresence(book){  
-if(!supabaseClient)return;  
-await stopReaderPresence();  
-readerViewerId = getReaderViewerId();  
-readerPresenceChannel = supabaseClient.channel(makeChannelName(book.name), {  
-config:{ presence:{ key:readerViewerId } }  
-});  
+  if(!supabaseClient) return;  
+  await stopReaderPresence();  
+  readerViewerId = getReaderViewerId();  
+  readerPresenceChannel = supabaseClient.channel(makeChannelName(book.name), {  
+    config:{ presence:{ key:readerViewerId } }  
+  });  
 
-readerPresenceChannel.on("presence", {event:"sync"}, ()=>{  
-const state = readerPresenceChannel.presenceState();  
-setReaderViewerCount(Object.keys(state).length);  
-});  
+  readerPresenceChannel.on("presence", {event:"sync"}, ()=>{  
+    const state = readerPresenceChannel.presenceState();  
+    setReaderViewerCount(Object.keys(state).length);  
+  });  
 
-readerPresenceChannel.subscribe(async status=>{  
-if(status === "SUBSCRIBED"){  
-await readerPresenceChannel.track({  
-viewer_id: readerViewerId,  
-book: book.name,  
-online_at: new Date().toISOString()  
-});  
-}  
-});  
+  readerPresenceChannel.subscribe(async status=>{  
+    if(status === "SUBSCRIBED"){  
+      await readerPresenceChannel.track({  
+        viewer_id: readerViewerId,  
+        book: book.name,  
+        online_at: new Date().toISOString()  
+      });  
+    }  
+  });  
 }  
 
 async function stopReaderPresence(){  
-if(readerPresenceChannel && supabaseClient){  
-try{ await readerPresenceChannel.untrack(); }catch(e){}  
-try{ await supabaseClient.removeChannel(readerPresenceChannel); }catch(e){}  
-}  
-readerPresenceChannel = null;  
-setReaderViewerCount(0);  
+  if(readerPresenceChannel && supabaseClient){  
+    try{ await readerPresenceChannel.untrack(); }catch(e){}  
+    try{ await supabaseClient.removeChannel(readerPresenceChannel); }catch(e){}  
+  }  
+  readerPresenceChannel = null;  
+  setReaderViewerCount(0);  
 }  
 
-/* ==================================================  
-   OPEN PDF READER (ALL PAGES CONTINUOUS)  
-================================================== */  
+/* PDF READER FULL SCREEN */  
 async function openReader(bookIndex){  
-const book = allBooks[bookIndex];  
-if(!book)return;  
+  const book = allBooks[bookIndex];  
+  if(!book) return;  
 
-isRenderingPdf = true;  
-document.getElementById("readerModal").style.display = "flex";  
-document.getElementById("readerTitle").textContent = removePdfExtension(book.name);  
-const content = document.getElementById("readerContent");  
-content.innerHTML = `<div id="readerLoading">📖 Loading complete book...</div>`;  
-document.getElementById("readerPage").textContent = "Loading...";  
+  isRenderingPdf = true;  
+  document.getElementById("readerModal").style.display = "flex";  
+  document.getElementById("readerTitle").textContent = removePdfExtension(book.name);  
+  const content = document.getElementById("readerContent");  
+  content.innerHTML = `<div id="readerLoading">📖 Loading complete book...</div>`;  
+  document.getElementById("readerPage").textContent = "Loading...";  
 
-startReaderPresence(book);  
+  startReaderPresence(book);  
 
-try{  
-readerPdf = await pdfjsLib.getDocument({url:book.download_url, withCredentials:false}).promise;  
-document.getElementById("readerPage").textContent = `Total Pages: ${readerPdf.numPages}`;  
-content.innerHTML = "";  
+  try{  
+    readerPdf = await pdfjsLib.getDocument({url:book.download_url, withCredentials:false}).promise;  
+    document.getElementById("readerPage").textContent = `Total Pages: ${readerPdf.numPages}`;  
+    content.innerHTML = "";  
 
-const availableWidth = content.clientWidth - 40;  
+    const availableWidth = content.clientWidth - 40;  
 
-for(let pageNum = 1; pageNum <= readerPdf.numPages; pageNum++){  
-if(!isRenderingPdf) break;  
+    for(let pageNum = 1; pageNum <= readerPdf.numPages; pageNum++){  
+      if(!isRenderingPdf) break;  
 
-const page = await readerPdf.getPage(pageNum);  
-const base = page.getViewport({scale:1});  
-let scale = 1.35;  
-if(base.width * scale > availableWidth){  
-scale = availableWidth / base.width;  
-}  
-scale = Math.max(scale, 0.75);  
+      const page = await readerPdf.getPage(pageNum);  
+      const base = page.getViewport({scale:1});  
+      let scale = 1.35;  
+      if(base.width * scale > availableWidth){  
+        scale = availableWidth / base.width;  
+      }  
+      scale = Math.max(scale, 0.75);  
 
-const viewport = page.getViewport({scale});  
-const canvas = document.createElement("canvas");  
-canvas.className = "reader-page-canvas";  
-canvas.width = viewport.width;  
-canvas.height = viewport.height;  
+      const viewport = page.getViewport({scale});  
+      const canvas = document.createElement("canvas");  
+      canvas.className = "reader-page-canvas";  
+      canvas.width = viewport.width;  
+      canvas.height = viewport.height;  
 
-const context = canvas.getContext("2d");  
-content.appendChild(canvas);  
+      const context = canvas.getContext("2d");  
+      content.appendChild(canvas);  
 
-await page.render({canvasContext:context, viewport}).promise;  
-}  
-
-}catch(error){  
-console.error(error);  
-content.innerHTML = `<div id="readerLoading" style="color:#ff6b6b">❌ PDF open nahi ho saki.</div>`;  
-}  
+      await page.render({canvasContext:context, viewport}).promise;  
+    }  
+  }catch(error){  
+    console.error(error);  
+    content.innerHTML = `<div id="readerLoading" style="color:#ff6b6b">❌ PDF open nahi ho saki.</div>`;  
+  }  
 }  
 
 function closeReader(){  
-isRenderingPdf = false;  
-stopReaderPresence();  
-document.getElementById("readerModal").style.display = "none";  
-readerPdf = null;  
-const content = document.getElementById("readerContent");  
-if(content) content.innerHTML = "";  
-window.history.replaceState({}, document.title, window.location.pathname);  
+  isRenderingPdf = false;  
+  stopReaderPresence();  
+  document.getElementById("readerModal").style.display = "none";  
+  readerPdf = null;  
+  const content = document.getElementById("readerContent");  
+  if(content) content.innerHTML = "";  
 }  
 
-/* ==================================================  
-   CLICK OUTSIDE MODALS  
-================================================== */  
-document.getElementById("detailsModal").addEventListener("click", function(event){  
-if(event.target === this) closeBookDetails();  
-});  
-
+/* EVENTS */  
 document.getElementById("reviewModal").addEventListener("click", function(event){  
-if(event.target === this) closeReviewModal();  
-});  
-
-document.getElementById("commentsModal").addEventListener("click", function(event){  
-if(event.target === this) closeComments();  
+  if(event.target === this) closeReviewModal();  
 });  
 
 document.getElementById("authModal").addEventListener("click", function(event){  
-if(event.target === this) closeAuth();  
+  if(event.target === this) closeAuth();  
 });  
 
 document.addEventListener("click", function(event){  
-const wrapper = document.querySelector(".help-wrapper");  
-const menu = document.getElementById("helpMenu");  
-if(wrapper && !wrapper.contains(event.target)){  
-menu.style.display = "none";  
-}  
+  const wrapper = document.querySelector(".help-wrapper");  
+  const menu = document.getElementById("helpMenu");  
+  if(wrapper && !wrapper.contains(event.target)){  
+    menu.style.display = "none";  
+  }  
 });  
 
-/* ==================================================  
-   KEYBOARD  
-================================================== */  
 document.addEventListener("keydown", event=>{  
-const reader = document.getElementById("readerModal");  
-if(reader.style.display !== "flex") return;  
-if(event.key === "Escape") closeReader();  
+  const reader = document.getElementById("readerModal");  
+  if(reader.style.display !== "flex") return;  
+  if(event.key === "Escape") closeReader();  
 });  
 
-/* ==================================================  
-   START  
-================================================== */  
+/* INIT */  
 initializeSupabase();  
 loadBooks();  
 loadReviews();  
 checkAuth();  
 if(supabaseClient){  
-supabaseClient.auth.onAuthStateChange((event,session)=>{  
-updateAuthUI(session);  
-});  
+  supabaseClient.auth.onAuthStateChange((event, session)=>{  
+    updateAuthUI(session);  
+  });  
 }  
 </script>  
 </body>  
