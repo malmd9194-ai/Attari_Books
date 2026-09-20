@@ -10,5 +10,4 @@ Attari Books is a digital library where readers can read and download books.
 - 📱 Mobile-friendly design
 
 © 2026 Attari Books — All Rights Reserved
-
-**Developed and Created by Abdul Malek Attari.**
+Developed and Created by Abdul Malek Attari.
