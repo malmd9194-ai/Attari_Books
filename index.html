@@ -986,37 +986,51 @@ function scrollToBooks(){
   }
 }
 
-/* DUAL-LOCATION BOOK LOADER (Folder & Root Auto-Detect) */
+/* RELIABLE ROOT & FOLDER BOOK LOADER */
 async function loadBooks(){  
   const status = document.getElementById("status");  
   status.textContent = "📚 Loading books...";  
 
   try{  
-    let url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/books?ref=${GITHUB_BRANCH}`;  
+    // 1. Direct fetch from Repo Root (contents/)
+    let url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;  
     let response = await fetch(url);  
     let files = [];
 
     if(response.ok){
       files = await response.json();
-    } else {
-      url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
-      response = await fetch(url);
-      if(response.ok){
-        files = await response.json();
+      if(Array.isArray(files)){
+        allBooks = files  
+          .filter(file => file.type === "file" && file.name.toLowerCase().endsWith(".pdf"))  
+          .map(file => ({  
+            name: file.name,  
+            path: file.path || file.name,
+            download_url: file.download_url,  
+            html_url: file.html_url  
+          }));
       }
     }
 
-    if(Array.isArray(files) && files.length > 0){
-      allBooks = files  
-        .filter(file => file.type === "file" && file.name.toLowerCase().endsWith(".pdf"))  
-        .map(file => ({  
-          name: file.name,  
-          path: file.path || file.name,
-          download_url: file.download_url,  
-          html_url: file.html_url  
-        }));  
+    // 2. Agar root me nahi mili, tab "books" folder me dekhe
+    if(!allBooks.length){
+      url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/books?ref=${GITHUB_BRANCH}`;
+      response = await fetch(url);
+      if(response.ok){
+        files = await response.json();
+        if(Array.isArray(files)){
+          allBooks = files  
+            .filter(file => file.type === "file" && file.name.toLowerCase().endsWith(".pdf"))  
+            .map(file => ({  
+              name: file.name,  
+              path: file.path || file.name,
+              download_url: file.download_url,  
+              html_url: file.html_url  
+            }));
+        }
+      }
     }
 
+    // 3. Fallback Git Tree API agar GitHub API limit hit ho jaye
     if(!allBooks.length){
       const treeUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`;
       const treeRes = await fetch(treeUrl);
@@ -1621,7 +1635,7 @@ async function stopReaderPresence(){
   setReaderViewerCount(0);  
 }  
 
-/* PDF READER FULL SCREEN (VIEWS INCREMENT HAPPENS ONLY ON READING) */  
+/* PDF READER FULL SCREEN */  
 async function openReader(bookIndex){  
   const book = allBooks[bookIndex];  
   if(!book) return;  
