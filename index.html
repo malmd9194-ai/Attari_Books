@@ -18,43 +18,54 @@ color:#222;
 header{  
 background:#111;  
 color:#fff;  
-padding:14px 5%;  
+padding:12px 5%;  
 display:flex;  
 align-items:center;  
 justify-content:space-between;  
-gap:10px;  
-flex-wrap:wrap;  
+gap:12px;  
 position:sticky;
 top:0;
 z-index:1000;
 }  
+
+.header-left{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+/* 3-LINE HAMBURGER ICON */
+.menu-toggle-btn{
+background:transparent;
+border:0;
+color:#fff;
+font-size:26px;
+cursor:pointer;
+padding:4px 8px;
+border-radius:6px;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:background .2s;
+}
+
+.menu-toggle-btn:hover{
+background:#333;
+}
   
 .logo{  
-font-size:24px;  
+font-size:22px;  
 font-weight:bold;  
 cursor:pointer;
+display:flex;
+align-items:center;
+gap:6px;
 }  
   
 nav{  
 display:flex;  
-gap:6px;  
+gap:8px;  
 align-items:center;  
-flex-wrap:wrap;  
-}  
-  
-nav a,nav button{  
-border:0;  
-background:transparent;  
-color:#fff;  
-padding:9px 11px;  
-border-radius:7px;  
-cursor:pointer;  
-text-decoration:none;  
-font-size:15px;  
-}  
-  
-nav a:hover,nav button:hover{  
-background:#333;  
 }  
 
 .google-auth-nav-btn{
@@ -64,6 +75,11 @@ display:inline-flex;
 align-items:center;
 gap:8px;
 font-weight:bold;
+border:0;
+padding:8px 14px;
+border-radius:7px;
+cursor:pointer;
+font-size:14px;
 }
 
 .profile-pill{
@@ -88,7 +104,116 @@ object-fit:cover;
 .logout-btn{  
 background:#d9534f!important;  
 color:#fff!important;  
+border:0;
+padding:8px 12px;
+border-radius:7px;
+cursor:pointer;
+font-size:14px;
 }  
+
+/* SLIDE-OUT SIDEBAR DRAWER */
+.sidebar-overlay{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+z-index:1900;
+}
+
+.sidebar-menu{
+position:fixed;
+top:0;
+left:-290px;
+width:280px;
+height:100%;
+background:#181818;
+color:#fff;
+z-index:2000;
+display:flex;
+flex-direction:column;
+box-shadow:4px 0 20px rgba(0,0,0,.5);
+transition:left .3s cubic-bezier(0.4, 0, 0.2, 1);
+overflow-y:auto;
+}
+
+.sidebar-menu.active{
+left:0;
+}
+
+.sidebar-header{
+padding:18px;
+background:#111;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid #2a2a2a;
+}
+
+.sidebar-header h3{
+font-size:18px;
+font-weight:bold;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.sidebar-close-btn{
+background:none;
+border:0;
+color:#aaa;
+font-size:26px;
+cursor:pointer;
+padding:0 4px;
+}
+
+.sidebar-close-btn:hover{
+color:#fff;
+}
+
+.sidebar-content{
+padding:14px;
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.sidebar-section-title{
+font-size:11px;
+text-transform:uppercase;
+color:#888;
+font-weight:bold;
+margin:14px 8px 6px;
+letter-spacing:1px;
+}
+
+.sidebar-link{
+display:flex;
+align-items:center;
+gap:12px;
+color:#ddd;
+padding:12px 14px;
+border-radius:8px;
+text-decoration:none;
+font-size:15px;
+font-weight:500;
+transition:background .2s, color .2s;
+cursor:pointer;
+border:0;
+background:transparent;
+width:100%;
+text-align:left;
+}
+
+.sidebar-link:hover{
+background:#262626;
+color:#fff;
+}
+
+.sidebar-link.social-yt:hover{color:#ff4d4d;}
+.sidebar-link.social-fb:hover{color:#3b82f6;}
+.sidebar-link.social-ig:hover{color:#e1306c;}
+.sidebar-link.social-wa:hover{color:#25d366;}
+.sidebar-link.social-tg:hover{color:#38bdf8;}
   
 .hero{  
 min-height:320px;  
@@ -219,9 +344,7 @@ font-size:14px;
 margin-top:1px;  
 }  
 
-/* =========================  
-   DEDICATED BOOK PAGE VIEW  
-========================= */  
+/* DEDICATED BOOK PAGE VIEW */
 #bookDetailsPage{
 display:none;
 max-width:760px;
@@ -534,41 +657,6 @@ font-size:16px;
 cursor:pointer;  
 }  
 
-/* DROPDOWNS: HELP & SOCIAL MEDIA */  
-.dropdown-wrapper{  
-position:relative;  
-}  
-  
-.dropdown-menu{  
-display:none;  
-position:absolute;  
-right:0;  
-top:44px;  
-background:#fff;  
-min-width:210px;  
-padding:8px;  
-border-radius:9px;  
-box-shadow:0 5px 20px rgba(0,0,0,.25);  
-z-index:1100;  
-}  
-  
-.dropdown-menu a{  
-display:flex;  
-align-items:center;
-gap:10px;
-color:#222;  
-padding:10px 12px;  
-text-decoration:none;  
-border-radius:6px;  
-font-size:14px;
-font-weight:500;
-}  
-  
-.dropdown-menu a:hover{  
-background:#f1f5f9;  
-color:#000;
-}  
-
 /* PDF READER */  
 .reader-modal{  
 display:none;  
@@ -658,10 +746,7 @@ margin-top:30px;
 }  
   
 @media(max-width:600px){  
-header{justify-content:center;}  
-.logo{width:100%;text-align:center;}  
-nav{justify-content:center;}  
-.hero h1{font-size:34px;}  
+.hero h1{font-size:32px;}  
 .books-grid{gap:10px;}  
 .cover-box{height:240px;}  
 .book-info{padding:9px;}  
@@ -672,48 +757,53 @@ nav{justify-content:center;}
 </head>  
 <body>  
 
+<!-- SIDEBAR OVERLAY & MENU -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar-menu" id="sidebarMenu">
+  <div class="sidebar-header">
+    <h3>📚 Attari Books</h3>
+    <button class="sidebar-close-btn" onclick="closeSidebar()">✕</button>
+  </div>
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Navigation</div>
+    <button class="sidebar-link" onclick="goBackToHome(); closeSidebar();">🏠 Home Page</button>
+    <button class="sidebar-link" onclick="scrollToBooks(); closeSidebar();">📖 All Books</button>
+
+    <div class="sidebar-section-title">Social Media</div>
+    <a class="sidebar-link social-yt" href="https://youtube.com/@abdul_malek1?si=8BBoVtZJTA4iJ8Vf" target="_blank">🔴 YouTube</a>
+    <a class="sidebar-link social-fb" href="https://www.facebook.com/share/1Ebegj8ZgN/" target="_blank">🔵 Facebook</a>
+    <a class="sidebar-link social-ig" href="https://instagram.com/abdul_malek0001?igsh=MXN2bTNzdDVqM3FhMA==" target="_blank">🟣 Instagram</a>
+    <a class="sidebar-link social-wa" href="https://whatsapp.com/channel/0029VaIPPUhChq6GnO1zAU1l" target="_blank">🟢 WhatsApp Channel</a>
+    <a class="sidebar-link social-tg" href="https://t.me/Abdul_Malek001" target="_blank">✈️ Telegram</a>
+
+    <div class="sidebar-section-title">Help & Support</div>
+    <a class="sidebar-link" href="https://wa.me/919534646778" target="_blank">💬 WhatsApp Support</a>
+    <a class="sidebar-link" href="mailto:mdmalek26234@gmail.com">✉️ Gmail / Email</a>
+  </div>
+</aside>
+
 <header>  
-<div class="logo" onclick="goBackToHome()">📚 Attari Books</div>  
-<nav>  
-<!-- 1. HOME -->
-<a href="javascript:void(0)" onclick="goBackToHome()">Home</a>
+  <!-- LEFT: 3-LINE MENU + LOGO -->
+  <div class="header-left">
+    <button class="menu-toggle-btn" onclick="openSidebar()" title="Open Menu">☰</button>
+    <div class="logo" onclick="goBackToHome()">📚 Attari Books</div>  
+  </div>
 
-<!-- 2. BOOKS -->
-<a href="javascript:void(0)" onclick="scrollToBooks()">Books</a>
+  <!-- RIGHT: SIGN IN / PROFILE -->
+  <nav>  
+    <div id="userProfile" class="profile-pill" style="display:none;">
+      <img id="userAvatar" src="" alt="Profile">
+      <span id="userName">User</span>
+    </div>
 
-<!-- 3. SOCIAL MEDIA DROPDOWN -->
-<div class="dropdown-wrapper">
-<button onclick="toggleDropdown('socialMenu')">Social Media ▾</button>
-<div class="dropdown-menu" id="socialMenu">  
-<a href="https://youtube.com/@abdul_malek1?si=8BBoVtZJTA4iJ8Vf" target="_blank">🔴 YouTube</a>  
-<a href="https://www.facebook.com/share/1Ebegj8ZgN/" target="_blank">🔵 Facebook</a>  
-<a href="https://instagram.com/abdul_malek0001?igsh=MXN2bTNzdDVqM3FhMA==" target="_blank">🟣 Instagram</a>  
-<a href="https://whatsapp.com/channel/0029VaIPPUhChq6GnO1zAU1l" target="_blank">🟢 WhatsApp Channel</a>  
-<a href="https://t.me/Abdul_Malek001" target="_blank">✈️ Telegram</a>  
-</div>  
-</div>
+    <button class="google-auth-nav-btn" id="loginBtn" onclick="openAuth()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Sign In
+    </button>
 
-<!-- 4. HELP DROPDOWN -->
-<div class="dropdown-wrapper">  
-<button onclick="toggleDropdown('helpMenu')">Help ▾</button>
-<div class="dropdown-menu" id="helpMenu">  
-<a href="https://wa.me/919534646778" target="_blank">💬 WhatsApp Support</a>  
-<a href="mailto:mdmalek26234@gmail.com">✉️ Gmail / Email</a>  
-</div>  
-</div>  
-
-<div id="userProfile" class="profile-pill" style="display:none;">
-<img id="userAvatar" src="" alt="Profile">
-<span id="userName">User</span>
-</div>
-
-<button class="google-auth-nav-btn" id="loginBtn" onclick="openAuth()">
-<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-Sign In
-</button>
-
-<button class="auth-btn logout-btn" id="logoutBtn" onclick="logout()" style="display:none">Logout</button>
-</nav>  
+    <button class="auth-btn logout-btn" id="logoutBtn" onclick="logout()" style="display:none">Logout</button>
+  </nav>  
 </header>  
 
 <!-- MAIN HOME CONTAINER -->
@@ -875,7 +965,17 @@ function escapeHTML(text){
   return div.innerHTML;  
 }  
 
-/* NAVIGATION HELPERS */
+/* SIDEBAR DRAWER CONTROLS */
+function openSidebar(){
+  document.getElementById("sidebarMenu").classList.add("active");
+  document.getElementById("sidebarOverlay").style.display = "block";
+}
+
+function closeSidebar(){
+  document.getElementById("sidebarMenu").classList.remove("active");
+  document.getElementById("sidebarOverlay").style.display = "none";
+}
+
 function scrollToBooks(){
   if(document.getElementById("bookDetailsPage").style.display === "block"){
     goBackToHome();
@@ -883,15 +983,6 @@ function scrollToBooks(){
   const el = document.getElementById("books");
   if(el){
     el.scrollIntoView({behavior: "smooth"});
-  }
-}
-
-function toggleDropdown(menuId){
-  const target = document.getElementById(menuId);
-  const isOpen = target.style.display === "block";
-  document.querySelectorAll(".dropdown-menu").forEach(m => m.style.display = "none");
-  if(!isOpen){
-    target.style.display = "block";
   }
 }
 
@@ -1590,13 +1681,7 @@ function closeReader(){
   if(content) content.innerHTML = "";  
 }  
 
-/* EVENTS: Close dropdowns when clicking outside */  
-document.addEventListener("click", function(event){  
-  if(!event.target.closest(".dropdown-wrapper")){  
-    document.querySelectorAll(".dropdown-menu").forEach(m => m.style.display = "none");  
-  }  
-});  
-
+/* EVENTS */  
 document.getElementById("reviewModal").addEventListener("click", function(event){  
   if(event.target === this) closeReviewModal();  
 });  
