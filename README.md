@@ -24,14 +24,7 @@ Attari Books is a modern digital library web app where readers can explore, read
 - **Auth & Database:** Supabase
 - **Reviews & Storage:** Google Apps Script / Google Sheets
 - **Hosting:** Vercel
-
----
-
-## 📞 Support & Contact
-
-- **WhatsApp:** [+91 9534646778](https://wa.me/919534646778)
-- **Email:** mdmalek26234@gmail.com
-
+  
 ---
 
 © 2026 Attari Books — All Rights Reserved.
