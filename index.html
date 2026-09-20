@@ -24,6 +24,9 @@ align-items:center;
 justify-content:space-between;  
 gap:10px;  
 flex-wrap:wrap;  
+position:sticky;
+top:0;
+z-index:1000;
 }  
   
 .logo{  
@@ -531,34 +534,39 @@ font-size:16px;
 cursor:pointer;  
 }  
 
-/* HELP */  
-.help-wrapper{  
+/* DROPDOWNS: HELP & SOCIAL MEDIA */  
+.dropdown-wrapper{  
 position:relative;  
 }  
   
-.help-menu{  
+.dropdown-menu{  
 display:none;  
 position:absolute;  
 right:0;  
 top:44px;  
 background:#fff;  
-min-width:190px;  
+min-width:210px;  
 padding:8px;  
 border-radius:9px;  
 box-shadow:0 5px 20px rgba(0,0,0,.25);  
-z-index:100;  
+z-index:1100;  
 }  
   
-.help-menu a{  
-display:block;  
+.dropdown-menu a{  
+display:flex;  
+align-items:center;
+gap:10px;
 color:#222;  
-padding:10px;  
+padding:10px 12px;  
 text-decoration:none;  
 border-radius:6px;  
+font-size:14px;
+font-weight:500;
 }  
   
-.help-menu a:hover{  
-background:#eee;  
+.dropdown-menu a:hover{  
+background:#f1f5f9;  
+color:#000;
 }  
 
 /* PDF READER */  
@@ -667,12 +675,29 @@ nav{justify-content:center;}
 <header>  
 <div class="logo" onclick="goBackToHome()">📚 Attari Books</div>  
 <nav>  
+<!-- 1. HOME -->
 <a href="javascript:void(0)" onclick="goBackToHome()">Home</a>
 
-<div class="help-wrapper">  
-<button onclick="toggleHelp()">Help</button>
-<div class="help-menu" id="helpMenu">  
-<a href="https://wa.me/919534646778" target="_blank">💬 WhatsApp</a>  
+<!-- 2. BOOKS -->
+<a href="javascript:void(0)" onclick="scrollToBooks()">Books</a>
+
+<!-- 3. SOCIAL MEDIA DROPDOWN -->
+<div class="dropdown-wrapper">
+<button onclick="toggleDropdown('socialMenu')">Social Media ▾</button>
+<div class="dropdown-menu" id="socialMenu">  
+<a href="https://youtube.com/@abdul_malek1?si=8BBoVtZJTA4iJ8Vf" target="_blank">🔴 YouTube</a>  
+<a href="https://www.facebook.com/share/1Ebegj8ZgN/" target="_blank">🔵 Facebook</a>  
+<a href="https://instagram.com/abdul_malek0001?igsh=MXN2bTNzdDVqM3FhMA==" target="_blank">🟣 Instagram</a>  
+<a href="https://whatsapp.com/channel/0029VaIPPUhChq6GnO1zAU1l" target="_blank">🟢 WhatsApp Channel</a>  
+<a href="https://t.me/Abdul_Malek001" target="_blank">✈️ Telegram</a>  
+</div>  
+</div>
+
+<!-- 4. HELP DROPDOWN -->
+<div class="dropdown-wrapper">  
+<button onclick="toggleDropdown('helpMenu')">Help ▾</button>
+<div class="dropdown-menu" id="helpMenu">  
+<a href="https://wa.me/919534646778" target="_blank">💬 WhatsApp Support</a>  
 <a href="mailto:mdmalek26234@gmail.com">✉️ Gmail / Email</a>  
 </div>  
 </div>  
@@ -850,13 +875,32 @@ function escapeHTML(text){
   return div.innerHTML;  
 }  
 
+/* NAVIGATION HELPERS */
+function scrollToBooks(){
+  if(document.getElementById("bookDetailsPage").style.display === "block"){
+    goBackToHome();
+  }
+  const el = document.getElementById("books");
+  if(el){
+    el.scrollIntoView({behavior: "smooth"});
+  }
+}
+
+function toggleDropdown(menuId){
+  const target = document.getElementById(menuId);
+  const isOpen = target.style.display === "block";
+  document.querySelectorAll(".dropdown-menu").forEach(m => m.style.display = "none");
+  if(!isOpen){
+    target.style.display = "block";
+  }
+}
+
 /* DUAL-LOCATION BOOK LOADER (Folder & Root Auto-Detect) */
 async function loadBooks(){  
   const status = document.getElementById("status");  
   status.textContent = "📚 Loading books...";  
 
   try{  
-    // 1. Pehle "books" folder me check karein
     let url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/books?ref=${GITHUB_BRANCH}`;  
     let response = await fetch(url);  
     let files = [];
@@ -864,7 +908,6 @@ async function loadBooks(){
     if(response.ok){
       files = await response.json();
     } else {
-      // 2. Agar "books" folder nahi mila toh seedha root repo check karein
       url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
       response = await fetch(url);
       if(response.ok){
@@ -883,7 +926,6 @@ async function loadBooks(){
         }));  
     }
 
-    // 3. Fallback: Git Tree API (Agar dono Contents API rate-limit ho jayein)
     if(!allBooks.length){
       const treeUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`;
       const treeRes = await fetch(treeUrl);
@@ -1427,11 +1469,6 @@ async function checkAuth(){
   updateAuthUI(data?.session || null);  
 }  
 
-function toggleHelp(){  
-  const menu = document.getElementById("helpMenu");  
-  menu.style.display = menu.style.display === "block" ? "none" : "block";  
-}  
-
 /* PRESENCE & LIVE VIEWERS */  
 function getReaderViewerId(){  
   try{  
@@ -1493,12 +1530,11 @@ async function stopReaderPresence(){
   setReaderViewerCount(0);  
 }  
 
-/* PDF READER FULL SCREEN (VIEWS INCREMENT HAPPENS ONLY HERE) */  
+/* PDF READER FULL SCREEN (VIEWS INCREMENT HAPPENS ONLY ON READING) */  
 async function openReader(bookIndex){  
   const book = allBooks[bookIndex];  
   if(!book) return;  
 
-  // Book read hone par view count increase hoga
   incrementBookView(book.name);
 
   isRenderingPdf = true;  
@@ -1554,21 +1590,19 @@ function closeReader(){
   if(content) content.innerHTML = "";  
 }  
 
-/* EVENTS */  
+/* EVENTS: Close dropdowns when clicking outside */  
+document.addEventListener("click", function(event){  
+  if(!event.target.closest(".dropdown-wrapper")){  
+    document.querySelectorAll(".dropdown-menu").forEach(m => m.style.display = "none");  
+  }  
+});  
+
 document.getElementById("reviewModal").addEventListener("click", function(event){  
   if(event.target === this) closeReviewModal();  
 });  
 
 document.getElementById("authModal").addEventListener("click", function(event){  
   if(event.target === this) closeAuth();  
-});  
-
-document.addEventListener("click", function(event){  
-  const wrapper = document.querySelector(".help-wrapper");  
-  const menu = document.getElementById("helpMenu");  
-  if(wrapper && !wrapper.contains(event.target)){  
-    menu.style.display = "none";  
-  }  
 });  
 
 document.addEventListener("keydown", event=>{  
