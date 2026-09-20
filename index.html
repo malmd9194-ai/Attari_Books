@@ -8,100 +8,756 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  
 <style>  
 *{box-sizing:border-box;margin:0;padding:0}  
-body{font-family:Arial,sans-serif;background:#f4f6f8;color:#222;}  
-header{background:#111;color:#fff;padding:12px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:1000;}  
-.header-left{display:flex;align-items:center;gap:14px;}  
-.menu-toggle-btn{background:transparent;border:0;color:#fff;font-size:26px;cursor:pointer;padding:4px 8px;border-radius:6px;display:flex;align-items:center;justify-content:center;}  
-.menu-toggle-btn:hover{background:#333;}  
-.logo{font-size:22px;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:6px;}  
-nav{display:flex;gap:8px;align-items:center;}  
-.google-auth-nav-btn{background:#fff!important;color:#222!important;display:inline-flex;align-items:center;gap:8px;font-weight:bold;border:0;padding:8px 14px;border-radius:7px;cursor:pointer;font-size:14px;}  
-.profile-pill{display:inline-flex;align-items:center;gap:8px;background:#222;padding:4px 10px 4px 6px;border-radius:20px;border:1px solid #444;font-size:14px;color:#fff;}  
-.profile-pill img{width:28px;height:28px;border-radius:50%;object-fit:cover;}  
-.logout-btn{background:#d9534f!important;color:#fff!important;border:0;padding:8px 12px;border-radius:7px;cursor:pointer;font-size:14px;}  
+  
+body{  
+font-family:Arial,sans-serif;  
+background:#f4f6f8;  
+color:#222;  
+}  
+  
+header{  
+background:#111;  
+color:#fff;  
+padding:12px 5%;  
+display:flex;  
+align-items:center;  
+justify-content:space-between;  
+gap:12px;  
+position:sticky;
+top:0;
+z-index:1000;
+}  
 
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1900;}  
-.sidebar-menu{position:fixed;top:0;left:-290px;width:280px;height:100%;background:#181818;color:#fff;z-index:2000;display:flex;flex-direction:column;box-shadow:4px 0 20px rgba(0,0,0,.5);transition:left .3s cubic-bezier(0.4, 0, 0.2, 1);overflow-y:auto;}  
-.sidebar-menu.active{left:0;}  
-.sidebar-header{padding:18px;background:#111;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a2a2a;}  
-.sidebar-header h3{font-size:18px;font-weight:bold;}  
-.sidebar-close-btn{background:none;border:0;color:#aaa;font-size:26px;cursor:pointer;padding:0 4px;}  
-.sidebar-content{padding:14px;display:flex;flex-direction:column;gap:6px;}  
-.sidebar-section-title{font-size:11px;text-transform:uppercase;color:#888;font-weight:bold;margin:14px 8px 6px;letter-spacing:1px;}  
-.sidebar-link{display:flex;align-items:center;gap:12px;color:#ddd;padding:12px 14px;border-radius:8px;text-decoration:none;font-size:15px;font-weight:500;cursor:pointer;border:0;background:transparent;width:100%;text-align:left;}  
-.sidebar-link:hover{background:#262626;color:#fff;}  
+.header-left{
+display:flex;
+align-items:center;
+gap:14px;
+}
 
-.hero{min-height:300px;padding:50px 20px;text-align:center;color:#fff;background:linear-gradient(rgba(10,10,10,.75),rgba(10,10,10,.75)),url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1600&q=80") center/cover;}  
-.hero h1{font-size:38px;margin-bottom:10px;}  
-.hero p{font-size:17px;margin-bottom:20px;}  
-#searchBox{width:min(680px,92%);padding:14px 20px;border:0;border-radius:35px;outline:0;font-size:16px;}  
+/* 3-LINE HAMBURGER ICON */
+.menu-toggle-btn{
+background:transparent;
+border:0;
+color:#fff;
+font-size:26px;
+cursor:pointer;
+padding:4px 8px;
+border-radius:6px;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:background .2s;
+}
 
-.books-section{padding:30px 5%;}  
-.section-title{text-align:center;font-size:28px;margin-bottom:20px;}  
-#status{text-align:center;color:#555;margin:15px;font-size:16px;min-height:24px;}  
-.books-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:1100px;margin:auto;}  
-.book-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;transition:transform .2s;}  
-.book-card:hover{transform:translateY(-3px);}  
-.cover-box{height:280px;background:#e9ecef;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}  
-.cover-box canvas{max-width:100%;max-height:100%;object-fit:contain;}  
-.cover-loading{color:#777;font-size:14px;}  
-.book-info{padding:12px;}  
-.book-title{font-size:16px;line-height:1.4;margin-bottom:6px;word-break:break-word;font-weight:bold;}  
-.book-stats{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding-top:8px;}  
-.book-stat{font-size:20px;min-width:35px;text-align:center;user-select:none;}  
-.book-stat small{display:block;font-size:13px;}  
+.menu-toggle-btn:hover{
+background:#333;
+}
+  
+.logo{  
+font-size:22px;  
+font-weight:bold;  
+cursor:pointer;
+display:flex;
+align-items:center;
+gap:6px;
+}  
+  
+nav{  
+display:flex;  
+gap:8px;  
+align-items:center;  
+}  
 
-#bookDetailsPage{display:none;max-width:760px;margin:30px auto;padding:0 15px 50px;}  
-.back-btn{background:#fff;border:1px solid #ddd;padding:10px 18px;border-radius:25px;font-weight:bold;cursor:pointer;display:inline-flex;align-items:center;gap:8px;margin-bottom:20px;}  
-.book-page-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.15);}  
-.book-page-cover{background:#f9f9f9;padding:25px 15px;display:flex;justify-content:center;align-items:center;border-bottom:1px solid #eee;}  
-.book-page-cover canvas{max-width:100%;max-height:480px;box-shadow:0 4px 12px rgba(0,0,0,.15);border-radius:6px;}  
-.book-page-body{padding:24px;}  
-.book-page-title{font-size:24px;font-weight:bold;line-height:1.4;word-break:break-word;margin-bottom:18px;}  
-.details-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:25px;}  
-.details-action{min-height:60px;border:0;border-radius:10px;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;}  
-.read-action{background:#2864df} .download-action{background:#16a34a} .share-action{background:#7c3aed} .rate-action{background:#f59e0b;font-size:15px;} .views-action{background:#555;cursor:default}  
+.google-auth-nav-btn{
+background:#fff!important;
+color:#222!important;
+display:inline-flex;
+align-items:center;
+gap:8px;
+font-weight:bold;
+border:0;
+padding:8px 14px;
+border-radius:7px;
+cursor:pointer;
+font-size:14px;
+}
 
-.page-reviews-overview{background:#fff8e6;border:1px solid #f6e0b5;border-radius:10px;padding:16px 20px;margin-bottom:25px;display:flex;align-items:center;gap:15px;}  
-.rating-big-num{font-size:32px;font-weight:bold;color:#d97706;}  
-.rating-stars-display{color:#f59e0b;font-size:20px;}  
-.rating-count-text{font-size:14px;color:#666;}  
-.page-comments-container{border-top:2px solid #eee;padding-top:22px;}  
-.page-comments-title{font-size:19px;font-weight:bold;margin-bottom:15px;}  
-.comments-list{max-height:500px;overflow:auto;}  
-.comment-item{background:#fafafa;border:1px solid #e2e8f0;border-radius:9px;padding:14px;margin-bottom:12px;}  
-.comment-header{display:flex;justify-content:space-between;margin-bottom:6px;}  
-.comment-user-name{font-weight:bold;color:#111;font-size:15px;}  
-.comment-rating{color:#f5b301;font-size:15px;}  
-.comment-text{margin-top:6px;line-height:1.5;color:#333;white-space:pre-wrap;word-break:break-word;}  
-.comment-date{font-size:12px;color:#888;margin-top:8px;}  
+.profile-pill{
+display:inline-flex;
+align-items:center;
+gap:8px;
+background:#222;
+padding:4px 10px 4px 6px;
+border-radius:20px;
+border:1px solid #444;
+font-size:14px;
+color:#fff;
+}
 
-.modal, .review-modal{display:none;position:fixed;inset:0;z-index:1600;background:rgba(0,0,0,.65);align-items:center;justify-content:center;padding:18px;}  
-.modal-box, .review-box{width:min(450px,100%);background:#fff;border-radius:14px;padding:24px;position:relative;}  
-.close-btn{position:absolute;right:14px;top:10px;border:0;background:none;font-size:26px;cursor:pointer;}  
-.google-auth-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;border:1px solid #ddd;padding:12px;border-radius:8px;font-size:15px;font-weight:bold;color:#333;cursor:pointer;margin-top:18px;}  
-.review-stars{display:flex;justify-content:center;gap:6px;margin:16px 0;}  
-.review-star{border:0;background:none;font-size:32px;color:#bbb;cursor:pointer;}  
-.review-star.selected{color:#f5b301;}  
-.review-textarea{width:100%;height:100px;padding:12px;border:1px solid #ccc;border-radius:7px;resize:vertical;font-size:14px;}  
-.submit-review{width:100%;margin-top:12px;padding:12px;border:0;border-radius:7px;background:#198754;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;}  
+.profile-pill img{
+width:28px;
+height:28px;
+border-radius:50%;
+object-fit:cover;
+}  
+  
+.logout-btn{  
+background:#d9534f!important;  
+color:#fff!important;  
+border:0;
+padding:8px 12px;
+border-radius:7px;
+cursor:pointer;
+font-size:14px;
+}  
 
-.reader-modal{display:none;position:fixed;inset:0;z-index:2500;background:#222;flex-direction:column;}  
-.reader-header{background:#111;color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10;}  
-.reader-header button{border:0;background:#fff;color:#111;border-radius:6px;padding:8px 14px;cursor:pointer;font-weight:bold;}  
-.reader-middle{flex:1;text-align:center;overflow:hidden;}  
-.reader-title{font-size:15px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}  
-.reader-viewers{font-size:12px;color:#ccc;}  
-.reader-content{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;padding:20px 10px;gap:18px;}  
-.reader-page-canvas{background:#fff;max-width:100%;height:auto;box-shadow:0 4px 18px rgba(0,0,0,.6);border-radius:4px;}  
-#readerLoading{color:#fff;font-size:17px;text-align:center;padding:20px;}  
+/* SLIDE-OUT SIDEBAR DRAWER */
+.sidebar-overlay{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+z-index:1900;
+}
 
-footer{background:#111;color:#fff;text-align:center;padding:30px 20px;margin-top:40px;line-height:1.6;}  
-@media(max-width:600px){.hero h1{font-size:30px;}.books-grid{gap:10px;}.cover-box{height:220px;}.details-actions{gap:8px;}.details-action{font-size:14px;min-height:55px;}}  
+.sidebar-menu{
+position:fixed;
+top:0;
+left:-290px;
+width:280px;
+height:100%;
+background:#181818;
+color:#fff;
+z-index:2000;
+display:flex;
+flex-direction:column;
+box-shadow:4px 0 20px rgba(0,0,0,.5);
+transition:left .3s cubic-bezier(0.4, 0, 0.2, 1);
+overflow-y:auto;
+}
+
+.sidebar-menu.active{
+left:0;
+}
+
+.sidebar-header{
+padding:18px;
+background:#111;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid #2a2a2a;
+}
+
+.sidebar-header h3{
+font-size:18px;
+font-weight:bold;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.sidebar-close-btn{
+background:none;
+border:0;
+color:#aaa;
+font-size:26px;
+cursor:pointer;
+padding:0 4px;
+}
+
+.sidebar-close-btn:hover{
+color:#fff;
+}
+
+.sidebar-content{
+padding:14px;
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.sidebar-section-title{
+font-size:11px;
+text-transform:uppercase;
+color:#888;
+font-weight:bold;
+margin:14px 8px 6px;
+letter-spacing:1px;
+}
+
+.sidebar-link{
+display:flex;
+align-items:center;
+gap:12px;
+color:#ddd;
+padding:12px 14px;
+border-radius:8px;
+text-decoration:none;
+font-size:15px;
+font-weight:500;
+transition:background .2s, color .2s;
+cursor:pointer;
+border:0;
+background:transparent;
+width:100%;
+text-align:left;
+}
+
+.sidebar-link:hover{
+background:#262626;
+color:#fff;
+}
+
+.sidebar-link.social-yt:hover{color:#ff4d4d;}
+.sidebar-link.social-fb:hover{color:#3b82f6;}
+.sidebar-link.social-ig:hover{color:#e1306c;}
+.sidebar-link.social-wa:hover{color:#25d366;}
+.sidebar-link.social-tg:hover{color:#38bdf8;}
+  
+.hero{  
+min-height:320px;  
+padding:60px 20px;  
+text-align:center;  
+color:#fff;  
+background:  
+linear-gradient(rgba(10,10,10,.75),rgba(10,10,10,.75)),  
+url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1600&q=80")  
+center/cover;  
+}  
+  
+.hero h1{  
+font-size:42px;  
+margin-bottom:12px;  
+}  
+  
+.hero p{  
+font-size:18px;  
+margin-bottom:24px;  
+}  
+  
+#searchBox{  
+width:min(680px,92%);  
+padding:15px 20px;  
+border:0;  
+border-radius:35px;  
+outline:0;  
+font-size:16px;  
+}  
+  
+.books-section{  
+padding:40px 5%;  
+}  
+  
+.section-title{  
+text-align:center;  
+font-size:30px;  
+margin-bottom:25px;  
+}  
+  
+#status{  
+text-align:center;  
+color:#666;  
+margin:15px;  
+font-size: 16px;
+}  
+  
+.books-grid{  
+display:grid;  
+grid-template-columns:repeat(2,minmax(0,1fr));  
+gap:20px;  
+max-width:1100px;  
+margin:auto;  
+}  
+  
+.book-card{  
+background:#fff;  
+border-radius:8px;  
+overflow:hidden;  
+box-shadow:0 2px 8px rgba(0,0,0,.22);  
+cursor:pointer;
+transition:transform .2s;
+}  
+
+.book-card:hover{
+transform:translateY(-3px);
+}  
+  
+.cover-box{  
+height:290px;  
+background:#eee;  
+display:flex;  
+align-items:center;  
+justify-content:center;  
+position:relative;  
+overflow:hidden;  
+}  
+  
+.cover-box canvas{  
+max-width:100%;  
+max-height:100%;  
+object-fit:contain;  
+}  
+  
+.cover-loading{  
+color:#777;  
+font-size:14px;  
+}  
+  
+.book-info{  
+padding:12px;  
+}  
+  
+.book-title{  
+font-size:18px;  
+line-height:1.4;  
+margin-bottom:5px;  
+word-break:break-word;  
+font-weight:bold;
+}  
+  
+.archive-date{  
+font-size:14px;  
+color:#666;  
+margin-bottom:10px;  
+}  
+  
+.book-stats{  
+display:flex;  
+justify-content:space-between;  
+align-items:center;  
+border-top:1px solid #eee;  
+padding-top:8px;  
+}  
+  
+.book-stat{  
+font-size:22px;  
+min-width:40px;  
+text-align:center;  
+user-select:none;  
+pointer-events:none;  
+}  
+  
+.book-stat small{  
+display:block;  
+font-size:14px;  
+margin-top:1px;  
+}  
+
+/* DEDICATED BOOK PAGE VIEW */
+#bookDetailsPage{
+display:none;
+max-width:760px;
+margin:30px auto;
+padding:0 15px 50px;
+}
+
+.back-btn{
+background:#fff;
+border:1px solid #ddd;
+padding:10px 18px;
+border-radius:25px;
+font-weight:bold;
+cursor:pointer;
+display:inline-flex;
+align-items:center;
+gap:8px;
+margin-bottom:20px;
+box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+
+.book-page-card{
+background:#fff;
+border-radius:14px;
+overflow:hidden;
+box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
+
+.book-page-cover{
+background:#f9f9f9;
+padding:25px 15px;
+display:flex;
+justify-content:center;
+align-items:center;
+border-bottom:1px solid #eee;
+}
+
+.book-page-cover canvas{
+max-width:100%;
+max-height:480px;
+box-shadow:0 4px 12px rgba(0,0,0,.15);
+border-radius:6px;
+}
+
+.book-page-body{
+padding:24px;
+}
+
+.book-page-title{
+font-size:26px;
+font-weight:bold;
+line-height:1.4;
+word-break:break-word;
+margin-bottom:6px;
+}
+
+.book-page-archive{
+color:#666;
+font-size:15px;
+margin-bottom:22px;
+}
+
+.details-actions{  
+display:grid;  
+grid-template-columns:1fr 1fr;  
+gap:12px;  
+margin-bottom:25px;
+}  
+  
+.details-action{  
+min-height:65px;  
+border:0;  
+border-radius:10px;  
+color:#fff;  
+font-size:16px;  
+font-weight:bold;  
+cursor:pointer;  
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+padding:10px;
+text-align:center;
+}  
+  
+.read-action{background:#2864df}  
+.download-action{background:#16a34a}  
+.share-action{background:#7c3aed}  
+.rate-action{background:#f59e0b; font-size:15px;}  
+.views-action{background:#555;cursor:default}  
+
+/* RATINGS & COMMENTS SECTION */
+.page-reviews-overview{
+background:#fff8e6;
+border:1px solid #f6e0b5;
+border-radius:10px;
+padding:16px 20px;
+margin-bottom:25px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.rating-score-box{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.rating-big-num{
+font-size:32px;
+font-weight:bold;
+color:#d97706;
+}
+
+.rating-stars-display{
+color:#f59e0b;
+font-size:20px;
+}
+
+.rating-count-text{
+font-size:14px;
+color:#666;
+}
+
+.page-comments-container{
+border-top:2px solid #eee;
+padding-top:22px;
+}
+
+.page-comments-title{
+font-size:20px;
+font-weight:bold;
+margin-bottom:15px;
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.comments-list{  
+max-height:550px;  
+overflow:auto;  
+}  
+  
+.comment-item{  
+background:#fafafa;  
+border:1px solid #e2e8f0;  
+border-radius:9px;  
+padding:14px;  
+margin-bottom:12px;  
+position:relative;
+}  
+
+.comment-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:6px;
+flex-wrap:wrap;
+gap:6px;
+}
+
+.comment-user-name{
+font-weight:bold;
+color:#111;
+font-size:15px;
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.edit-comment-btn{
+background:#f3f4f6;
+border:1px solid #d1d5db;
+color:#374151;
+padding:3px 10px;
+border-radius:6px;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.edit-comment-btn:hover{
+background:#e5e7eb;
+}  
+  
+.comment-rating{  
+color:#f5b301;  
+font-size:16px;  
+}  
+  
+.comment-text{  
+margin-top:6px;  
+white-space:pre-wrap;  
+word-break:break-word;  
+line-height:1.5;  
+color:#333;
+}  
+  
+.comment-date{  
+font-size:12px;  
+color:#888;  
+margin-top:8px;  
+}  
+
+/* MODALS */  
+.modal,  
+.review-modal{  
+display:none;  
+position:fixed;  
+inset:0;  
+z-index:1600;  
+background:rgba(0,0,0,.65);  
+align-items:center;  
+justify-content:center;  
+padding:18px;  
+}  
+  
+.modal-box,  
+.review-box{  
+width:min(460px,100%);  
+background:#fff;  
+border-radius:15px;  
+padding:24px;  
+position:relative;  
+}  
+  
+.close-btn{  
+position:absolute;  
+right:14px;  
+top:10px;  
+border:0;  
+background:none;  
+font-size:28px;  
+cursor:pointer;  
+}  
+
+.google-auth-btn{
+width:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:12px;
+background:#fff;
+border:1px solid #ddd;
+padding:14px;
+border-radius:8px;
+font-size:16px;
+font-weight:bold;
+color:#333;
+cursor:pointer;
+box-shadow:0 2px 6px rgba(0,0,0,.08);
+margin-top:20px;
+}
+
+.auth-desc{
+text-align:center;
+color:#666;
+font-size:14px;
+margin-top:10px;
+line-height:1.4;
+}  
+  
+#authMessage,  
+#reviewMessage{  
+text-align:center;  
+margin-top:14px;  
+}  
+  
+.review-stars{  
+display:flex;  
+justify-content:center;  
+gap:7px;  
+margin:18px 0;  
+}  
+  
+.review-star{  
+border:0;  
+background:none;  
+font-size:35px;  
+color:#bbb;  
+cursor:pointer;  
+}  
+  
+.review-star.selected{  
+color:#f5b301;  
+}  
+  
+.review-textarea{  
+width:100%;  
+height:110px;  
+padding:12px;  
+border:1px solid #ccc;  
+border-radius:7px;  
+resize:vertical;  
+font-size:15px;  
+}  
+  
+.submit-review{  
+width:100%;  
+margin-top:12px;  
+padding:13px;  
+border:0;  
+border-radius:7px;  
+background:#198754;  
+color:#fff;  
+font-size:16px;  
+cursor:pointer;  
+}  
+
+/* PDF READER */  
+.reader-modal{  
+display:none;  
+position:fixed;  
+inset:0;  
+z-index:2500;  
+background:#222;  
+flex-direction:column;  
+}  
+  
+.reader-header{  
+background:#111;  
+color:#fff;  
+padding:10px 16px;  
+display:flex;  
+align-items:center;  
+justify-content:space-between;  
+gap:12px;  
+position:sticky;  
+top:0;  
+z-index:10;  
+}  
+  
+.reader-header button{  
+border:0;  
+background:#fff;  
+color:#111;  
+border-radius:6px;  
+padding:8px 14px;  
+cursor:pointer;  
+font-weight:bold;  
+}  
+  
+.reader-middle{  
+flex:1;  
+min-width:0;  
+text-align:center;  
+}  
+  
+.reader-title{  
+font-size:15px;  
+font-weight:bold;  
+white-space:nowrap;  
+overflow:hidden;  
+text-overflow:ellipsis;  
+}  
+  
+.reader-viewers{  
+font-size:12px;  
+color:#ccc;  
+margin-top:3px;  
+}  
+  
+.reader-content{  
+flex:1;  
+overflow-y:auto;  
+overflow-x:hidden;  
+display:flex;  
+flex-direction:column;  
+align-items:center;  
+padding:20px 10px;  
+gap:18px;  
+-webkit-overflow-scrolling:touch;  
+}  
+  
+.reader-page-canvas{  
+background:#fff;  
+max-width:100%;  
+height:auto;  
+box-shadow:0 4px 18px rgba(0,0,0,.6);  
+border-radius:4px;  
+}  
+  
+#readerLoading{  
+color:#fff;  
+font-size:18px;  
+text-align:center;  
+padding:20px;  
+}  
+  
+footer{  
+background:#111;  
+color:#fff;  
+text-align:center;  
+padding:25px;  
+margin-top:30px;  
+}  
+  
+@media(max-width:600px){  
+.hero h1{font-size:32px;}  
+.books-grid{gap:10px;}  
+.cover-box{height:240px;}  
+.book-info{padding:9px;}  
+.details-actions{gap:8px;}  
+.details-action{font-size:14px;min-height:58px;}  
+}  
 </style>  
 </head>  
 <body>  
 
+<!-- SIDEBAR OVERLAY & MENU -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
 <aside class="sidebar-menu" id="sidebarMenu">
@@ -115,11 +771,11 @@ footer{background:#111;color:#fff;text-align:center;padding:30px 20px;margin-top
     <button class="sidebar-link" onclick="scrollToBooks(); closeSidebar();">📖 All Books</button>
 
     <div class="sidebar-section-title">Social Media</div>
-    <a class="sidebar-link" href="https://youtube.com/@abdul_malek1?si=8BBoVtZJTA4iJ8Vf" target="_blank">🔴 YouTube</a>
-    <a class="sidebar-link" href="https://www.facebook.com/share/1Ebegj8ZgN/" target="_blank">🔵 Facebook</a>
-    <a class="sidebar-link" href="https://instagram.com/abdul_malek0001?igsh=MXN2bTNzdDVqM3FhMA==" target="_blank">🟣 Instagram</a>
-    <a class="sidebar-link" href="https://whatsapp.com/channel/0029VaIPPUhChq6GnO1zAU1l" target="_blank">🟢 WhatsApp Channel</a>
-    <a class="sidebar-link" href="https://t.me/Abdul_Malek001" target="_blank">✈️ Telegram</a>
+    <a class="sidebar-link social-yt" href="https://youtube.com/@abdul_malek1?si=8BBoVtZJTA4iJ8Vf" target="_blank">🔴 YouTube</a>
+    <a class="sidebar-link social-fb" href="https://www.facebook.com/share/1Ebegj8ZgN/" target="_blank">🔵 Facebook</a>
+    <a class="sidebar-link social-ig" href="https://instagram.com/abdul_malek0001?igsh=MXN2bTNzdDVqM3FhMA==" target="_blank">🟣 Instagram</a>
+    <a class="sidebar-link social-wa" href="https://whatsapp.com/channel/0029VaIPPUhChq6GnO1zAU1l" target="_blank">🟢 WhatsApp Channel</a>
+    <a class="sidebar-link social-tg" href="https://t.me/Abdul_Malek001" target="_blank">✈️ Telegram</a>
 
     <div class="sidebar-section-title">Help & Support</div>
     <a class="sidebar-link" href="https://wa.me/919534646778" target="_blank">💬 WhatsApp Support</a>
@@ -128,42 +784,53 @@ footer{background:#111;color:#fff;text-align:center;padding:30px 20px;margin-top
 </aside>
 
 <header>  
+  <!-- LEFT: 3-LINE MENU + LOGO -->
   <div class="header-left">
-    <button class="menu-toggle-btn" onclick="openSidebar()">☰</button>
+    <button class="menu-toggle-btn" onclick="openSidebar()" title="Open Menu">☰</button>
     <div class="logo" onclick="goBackToHome()">📚 Attari Books</div>  
   </div>
+
+  <!-- RIGHT: SIGN IN / PROFILE -->
   <nav>  
     <div id="userProfile" class="profile-pill" style="display:none;">
       <img id="userAvatar" src="" alt="Profile">
       <span id="userName">User</span>
     </div>
+
     <button class="google-auth-nav-btn" id="loginBtn" onclick="openAuth()">
       <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Sign In
     </button>
+
     <button class="auth-btn logout-btn" id="logoutBtn" onclick="logout()" style="display:none">Logout</button>
   </nav>  
 </header>  
 
+<!-- MAIN HOME CONTAINER -->
 <div id="homePageContainer">
-  <section class="hero">  
-    <h1>Attari Books</h1>  
-    <p>Your Digital Library</p>  
-    <input id="searchBox" type="text" placeholder="Search books..." oninput="searchBooks()">
-  </section>  
-  <section class="books-section" id="books">  
-    <h2 class="section-title">Latest Books</h2>  
-    <div id="status">📚 Loading books...</div>  
-    <div class="books-grid" id="booksGrid"></div>  
-  </section>  
+<section class="hero">  
+<h1>Attari Books</h1>  
+<p>Your Digital Library</p>  
+<input id="searchBox" type="text" placeholder="Search books..." oninput="searchBooks()">
+</section>  
+
+<section class="books-section" id="books">  
+<h2 class="section-title">Latest Books</h2>  
+<div id="status">📚 Loading books...</div>  
+<div class="books-grid" id="booksGrid"></div>  
+</section>  
 </div>
 
+<!-- DEDICATED FULL-PAGE BOOK VIEW -->
 <div id="bookDetailsPage">
   <button class="back-btn" onclick="goBackToHome()">← Back to All Books</button>
+
   <div class="book-page-card">
     <div class="book-page-cover" id="pageCover">📖 Loading cover...</div>
     <div class="book-page-body">
       <div class="book-page-title" id="pageTitle">Book Title</div>
+      <div class="book-page-archive" id="pageArchive">archived</div>
+
       <div class="details-actions">
         <button class="details-action read-action" onclick="detailsRead()">📖 Read</button>
         <button class="details-action download-action" onclick="detailsDownload()">📥 Download</button>
@@ -171,13 +838,19 @@ footer{background:#111;color:#fff;text-align:center;padding:30px 20px;margin-top
         <button class="details-action rate-action" id="pageRateBtn" onclick="detailsRate()">⭐ Star & 💬 Comment</button>
         <button class="details-action views-action" id="pageViews" style="grid-column:1/-1;">👁️ Views: 0</button>
       </div>
-      <div class="page-reviews-overview">
-        <div class="rating-big-num" id="overviewAvgNum">0.0</div>
-        <div>
-          <div class="rating-stars-display" id="overviewStars">☆☆☆☆☆</div>
-          <div class="rating-count-text" id="overviewVoteCount">0 ratings received</div>
+
+      <!-- STAR RATINGS OVERVIEW -->
+      <div class="page-reviews-overview" id="pageRatingsOverview">
+        <div class="rating-score-box">
+          <div class="rating-big-num" id="overviewAvgNum">0.0</div>
+          <div>
+            <div class="rating-stars-display" id="overviewStars">☆☆☆☆☆</div>
+            <div class="rating-count-text" id="overviewVoteCount">0 ratings received</div>
+          </div>
         </div>
       </div>
+
+      <!-- INLINE COMMENTS LIST -->
       <div class="page-comments-container">
         <div class="page-comments-title" id="pageCommentsHeader">💬 Comments (0)</div>
         <div class="comments-list" id="pageCommentsList">⏳ Loading comments...</div>
@@ -186,56 +859,61 @@ footer{background:#111;color:#fff;text-align:center;padding:30px 20px;margin-top
   </div>
 </div>
 
+<!-- GOOGLE AUTH MODAL -->
 <div class="modal" id="authModal">  
-  <div class="modal-box" style="text-align:center;">  
-    <button class="close-btn" onclick="closeAuth()">×</button>
-    <h2>Welcome to Attari Books</h2>  
-    <button class="google-auth-btn" onclick="signInWithGoogle()">
-      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-      Continue with Google
-    </button>
-  </div>  
+<div class="modal-box" style="text-align:center;">  
+<button class="close-btn" onclick="closeAuth()">×</button>
+<h2>Welcome to Attari Books</h2>  
+<p class="auth-desc">Apne Google account se direct sign in karein.</p>
+
+<button class="google-auth-btn" onclick="signInWithGoogle()">
+<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+Continue with Google
+</button>
+<div id="authMessage"></div>  
+</div>  
 </div>  
 
+<!-- REVIEW SUBMISSION & EDIT MODAL -->
 <div class="review-modal" id="reviewModal">  
-  <div class="review-box">  
-    <button class="close-btn" onclick="closeReviewModal()">×</button>
-    <h2 style="text-align:center" id="reviewModalTitle">⭐ Star & Comment</h2>  
-    <p id="reviewBookName" style="text-align:center;color:#666;margin:8px 0;"></p>  
-    <div class="review-stars">  
-      <button class="review-star" id="reviewStar1" onclick="selectReviewRating(1)">★</button>
-      <button class="review-star" id="reviewStar2" onclick="selectReviewRating(2)">★</button>
-      <button class="review-star" id="reviewStar3" onclick="selectReviewRating(3)">★</button>
-      <button class="review-star" id="reviewStar4" onclick="selectReviewRating(4)">★</button>
-      <button class="review-star" id="reviewStar5" onclick="selectReviewRating(5)">★</button>
-    </div>  
-    <textarea id="reviewComment" class="review-textarea" placeholder="Write your comment..."></textarea>  
-    <button class="submit-review" id="submitReviewBtn" onclick="submitReview()">⭐ Submit</button>
-    <div id="reviewMessage" style="text-align:center;margin-top:10px;"></div>  
-  </div>  
+<div class="review-box">  
+<button class="close-btn" onclick="closeReviewModal()">×</button>
+<h2 style="text-align:center" id="reviewModalTitle">⭐ Star & Comment</h2>  
+<p id="reviewBookName" style="text-align:center;color:#666;margin-top:8px">Book</p>  
+<div class="review-stars">  
+<button class="review-star" id="reviewStar1" onclick="selectReviewRating(1)">★</button>
+<button class="review-star" id="reviewStar2" onclick="selectReviewRating(2)">★</button>
+<button class="review-star" id="reviewStar3" onclick="selectReviewRating(3)">★</button>
+<button class="review-star" id="reviewStar4" onclick="selectReviewRating(4)">★</button>
+<button class="review-star" id="reviewStar5" onclick="selectReviewRating(5)">★</button>
+</div>  
+<textarea id="reviewComment" class="review-textarea" placeholder="Write your comment..."></textarea>  
+<button class="submit-review" id="submitReviewBtn" onclick="submitReview()">⭐ Submit</button>
+<div id="reviewMessage"></div>  
+</div>  
 </div>  
 
+<!-- PDF READER MODAL -->
 <div class="reader-modal" id="readerModal">  
-  <div class="reader-header">  
-    <button onclick="closeReader()">✕ Close</button>  
-    <div class="reader-middle">  
-      <div class="reader-title" id="readerTitle">Attari Books</div>  
-      <div class="reader-viewers" id="readerViewerCount">👁️ 0 people viewing</div>  
-    </div>  
-    <div id="readerPage" style="font-size:13px;color:#ccc;">Loading...</div>  
-  </div>  
-  <div class="reader-content" id="readerContent">  
-    <div id="readerLoading">📖 Loading complete book...</div>  
-  </div>  
+<div class="reader-header">  
+<button onclick="closeReader()">✕ Close</button>  
+<div class="reader-middle">  
+<div class="reader-title" id="readerTitle">Attari Books</div>  
+<div class="reader-viewers" id="readerViewerCount">👁️ 0 people viewing</div>  
+</div>  
+<div id="readerPage" style="font-size:13px;color:#ccc;">Loading...</div>  
+</div>  
+<div class="reader-content" id="readerContent">  
+<div id="readerLoading">📖 Loading complete book...</div>  
+</div>  
 </div>  
 
 <footer>  
-  <p>© 2026 Attari Books — Your Digital Library</p>
-  <p style="margin-top:6px;font-size:14px;color:#aaa;">Developed and Created by <strong style="color:#fff;">Abdul Malek Attari</strong></p>
-  <p style="margin-top:4px;font-size:13px;color:#777;">Contact: mdmalek26234@gmail.com | WhatsApp: +91 9534646778</p>
+© 2026 Attari Books — Your Digital Library
 </footer>  
 
 <script>  
+/* CONFIG */  
 const SUPABASE_URL = "https://kihhuilyeosvpozduwcs.supabase.co";  
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_-XN0lujfPGCeIzusrlUfkQ_-lFKXwUs";  
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyMcUDNnTOpmwHf2xrF82P9260595M6rBXcPHvbR0Fu9ZN3BnyNGCApI51w1M5XO4F/exec";  
@@ -243,6 +921,7 @@ const GITHUB_OWNER = "malmd9194-ai";
 const GITHUB_REPO = "Attari_Books";  
 const GITHUB_BRANCH = "main";  
 
+/* VARIABLES */  
 let supabaseClient = null;  
 let currentUser = null;
 let allBooks = [];  
@@ -253,6 +932,7 @@ let selectedReviewRating = 0;
 let readerPdf = null;  
 let readerPresenceChannel = null;  
 let readerViewerId = null;  
+let archiveDates = {};  
 let isRenderingPdf = false;  
 
 if(typeof pdfjsLib !== "undefined"){  
@@ -262,85 +942,131 @@ if(typeof pdfjsLib !== "undefined"){
 function initializeSupabase(){  
   try{  
     if(window.supabase && typeof window.supabase.createClient === "function"){  
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);  
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      });  
     }  
-  }catch(error){ console.error(error); }  
+  }catch(error){  
+    console.error("Supabase init error:", error);  
+  }  
 }  
 
-function removePdfExtension(name){ return name.replace(/\.pdf$/i, ""); }  
-function escapeHTML(text){ const div = document.createElement("div"); div.textContent = String(text || ""); return div.innerHTML; }  
+function removePdfExtension(name){  
+  return name.replace(/\.pdf$/i, "");  
+}  
 
-function openSidebar(){ document.getElementById("sidebarMenu").classList.add("active"); document.getElementById("sidebarOverlay").style.display = "block"; }
-function closeSidebar(){ document.getElementById("sidebarMenu").classList.remove("active"); document.getElementById("sidebarOverlay").style.display = "none"; }
-function scrollToBooks(){ if(document.getElementById("bookDetailsPage").style.display === "block") goBackToHome(); const el = document.getElementById("books"); if(el) el.scrollIntoView({behavior: "smooth"}); }
+function escapeHTML(text){  
+  const div = document.createElement("div");  
+  div.textContent = String(text || "");  
+  return div.innerHTML;  
+}  
 
-/* UNSTOPPABLE DIRECT BOOK LOADER */
+/* SIDEBAR DRAWER CONTROLS */
+function openSidebar(){
+  document.getElementById("sidebarMenu").classList.add("active");
+  document.getElementById("sidebarOverlay").style.display = "block";
+}
+
+function closeSidebar(){
+  document.getElementById("sidebarMenu").classList.remove("active");
+  document.getElementById("sidebarOverlay").style.display = "none";
+}
+
+function scrollToBooks(){
+  if(document.getElementById("bookDetailsPage").style.display === "block"){
+    goBackToHome();
+  }
+  const el = document.getElementById("books");
+  if(el){
+    el.scrollIntoView({behavior: "smooth"});
+  }
+}
+
+/* DUAL-LOCATION BOOK LOADER (Folder & Root Auto-Detect) */
 async function loadBooks(){  
   const status = document.getElementById("status");  
   status.textContent = "📚 Loading books...";  
-  allBooks = [];
 
-  // Method 1: Git Tree API (Bypasses regular contents API completely)
-  try {
-    const treeRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`);
-    if(treeRes.ok){
-      const data = await treeRes.json();
-      allBooks = (data.tree || [])
-        .filter(item => item.type === "blob" && item.path.toLowerCase().endsWith(".pdf"))
-        .map(item => ({
-          name: item.path.split("/").pop(),
-          path: item.path,
-          download_url: `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${encodeURI(item.path)}`
-        }));
+  try{  
+    let url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/books?ref=${GITHUB_BRANCH}`;  
+    let response = await fetch(url);  
+    let files = [];
+
+    if(response.ok){
+      files = await response.json();
+    } else {
+      url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
+      response = await fetch(url);
+      if(response.ok){
+        files = await response.json();
+      }
     }
-  } catch(e){}
 
-  // Method 2: Fallback to GitHub Contents API (Root)
-  if(!allBooks.length){
-    try {
-      const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`);
-      if(res.ok){
-        const files = await res.json();
-        allBooks = files
-          .filter(f => f.type === "file" && f.name.toLowerCase().endsWith(".pdf"))
-          .map(f => ({
-            name: f.name,
-            path: f.name,
-            download_url: f.download_url
+    if(Array.isArray(files) && files.length > 0){
+      allBooks = files  
+        .filter(file => file.type === "file" && file.name.toLowerCase().endsWith(".pdf"))  
+        .map(file => ({  
+          name: file.name,  
+          path: file.path || file.name,
+          download_url: file.download_url,  
+          html_url: file.html_url  
+        }));  
+    }
+
+    if(!allBooks.length){
+      const treeUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`;
+      const treeRes = await fetch(treeUrl);
+      if(treeRes.ok){
+        const treeData = await treeRes.json();
+        allBooks = (treeData.tree || [])
+          .filter(item => item.type === "blob" && item.path.toLowerCase().endsWith(".pdf"))
+          .map(item => ({
+            name: item.path.split("/").pop(),
+            path: item.path,
+            download_url: `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${encodeURIComponent(item.path)}`,
+            html_url: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/blob/${GITHUB_BRANCH}/${encodeURIComponent(item.path)}`
           }));
       }
-    } catch(e){}
-  }
+    }
 
-  // Method 3: Fallback to "books" folder
-  if(!allBooks.length){
-    try {
-      const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/books?ref=${GITHUB_BRANCH}`);
-      if(res.ok){
-        const files = await res.json();
-        allBooks = files
-          .filter(f => f.type === "file" && f.name.toLowerCase().endsWith(".pdf"))
-          .map(f => ({
-            name: f.name,
-            path: f.path,
-            download_url: f.download_url
-          }));
-      }
-    } catch(e){}
-  }
-
-  if(allBooks.length > 0){
-    status.textContent = `${allBooks.length} book(s) available`;  
-    displayBooks(allBooks);  
-  } else {
-    status.innerHTML = `⚠️ Books load nahi ho pa rahi. <button onclick="loadBooks()" style="padding:4px 10px;margin-left:8px;cursor:pointer;border-radius:5px;border:1px solid #ccc;background:#fff;">🔄 Retry</button>`;
-  }
+    if(allBooks.length > 0){
+      status.textContent = `${allBooks.length} book(s) available`;  
+      displayBooks(allBooks);  
+      checkUrlParams();  
+    } else {
+      status.innerHTML = `📚 Koi book nahi mili. <button onclick="loadBooks()" style="padding:4px 10px;margin-left:8px;cursor:pointer;border-radius:5px;border:1px solid #ccc;background:#fff;">🔄 Retry</button>`;
+    }
+  }catch(error){  
+    console.error(error);  
+    status.innerHTML = `⚠️ Books load nahi ho pa rahi. <button onclick="loadBooks()" style="padding:4px 10px;margin-left:8px;cursor:pointer;border-radius:5px;border:1px solid #ccc;background:#fff;">🔄 Retry</button>`;  
+  }  
 }
+
+function checkUrlParams(){  
+  const params = new URLSearchParams(window.location.search);  
+  const bookParam = params.get("book");  
+  const detailsParam = params.get("view");
+
+  if(detailsParam && allBooks.length){
+    const index = allBooks.findIndex(b => b.name === detailsParam);
+    if(index !== -1) openBookDetails(index, false);
+  } else if(bookParam && allBooks.length){  
+    const index = allBooks.findIndex(b => b.name === bookParam);  
+    if(index !== -1) openReader(index);  
+  }  
+}  
 
 function displayBooks(books){  
   const grid = document.getElementById("booksGrid");  
   grid.innerHTML = "";  
-  if(!books.length){ grid.innerHTML = `<div style="grid-column:1/-1;text-align:center">📚 No books found.</div>`; return; }  
+  if(!books.length){  
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center">📚 No books found.</div>`;  
+    return;  
+  }  
 
   books.forEach((book,index)=>{  
     const originalIndex = allBooks.indexOf(book);  
@@ -353,6 +1079,7 @@ function displayBooks(books){
       </div>  
       <div class="book-info">  
         <div class="book-title">${escapeHTML(removePdfExtension(book.name))}</div>  
+        <div class="archive-date" id="archive-${index}">archived</div>  
         <div class="book-stats">  
           <span class="book-stat">📖</span>  
           <span class="book-stat">👁️<small class="book-view-count">0</small></span>  
@@ -362,8 +1089,11 @@ function displayBooks(books){
       </div>  
     `;  
     grid.appendChild(card);  
-    card.addEventListener("click", ()=>openBookDetails(originalIndex));  
+
+    card.addEventListener("click", ()=>openBookDetails(originalIndex, true));  
+
     renderCover(book.download_url, `cover-${index}`);  
+    loadArchiveDate(book, `archive-${index}`);  
   });  
 
   updateCardReviewCounts();  
@@ -376,7 +1106,7 @@ async function renderCover(pdfUrl, containerId){
   try{  
     const pdf = await pdfjsLib.getDocument({url:pdfUrl, withCredentials:false}).promise;  
     const page = await pdf.getPage(1);  
-    const viewport = page.getViewport({scale:1.1});  
+    const viewport = page.getViewport({scale:1.2});  
     const canvas = document.createElement("canvas");  
     const context = canvas.getContext("2d");  
     canvas.width = viewport.width;  
@@ -389,7 +1119,33 @@ async function renderCover(pdfUrl, containerId){
   }  
 }  
 
-async function openBookDetails(bookIndex){  
+async function loadArchiveDate(book, elementId){  
+  const el = elementId ? document.getElementById(elementId) : null;  
+  try{  
+    if(archiveDates[book.name]){  
+      if(el) el.textContent = "archived " + archiveDates[book.name];  
+      return;  
+    }  
+    const filePath = book.path || book.name;
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/commits?path=${encodeURIComponent(filePath)}&sha=${GITHUB_BRANCH}&per_page=1`;  
+    const response = await fetch(url);  
+    if(!response.ok) throw new Error("Date error");  
+    const commits = await response.json();  
+    const iso = commits?.[0]?.commit?.author?.date || commits?.[0]?.commit?.committer?.date;  
+    if(!iso){  
+      if(el) el.textContent="archived";  
+      return;  
+    }  
+    const date = new Date(iso).toLocaleDateString("en-US", {month:"short", day:"2-digit", year:"numeric"});  
+    archiveDates[book.name] = date;  
+    if(el) el.textContent = "archived " + date;  
+  }catch(error){  
+    if(el) el.textContent = "archived";  
+  }  
+}  
+
+/* DEDICATED BOOK VIEW PAGE */  
+async function openBookDetails(bookIndex, updateHistory = true){  
   const book = allBooks[bookIndex];  
   if(!book) return;  
   selectedDetailsBook = book;  
@@ -398,39 +1154,91 @@ async function openBookDetails(bookIndex){
   document.getElementById("bookDetailsPage").style.display = "block";  
   window.scrollTo({top: 0, behavior: "smooth"});  
 
+  if(updateHistory){  
+    window.history.pushState({view: book.name}, "", "?view=" + encodeURIComponent(book.name));  
+  }  
+
   document.getElementById("pageTitle").textContent = removePdfExtension(book.name);  
+  document.getElementById("pageArchive").textContent = archiveDates[book.name] ? "archived " + archiveDates[book.name] : "archived";  
   document.getElementById("pageViews").textContent = "👁️ Views: 0";  
 
   const cover = document.getElementById("pageCover");  
   cover.innerHTML = "📖 Loading cover...";  
-  renderCover(book.download_url, "pageCover");  
+  await renderCover(book.download_url, "pageCover");  
   
-  loadCommentsForPage(book.name);  
-  updateBookViewCount(book.name);  
+  await loadCommentsForPage(book.name);  
+  await updateBookViewCount(book.name);  
 }  
 
 function goBackToHome(){  
   document.getElementById("bookDetailsPage").style.display = "none";  
   document.getElementById("homePageContainer").style.display = "block";  
   selectedDetailsBook = null;  
+  window.history.pushState({}, "", window.location.pathname);  
 }  
 
-function detailsRead(){ if(!selectedDetailsBook) return; openReader(allBooks.indexOf(selectedDetailsBook)); }  
-function detailsDownload(){ if(!selectedDetailsBook) return; const a = document.createElement("a"); a.href = selectedDetailsBook.download_url; a.download = selectedDetailsBook.name; document.body.appendChild(a); a.click(); a.remove(); }  
-function detailsShare(){ if(!selectedDetailsBook) return; const readUrl = window.location.origin + window.location.pathname; if(navigator.share){ navigator.share({title: selectedDetailsBook.name, url: readUrl}).catch(()=>{}); } else { window.open("https://wa.me/?text=" + encodeURIComponent("📖 Read " + selectedDetailsBook.name + " on Attari Books:\n" + readUrl), "_blank"); } }  
-function detailsRate(){ if(!selectedDetailsBook) return; openReviewForBook(allBooks.indexOf(selectedDetailsBook)); }  
+window.addEventListener("popstate", () => {  
+  const params = new URLSearchParams(window.location.search);  
+  if(!params.get("view")){  
+    document.getElementById("bookDetailsPage").style.display = "none";  
+    document.getElementById("homePageContainer").style.display = "block";  
+    selectedDetailsBook = null;  
+  }  
+});  
+
+function detailsRead(){  
+  if(!selectedDetailsBook) return;  
+  const index = allBooks.indexOf(selectedDetailsBook);  
+  openReader(index);  
+}  
+
+function detailsDownload(){  
+  if(!selectedDetailsBook) return;  
+  const a = document.createElement("a");  
+  a.href = selectedDetailsBook.download_url;  
+  a.download = selectedDetailsBook.name;  
+  document.body.appendChild(a);  
+  a.click();  
+  a.remove();  
+}  
+
+function detailsShare(){  
+  if(!selectedDetailsBook) return;  
+  const title = removePdfExtension(selectedDetailsBook.name);  
+  const readUrl = window.location.origin + window.location.pathname + "?view=" + encodeURIComponent(selectedDetailsBook.name);  
+
+  if(navigator.share){  
+    navigator.share({  
+      title: "Attari Books - " + title,  
+      text: "📖 Open book: " + title,  
+      url: readUrl  
+    }).catch(()=>{});  
+  } else {  
+    const whatsapp = "https://wa.me/?text=" + encodeURIComponent("📖 Check out this book on Attari Books:\n" + title + "\n" + readUrl);  
+    window.open(whatsapp, "_blank");  
+  }  
+}  
+
+function detailsRate(){  
+  if(!selectedDetailsBook) return;  
+  openReviewForBook(allBooks.indexOf(selectedDetailsBook));  
+}  
 
 function searchBooks(){  
   const value = document.getElementById("searchBox").value.toLowerCase().trim();  
-  if(!value){ displayBooks(allBooks); return; }  
+  if(!value){  
+    displayBooks(allBooks);  
+    return;  
+  }  
   displayBooks(allBooks.filter(book => book.name.toLowerCase().includes(value)));  
 }  
 
-/* SUPABASE LIVE VIEWS */  
+/* SUPABASE VIEWS */  
 async function loadAllBookViewCounts(){  
   if(!supabaseClient) return;  
   try{  
-    const { data } = await supabaseClient.from("book_views").select("book_name,view_count");  
+    const { data, error } = await supabaseClient.from("book_views").select("book_name,view_count");  
+    if(error) throw error;  
     const counts = {};  
     (data || []).forEach(row=>{ counts[row.book_name] = Number(row.view_count || 0); });  
     document.querySelectorAll(".book-card").forEach(card=>{  
@@ -438,43 +1246,71 @@ async function loadAllBookViewCounts(){
       const el = card.querySelector(".book-view-count");  
       if(book && el) el.textContent = counts[book.name] || 0;  
     });  
-  }catch(e){}  
+  }catch(error){  
+    console.error("View load error", error);  
+  }  
 }  
 
 async function updateBookViewCount(bookName){  
-  if(!supabaseClient) return;  
+  if(!supabaseClient) return 0;  
   try{  
-    const { data } = await supabaseClient.from("book_views").select("view_count").eq("book_name",bookName).maybeSingle();  
+    const { data, error } = await supabaseClient.from("book_views").select("view_count").eq("book_name",bookName).maybeSingle();  
+    if(error) throw error;  
     const count = Number(data?.view_count || 0);  
-    const pageViews = document.getElementById("pageViews");  
-    if(pageViews) pageViews.textContent = `👁️ Views: ${count}`;  
-  }catch(e){}  
+    updateVisibleViewCount(bookName, count);  
+    return count;  
+  }catch(error){  
+    console.error(error);  
+    return 0;  
+  }  
 }  
 
 async function incrementBookView(bookName){  
-  if(!supabaseClient) return;  
+  if(!supabaseClient) return 0;  
   try{  
-    const { data } = await supabaseClient.from("book_views").select("view_count").eq("book_name",bookName).maybeSingle();  
-    let newCount = (Number(data?.view_count || 0)) + 1;  
+    const { data, error } = await supabaseClient.from("book_views").select("view_count").eq("book_name",bookName).maybeSingle();  
+    if(error) throw error;  
+    let newCount = 1;  
     if(data){  
-      await supabaseClient.from("book_views").update({view_count:newCount}).eq("book_name", bookName);  
+      newCount = Number(data.view_count || 0) + 1;  
+      const result = await supabaseClient.from("book_views").update({view_count:newCount}).eq("book_name", bookName);  
+      if(result.error) throw result.error;  
     }else{  
-      await supabaseClient.from("book_views").insert({book_name:bookName, view_count:1});  
+      const result = await supabaseClient.from("book_views").insert({book_name:bookName, view_count:1});  
+      if(result.error) throw result.error;  
     }  
-    const pageViews = document.getElementById("pageViews");  
-    if(pageViews) pageViews.textContent = `👁️ Views: ${newCount}`;  
-  }catch(e){}  
+    updateVisibleViewCount(bookName, newCount);  
+    return newCount;  
+  }catch(error){  
+    console.error("Increment view error", error);  
+    return 0;  
+  }  
+}  
+
+function updateVisibleViewCount(bookName, count){  
+  const index = allBooks.findIndex(book => book.name === bookName);  
+  const card = document.querySelector(`.book-card[data-book-index="${index}"]`);  
+  if(card){  
+    const el = card.querySelector(".book-view-count");  
+    if(el) el.textContent = count;  
+  }  
+  const pageViews = document.getElementById("pageViews");  
+  if(pageViews) pageViews.textContent = `👁️ Views: ${count}`;  
 }  
 
 /* REVIEWS & COMMENTS */  
 async function loadReviews(){  
   try{  
-    const res = await fetch(GOOGLE_SCRIPT_URL, {cache:"no-store"});  
-    allReviews = await res.json();  
-    if(!Array.isArray(allReviews)) allReviews = [];  
+    const response = await fetch(GOOGLE_SCRIPT_URL, {cache:"no-store"});  
+    const data = await response.json();  
+    allReviews = Array.isArray(data) ? data : [];  
     updateCardReviewCounts();  
     return allReviews;  
-  }catch(e){ allReviews = []; return []; }  
+  }catch(error){  
+    console.error(error);  
+    allReviews = [];  
+    return [];  
+  }  
 }  
 
 function updateCardReviewCounts(){  
@@ -484,131 +1320,394 @@ function updateCardReviewCounts(){
     const rows = allReviews.filter(row => String(row[0] || "").trim() === String(book.name).trim());  
     const ratingCount = rows.filter(row => Number(row[1]) >= 1).length;  
     const commentCount = rows.filter(row => String(row[2] || "").trim()).length;  
-    const rEl = card.querySelector(".book-rating-count");  
-    const cEl = card.querySelector(".book-comment-count");  
-    if(rEl) rEl.textContent = ratingCount;  
-    if(cEl) cEl.textContent = commentCount;  
+    const rating = card.querySelector(".book-rating-count");  
+    const comments = card.querySelector(".book-comment-count");  
+    if(rating) rating.textContent = ratingCount;  
+    if(comments) comments.textContent = commentCount;  
   });  
 }  
 
 async function loadCommentsForPage(bookName){  
   const list = document.getElementById("pageCommentsList");  
+  const commentsHeader = document.getElementById("pageCommentsHeader");
+  const overviewAvgNum = document.getElementById("overviewAvgNum");
+  const overviewStars = document.getElementById("overviewStars");
+  const overviewVoteCount = document.getElementById("overviewVoteCount");
+
   list.innerHTML = "⏳ Loading comments...";  
   const reviews = await loadReviews();  
   const rows = reviews.filter(row => String(row[0] || "").trim() === String(bookName).trim());  
 
-  const ratedRows = rows.filter(r => Number(r[1]) > 0);  
-  let avg = 0;  
-  if(ratedRows.length > 0){ avg = (ratedRows.reduce((a,c)=>a+Number(c[1]),0)/ratedRows.length).toFixed(1); }  
-  document.getElementById("overviewAvgNum").textContent = avg > 0 ? avg : "0.0";  
-  document.getElementById("overviewStars").textContent = "★".repeat(Math.round(avg)) + "☆".repeat(5-Math.round(avg));  
-  document.getElementById("overviewVoteCount").textContent = `${ratedRows.length} ratings received`;  
-  document.getElementById("pageCommentsHeader").textContent = `💬 Comments (${rows.filter(r=>String(r[2]||"").trim()).length})`;  
+  const ratedRows = rows.filter(r => Number(r[1]) > 0);
+  const totalRaters = ratedRows.length;
+  let avgRating = 0;
+  if(totalRaters > 0){
+    const sum = ratedRows.reduce((acc, cur) => acc + Number(cur[1]), 0);
+    avgRating = (sum / totalRaters).toFixed(1);
+  }
 
-  if(!rows.length){ list.innerHTML = `<div style="padding:15px;color:#777">No comments yet. Be the first to review!</div>`; return; }  
+  const fullStars = Math.round(avgRating);
+  overviewAvgNum.textContent = avgRating > 0 ? avgRating : "0.0";
+  overviewStars.textContent = "★".repeat(fullStars) + "☆".repeat(5 - fullStars);
+  overviewVoteCount.textContent = `${totalRaters} ratings received`;
+
+  const commentsCount = rows.filter(r => String(r[2] || "").trim() !== "").length;
+  commentsHeader.textContent = `💬 Comments (${commentsCount})`;
+
+  if(!rows.length){  
+    list.innerHTML = `<div style="padding:15px;color:#777">💬 No comments yet. Pehle user baniye review dene wale!</div>`;  
+    return;  
+  }  
+
+  const myEmail = currentUser?.email ? currentUser.email.toLowerCase().trim() : "";
 
   list.innerHTML = rows.slice().reverse().map(row=>{  
-    const r = Math.max(0, Math.min(5, Number(row[1]) || 0));  
-    return `<div class="comment-item">
-      <div class="comment-header"><span class="comment-user-name">👤 ${escapeHTML(row[5] || "Reader")}</span></div>
-      <div class="comment-rating">${"★".repeat(r)}${"☆".repeat(5-r)} (${r}/5)</div>
-      <div class="comment-text">${escapeHTML(row[2] || "No review text")}</div>
-    </div>`;  
+    const rating = Math.max(0, Math.min(5, Number(row[1]) || 0));  
+    const comment = escapeHTML(row[2] || "");  
+    let date = "";  
+    if(row[3]){  
+      try{ date = new Date(row[3]).toLocaleDateString(); }catch(e){}  
+    }  
+    const rowEmail = String(row[4] || "").toLowerCase().trim();
+    const reviewerName = escapeHTML(row[5] || (rowEmail ? rowEmail.split("@")[0] : "Reader"));
+    const isMyComment = myEmail && (rowEmail === myEmail);
+
+    return `  
+      <div class="comment-item">  
+        <div class="comment-header">
+          <div class="comment-user-name">👤 ${reviewerName}</div>
+          ${isMyComment ? `<button class="edit-comment-btn" onclick="openReviewForBook(${allBooks.indexOf(selectedDetailsBook)})">✏️ Edit</button>` : ""}
+        </div>
+        <div class="comment-rating">${"★".repeat(rating)}${"☆".repeat(5-rating)} (${rating}/5)</div>  
+        <div class="comment-text">${comment || "No text review"}</div>  
+        ${date ? `<div class="comment-date">${escapeHTML(date)}</div>` : ""}  
+      </div>  
+    `;  
   }).join("");  
 }  
 
+/* REVIEW MODAL */  
 async function openReviewForBook(bookIndex){  
   if(!supabaseClient){ openAuth(); return; }  
   const { data } = await supabaseClient.auth.getSession();  
   if(!data?.session){ openAuth(); return; }  
-  selectedReviewBook = allBooks[bookIndex];  
-  document.getElementById("reviewBookName").textContent = removePdfExtension(selectedReviewBook.name);  
+  
+  const book = allBooks[bookIndex];  
+  if(!book) return;  
+  selectedReviewBook = book;  
+
+  const email = data.session.user.email.toLowerCase().trim();  
+  await loadReviews();  
+  const existingRow = allReviews.find(row => String(row[0] || "").trim() === String(book.name).trim() && String(row[4] || "").toLowerCase().trim() === email);  
+
+  if(existingRow){  
+    document.getElementById("reviewModalTitle").textContent = "✏️ Edit Your Review";
+    document.getElementById("submitReviewBtn").textContent = "Update Review";
+    selectReviewRating(Number(existingRow[1]) || 5);
+    document.getElementById("reviewComment").value = existingRow[2] || "";
+  } else {
+    document.getElementById("reviewModalTitle").textContent = "⭐ Star & Comment";
+    document.getElementById("submitReviewBtn").textContent = "Submit Review";
+    selectedReviewRating = 0;  
+    resetReviewStars();  
+    document.getElementById("reviewComment").value = "";  
+  }
+
+  document.getElementById("reviewBookName").textContent = removePdfExtension(book.name);  
+  document.getElementById("reviewMessage").textContent = "";  
   document.getElementById("reviewModal").style.display = "flex";  
 }  
-function closeReviewModal(){ document.getElementById("reviewModal").style.display = "none"; }  
-function selectReviewRating(r){ selectedReviewRating = r; for(let i=1;i<=5;i++) document.getElementById("reviewStar"+i).classList.toggle("selected", i<=r); }  
 
-async function submitReview(){  
-  if(!selectedReviewRating){ alert("Please give a star rating."); return; }  
-  const comment = document.getElementById("reviewComment").value.trim();  
-  const { data } = await supabaseClient.auth.getSession();  
-  const user = data.session.user;  
-  document.getElementById("reviewMessage").textContent = "⏳ Submitting...";  
-
-  try{  
-    await fetch(GOOGLE_SCRIPT_URL, {  
-      method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain"},  
-      body:JSON.stringify({ book: selectedReviewBook.name, rating: selectedReviewRating, comment: comment, email: user.email, name: user.user_metadata?.full_name || user.email.split("@")[0] })  
-    });  
-    document.getElementById("reviewMessage").textContent = "✅ Saved!";  
-    setTimeout(()=>{ closeReviewModal(); if(selectedDetailsBook) loadCommentsForPage(selectedDetailsBook.name); }, 900);  
-  }catch(e){ document.getElementById("reviewMessage").textContent = "❌ Error submitting"; }  
+function closeReviewModal(){  
+  document.getElementById("reviewModal").style.display = "none";  
+  selectedReviewBook = null;  
+  selectedReviewRating = 0;  
+  resetReviewStars();  
 }  
 
-/* AUTH */  
-function openAuth(){ document.getElementById("authModal").style.display = "flex"; }  
-function closeAuth(){ document.getElementById("authModal").style.display = "none"; }  
-async function signInWithGoogle(){ if(!supabaseClient) return; await supabaseClient.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: window.location.origin + window.location.pathname } }); }  
-async function logout(){ if(!supabaseClient) return; await supabaseClient.auth.signOut(); updateAuthUI(null); }  
-function updateAuthUI(session){  
-  const loginBtn = document.getElementById("loginBtn");  
-  const logoutBtn = document.getElementById("logoutBtn");  
-  const pill = document.getElementById("userProfile");  
-  if(session && session.user){  
-    currentUser = session.user;  
-    loginBtn.style.display = "none"; logoutBtn.style.display = "inline-block"; pill.style.display = "inline-flex";  
-    document.getElementById("userName").textContent = currentUser.user_metadata?.full_name || currentUser.email.split("@")[0];  
-    document.getElementById("userAvatar").src = currentUser.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=User&background=2864df&color=fff`;  
-    closeAuth();  
-  } else {  
-    currentUser = null; loginBtn.style.display = "inline-flex"; logoutBtn.style.display = "none"; pill.style.display = "none";  
+function selectReviewRating(rating){  
+  selectedReviewRating = rating;  
+  for(let i=1; i<=5; i++){  
+    document.getElementById("reviewStar"+i).classList.toggle("selected", i<=rating);  
   }  
 }  
 
-/* FULLSCREEN PDF READER (VIEWS INCREMENT ONLY ON READ) */  
+function resetReviewStars(){  
+  for(let i=1; i<=5; i++){  
+    document.getElementById("reviewStar"+i).classList.remove("selected");  
+  }  
+}  
+
+async function submitReview(){  
+  if(!supabaseClient){ openAuth(); return; }  
+  const { data } = await supabaseClient.auth.getSession();  
+  if(!data?.session){ closeReviewModal(); openAuth(); return; }  
+  if(!selectedReviewBook) return;  
+  if(!selectedReviewRating){  
+    alert("Please select a rating.");  
+    return;  
+  }  
+  const comment = document.getElementById("reviewComment").value.trim();  
+  const message = document.getElementById("reviewMessage");  
+  const user = data.session.user;
+  const email = user.email.toLowerCase().trim();  
+  const displayName = user.user_metadata?.full_name || user.user_metadata?.name || email.split("@")[0];
+
+  message.textContent = "⏳ Submitting...";  
+
+  try{  
+    await fetch(GOOGLE_SCRIPT_URL, {  
+      method:"POST",  
+      mode:"no-cors",  
+      headers:{"Content-Type":"text/plain;charset=utf-8"},  
+      body:JSON.stringify({  
+        book: selectedReviewBook.name,  
+        rating: selectedReviewRating,  
+        comment: comment,  
+        email: email,
+        name: displayName
+      })  
+    });  
+    message.textContent = "✅ Saved successfully!";  
+    setTimeout(async ()=>{  
+      closeReviewModal();  
+      await loadReviews();  
+      if(selectedDetailsBook){  
+        loadCommentsForPage(selectedDetailsBook.name);  
+      }  
+    }, 900);  
+  }catch(error){  
+    console.error(error);  
+    message.textContent = "❌ Submit nahi ho saka.";  
+  }  
+}  
+
+/* AUTH */  
+function openAuth(){  
+  document.getElementById("authModal").style.display = "flex";  
+  document.getElementById("authMessage").textContent = "";  
+}  
+
+function closeAuth(){  
+  document.getElementById("authModal").style.display = "none";  
+}  
+
+async function signInWithGoogle(){  
+  if(!supabaseClient){  
+    document.getElementById("authMessage").textContent = "❌ System load nahi hua.";  
+    return;  
+  }  
+  const message = document.getElementById("authMessage");  
+  message.textContent = "⏳ Connecting to Google...";  
+  try{  
+    const { error } = await supabaseClient.auth.signInWithOAuth({  
+      provider: 'google',  
+      options: {  
+        redirectTo: window.location.origin + window.location.pathname  
+      }  
+    });  
+    if(error) throw error;  
+  }catch(error){  
+    console.error(error);  
+    message.textContent = "❌ " + (error.message || "Google login failed.");  
+  }  
+}  
+
+async function logout(){  
+  if(!supabaseClient) return;  
+  await supabaseClient.auth.signOut();  
+  currentUser = null;
+  updateAuthUI(null);  
+  if(selectedDetailsBook){
+    loadCommentsForPage(selectedDetailsBook.name);
+  }
+}  
+
+function updateAuthUI(session){  
+  const loginBtn = document.getElementById("loginBtn");  
+  const logoutBtn = document.getElementById("logoutBtn");  
+  const userProfile = document.getElementById("userProfile");  
+  const userName = document.getElementById("userName");  
+  const userAvatar = document.getElementById("userAvatar");  
+
+  if(session && session.user){  
+    currentUser = session.user;  
+    const user = session.user;  
+    const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email.split("@")[0];  
+    const avatar = user.user_metadata?.avatar_url || user.user_metadata?.picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=2864df&color=fff`;  
+
+    loginBtn.style.display = "none";  
+    logoutBtn.style.display = "inline-block";  
+    userProfile.style.display = "inline-flex";  
+    userName.textContent = name;  
+    userAvatar.src = avatar;  
+    closeAuth();  
+
+    if(window.location.hash && window.location.hash.includes("access_token")){  
+      window.history.replaceState(null, null, window.location.pathname);  
+    }  
+  }else{  
+    currentUser = null;
+    loginBtn.style.display = "inline-flex";  
+    logoutBtn.style.display = "none";  
+    userProfile.style.display = "none";  
+  }  
+}  
+
+async function checkAuth(){  
+  if(!supabaseClient){ updateAuthUI(null); return; }  
+  const { data } = await supabaseClient.auth.getSession();  
+  updateAuthUI(data?.session || null);  
+}  
+
+/* PRESENCE & LIVE VIEWERS */  
+function getReaderViewerId(){  
+  try{  
+    let id = localStorage.getItem("attari_viewer_id");  
+    if(!id){  
+      id = "viewer-" + Date.now() + "-" + Math.random().toString(36).slice(2);  
+      localStorage.setItem("attari_viewer_id", id);  
+    }  
+    return id;  
+  }catch(error){  
+    return "viewer-" + Date.now();  
+  }  
+}  
+
+function makeChannelName(bookName){  
+  let hash = 0;  
+  for(let i=0; i<bookName.length; i++){  
+    hash = ((hash << 5) - hash + bookName.charCodeAt(i)) | 0;  
+  }  
+  return "attari-book-" + Math.abs(hash);  
+}  
+
+function setReaderViewerCount(count){  
+  const el = document.getElementById("readerViewerCount");  
+  if(!el) return;  
+  el.textContent = count === 1 ? "👁️ 1 person viewing" : `👁️ ${count} people viewing`;  
+}  
+
+async function startReaderPresence(book){  
+  if(!supabaseClient) return;  
+  await stopReaderPresence();  
+  readerViewerId = getReaderViewerId();  
+  readerPresenceChannel = supabaseClient.channel(makeChannelName(book.name), {  
+    config:{ presence:{ key:readerViewerId } }  
+  });  
+
+  readerPresenceChannel.on("presence", {event:"sync"}, ()=>{  
+    const state = readerPresenceChannel.presenceState();  
+    setReaderViewerCount(Object.keys(state).length);  
+  });  
+
+  readerPresenceChannel.subscribe(async status=>{  
+    if(status === "SUBSCRIBED"){  
+      await readerPresenceChannel.track({  
+        viewer_id: readerViewerId,  
+        book: book.name,  
+        online_at: new Date().toISOString()  
+      });  
+    }  
+  });  
+}  
+
+async function stopReaderPresence(){  
+  if(readerPresenceChannel && supabaseClient){  
+    try{ await readerPresenceChannel.untrack(); }catch(e){}  
+    try{ await supabaseClient.removeChannel(readerPresenceChannel); }catch(e){}  
+  }  
+  readerPresenceChannel = null;  
+  setReaderViewerCount(0);  
+}  
+
+/* PDF READER FULL SCREEN (VIEWS INCREMENT HAPPENS ONLY ON READING) */  
 async function openReader(bookIndex){  
   const book = allBooks[bookIndex];  
   if(!book) return;  
 
-  // Reader khulne par hi view count badhega
-  incrementBookView(book.name);  
+  incrementBookView(book.name);
 
   isRenderingPdf = true;  
   document.getElementById("readerModal").style.display = "flex";  
   document.getElementById("readerTitle").textContent = removePdfExtension(book.name);  
   const content = document.getElementById("readerContent");  
   content.innerHTML = `<div id="readerLoading">📖 Loading complete book...</div>`;  
+  document.getElementById("readerPage").textContent = "Loading...";  
+
+  startReaderPresence(book);  
 
   try{  
     readerPdf = await pdfjsLib.getDocument({url:book.download_url, withCredentials:false}).promise;  
-    document.getElementById("readerPage").textContent = `Pages: ${readerPdf.numPages}`;  
+    document.getElementById("readerPage").textContent = `Total Pages: ${readerPdf.numPages}`;  
     content.innerHTML = "";  
 
-    const availableWidth = content.clientWidth - 30;  
+    const availableWidth = content.clientWidth - 40;  
+
     for(let pageNum = 1; pageNum <= readerPdf.numPages; pageNum++){  
       if(!isRenderingPdf) break;  
+
       const page = await readerPdf.getPage(pageNum);  
       const base = page.getViewport({scale:1});  
       let scale = 1.35;  
-      if(base.width * scale > availableWidth) scale = availableWidth / base.width;  
-      const viewport = page.getViewport({scale: Math.max(scale, 0.75)});  
+      if(base.width * scale > availableWidth){  
+        scale = availableWidth / base.width;  
+      }  
+      scale = Math.max(scale, 0.75);  
+
+      const viewport = page.getViewport({scale});  
       const canvas = document.createElement("canvas");  
       canvas.className = "reader-page-canvas";  
-      canvas.width = viewport.width; canvas.height = viewport.height;  
+      canvas.width = viewport.width;  
+      canvas.height = viewport.height;  
+
+      const context = canvas.getContext("2d");  
       content.appendChild(canvas);  
-      await page.render({canvasContext: canvas.getContext("2d"), viewport}).promise;  
+
+      await page.render({canvasContext:context, viewport}).promise;  
     }  
-  }catch(e){ content.innerHTML = `<div id="readerLoading" style="color:#ff6b6b">❌ PDF load error.</div>`; }  
+  }catch(error){  
+    console.error(error);  
+    content.innerHTML = `<div id="readerLoading" style="color:#ff6b6b">❌ PDF open nahi ho saki.</div>`;  
+  }  
 }  
 
-function closeReader(){ isRenderingPdf = false; document.getElementById("readerModal").style.display = "none"; }  
+function closeReader(){  
+  isRenderingPdf = false;  
+  stopReaderPresence();  
+  document.getElementById("readerModal").style.display = "none";  
+  readerPdf = null;  
+  const content = document.getElementById("readerContent");  
+  if(content) content.innerHTML = "";  
+}  
 
+/* EVENTS */  
+document.getElementById("reviewModal").addEventListener("click", function(event){  
+  if(event.target === this) closeReviewModal();  
+});  
+
+document.getElementById("authModal").addEventListener("click", function(event){  
+  if(event.target === this) closeAuth();  
+});  
+
+document.addEventListener("keydown", event=>{  
+  const reader = document.getElementById("readerModal");  
+  if(reader.style.display !== "flex") return;  
+  if(event.key === "Escape") closeReader();  
+});  
+
+/* INIT */  
 initializeSupabase();  
 loadBooks();  
 loadReviews();  
+checkAuth();  
 if(supabaseClient){  
-  supabaseClient.auth.getSession().then(({data})=>updateAuthUI(data?.session));  
-  supabaseClient.auth.onAuthStateChange((_,s)=>updateAuthUI(s));  
+  supabaseClient.auth.onAuthStateChange((event, session)=>{  
+    updateAuthUI(session);  
+    if(selectedDetailsBook){
+      loadCommentsForPage(selectedDetailsBook.name);
+    }
+  });  
 }  
 </script>  
 </body>  
