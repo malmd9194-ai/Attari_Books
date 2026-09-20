@@ -9,5 +9,6 @@ Attari Books is a digital library where readers can read and download books.
 - 🔍 Search books
 - 📱 Mobile-friendly design
 
-© 2026 Attari Books — All Rights Reserved
-Developed and Created by Abdul Malek Attari.
+© 2026 Attari Books — Developed and Created by Abdul Malek Attari.
+
+Raiganj West Bengal
