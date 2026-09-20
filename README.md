@@ -7,6 +7,8 @@ Attari Books is a digital library where readers can read and download books.
 - 📖 Read books online
 - Download books
 - 🔍 Search books
+- Abdul Malek
+- Raiganj West Bengal
 - 📱 Mobile-friendly design
 
 © 2026 Attari Books — Developed and Created by Abdul Malek Attari.
