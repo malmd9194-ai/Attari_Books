@@ -1,4 +1,4 @@
-# 📚 Attari Books
+# Attari Books
 
 Attari Books is a modern digital library web app where readers can explore, read, and download books seamlessly.
 
@@ -35,3 +35,5 @@ Attari Books is a modern digital library web app where readers can explore, read
 ---
 
 © 2026 Attari Books — All Rights Reserved.
+
+**Developed and Created by Abdul Malek Attari.**
