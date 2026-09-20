@@ -80,7 +80,7 @@ width:28px;
 height:28px;
 border-radius:50%;
 object-fit:cover;
-}
+}  
   
 .logout-btn{  
 background:#d9534f!important;  
@@ -764,7 +764,7 @@ Continue with Google
 <div class="review-box">  
 <button class="close-btn" onclick="closeReviewModal()">×</button>
 <h2 style="text-align:center" id="reviewModalTitle">⭐ Star & Comment</h2>  
-<p id="reviewBookName" style="text-align:color:#666;margin-top:8px">Book</p>  
+<p id="reviewBookName" style="text-align:center;color:#666;margin-top:8px">Book</p>  
 <div class="review-stars">  
 <button class="review-star" id="reviewStar1" onclick="selectReviewRating(1)">★</button>
 <button class="review-star" id="reviewStar2" onclick="selectReviewRating(2)">★</button>
@@ -850,70 +850,66 @@ function escapeHTML(text){
   return div.innerHTML;  
 }  
 
-/* SAFE BOOKS LOADER WITH FALLBACK */
+/* DUAL-LOCATION BOOK LOADER (Folder & Root Auto-Detect) */
 async function loadBooks(){  
   const status = document.getElementById("status");  
   status.textContent = "📚 Loading books...";  
 
-  try {
-    const cached = sessionStorage.getItem("cached_books");
-    if(cached){
-      allBooks = JSON.parse(cached);
-      if(allBooks.length > 0){
-        status.textContent = `${allBooks.length} book(s) available`;  
-        displayBooks(allBooks);  
-        checkUrlParams();  
-        fetchBooksFromGitHub(false);
-        return;
+  try{  
+    // 1. Pehle "books" folder me check karein
+    let url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/books?ref=${GITHUB_BRANCH}`;  
+    let response = await fetch(url);  
+    let files = [];
+
+    if(response.ok){
+      files = await response.json();
+    } else {
+      // 2. Agar "books" folder nahi mila toh seedha root repo check karein
+      url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
+      response = await fetch(url);
+      if(response.ok){
+        files = await response.json();
       }
     }
-  } catch(e){}
 
-  await fetchBooksFromGitHub(true);
-}  
-
-async function fetchBooksFromGitHub(showErrors = true){
-  const status = document.getElementById("status");
-  try{  
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/books?ref=${GITHUB_BRANCH}`;  
-    let response = await fetch(url);  
-    
-    if(response.ok){
-      const files = await response.json();  
+    if(Array.isArray(files) && files.length > 0){
       allBooks = files  
         .filter(file => file.type === "file" && file.name.toLowerCase().endsWith(".pdf"))  
         .map(file => ({  
           name: file.name,  
-          download_url: file.download_url || `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/books/${encodeURIComponent(file.name)}`,  
+          path: file.path || file.name,
+          download_url: file.download_url,  
           html_url: file.html_url  
         }));  
-    } else {
+    }
+
+    // 3. Fallback: Git Tree API (Agar dono Contents API rate-limit ho jayein)
+    if(!allBooks.length){
       const treeUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`;
-      let treeRes = await fetch(treeUrl);
-      if(!treeRes.ok) throw new Error("GitHub rate limit reached");
-      const treeData = await treeRes.json();
-      allBooks = (treeData.tree || [])
-        .filter(item => item.type === "blob" && item.path.toLowerCase().startsWith("books/") && item.path.toLowerCase().endsWith(".pdf"))
-        .map(item => ({
-          name: item.path.split("/").pop(),
-          download_url: `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${encodeURIComponent(item.path)}`,
-          html_url: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/blob/${GITHUB_BRANCH}/${encodeURIComponent(item.path)}`
-        }));
+      const treeRes = await fetch(treeUrl);
+      if(treeRes.ok){
+        const treeData = await treeRes.json();
+        allBooks = (treeData.tree || [])
+          .filter(item => item.type === "blob" && item.path.toLowerCase().endsWith(".pdf"))
+          .map(item => ({
+            name: item.path.split("/").pop(),
+            path: item.path,
+            download_url: `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${encodeURIComponent(item.path)}`,
+            html_url: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/blob/${GITHUB_BRANCH}/${encodeURIComponent(item.path)}`
+          }));
+      }
     }
 
     if(allBooks.length > 0){
-      sessionStorage.setItem("cached_books", JSON.stringify(allBooks));
       status.textContent = `${allBooks.length} book(s) available`;  
       displayBooks(allBooks);  
       checkUrlParams();  
     } else {
-      status.textContent = "📚 No books found in books/ folder.";
+      status.innerHTML = `📚 Koi book nahi mili. <button onclick="loadBooks()" style="padding:4px 10px;margin-left:8px;cursor:pointer;border-radius:5px;border:1px solid #ccc;background:#fff;">🔄 Retry</button>`;
     }
   }catch(error){  
     console.error(error);  
-    if(showErrors && !allBooks.length){
-      status.innerHTML = `⚠️ Books load nahi ho pa rahi. <button onclick="loadBooks()" style="padding:4px 10px;margin-left:8px;cursor:pointer;border-radius:5px;border:1px solid #ccc;background:#fff;">🔄 Retry</button>`;  
-    }
+    status.innerHTML = `⚠️ Books load nahi ho pa rahi. <button onclick="loadBooks()" style="padding:4px 10px;margin-left:8px;cursor:pointer;border-radius:5px;border:1px solid #ccc;background:#fff;">🔄 Retry</button>`;  
   }  
 }
 
@@ -997,7 +993,8 @@ async function loadArchiveDate(book, elementId){
       if(el) el.textContent = "archived " + archiveDates[book.name];  
       return;  
     }  
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/commits?path=${encodeURIComponent("books/" + book.name)}&sha=${GITHUB_BRANCH}&per_page=1`;  
+    const filePath = book.path || book.name;
+    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/commits?path=${encodeURIComponent(filePath)}&sha=${GITHUB_BRANCH}&per_page=1`;  
     const response = await fetch(url);  
     if(!response.ok) throw new Error("Date error");  
     const commits = await response.json();  
@@ -1037,7 +1034,6 @@ async function openBookDetails(bookIndex, updateHistory = true){
   await renderCover(book.download_url, "pageCover");  
   
   await loadCommentsForPage(book.name);  
-  // UPDATE: Sirf current count fetch hoga, increment nahi hoga
   await updateBookViewCount(book.name);  
 }  
 
@@ -1497,12 +1493,12 @@ async function stopReaderPresence(){
   setReaderViewerCount(0);  
 }  
 
-/* PDF READER FULL SCREEN (VIEWS INCREMENT HAPPENS HERE) */  
+/* PDF READER FULL SCREEN (VIEWS INCREMENT HAPPENS ONLY HERE) */  
 async function openReader(bookIndex){  
   const book = allBooks[bookIndex];  
   if(!book) return;  
 
-  // UPDATE: Book reader khulte hi view count badhega
+  // Book read hone par view count increase hoga
   incrementBookView(book.name);
 
   isRenderingPdf = true;  
