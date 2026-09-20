@@ -216,8 +216,8 @@ color:#fff;
 .sidebar-link.social-tg:hover{color:#38bdf8;}
   
 .hero{  
-min-height:320px;  
-padding:60px 20px;  
+min-height:340px;  
+padding:60px 20px 40px;  
 text-align:center;  
 color:#fff;  
 background:  
@@ -244,6 +244,24 @@ border-radius:35px;
 outline:0;  
 font-size:16px;  
 }  
+
+.hero-creator-info{
+margin-top:18px;
+color:#fff;
+text-shadow:0 2px 5px rgba(0,0,0,.7);
+}
+
+.hero-creator-name{
+font-size:20px;
+font-weight:bold;
+letter-spacing:0.5px;
+}
+
+.hero-creator-location{
+font-size:14px;
+color:#ddd;
+margin-top:4px;
+}
   
 .books-section{  
 padding:40px 5%;  
@@ -736,13 +754,14 @@ font-size:18px;
 text-align:center;  
 padding:20px;  
 }  
-  
+
 footer{  
 background:#111;  
 color:#fff;  
 text-align:center;  
 padding:25px;  
 margin-top:30px;  
+line-height:1.6;
 }  
   
 @media(max-width:600px){  
@@ -762,7 +781,7 @@ margin-top:30px;
 
 <aside class="sidebar-menu" id="sidebarMenu">
   <div class="sidebar-header">
-    <h3> Attari Books</h3>
+    <h3>📚 Attari Books</h3>
     <button class="sidebar-close-btn" onclick="closeSidebar()">✕</button>
   </div>
   <div class="sidebar-content">
@@ -787,7 +806,7 @@ margin-top:30px;
   <!-- LEFT: 3-LINE MENU + LOGO -->
   <div class="header-left">
     <button class="menu-toggle-btn" onclick="openSidebar()" title="Open Menu">☰</button>
-    <div class="logo" onclick="goBackToHome()"> Attari Books</div>  
+    <div class="logo" onclick="goBackToHome()">📚 Attari Books</div>  
   </div>
 
   <!-- RIGHT: SIGN IN / PROFILE -->
@@ -809,14 +828,20 @@ margin-top:30px;
 <!-- MAIN HOME CONTAINER -->
 <div id="homePageContainer">
 <section class="hero">  
-<h1>Attari Books</h1>  
-<p>Your Digital Library</p>  
-<input id="searchBox" type="text" placeholder="Search books..." oninput="searchBooks()">
+  <h1>Attari Books</h1>  
+  <p>Your Digital Library</p>  
+  <input id="searchBox" type="text" placeholder="Search books..." oninput="searchBooks()">
+  
+  <!-- SEARCH BOX KE THEEK NICHE NAME AUR LOCATION -->
+  <div class="hero-creator-info">
+    <div class="hero-creator-name">Abdul Malek</div>
+    <div class="hero-creator-location">📍 Raiganj, West Bengal</div>
+  </div>
 </section>  
 
 <section class="books-section" id="books">  
 <h2 class="section-title">Latest Books</h2>  
-<div id="status"> Loading books...</div>  
+<div id="status">📚 Loading books...</div>  
 <div class="books-grid" id="booksGrid"></div>  
 </section>  
 </div>
@@ -909,7 +934,7 @@ Continue with Google
 </div>  
 
 <footer>  
-© 2026 Attari Books — Developed and Created by- Abdul Malek Attari. (Raiganj Weat Bangal)
+© 2026 Attari Books — Developed and Created by- Abdul Malek Attari. (Raiganj West Bengal)
 </footer>  
 
 <script>  
@@ -986,37 +1011,51 @@ function scrollToBooks(){
   }
 }
 
-/* DUAL-LOCATION BOOK LOADER (Folder & Root Auto-Detect) */
+/* RELIABLE ROOT & FOLDER BOOK LOADER */
 async function loadBooks(){  
   const status = document.getElementById("status");  
   status.textContent = "📚 Loading books...";  
 
   try{  
-    let url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/books?ref=${GITHUB_BRANCH}`;  
+    // 1. Pehle repository root se fetch karein
+    let url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;  
     let response = await fetch(url);  
     let files = [];
 
     if(response.ok){
       files = await response.json();
-    } else {
-      url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/?ref=${GITHUB_BRANCH}`;
-      response = await fetch(url);
-      if(response.ok){
-        files = await response.json();
+      if(Array.isArray(files)){
+        allBooks = files  
+          .filter(file => file.type === "file" && file.name.toLowerCase().endsWith(".pdf"))  
+          .map(file => ({  
+            name: file.name,  
+            path: file.path || file.name,
+            download_url: file.download_url,  
+            html_url: file.html_url  
+          }));  
       }
     }
 
-    if(Array.isArray(files) && files.length > 0){
-      allBooks = files  
-        .filter(file => file.type === "file" && file.name.toLowerCase().endsWith(".pdf"))  
-        .map(file => ({  
-          name: file.name,  
-          path: file.path || file.name,
-          download_url: file.download_url,  
-          html_url: file.html_url  
-        }));  
+    // 2. Agar root me nahi mili toh books folder check karein
+    if(!allBooks.length){
+      url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/books?ref=${GITHUB_BRANCH}`;
+      response = await fetch(url);
+      if(response.ok){
+        files = await response.json();
+        if(Array.isArray(files)){
+          allBooks = files  
+            .filter(file => file.type === "file" && file.name.toLowerCase().endsWith(".pdf"))  
+            .map(file => ({  
+              name: file.name,  
+              path: file.path || file.name,
+              download_url: file.download_url,  
+              html_url: file.html_url  
+            }));  
+        }
+      }
     }
 
+    // 3. Fallback Git Tree API agar Contents API rate-limit ho
     if(!allBooks.length){
       const treeUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`;
       const treeRes = await fetch(treeUrl);
