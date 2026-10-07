@@ -1,1 +1,98 @@
+async function loadPublicData() {
+  loadPrograms();
+  loadLangar();
+  loadMembers();
+  loadGallery();
+}
 
+// 1. Programs Loader
+async function loadPrograms() {
+  const container = document.getElementById("programList");
+  try {
+    const snap = await db.collection("programs").orderBy("date", "desc").get();
+    if (snap.empty) {
+      container.innerHTML = "<p>Filhal koi naya program schedule nahi hai.</p>";
+      return;
+    }
+    container.innerHTML = snap.docs.map(doc => {
+      const p = doc.data();
+      return `
+        <div class="item">
+          <h3>${p.title || "Program"}</h3>
+          <p><strong>Tareekh:</strong> ${p.date || "N/A"}</p>
+          <p><strong>Muqaam:</strong> ${p.location || "N/A"}</p>
+          <p>${p.description || ""}</p>
+        </div>`;
+    }).join("");
+  } catch (err) {
+    container.innerHTML = `<p class="small">Error: ${err.message}</p>`;
+  }
+}
+
+// 2. Langar Info Loader
+async function loadLangar() {
+  const container = document.getElementById("langarData");
+  try {
+    const snap = await db.collection("langar").limit(1).get();
+    if (snap.empty) {
+      container.innerHTML = "<p>Langar details jald update ki jayengi.</p>";
+      return;
+    }
+    const data = snap.docs[0].data();
+    container.innerHTML = `
+      <div class="item">
+        <h3>${data.title || "Langar-e-Gausiya"}</h3>
+        <p><strong>Timing:</strong> ${data.timing || "N/A"}</p>
+        <p><strong>Venue:</strong> ${data.venue || "N/A"}</p>
+        <p>${data.details || ""}</p>
+      </div>`;
+  } catch (err) {
+    container.innerHTML = `<p class="small">Error: ${err.message}</p>`;
+  }
+}
+
+// 3. Members Loader
+async function loadMembers() {
+  const container = document.getElementById("memberList");
+  try {
+    const snap = await db.collection("members").orderBy("name").get();
+    if (snap.empty) {
+      container.innerHTML = "<p>Members list update ho rahi hai.</p>";
+      return;
+    }
+    container.innerHTML = `<div class="grid">` + snap.docs.map(doc => {
+      const m = doc.data();
+      return `
+        <div class="feature">
+          ${m.photoUrl ? `<img src="${m.photoUrl}" alt="${m.name}" style="height:140px;width:100%;object-fit:cover;margin-bottom:8px;">` : ""}
+          <h3>${m.name || "Member"}</h3>
+          <p class="small"><strong>Zimmedari:</strong> ${m.role || "Khadim"}</p>
+          ${m.city ? `<p class="small">Shahar: ${m.city}</p>` : ""}
+        </div>`;
+    }).join("") + `</div>`;
+  } catch (err) {
+    container.innerHTML = `<p class="small">Error: ${err.message}</p>`;
+  }
+}
+
+// 4. Photo Gallery Loader
+async function loadGallery() {
+  const container = document.getElementById("photoList");
+  try {
+    const snap = await db.collection("gallery").orderBy("createdAt", "desc").limit(12).get();
+    if (snap.empty) {
+      container.innerHTML = "<p>Photos jald add ki jayengi.</p>";
+      return;
+    }
+    container.innerHTML = `<div class="grid">` + snap.docs.map(doc => {
+      const img = doc.data();
+      return `
+        <div class="item">
+          <img src="${img.url}" alt="${img.caption || 'Gallery Image'}" loading="lazy">
+          <p class="small" style="margin-top:6px;">${img.caption || ""}</p>
+        </div>`;
+    }).join("") + `</div>`;
+  } catch (err) {
+    container.innerHTML = `<p class="small">Error: ${err.message}</p>`;
+  }
+}
