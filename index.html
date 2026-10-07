@@ -1,98 +1,814 @@
-async function loadPublicData() {
-  loadPrograms();
-  loadLangar();
-  loadMembers();
-  loadGallery();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KHADIMIN-E-AULIYA</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-// 1. Programs Loader
-async function loadPrograms() {
-  const container = document.getElementById("programList");
-  try {
+body{
+  font-family:Arial,sans-serif;
+  background:#f5f7f5;
+  color:#17231d;
+}
+
+header{
+  background:#123c2b;
+  color:white;
+  padding:18px;
+  text-align:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+header h1{
+  font-size:23px;
+}
+
+header p{
+  margin-top:5px;
+  font-size:13px;
+}
+
+nav{
+  display:flex;
+  overflow-x:auto;
+  background:white;
+  border-bottom:1px solid #ddd;
+  position:sticky;
+  top:68px;
+  z-index:99;
+}
+
+nav button{
+  min-width:110px;
+  border:0;
+  background:white;
+  padding:14px 10px;
+  cursor:pointer;
+  color:#123c2b;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+nav button:hover{
+  background:#eaf2ed;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:18px;
+}
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block;
+}
+
+.card{
+  background:white;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 4px 18px rgba(0,0,0,.08);
+}
+
+h2{
+  color:#123c2b;
+  margin-bottom:15px;
+}
+
+h3{
+  margin-bottom:8px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  border:1px solid #ccd8d1;
+  border-radius:10px;
+  font-size:15px;
+}
+
+textarea{
+  min-height:90px;
+}
+
+button.action{
+  width:100%;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  background:#176044;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:8px;
+}
+
+button.secondary{
+  background:#e7eee9;
+  color:#17382a;
+}
+
+button.danger{
+  background:#b42318;
+  color:white;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:15px;
+}
+
+.feature{
+  padding:18px;
+  background:#f8fbf9;
+  border:1px solid #dce7e0;
+  border-radius:14px;
+}
+
+.hero{
+  text-align:center;
+  padding:35px 15px;
+  background:linear-gradient(135deg,#123c2b,#23644b);
+  color:white;
+  border-radius:18px;
+  margin-bottom:18px;
+}
+
+.hero h2{
+  color:white;
+  font-size:28px;
+}
+
+.status{
+  padding:12px;
+  border-radius:10px;
+  background:#eef7f1;
+  margin:10px 0;
+  font-size:14px;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.small{
+  font-size:13px;
+  color:#68766f;
+}
+
+.item{
+  border:1px solid #dde5e0;
+  border-radius:13px;
+  padding:14px;
+  margin:10px 0;
+  background:white;
+}
+
+img,
+video{
+  max-width:100%;
+  border-radius:12px;
+}
+
+.badge{
+  display:inline-block;
+  padding:3px 8px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:bold;
+}
+.badge-success{ background:#e6f4ea; color:#137333; }
+.badge-pending{ background:#fef7e0; color:#b06000; }
+
+footer{
+  background:#123c2b;
+  color:white;
+  text-align:center;
+  padding:25px;
+  margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>KHADIMIN-E-AULIYA</h1>
+  <p>Khidmat • Sufiyana Taleem • Community</p>
+</header>
+
+<nav>
+  <button onclick="showSection('home')">Home</button>
+  <button onclick="showSection('programs')">Programs</button>
+  <button onclick="showSection('donation')">Donation</button>
+  <button onclick="showSection('rashid')">Rashid Check</button>
+  <button onclick="showSection('gallery')">Gallery</button>
+  <button onclick="showSection('videos')">Videos</button>
+  <button onclick="showSection('members')">Members</button>
+  <button onclick="showSection('langar')">Langar</button>
+  <button id="navLoginBtn" onclick="showSection('login')">Login</button>
+  <button onclick="showSection('admin')">Admin</button>
+</nav>
+
+<div class="container">
+
+<!-- HOME -->
+<section id="home" class="section active">
+  <div class="hero">
+    <h2>KHADIMIN-E-AULIYA</h2>
+    <p>Islamic & Sufi Community Portal</p>
+  </div>
+
+  <div class="card">
+    <h2>Khair Maqdam</h2>
+    <p>
+      KHADIMIN-E-AULIYA mein aapka khair maqdam hai. Yahan programs, Langar-e-Gausiya,
+      attested raseed verification, aur community khidmat ki mukammal jankari dastiyab hai.
+    </p>
+  </div>
+
+  <div class="grid">
+    <div class="feature">
+      <h3>Programs</h3>
+      <p>Aane wale majalis aur deeni ijtema ki updates.</p>
+      <button class="action" onclick="showSection('programs')">View Programs</button>
+    </div>
+
+    <div class="feature">
+      <h3>Donation</h3>
+      <p>Bank, UPI aur barah-e-raast khidmat tafseelat.</p>
+      <button class="action" onclick="showSection('donation')">Donation Details</button>
+    </div>
+
+    <div class="feature">
+      <h3>Rashid Check</h3>
+      <p>Apne taawun ki raseed verify karein.</p>
+      <button class="action" onclick="showSection('rashid')">Check Rashid</button>
+    </div>
+
+    <div class="feature">
+      <h3>Langar-e-Gausiya</h3>
+      <p>Langar intezamat aur khidmat ki details.</p>
+      <button class="action" onclick="showSection('langar')">Langar Info</button>
+    </div>
+  </div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="section">
+  <div class="card" style="max-width:500px;margin:auto;">
+    <h2>Account Access</h2>
+
+    <div id="authStatusBox" class="hidden">
+      <p id="currentUserEmail" style="font-weight:bold;margin-bottom:10px;"></p>
+      <button class="action danger" onclick="logout()">Sign Out</button>
+    </div>
+
+    <div id="authFormBox">
+      <input id="email" type="email" placeholder="Email Address">
+      <input id="password" type="password" placeholder="Password">
+
+      <button class="action" onclick="login()">Sign In</button>
+      <button class="action secondary" onclick="signup()">Create Account</button>
+      <button class="action secondary" onclick="forgotPassword()">Forgot Password</button>
+
+      <p id="authMessage" class="small" style="margin-top:10px;"></p>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section id="programs" class="section">
+  <div class="card">
+    <h2>Islamic & Community Programs</h2>
+    <div id="programList">
+      <p class="small">Programs load ho rahe hain...</p>
+    </div>
+  </div>
+</section>
+
+<!-- DONATION -->
+<section id="donation" class="section">
+  <div class="card">
+    <h2>Imdad & Donation Details</h2>
+    <p class="small" style="margin-bottom:15px;">Aap neeche diye gaye bank accounts aur UPI par apna taawun bhej sakte hain.</p>
+    <div id="paymentDetails">
+      <p class="small">Payment methods load ho rahe hain...</p>
+    </div>
+  </div>
+</section>
+
+<!-- RASHID CHECK -->
+<section id="rashid" class="section">
+  <div class="card">
+    <h2>Raseed (Donation Receipt) Verification</h2>
+    <p class="small">
+      Apna registered 10-digit mobile number darj karke apni donation raseed ka status verify karein.
+    </p>
+
+    <input id="rashidMobile" type="tel" placeholder="Mobile Number (e.g., 9876543210)" maxlength="10">
+    <button class="action" onclick="checkRashid()">Check Status</button>
+
+    <div id="rashidResult"></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="section">
+  <div class="card">
+    <h2>Photo Gallery</h2>
+    <div id="photoList">
+      <p class="small">Tasweerein load ho rahi hain...</p>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos" class="section">
+  <div class="card">
+    <h2>Bayan & Video Gallery</h2>
+    <div id="videoList">
+      <p class="small">Videos load ho rahi hain...</p>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERS -->
+<section id="members" class="section">
+  <div class="card">
+    <h2>Khadimin-e-Auliya Committee Members</h2>
+    <div id="memberList">
+      <p class="small">Members tafseelat load ho rahi hain...</p>
+    </div>
+  </div>
+</section>
+
+<!-- LANGAR -->
+<section id="langar" class="section">
+  <div class="card">
+    <h2>Langar-e-Gausiya Updates</h2>
+    <div id="langarData">
+      <p class="small">Langar details load ho rahi hain...</p>
+    </div>
+  </div>
+</section>
+
+<!-- ADMIN -->
+<section id="admin" class="section">
+  <div class="card">
+    <h2>Admin Dashboard</h2>
+    <div id="adminStatus" class="status">
+      Admin status check ho raha hai...
+    </div>
+
+    <div id="adminControls" class="hidden">
+      <div class="grid">
+        <div class="feature">
+          <h3>+ Naya Program</h3>
+          <p>Add new upcoming event</p>
+          <button class="action" onclick="openAdminForm('program')">Add Program</button>
+        </div>
+        <div class="feature">
+          <h3>+ Issue Rashid</h3>
+          <p>Generate new donor receipt</p>
+          <button class="action" onclick="openAdminForm('rashid')">Issue Rashid</button>
+        </div>
+        <div class="feature">
+          <h3>+ Payment Method</h3>
+          <p>Add Bank / UPI account</p>
+          <button class="action" onclick="openAdminForm('payment')">Add Payment</button>
+        </div>
+        <div class="feature">
+          <h3>+ Add Member</h3>
+          <p>Add committee member</p>
+          <button class="action" onclick="openAdminForm('member')">Add Member</button>
+        </div>
+      </div>
+
+      <!-- Quick Admin Input Box -->
+      <div id="adminDynamicForm" class="card hidden" style="margin-top:20px;border:2px solid #176044;">
+        <h3 id="formTitle">Manage Data</h3>
+        <div id="formFields"></div>
+        <button class="action" id="formSubmitBtn">Save Data</button>
+        <button class="action secondary" onclick="closeAdminForm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <p>© 2026 KHADIMIN-E-AULIYA</p>
+  <p class="small">Islamic Community Portal • Built with Firebase</p>
+</footer>
+
+<!-- FIREBASE SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+
+<script>
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+function showSection(id){
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  const target = document.getElementById(id);
+  if(target){
+    target.classList.add("active");
+    window.scrollTo({ top:0, behavior:"smooth" });
+  }
+}
+
+/* =========================================================
+   AUTH LOGIC
+========================================================= */
+async function signup(){
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const msg = document.getElementById("authMessage");
+  try{
+    await auth.createUserWithEmailAndPassword(email, password);
+    msg.textContent = "Account successfully created!";
+  }catch(err){
+    msg.textContent = err.message;
+  }
+}
+
+async function login(){
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const msg = document.getElementById("authMessage");
+  try{
+    await auth.signInWithEmailAndPassword(email, password);
+    msg.textContent = "Login successful!";
+  }catch(err){
+    msg.textContent = err.message;
+  }
+}
+
+async function forgotPassword(){
+  const email = document.getElementById("email").value.trim();
+  if(!email){ alert("Pehle Email Address darj karein."); return; }
+  try{
+    await auth.sendPasswordResetEmail(email);
+    alert("Password reset email bhej diya gaya hai.");
+  }catch(err){
+    alert(err.message);
+  }
+}
+
+async function logout(){
+  await auth.signOut();
+  showSection("home");
+}
+
+/* Auth State Observer */
+auth.onAuthStateChanged(async (user) => {
+  const adminStatus = document.getElementById("adminStatus");
+  const adminControls = document.getElementById("adminControls");
+  const authStatusBox = document.getElementById("authStatusBox");
+  const authFormBox = document.getElementById("authFormBox");
+  const navLoginBtn = document.getElementById("navLoginBtn");
+
+  if(user){
+    authStatusBox.classList.remove("hidden");
+    authFormBox.classList.add("hidden");
+    document.getElementById("currentUserEmail").textContent = `Logged in as: ${user.email}`;
+    navLoginBtn.textContent = "Account";
+
+    try{
+      const token = await user.getIdTokenResult(true);
+      if(token.claims.admin === true){
+        adminStatus.textContent = "Admin verified. Full controls open.";
+        adminStatus.style.background = "#e6f4ea";
+        adminControls.classList.remove("hidden");
+      }else{
+        adminStatus.textContent = "Aap authenticated hain, lekin Admin rights nahi hain.";
+        adminStatus.style.background = "#fef7e0";
+        adminControls.classList.add("hidden");
+      }
+    }catch(e){
+      adminStatus.textContent = "Admin verification failed: " + e.message;
+    }
+  }else{
+    authStatusBox.classList.add("hidden");
+    authFormBox.classList.remove("hidden");
+    navLoginBtn.textContent = "Login";
+    adminStatus.textContent = "Admin access ke liye Login zaroori hai.";
+    adminStatus.style.background = "#eef7f1";
+    adminControls.classList.add("hidden");
+  }
+});
+
+/* =========================================================
+   PUBLIC DATA LOADERS
+========================================================= */
+async function loadPrograms(){
+  const box = document.getElementById("programList");
+  try{
     const snap = await db.collection("programs").orderBy("date", "desc").get();
-    if (snap.empty) {
-      container.innerHTML = "<p>Filhal koi naya program schedule nahi hai.</p>";
+    if(snap.empty){
+      box.innerHTML = "<p>Filhal koi program registered nahi hai.</p>";
       return;
     }
-    container.innerHTML = snap.docs.map(doc => {
+    box.innerHTML = snap.docs.map(doc => {
       const p = doc.data();
       return `
         <div class="item">
-          <h3>${p.title || "Program"}</h3>
-          <p><strong>Tareekh:</strong> ${p.date || "N/A"}</p>
-          <p><strong>Muqaam:</strong> ${p.location || "N/A"}</p>
-          <p>${p.description || ""}</p>
+          <h3>${p.title || "Majlis / Program"}</h3>
+          <p><strong>Tareekh:</strong> ${p.date || "Jald aayegi"}</p>
+          <p><strong>Muqaam:</strong> ${p.location || "Darbar Sharif"}</p>
+          <p style="margin-top:5px;">${p.description || ""}</p>
         </div>`;
     }).join("");
-  } catch (err) {
-    container.innerHTML = `<p class="small">Error: ${err.message}</p>`;
+  }catch(e){
+    box.innerHTML = `<p class="small">Error: ${e.message}</p>`;
   }
 }
 
-// 2. Langar Info Loader
-async function loadLangar() {
-  const container = document.getElementById("langarData");
-  try {
-    const snap = await db.collection("langar").limit(1).get();
-    if (snap.empty) {
-      container.innerHTML = "<p>Langar details jald update ki jayengi.</p>";
+async function loadPaymentDetails(){
+  const box = document.getElementById("paymentDetails");
+  try{
+    const snap = await db.collection("paymentMethods").get();
+    if(snap.empty){
+      box.innerHTML = "<p>Payment details jald update hongi.</p>";
       return;
     }
-    const data = snap.docs[0].data();
-    container.innerHTML = `
-      <div class="item">
-        <h3>${data.title || "Langar-e-Gausiya"}</h3>
-        <p><strong>Timing:</strong> ${data.timing || "N/A"}</p>
-        <p><strong>Venue:</strong> ${data.venue || "N/A"}</p>
-        <p>${data.details || ""}</p>
-      </div>`;
-  } catch (err) {
-    container.innerHTML = `<p class="small">Error: ${err.message}</p>`;
+    box.innerHTML = snap.docs.map(doc => {
+      const p = doc.data();
+      return `
+        <div class="item">
+          <h3>${p.title || "Donation Account"}</h3>
+          ${p.bankName ? `<p><strong>Bank:</strong> ${p.bankName}</p>` : ""}
+          ${p.accountNumber ? `<p><strong>Account No:</strong> ${p.accountNumber}</p>` : ""}
+          ${p.ifsc ? `<p><strong>IFSC:</strong> ${p.ifsc}</p>` : ""}
+          ${p.upi ? `<p><strong>UPI ID:</strong> ${p.upi}</p>` : ""}
+        </div>`;
+    }).join("");
+  }catch(e){
+    box.innerHTML = `<p class="small">Error: ${e.message}</p>`;
   }
 }
 
-// 3. Members Loader
-async function loadMembers() {
-  const container = document.getElementById("memberList");
-  try {
-    const snap = await db.collection("members").orderBy("name").get();
-    if (snap.empty) {
-      container.innerHTML = "<p>Members list update ho rahi hai.</p>";
+async function loadGallery(){
+  const box = document.getElementById("photoList");
+  try{
+    const snap = await db.collection("gallery").limit(12).get();
+    if(snap.empty){
+      box.innerHTML = "<p>Filhal koi tasveer nahi hai.</p>";
       return;
     }
-    container.innerHTML = `<div class="grid">` + snap.docs.map(doc => {
+    box.innerHTML = `<div class="grid">` + snap.docs.map(doc => {
+      const g = doc.data();
+      return `
+        <div class="item">
+          <img src="${g.url}" alt="${g.caption || 'Image'}" loading="lazy">
+          <p class="small" style="margin-top:6px;">${g.caption || ""}</p>
+        </div>`;
+    }).join("") + `</div>`;
+  }catch(e){
+    box.innerHTML = `<p class="small">Error: ${e.message}</p>`;
+  }
+}
+
+async function loadMembers(){
+  const box = document.getElementById("memberList");
+  try{
+    const snap = await db.collection("members").get();
+    if(snap.empty){
+      box.innerHTML = "<p>Members list jald update ki jayegi.</p>";
+      return;
+    }
+    box.innerHTML = `<div class="grid">` + snap.docs.map(doc => {
       const m = doc.data();
       return `
         <div class="feature">
-          ${m.photoUrl ? `<img src="${m.photoUrl}" alt="${m.name}" style="height:140px;width:100%;object-fit:cover;margin-bottom:8px;">` : ""}
-          <h3>${m.name || "Member"}</h3>
-          <p class="small"><strong>Zimmedari:</strong> ${m.role || "Khadim"}</p>
-          ${m.city ? `<p class="small">Shahar: ${m.city}</p>` : ""}
+          <h3>${m.name || "Khadim"}</h3>
+          <p class="small"><strong>Khidmat:</strong> ${m.responsibility || "Member"}</p>
+          ${m.address ? `<p class="small">${m.address}</p>` : ""}
         </div>`;
     }).join("") + `</div>`;
-  } catch (err) {
-    container.innerHTML = `<p class="small">Error: ${err.message}</p>`;
+  }catch(e){
+    box.innerHTML = `<p class="small">Error: ${e.message}</p>`;
   }
 }
 
-// 4. Photo Gallery Loader
-async function loadGallery() {
-  const container = document.getElementById("photoList");
-  try {
-    const snap = await db.collection("gallery").orderBy("createdAt", "desc").limit(12).get();
-    if (snap.empty) {
-      container.innerHTML = "<p>Photos jald add ki jayengi.</p>";
+async function loadLangar(){
+  const box = document.getElementById("langarData");
+  try{
+    const snap = await db.collection("langar").limit(1).get();
+    if(snap.empty){
+      box.innerHTML = "<p>Langar-e-Gausiya jald mun-aqid hoga.</p>";
       return;
     }
-    container.innerHTML = `<div class="grid">` + snap.docs.map(doc => {
-      const img = doc.data();
-      return `
-        <div class="item">
-          <img src="${img.url}" alt="${img.caption || 'Gallery Image'}" loading="lazy">
-          <p class="small" style="margin-top:6px;">${img.caption || ""}</p>
-        </div>`;
-    }).join("") + `</div>`;
-  } catch (err) {
-    container.innerHTML = `<p class="small">Error: ${err.message}</p>`;
+    const d = snap.docs[0].data();
+    box.innerHTML = `
+      <div class="item">
+        <h3>${d.title || "Rozana / Jumeraat Langar"}</h3>
+        <p><strong>Timing:</strong> ${d.timing || "Baad Namaz Maghrib"}</p>
+        <p><strong>Pata:</strong> ${d.location || "Darbar Sharif"}</p>
+        <p style="margin-top:6px;">${d.note || "Sabhi hazraat sharik ho sakte hain."}</p>
+      </div>`;
+  }catch(e){
+    box.innerHTML = `<p class="small">Error: ${e.message}</p>`;
   }
 }
+
+/* =========================================================
+   RASHID CHECK (Verification Query)
+========================================================= */
+async function checkRashid(){
+  const mobile = document.getElementById("rashidMobile").value.trim();
+  const resBox = document.getElementById("rashidResult");
+
+  if(mobile.length < 10){
+    alert("Kripya valid 10 digit mobile number darj karein.");
+    return;
+  }
+
+  resBox.innerHTML = `<div class="status">Talash jari hai...</div>`;
+
+  try{
+    const snap = await db.collection("rashid").where("mobile", "==", mobile).get();
+
+    if(snap.empty){
+      resBox.innerHTML = `
+        <div class="status" style="background:#fde8e8;color:#9b1c1c;">
+          Is number par koi taawun ya raseed darj nahi mili.
+        </div>`;
+      return;
+    }
+
+    resBox.innerHTML = snap.docs.map(doc => {
+      const r = doc.data();
+      const isConfirmed = r.status === "Confirmed";
+      return `
+        <div class="item">
+          <h3>Raseed No: ${r.receiptNo || "Auto-Gen"}</h3>
+          <p><strong>Name:</strong> ${r.donorName || "Mohtaram"}</p>
+          <p><strong>Raqam:</strong> ₹${r.amount}</p>
+          <p><strong>Status:</strong> <span class="badge ${isConfirmed ? 'badge-success' : 'badge-pending'}">${r.status || 'Pending'}</span></p>
+          <p class="small">Date: ${r.date || "N/A"}</p>
+        </div>`;
+    }).join("");
+
+  }catch(err){
+    resBox.innerHTML = `
+      <div class="status" style="background:#fde8e8;color:#9b1c1c;">
+        Error: ${err.message}. (Rules check karein)
+      </div>`;
+  }
+}
+
+/* =========================================================
+   ADMIN ACTIONS (Dynamic Forms)
+========================================================= */
+function openAdminForm(type){
+  const box = document.getElementById("adminDynamicForm");
+  const title = document.getElementById("formTitle");
+  const fields = document.getElementById("formFields");
+  const btn = document.getElementById("formSubmitBtn");
+
+  box.classList.remove("hidden");
+
+  if(type === 'program'){
+    title.textContent = "Naya Program Add Karein";
+    fields.innerHTML = `
+      <input id="pTitle" placeholder="Program Ka Naam">
+      <input id="pDate" type="date">
+      <input id="pLoc" placeholder="Muqaam / Location">
+      <textarea id="pDesc" placeholder="Mukhtasar Tafseelat"></textarea>
+    `;
+    btn.onclick = async () => {
+      await db.collection("programs").add({
+        title: document.getElementById("pTitle").value,
+        date: document.getElementById("pDate").value,
+        location: document.getElementById("pLoc").value,
+        description: document.getElementById("pDesc").value,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      alert("Program shamil kar diya gaya!");
+      closeAdminForm();
+      loadPrograms();
+    };
+  } else if(type === 'rashid'){
+    title.textContent = "Nayi Raseed Generate Karein";
+    fields.innerHTML = `
+      <input id="rReceipt" placeholder="Receipt Number (e.g. R-101)">
+      <input id="rName" placeholder="Donor Ka Naam">
+      <input id="rMobile" placeholder="Donor Mobile (10 Digits)" maxlength="10">
+      <input id="rAmt" type="number" placeholder="Raqam (Amount ₹)">
+      <select id="rStatus">
+        <option value="Confirmed">Confirmed</option>
+        <option value="Pending">Pending</option>
+      </select>
+    `;
+    btn.onclick = async () => {
+      await db.collection("rashid").add({
+        receiptNo: document.getElementById("rReceipt").value,
+        donorName: document.getElementById("rName").value,
+        mobile: document.getElementById("rMobile").value,
+        amount: document.getElementById("rAmt").value,
+        status: document.getElementById("rStatus").value,
+        date: new Date().toLocaleDateString()
+      });
+      alert("Rashid darj ho gayi!");
+      closeAdminForm();
+    };
+  } else if(type === 'payment'){
+    title.textContent = "Naya Payment Method Add Karein";
+    fields.innerHTML = `
+      <input id="payTitle" placeholder="Title (e.g., State Bank Of India)">
+      <input id="payAcc" placeholder="Account Number">
+      <input id="payIfsc" placeholder="IFSC Code">
+      <input id="payUpi" placeholder="UPI ID (optional)">
+    `;
+    btn.onclick = async () => {
+      await db.collection("paymentMethods").add({
+        title: document.getElementById("payTitle").value,
+        accountNumber: document.getElementById("payAcc").value,
+        ifsc: document.getElementById("payIfsc").value,
+        upi: document.getElementById("payUpi").value
+      });
+      alert("Payment method shamil kar diya gaya!");
+      closeAdminForm();
+      loadPaymentDetails();
+    };
+  } else if(type === 'member'){
+    title.textContent = "Committee Member Add Karein";
+    fields.innerHTML = `
+      <input id="mName" placeholder="Pura Naam">
+      <input id="mResp" placeholder="Zimmedari / Role">
+      <input id="mAddr" placeholder="Shahar / Address">
+    `;
+    btn.onclick = async () => {
+      await db.collection("members").add({
+        name: document.getElementById("mName").value,
+        responsibility: document.getElementById("mResp").value,
+        address: document.getElementById("mAddr").value
+      });
+      alert("Member shamil ho gaya!");
+      closeAdminForm();
+      loadMembers();
+    };
+  }
+}
+
+function closeAdminForm(){
+  document.getElementById("adminDynamicForm").classList.add("hidden");
+}
+
+/* =========================================================
+   INITIAL DATA LOAD
+========================================================= */
+function loadPublicData(){
+  loadPrograms();
+  loadPaymentDetails();
+  loadGallery();
+  loadMembers();
+  loadLangar();
+}
+
+window.onload = loadPublicData;
+</script>
+
+</body>
+</html>
